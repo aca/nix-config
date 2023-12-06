@@ -9,6 +9,7 @@
 
     zsh
     fish
+    pkgs.unstable.deno
 
     htop
     procps
