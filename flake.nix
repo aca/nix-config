@@ -5,7 +5,12 @@
     nixpkgs-staging.url = "github:nixos/nixpkgs/staging";
 
     turbo = {
-      url = "github:alexghr/turborepo.nix/v1.8.3";
+      url = "github:alexghr/turborepo.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nil = {
+      url = "github:oxalica/nil";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -194,6 +199,7 @@
               nixpkgs.overlays = with pkgs; [
                 inputs.neovim-nightly-overlay.overlay
                 inputs.zig.overlays.default
+                inputs.nil.overlays.default
                 overlay-unstable
 
                 # fenix.overlays.default

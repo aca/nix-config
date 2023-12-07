@@ -9,8 +9,16 @@
   imports = [
     ./hardware/root.nix
     ./pkgs/sway.nix
-    ./pkgs/dev-data.nix
+
     ./pkgs/nix-alien.nix
+
+    ./dev/data.nix
+    ./dev/default.nix
+    ./dev/go.nix
+    ./dev/lua.nix
+    ./dev/python.nix
+    ./dev/nix.nix
+
   ];
 
   nix.settings = {
@@ -729,7 +737,7 @@
       # htop
       cmake
       pkgs.unstable.bkt
-      pkgs.unstable.go_1_21
+      # pkgs.unstable.go_1_21
       pkgs.unstable.nix-tree
       pkgs.unstable.pdm
       (
