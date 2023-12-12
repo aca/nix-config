@@ -22,6 +22,16 @@
 
   nixpkgs.config.permittedInsecurePackages = [ "nodejs-16.20.1" ];
 
+  services.prometheus = {
+    exporters = {
+      node = {
+        enable = true;
+        enabledCollectors = [ "systemd" ];
+        port = 9002;
+      };
+    };
+  }
+
   environment.systemPackages = with pkgs; [
     fzf
     git
