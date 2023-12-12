@@ -24,6 +24,7 @@
 
   nixpkgs.config.permittedInsecurePackages = ["nodejs-16.20.1"];
 
+  # curl 100.79.222.108:9100/prometheus
   services.prometheus = {
     exporters = {
       node = {

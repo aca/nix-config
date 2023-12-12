@@ -21,6 +21,28 @@
 
   ];
 
+  # grafana configuration
+  services.grafana = {
+    enable = true;
+    # domain = "grafana.pele";
+    settings.server.http_port = 9000;
+    settings.server.http_addr = "127.0.0.1";
+  };
+
+  services.prometheus = {
+    enable = true;
+    port = 9001;
+    scrapeConfigs = [
+      {
+        job_name = "oci-xnzm1001-001";
+        static_configs = [{
+          targets = [ "100.79.222.108:9100" ];
+        }];
+      }
+    ];
+  };
+
+
   nix.settings = {
     experimental-features = "nix-command flakes";
   };
