@@ -22,8 +22,6 @@
 
   zramSwap.enable = true;
 
-  # networking.firewall.enable = false;
-
   nixpkgs.config.permittedInsecurePackages = ["nodejs-16.20.1"];
 
   services.prometheus = {
@@ -32,18 +30,20 @@
         enable = true;
         enabledCollectors = ["systemd"];
         port = 9100;
+        listenAddress = "100.79.222.108";
       };
     };
   };
 
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [22 80 443];
-    # allowedUDPPortRanges = [
-    #   { from = 4000; to = 4007; }
-    #   { from = 8000; to = 8010; }
-    # ];
-  };
+  networking.firewall.enable = false;
+  # networking.firewall = {
+  #   enable = true;
+  #   allowedTCPPorts = [22 80 443];
+  #   # allowedUDPPortRanges = [
+  #   #   { from = 4000; to = 4007; }
+  #   #   { from = 8000; to = 8010; }
+  #   # ];
+  # };
 
   environment.systemPackages = with pkgs; [
     fzf
