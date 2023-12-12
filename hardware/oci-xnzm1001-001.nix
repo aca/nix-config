@@ -1,10 +1,3 @@
-# { modulesPath, ... }:
-# {
-#   imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
-#   fileSystems."/boot" = { device = "/dev/disk/by-uuid/6305-5783"; fsType = "vfat"; };
-#   fileSystems."/" = { device = "/dev/sda1"; fsType = "ext4"; };
-# }
-#
 { config, lib, pkgs, modulesPath, ... }:
 
 {
@@ -14,10 +7,6 @@
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "virtio_pci" "virtio_scsi" "usbhid" "ata_piix" "uhci_hcd" "xen_blkfront"];
   boot.initrd.kernelModules = [ "nvme" ];
-#   boot.initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "xen_blkfront" ];
-  # boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ ];
-  boot.extraModulePackages = [ ];
   boot.loader.grub = {
     efiSupport = true;
     efiInstallAsRemovable = true;
