@@ -146,8 +146,6 @@
   #   defaultApplications."x-scheme-handler/unknown" = ["firefox.desktop"];
   # };
 
-  };
-
   home.packages = [
     pkgs.unstable.tridactyl-native
   ];
