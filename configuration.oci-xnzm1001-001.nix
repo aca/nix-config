@@ -1,4 +1,8 @@
-{ config, pkgs, ... }: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ./hardware/oci-xnzm1001-001.nix
   ];
@@ -20,16 +24,25 @@
 
   networking.firewall.enable = false;
 
-  nixpkgs.config.permittedInsecurePackages = [ "nodejs-16.20.1" ];
+  nixpkgs.config.permittedInsecurePackages = ["nodejs-16.20.1"];
 
   services.prometheus = {
     exporters = {
       node = {
         enable = true;
-        enabledCollectors = [ "systemd" ];
+        enabledCollectors = ["systemd"];
         port = 9100;
       };
     };
+  };
+
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [22 80 443];
+    # allowedUDPPortRanges = [
+    #   { from = 4000; to = 4007; }
+    #   { from = 8000; to = 8010; }
+    # ];
   };
 
   environment.systemPackages = with pkgs; [
