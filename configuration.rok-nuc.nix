@@ -566,7 +566,8 @@
       # pkgs.unstable.neovim
       # neovim-nightly
       # neovim-nightly
-      neovim-nightly
+      # neovim-nightly
+      pkgs.unstable.neovim
       netcat-gnu
       nginx
       nnn
