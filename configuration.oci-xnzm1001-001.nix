@@ -22,7 +22,7 @@
 
   zramSwap.enable = true;
 
-  networking.firewall.enable = false;
+  # networking.firewall.enable = false;
 
   nixpkgs.config.permittedInsecurePackages = ["nodejs-16.20.1"];
 
