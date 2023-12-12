@@ -30,7 +30,7 @@
         port = 9100;
       };
     };
-  }
+  };
 
   environment.systemPackages = with pkgs; [
     fzf
