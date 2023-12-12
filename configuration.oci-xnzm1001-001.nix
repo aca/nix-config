@@ -42,6 +42,7 @@
     go
     fd
     github-runner
+    just
     inetutils
     aria2
     elvish
