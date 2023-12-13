@@ -12,6 +12,7 @@
     pkgs.unstable.deno
 
     htop
+    btop
     procps
 
     wget

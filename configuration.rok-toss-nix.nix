@@ -343,7 +343,7 @@
       (pkgs.unstable.chromium.override {
         commandLineArgs = [
           # "--ozone-platform-hint=auto"
-          # "--ozone-platform-hint=wayland"
+          "--ozone-platform-hint=wayland"
           # "--enable-features=UseOzonePlatform"
           # "--ozone-platform-hint=''"
           # "--ozone-platform=''"
