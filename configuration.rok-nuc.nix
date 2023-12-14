@@ -528,6 +528,8 @@
         # icon = "nix-snowflake";
       })
 
+      gptfdisk
+
       # appimage-run
       # pkgs.unstable.qemu
       # libguestfs
