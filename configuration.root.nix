@@ -746,8 +746,10 @@
       meson
       pkg-config
       # pkgs.unstable.yazi
-      # pkgs.unstable.jetbrains.datagrip
+      pkgs.unstable.jetbrains.datagrip
+      uutils-coreutils-noprefix
       vscode.fhs
+      unrar
       stylua
       pkgs.unstable.sumneko-lua-language-server
       # waypipe

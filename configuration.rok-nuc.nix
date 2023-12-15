@@ -533,6 +533,7 @@
       # appimage-run
       # pkgs.unstable.qemu
       # libguestfs
+      unrar
 
       trash-cli
       webkitgtk
