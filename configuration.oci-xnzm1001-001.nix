@@ -36,6 +36,7 @@
     };
   };
 
+  age.identityPaths = [ "/root/.ssh/id_ed25519" ];
   age.secrets."github.com__aca".file = ./secrets/github.com__aca.age;
   services.github-runner = {
     enable = true;
