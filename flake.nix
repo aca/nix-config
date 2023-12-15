@@ -252,6 +252,7 @@
       in
         nixpkgs.lib.nixosSystem rec {
           modules = [
+            agenix.nixosModules.default
             ./configuration.oci-xnzm1001-001.nix
           ];
         };
