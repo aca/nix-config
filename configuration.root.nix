@@ -284,6 +284,8 @@
     })
   ];
 
+  # TODO: should not use this 
+  age.identityPaths = [ "/home/rok/.ssh/id_ed25519" ];
   age.secrets."github.com__aca".file = ./secrets/github.com__aca.age;
 
   # nixpkgs.overlays = [

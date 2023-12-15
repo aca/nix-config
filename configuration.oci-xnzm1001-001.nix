@@ -36,10 +36,13 @@
     };
   };
 
+  age.secrets."github.com__aca".file = ./secrets/github.com__aca.age;
   services.github-runner = {
     enable = true;
     url = ''https://github.com/investing-kr/oci-arm-host-capacity'';
-    tokenFile = ''/root/.github'';
+    # tokenFile = ''/root/.github'';
+    #
+    tokenFile = config.age.secrets."github.com__aca".path;
     name = ''aca-x_oci-xnzm1001-001_001'';
     replace = true;
     extraLabels = [ "nix" ];
