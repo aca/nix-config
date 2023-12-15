@@ -597,7 +597,8 @@
       })
 
       appimage-run
-      pkgs.unstable.qemu
+      qemu
+      act
       libguestfs
 
       trash-cli

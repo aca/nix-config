@@ -36,6 +36,19 @@
     };
   };
 
+  services.github-runner = {
+    enable = true;
+    url = ''https://github.com/investing-kr/oci-arm-host-capacity'';
+    tokenFile = ''/root/.github'';
+    name = ''aca-x_oci-xnzm1001-001_001'';
+    replace = true;
+    extraLabels = [ "nix" ];
+    extraPackages = with pkgs; [
+      # php82
+      # php82Packages.composer
+    ];
+  };
+
   networking.firewall.enable = false;
   # networking.firewall = {
   #   enable = true;
