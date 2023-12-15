@@ -40,7 +40,7 @@
   age.secrets."github.com__aca".file = ./secrets/github.com__aca.age;
   services.github-runner = {
     enable = true;
-    url = ''https://github.com/investing-kr/oci-arm-host-capacity'';
+    url = ''https://github.com/aca-x'';
     # tokenFile = ''/root/.github'';
     #
     tokenFile = config.age.secrets."github.com__aca".path;
