@@ -534,6 +534,7 @@
       # pkgs.unstable.qemu
       # libguestfs
       unrar
+      smartmontools
 
       trash-cli
       webkitgtk
