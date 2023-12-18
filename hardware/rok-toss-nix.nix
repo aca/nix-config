@@ -10,6 +10,9 @@
     ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "virtio_pci" "usbhid" "usb_storage" "sr_mod" ];
+  boot.binfmt.emulatedSystems = ["x86_64-linux"];
+
+
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
