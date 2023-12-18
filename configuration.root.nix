@@ -734,6 +734,7 @@
       pkgs.unstable.elvish
       inetutils
       wget
+      oracle-instantclient
       coreutils-full
       findutils
       moreutils
@@ -741,6 +742,7 @@
       pkgs.unstable.vifm
       ghq
       stow
+      buildah
       gnumake
       procps
       procs
