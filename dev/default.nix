@@ -18,6 +18,7 @@
     procps
     inetutils
     # psmisc # not on darwin
+    stow
 
     wget
     entr
