@@ -199,14 +199,13 @@
       "hammerspoon"
       "krita"
       "microsoft-edge-beta"
-      # "orbstack"
       "utm"
       "android-platform-tools"
       "datagrip"
       "iterm2"
       "microsoft-teams"
       "android-sdk"
-      # "docker"
+      "docker"
       # "kap"
       "libreoffice"
       "mpv"
@@ -243,7 +242,7 @@
       pkgs.unstable.xonsh
       pkgs.neovim-nightly
       pkgs.jq
-      pkgs.unstable.docker
+      # pkgs.unstable.docker
       kubectl
       colima
       # pkgs.unstable.vector
