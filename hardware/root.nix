@@ -9,6 +9,7 @@
       (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
+  boot.binfmt.emulatedSystems = ["amd64-linux"];
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "ahci" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" "kvm-amd" ];

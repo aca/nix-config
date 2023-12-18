@@ -14,6 +14,7 @@
     htop
     btop
     procps
+    psmisc
 
     wget
     entr
