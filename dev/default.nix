@@ -10,12 +10,14 @@
     zsh
     fish
     deno
+
     # pkgs.unstable.deno
 
     htop
     btop
     procps
-    psmisc
+    inetutils
+    # psmisc # not on darwin
 
     wget
     entr
