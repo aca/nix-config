@@ -9,7 +9,8 @@
 
     zsh
     fish
-    pkgs.unstable.deno
+    deno
+    # pkgs.unstable.deno
 
     htop
     btop

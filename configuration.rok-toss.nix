@@ -185,7 +185,8 @@
     # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
     casks = [
       "libreoffice"
-      "podman-desktop"
+      # "podman-desktop"
+      # "podman-desktop"
       "alacritty"
       "chromium"
       "gimp"
@@ -242,7 +243,9 @@
       pkgs.unstable.xonsh
       pkgs.neovim-nightly
       pkgs.jq
-
+      pkgs.unstable.docker
+      kubectl
+      colima
       # pkgs.unstable.vector
 
     ];
