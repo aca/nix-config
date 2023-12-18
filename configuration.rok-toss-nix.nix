@@ -183,13 +183,13 @@
     ];
   };
 
-  virtualisation.docker.enable = false;
+  virtualisation.docker.enable = true;
 
-  virtualisation.podman = {
-    enable = true; # replace with podman
-    dockerCompat = true;
-    defaultNetwork.settings.dns_enabled = true;
-  };
+  # virtualisation.podman = {
+  #   enable = true; # replace with podman
+  #   dockerCompat = true;
+  #   defaultNetwork.settings.dns_enabled = true;
+  # };
 
   services.openssh.enable = true;
   services.qemuGuest.enable = true;
@@ -225,6 +225,8 @@
       scc
       delta
       xorg.luit
+      oracle-instantclient
+
       dig
       direnv
       dog
