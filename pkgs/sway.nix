@@ -49,6 +49,35 @@ in
     rofi-wayland
     configure-gtk
 
+    sway
+    xdragon
+    alacritty # gpu accelerated terminal
+    rofi-wayland
+
+    xwayland
+    spice-vdagent
+    rustc
+    cargo
+    wdisplays
+    xdg-utils
+    waypipe
+    wl-clipboard # clipboard
+    xdg-utils # for opening default programs when clicking links
+    dunst
+    glib # gsettings
+    dracula-theme # gtk theme
+    gnome3.adwaita-icon-theme # default gnome cursors
+    swaylock
+    pavucontrol
+    swayidle
+    pulseaudio
+    grim # screenshot functionality
+    slurp # screenshot functionality
+    bemenu # wayland clone of dmenu
+    mako # notification system developed by swaywm maintainer
+    wdisplays # tool to configure displays
+    kanshi
+
     wayland
     wdisplays
     xdg-utils

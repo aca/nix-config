@@ -394,6 +394,7 @@
     [
       glxinfo
       nvme-cli
+      xwayland
     ]
     ++ [
     ]

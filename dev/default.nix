@@ -103,6 +103,7 @@
 
     php82
     php82Packages.composer
+    gcc
 
     pkgs.unstable.alejandra
   ];

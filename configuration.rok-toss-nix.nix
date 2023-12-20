@@ -8,6 +8,7 @@
   imports = [
     ./hardware/rok-toss-nix.nix
     ./nixos/fonts.nix
+    # ./pkgs/sway.nix
 
     ./dev/default.nix
     ./dev/data.nix
@@ -213,6 +214,7 @@
       # glxinfo
     ]
     ++ [
+      xorg.libX11
       _9pfs
       bolt
       trash-cli
@@ -341,6 +343,7 @@
 
       pkgs.unstable.zls
       pkgs.unstable.zig
+      pkgs.google-chrome
 
       (pkgs.unstable.chromium.override {
         commandLineArgs = [
