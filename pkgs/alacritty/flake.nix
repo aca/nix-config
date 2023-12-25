@@ -9,7 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     alacritty-src = { url = github:alacritty/alacritty; flake = false; };
-    alacritty-ligature-src = { url = github:zenixls2/alacritty/ligature; flake = false; };
+    # alacritty-ligature-src = { url = github:zenixls2/alacritty/ligature; flake = false; };
   };
 
   outputs =
@@ -18,7 +18,7 @@
     , flake-utils
     , naersk
     , alacritty-src
-    , alacritty-ligature-src
+    # , alacritty-ligature-src
     }: flake-utils.lib.eachDefaultSystem (system:
     let
       pkgs = import nixpkgs {
@@ -59,7 +59,7 @@
     in
     rec {
       packages.alacritty-nightly = naersk-lib.buildPackage (attrsForNaersk // { src = alacritty-src; });
-      packages.alacritty-ligature = naersk-lib.buildPackage (attrsForNaersk // { src = alacritty-ligature-src; });
+      # packages.alacritty-ligature = naersk-lib.buildPackage (attrsForNaersk // { src = alacritty-ligature-src; });
 
       defaultPackage = packages.alacritty-nightly;
 
