@@ -359,7 +359,7 @@
   hardware.bluetooth.enable = true;
   virtualisation.docker = {
     enable = true; # replace with podman
-    package = unstable.docker;
+    package = pkgs.unstable.docker;
   };
 
   # virtualisation.podman = {
