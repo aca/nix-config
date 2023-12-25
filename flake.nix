@@ -5,7 +5,7 @@
     nixpkgs-staging.url = "github:nixos/nixpkgs/staging";
 
     alacritty = {
-      url = "path:./pkgs/alacritty.nix";
+      url = "path:./pkgs/alacritty";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
