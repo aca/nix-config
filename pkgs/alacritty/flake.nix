@@ -36,7 +36,7 @@
           xorg.libxcb
           python3
           fontconfig
-          pkgconfig
+          pkg-config
           libxkbcommon
         ])
           ++ pkgs.lib.optionals (system == "x86_64-darwin") (with pkgs.darwin.apple_sdk.frameworks; [

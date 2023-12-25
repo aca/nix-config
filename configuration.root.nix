@@ -693,7 +693,6 @@
       # sway stuff
       pkgs.unstable.sway
       pkgs.unstable.xdragon
-      pkgs.alacritty-nightly
       # pkgs.unstable.alacritty # gpu accelerated terminal
       # pkgs.unstable.dbus-sway-environment
       pkgs.unstable.rofi-wayland
