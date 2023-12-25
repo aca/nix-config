@@ -11,7 +11,7 @@
     ./pkgs/sway.nix
 
     ./pkgs/nix-alien.nix
-    ./pkgs/alacritty.nix
+    # ./pkgs/alacritty.nix
 
     ./dev/data.nix
     ./dev/default.nix

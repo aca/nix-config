@@ -4,6 +4,11 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/master";
     nixpkgs-staging.url = "github:nixos/nixpkgs/staging";
 
+    alacritty = {
+      url = "path:./pkgs/alacritty.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     turbo = {
       url = "github:alexghr/turborepo.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -239,6 +244,7 @@
               environment.systemPackages = [
                 agenix.packages.x86_64-linux.default
                 zig.packages.x86_64-linux.master
+                inputs.alacritty.defaultPackage.x86_64-linux
                 # turbo.packages.x86_64-linux.default
               ];
             }
