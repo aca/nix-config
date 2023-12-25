@@ -11,6 +11,7 @@
     ./pkgs/sway.nix
 
     ./pkgs/nix-alien.nix
+    ./pkgs/alacritty.nix
 
     ./dev/data.nix
     ./dev/default.nix
@@ -647,8 +648,11 @@
       nginx
       nnn
       okular
+
       p7zip
       unzip
+      ouch
+
       phodav
       progress
 
@@ -689,7 +693,8 @@
       # sway stuff
       pkgs.unstable.sway
       pkgs.unstable.xdragon
-      pkgs.unstable.alacritty # gpu accelerated terminal
+      pkgs.alacritty-nightly
+      # pkgs.unstable.alacritty # gpu accelerated terminal
       # pkgs.unstable.dbus-sway-environment
       pkgs.unstable.rofi-wayland
       pkgs.unstable.wayland
