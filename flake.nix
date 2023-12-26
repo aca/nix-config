@@ -4,10 +4,10 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/master";
     nixpkgs-staging.url = "github:nixos/nixpkgs/staging";
 
-    alacritty = {
-      url = "path:./pkgs/alacritty";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # alacritty = {
+    #   url = "path:./pkgs/alacritty";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     turbo = {
       url = "github:alexghr/turborepo.nix";
@@ -38,7 +38,7 @@
     };
 
     zig = {
-       url = "github:mitchellh/zig-overlay";
+      url = "github:mitchellh/zig-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -223,6 +223,32 @@
                 # fenix.overlays.default
 
                 inputs.nur.overlay
+
+                (
+                  self: super: {
+                    alacritty = super.alacritty.overrideAttrs (old: rec {
+                      # version = "0.13.0-rc2";
+                      version = "0.12.2";
+
+                      src = super.fetchFromGitHub {
+                        owner = "alacritty";
+                        repo = "alacritty";
+                        rev = "refs/tags/v${version}";
+                        # hash = "sha256-6OhajngMr7vt+JFRYMRwKtlcvkpDGD7KeQaab+2/rsI=";
+                        hash = "sha256-X3Z+f5r8surBW9FSsmWKZ/fr82ThXBUkS8fr/sTYR50=";
+                        # hash = lib.fakeHash;
+                      };
+                      cargoDeps = old.cargoDeps.overrideAttrs (old: {
+                        # name = "${name}-vendor"
+                        inherit src version;
+                        outputHash = "";
+                        # outputHash = "";
+                      });
+                    });
+
+                  }
+                )
+
                 # (self: super: {
                 #   mpv-unwrapped = super.mpv-unwrapped.override {
                 #     ffmpeg_5 = ffmpeg_5-full;
@@ -244,7 +270,7 @@
               environment.systemPackages = [
                 agenix.packages.x86_64-linux.default
                 zig.packages.x86_64-linux.master
-                inputs.alacritty.defaultPackage.x86_64-linux
+                # inputs.alacritty.defaultPackage.x86_64-linux
                 # turbo.packages.x86_64-linux.default
               ];
             }
