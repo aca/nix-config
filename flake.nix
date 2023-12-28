@@ -227,25 +227,37 @@
                 (
                   self: super: {
                     alacritty = super.alacritty.overrideAttrs (old: rec {
-                      # version = "0.13.0-rc2";
-                      version = "0.12.2";
+                      pname = "alacritty";
+                      # version = "0.12.2";
+                      version = "0.13.0-rc2";
+                      # o = rec {
+                      #   doCheck = false;
+                      # };
+                      postInstall = ''
+                        install -dm 755 "$terminfo/share/terminfo/a/"
+                        tic -xe alacritty,alacritty-direct -o "$terminfo/share/terminfo" extra/alacritty.info
+                        mkdir -p $out/nix-support
+                        echo "$terminfo" >> $out/nix-support/propagated-user-env-packages
+                      '';
 
                       src = super.fetchFromGitHub {
                         owner = "alacritty";
                         repo = "alacritty";
                         rev = "refs/tags/v${version}";
-                        # hash = "sha256-6OhajngMr7vt+JFRYMRwKtlcvkpDGD7KeQaab+2/rsI=";
-                        hash = "sha256-X3Z+f5r8surBW9FSsmWKZ/fr82ThXBUkS8fr/sTYR50=";
+                        hash = "sha256-6OhajngMr7vt+JFRYMRwKtlcvkpDGD7KeQaab+2/rsI=";
+                        # hash = "sha256-X3Z+f5r8surBW9FSsmWKZ/fr82ThXBUkS8fr/sTYR50=";
                         # hash = lib.fakeHash;
                       };
                       cargoDeps = old.cargoDeps.overrideAttrs (old: {
-                        # name = "${name}-vendor"
-                        inherit src version;
-                        outputHash = "";
+                        name = "${pname}-vendor.tar.gz";
+                        # inherit src version;
+                        inherit src;
+                        # outputHash = lib.fakeHash;
+                        outputHash = "sha256-xGw2j9QwoDCBuAQBSP40PRTQY2qAptA+CHFdbTx7Fy4=";
+                        # outputHash = "sha256-Ui6rN/OeTlt0y2FED6+Fdbjdk1IPxKcDn8ACgICqibs=";
                         # outputHash = "";
                       });
                     });
-
                   }
                 )
 
