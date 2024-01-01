@@ -226,6 +226,24 @@
 
                 (
                   self: super: {
+                    tmux = super.tmux.overrideAttrs (old: rec {
+                      pname = "tmux";
+                      version = "3.4-next";
+
+                      src = super.fetchFromGitHub {
+                        owner = "tmux";
+                        repo = "tmux";
+                        # rev = "refs/tags/v${version}";
+                        ref = "4266d3efc89cdf7d1af907677361caa24b58c9eb";
+                        # hash = "sha256-6OhajngMr7vt+JFRYMRwKtlcvkpDGD7KeQaab+2/rsI=";
+                        hash = lib.fakeHash;
+                      };
+                    });
+                  }
+                )
+
+                (
+                  self: super: {
                     alacritty = super.alacritty.overrideAttrs (old: rec {
                       pname = "alacritty";
                       version = "0.13.0-rc2";
@@ -286,7 +304,6 @@
                           echo "$terminfo" >> $out/nix-support/propagated-user-env-packages
                         '';
 
-                      
                       #
                       # postInstall = ''
                       #   # patchelf generates an ELF that binutils' "strip" doesn't like:

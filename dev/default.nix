@@ -35,12 +35,13 @@
     sops
     diskus
 
+    tmux
     pkgs.unstable.bkt
     pkgs.unstable.fzf
     pkgs.unstable.nnn
     pkgs.unstable.ttyd
     pkgs.unstable.tig
-    pkgs.unstable.tmux
+    # pkgs.unstable.tmux
     pkgs.unstable.just
     pkgs.unstable.fd
     pkgs.unstable.ripgrep
