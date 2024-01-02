@@ -230,13 +230,15 @@
                       pname = "tmux";
                       version = "3.4-next";
 
+                      patches = [];
                       src = super.fetchFromGitHub {
                         owner = "tmux";
                         repo = "tmux";
                         # rev = "refs/tags/v${version}";
-                        ref = "4266d3efc89cdf7d1af907677361caa24b58c9eb";
+                        rev = "4266d3efc89cdf7d1af907677361caa24b58c9eb";
                         # hash = "sha256-6OhajngMr7vt+JFRYMRwKtlcvkpDGD7KeQaab+2/rsI=";
-                        hash = lib.fakeHash;
+                        # sha256 = lib.fakeHash;
+                        sha256 = "sha256-LliON7p1KyVucCu61sPKihYxtXsAKCvAvRBvNgoV0/g=";
                       };
                     });
                   }
