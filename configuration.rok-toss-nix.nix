@@ -344,6 +344,7 @@
       pkgs.unstable.zls
       pkgs.unstable.zig
       pkgs.google-chrome
+      oracle-instantclient
 
       (pkgs.unstable.chromium.override {
         commandLineArgs = [
