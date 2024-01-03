@@ -340,6 +340,8 @@
       zef
       s3fs
       fluent-bit
+      vbindiff
+      unixtools.xxd
 
       pkgs.unstable.zls
       pkgs.unstable.zig

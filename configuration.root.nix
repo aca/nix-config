@@ -611,6 +611,7 @@
       git-annex-utils
       gnuplot
       gron
+      vbindiff
       nfs-utils
       helm
       # transmission
