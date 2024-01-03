@@ -513,10 +513,16 @@
     };
   };
 
+  launchd.daemons.pueued = {
+    script = ''
+      /run/current-system/sw/bin/pueued
+    '';
+    serviceConfig.RunAtLoad = true;
+    serviceConfig.UserName = ''kyungrok.chung'';
+    serviceConfig.KeepAlive = true;
+  };
+
   launchd.daemons.caffeinate = {
-    # script = ''
-    #   sudo /usr/bin/caffeinate -d
-    # '';
     command = ''
       /usr/bin/caffeinate -d
     '';
