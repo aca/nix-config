@@ -4,13 +4,14 @@
   ...
 }: {
   environment.systemPackages = with pkgs; [
-    git 
+    git
     file
 
     zsh
     fish
     deno
 
+    hexyl
     # pkgs.unstable.deno
 
     htop
