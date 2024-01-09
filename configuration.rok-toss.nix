@@ -522,6 +522,16 @@
     serviceConfig.KeepAlive = true;
   };
 
+  # launchd.daemons.colima = {
+  #   command = ''
+  #     /usr/bin/caffeinate -d
+  #   '';
+  #   serviceConfig.RunAtLoad = true;
+  #   serviceConfig.KeepAlive = false;
+  #   # serviceConfig.StandardErrorPath = "/Users/kyungrok.chung/tmp/enableSSH.stdout.log";
+  #   # serviceConfig.StandardOutPath = "/Users/kyungrok.chung/tmp/enableSSH.stderr.log";
+  # };
+
   launchd.daemons.caffeinate = {
     command = ''
       /usr/bin/caffeinate -d
