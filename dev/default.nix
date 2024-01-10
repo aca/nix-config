@@ -36,6 +36,8 @@
     sops
     diskus
 
+    stylua
+
     tmux
     pkgs.unstable.bkt
     pkgs.unstable.fzf
