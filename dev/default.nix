@@ -110,5 +110,9 @@
 
     pkgs.unstable.alejandra
     lazygit
+
+    # docker
+    dive
+
   ];
 }
