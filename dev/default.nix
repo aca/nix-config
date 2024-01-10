@@ -107,5 +107,6 @@
     gcc
 
     pkgs.unstable.alejandra
+    lazygit
   ];
 }
