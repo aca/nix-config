@@ -12,6 +12,7 @@
 
     ./dev/default.nix
     ./dev/data.nix
+    ./dev/linux.nix
     ./dev/go.nix
     ./dev/python.nix
     ./dev/lua.nix
@@ -214,6 +215,7 @@
       # glxinfo
     ]
     ++ [
+    kubedock
       xorg.libX11
       _9pfs
       bolt
