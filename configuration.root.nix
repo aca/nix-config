@@ -357,17 +357,17 @@
   # ];
 
   hardware.bluetooth.enable = true;
-  virtualisation.docker = {
-    enable = true; # replace with podman
-    package = pkgs.unstable.docker;
-  };
-
-  # virtualisation.podman = {
+  # virtualisation.docker = {
   #   enable = true; # replace with podman
-  #   dockerCompat = true;
-  #   defaultNetwork.settings.dns_enabled = true;
-  #   # package = unstable.docker;
+  #   package = pkgs.unstable.docker;
   # };
+
+  virtualisation.podman = {
+    enable = true; # replace with podman
+    dockerCompat = true;
+    defaultNetwork.settings.dns_enabled = true;
+    # package = unstable.docker;
+  };
 
   # programs.firefox.nativeMessagingHosts.tridactyl = true;
   #
