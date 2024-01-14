@@ -50,6 +50,7 @@
     pkgs.unstable.ripgrep
     pkgs.unstable.ghq
     pkgs.unstable.vifm
+    pkgs.unstable.yazi
     pkgs.unstable.elvish
     pkgs.unstable.gron
 
@@ -109,6 +110,8 @@
     php82Packages.composer
 
     pkgs.unstable.alejandra
+    pkgs.unstable.nixd 
+
     lazygit
 
     # docker

@@ -154,7 +154,9 @@
 
             agenix.nixosModules.default
             {
-              environment.systemPackages = [agenix.packages.aarch64-linux.default];
+              environment.systemPackages = [
+                agenix.packages.aarch64-linux.default
+              ];
             }
             home-manager.nixosModules.home-manager
             {
@@ -441,7 +443,9 @@
 
             agenix.nixosModules.default
             {
-              environment.systemPackages = [agenix.packages.x86_64-linux.default];
+              environment.systemPackages = [
+                agenix.packages.x86_64-linux.default
+              ];
             }
             home-manager.nixosModules.home-manager
             {
