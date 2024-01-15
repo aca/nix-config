@@ -467,7 +467,7 @@
   nix.package = pkgs.nix;
 
   # programs.fish.enable = true;
-  # programs.zsh.enable = true;
+  programs.zsh.enable = true;
   system = {
     stateVersion = 4;
 
