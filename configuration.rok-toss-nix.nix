@@ -22,6 +22,10 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # environment.sessionVariables = {
+  #   LD_LIBRARY_PATH = lib.makeLibraryPath oracle-insta;
+  # };
+
   nix.gc = {
     automatic = true;
     dates = "weekly";
@@ -243,13 +247,13 @@
       # pkgs.unstable.xonsh
       xsel
       clang
+      gcc
       clang-tools_16
       convmv
       cron
       scc
       delta
       xorg.luit
-      oracle-instantclient
 
       dig
       direnv
@@ -350,7 +354,8 @@
       pkgs.unstable.syncthing
       pkgs.unstable.tailscale
       pkgs.unstable.watchexec
-      pkgs.unstable.alacritty
+      alacritty
+      # pkgs.unstable.alacritty
       pkgs.unstable.wl-clipboard
       pkgs.unstable.xclip
       pkgs.unstable.kitty
