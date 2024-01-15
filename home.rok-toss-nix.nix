@@ -10,6 +10,10 @@
   home.username = "rok";
   home.homeDirectory = "/home/rok";
 
+  home.sessionVariables = {
+    EXAMPLE_VAR = "6yuifhjbdsk";
+  };
+
   services.pueue = {
     enable = true;
     settings = {

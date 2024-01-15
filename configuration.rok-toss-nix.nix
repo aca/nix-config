@@ -37,6 +37,10 @@
   #   options.nix.nixPath.default ++
   #   # Append our nixpkgs-overlays.
   #   [ "nixpkgs-overlays=./overlays/" ];
+  
+  environment.sessionVariables = rec {
+    XXX  = "$HOME/.cache";
+  };
 
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
@@ -354,7 +358,7 @@
       pkgs.unstable.syncthing
       pkgs.unstable.tailscale
       pkgs.unstable.watchexec
-      alacritty
+      pkgs.unstable.alacritty
       # pkgs.unstable.alacritty
       pkgs.unstable.wl-clipboard
       pkgs.unstable.xclip

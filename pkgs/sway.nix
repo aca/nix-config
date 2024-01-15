@@ -51,7 +51,6 @@ in
 
     sway
     xdragon
-    alacritty # gpu accelerated terminal
     rofi-wayland
 
     xwayland

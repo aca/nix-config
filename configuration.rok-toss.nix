@@ -187,7 +187,6 @@
       "libreoffice"
       # "podman-desktop"
       # "podman-desktop"
-      "alacritty"
       "chromium"
       "gimp"
       "kitty"
@@ -231,7 +230,6 @@
     ++ [
       darwin.iproute2mac
       xorg.luit
-
       # firefox-bin
       zigpkgs.master
       # system
@@ -239,14 +237,14 @@
       pkgs.skhd
       pkgs.yabai
       pkgs.duti
-      pkgs.unstable.xonsh
+      # pkgs.unstable.xonsh
+      pkgs.unstable.alacritty
       pkgs.neovim-nightly
       pkgs.jq
       # pkgs.unstable.docker
       kubectl
-      colima
+      # colima
       # pkgs.unstable.vector
-
     ];
 
   services.yabai = {

@@ -690,7 +690,6 @@
       # rav1e
       #
       xxHash
-      pkgs.alacritty
 
       # sway stuff
       pkgs.unstable.sway
