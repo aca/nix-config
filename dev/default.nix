@@ -107,18 +107,16 @@
     nodePackages_latest.sql-formatter
     pkgs.unstable.uutils-coreutils-noprefix
 
-
-      pkgs.unstable.alacritty
+    pkgs.unstable.alacritty
     php82
     php82Packages.composer
 
     pkgs.unstable.alejandra
-    pkgs.unstable.nixd 
+    pkgs.unstable.nixd
 
     lazygit
 
     # docker
     dive
-
   ];
 }

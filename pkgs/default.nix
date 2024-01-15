@@ -1,8 +1,6 @@
-{ pkgs ? (import ../nixpkgs.nix) { }
-, ...
-}: {
+{pkgs ? (import ../nixpkgs.nix) {}, ...}: {
   # example = pkgs.callPackage ./example { };
-  advcpmv = pkgs.callPackage ./advcpmv { };
+  advcpmv = pkgs.callPackage ./advcpmv {};
   # circom = pkgs.callPackage ./circom { };
   # circom-lsp = pkgs.callPackage ./circom-lsp { };
   # fennel-language-server = pkgs.callPackage ./fennel-language-server { };

@@ -1,11 +1,14 @@
-{ config, pkgs, lib, ... }:
-
-let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
   # bash script to let dbus know about important env variables and
   # propagate them to relevent services run at the end of sway config
   # see
   # https://github.com/emersion/xdg-desktop-portal-wlr/wiki/"It-doesn't-work"-Troubleshooting-Checklist
-  # note: this is pretty much the same as  /etc/sway/config.d/nixos.conf but also restarts  
+  # note: this is pretty much the same as  /etc/sway/config.d/nixos.conf but also restarts
   # some user services to make sure they have the correct environment variables
   dbus-sway-environment = pkgs.writeTextFile {
     name = "dbus-sway-environment";
@@ -29,20 +32,16 @@ let
     name = "configure-gtk";
     destination = "/bin/configure-gtk";
     executable = true;
-    text =
-      let
-        schema = pkgs.gsettings-desktop-schemas;
-        datadir = "${schema}/share/gsettings-schemas/${schema.name}";
-      in
-      ''
-        export XDG_DATA_DIRS=${datadir}:$XDG_DATA_DIRS
-        gnome_schema=org.gnome.desktop.interface
-        gsettings set $gnome_schema gtk-theme 'Dracula'
-      '';
+    text = let
+      schema = pkgs.gsettings-desktop-schemas;
+      datadir = "${schema}/share/gsettings-schemas/${schema.name}";
+    in ''
+      export XDG_DATA_DIRS=${datadir}:$XDG_DATA_DIRS
+      gnome_schema=org.gnome.desktop.interface
+      gsettings set $gnome_schema gtk-theme 'Dracula'
+    '';
   };
-
-in
-{
+in {
   environment.systemPackages = with pkgs; [
     # alacritty # gpu accelerated terminal
     dbus-sway-environment
@@ -98,7 +97,7 @@ in
     mako # notification system developed by swaywm maintainer
     wdisplays # tool to configure displays
   ];
-  
+
   # services.rtkit = {
   #     enable = true;
   # };
@@ -119,7 +118,7 @@ in
     enable = true;
     wlr.enable = true;
     # gtk portal needed to make gtk apps happy
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    extraPortals = [pkgs.xdg-desktop-portal-gtk];
   };
 
   # enable sway window manager
