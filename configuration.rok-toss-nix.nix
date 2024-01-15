@@ -389,7 +389,7 @@
         ];
       })
 
-      pkgs.unstable.pdm
+      # pkgs.unstable.pdm
       (
         pkgs.unstable.python3.withPackages (ps:
           with ps; [
