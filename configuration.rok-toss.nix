@@ -11,6 +11,10 @@
     ./dev/default.nix
   ];
 
+  environment.variables ={
+    "TESTVARIABLE" = "23r234";
+  };
+
   homebrew = {
     enable = true;
     taps = [
