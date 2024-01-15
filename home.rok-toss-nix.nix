@@ -1,6 +1,9 @@
-{ config, pkgs, lib, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   home.stateVersion = "23.11";
   programs.home-manager.enable = true;
 
@@ -27,4 +30,11 @@
 
   home.packages = [
   ];
+
+  # home-manager.users.myuser = {
+  #   dconf = {
+  #     enable = true;
+  #     settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+  #   };
+  # };
 }
