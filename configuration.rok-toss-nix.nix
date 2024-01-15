@@ -39,7 +39,7 @@
   #   [ "nixpkgs-overlays=./overlays/" ];
 
   environment.sessionVariables = rec {
-    XXX = "$HOME/.cache";
+    LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.oracle-instantclient];
   };
 
   nixpkgs.overlays = [
