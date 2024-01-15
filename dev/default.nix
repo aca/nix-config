@@ -17,7 +17,7 @@
     htop
     btop
     procps
-    inetutils
+    # inetutils
     # psmisc # not on darwin
     stow
 

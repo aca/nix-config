@@ -759,7 +759,7 @@
       pkg-config
       # pkgs.unstable.yazi
       pkgs.unstable.jetbrains.datagrip
-      (lowPrio uutils-coreutils-noprefix) 
+      # (lowPrio uutils-coreutils-noprefix) 
       vscode.fhs
       unrar
       stylua
