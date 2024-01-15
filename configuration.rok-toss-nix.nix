@@ -37,9 +37,9 @@
   #   options.nix.nixPath.default ++
   #   # Append our nixpkgs-overlays.
   #   [ "nixpkgs-overlays=./overlays/" ];
-  
+
   environment.sessionVariables = rec {
-    XXX  = "$HOME/.cache";
+    XXX = "$HOME/.cache";
   };
 
   nixpkgs.overlays = [

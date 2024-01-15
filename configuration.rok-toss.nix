@@ -11,7 +11,7 @@
     ./dev/default.nix
   ];
 
-  environment.variables ={
+  environment.variables = {
     "TESTVARIABLE" = "23r234";
   };
 
@@ -228,7 +228,7 @@
   #   };
   # };
 
-  environment.systemPackages = with pkgs; 
+  environment.systemPackages = with pkgs;
     [
     ]
     ++ [
@@ -336,7 +336,7 @@
     # <esc><esc> moves cursor to right
     # escape -> :xkbswitch -e -s US
     lcmd + lctrl - 0 : open '/System/Applications/Mission Control.app';
-    
+
 
     # lcmd + lctrl - t : alacritty -m space --focus 1;
 

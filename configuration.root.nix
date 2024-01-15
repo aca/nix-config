@@ -18,7 +18,6 @@
     ./dev/lua.nix
     ./dev/python.nix
     ./dev/nix.nix
-
   ];
 
   # grafana configuration
@@ -35,13 +34,14 @@
     scrapeConfigs = [
       {
         job_name = "oci-xnzm1001-001";
-        static_configs = [{
-          targets = [ "100.79.222.108:9100" ];
-        }];
+        static_configs = [
+          {
+            targets = ["100.79.222.108:9100"];
+          }
+        ];
       }
     ];
   };
-
 
   nix.settings = {
     experimental-features = "nix-command flakes";
@@ -284,8 +284,8 @@
     })
   ];
 
-  # TODO: should not use this 
-  age.identityPaths = [ "/home/rok/.ssh/id_ed25519" ];
+  # TODO: should not use this
+  age.identityPaths = ["/home/rok/.ssh/id_ed25519"];
   age.secrets."github.com__aca".file = ./secrets/github.com__aca.age;
 
   # nixpkgs.overlays = [
@@ -483,7 +483,7 @@
       # pkgs.unstable.vivaldi-ffmpeg-codecs
       # pkgs.unstable.widevine-cdm
       pkgs.unstable.google-chrome
-      
+
       # https://github.com/fcitx/fcitx5/issues/862
       # pkgs.unstable.google-chrome
 
@@ -685,7 +685,6 @@
       gptfdisk
       zip
 
-
       # video
       # rav1e
       #
@@ -759,7 +758,7 @@
       pkg-config
       # pkgs.unstable.yazi
       pkgs.unstable.jetbrains.datagrip
-      # (lowPrio uutils-coreutils-noprefix) 
+      # (lowPrio uutils-coreutils-noprefix)
       vscode.fhs
       unrar
       stylua

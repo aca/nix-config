@@ -81,8 +81,7 @@
       #   }/userChrome.css";
       # '';
 
-      userChrome = (builtins.readFile ./pkgs/firefox/userChrome.css);
-      
+      userChrome = builtins.readFile ./pkgs/firefox/userChrome.css;
     };
   };
 }

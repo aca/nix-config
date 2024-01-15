@@ -1,4 +1,8 @@
-{ config, pkgs, ... }: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ./hardware/oci-xnzm1001-002.nix
   ];
@@ -32,7 +36,7 @@
 
   networking.firewall.enable = false;
 
-  nixpkgs.config.permittedInsecurePackages = [ "nodejs-16.20.1" ];
+  nixpkgs.config.permittedInsecurePackages = ["nodejs-16.20.1"];
 
   environment.systemPackages = with pkgs; [
     fzf
