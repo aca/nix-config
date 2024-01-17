@@ -18,6 +18,7 @@
     btop
     procps
     # inetutils
+    delta
     # psmisc # not on darwin
     stow
 

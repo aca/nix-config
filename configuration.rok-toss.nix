@@ -11,9 +11,11 @@
     ./dev/default.nix
   ];
 
-  environment.variables = {
-    "TESTVARIABLE" = "23r234";
-  };
+  # environment.variables = rec {
+  #   LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.oracle-instantclient];
+  # };
+
+  services.nix-daemon.enable = true;
 
   homebrew = {
     enable = true;
@@ -463,11 +465,15 @@
     # shift + alt - right  : /run/current-system/sw/bin/yabai -m window --grid 1:2:1:0:1:1
   '';
 
-  services.nix-daemon.enable = true;
+  # Make sure the nix daemon always runs
+  # services.nix-daemon.enable = true;
+
   nix.package = pkgs.nix;
 
-  # programs.fish.enable = true;
+  programs.fish.enable = true;
   programs.zsh.enable = true;
+  programs.bash.enable = true;
+
   system = {
     stateVersion = 4;
 
