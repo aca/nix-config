@@ -108,16 +108,25 @@
 
   # GUI
   services.xserver.enable = true;
-  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.displayManager.startx.enable = true;
+  services.xserver.displayManager.lightdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
   environment.gnome.excludePackages =
     (with pkgs; [
       gnome-photos
       gnome-tour
+      gnome-themes-extra
     ])
     ++ (with pkgs.gnome; [
       cheese # webcam tool
+      gnome-disk-utility
+      gnome-maps
+      gnome-contacts
+      gnome-backgrounds
+      gnome-weather
+      gnome-autoar
       gnome-music
+      gnome-calculator
       gnome-terminal
       gedit # text editor
       epiphany # web browser
@@ -131,37 +140,22 @@
       atomix # puzzle game
     ]);
 
-  systemd.services = {
-    "go-slog" = {
-      enable = true;
-      path = [];
-      wantedBy = ["multi-user.target"];
-      after = ["network.target"];
-      serviceConfig = {
-        Type = "simple";
-        User = "rok";
-        Restart = "always";
-        ExecStart = ''
-          /home/rok/bin/go-slog
-        '';
-      };
-    };
-    # "fix-spice-issue" = {
-    #   enable = true;
-    #   path = [];
-    #   wantedBy = ["multi-user.target"];
-    #   after = ["network.target"];
-    #   serviceConfig = {
-    #     Type = "simple";
-    #     User = "rok";
-    #     Restart = "always";
-    #     ExecStart = ''
-    #       /home/rok/bin/go-slog
-    #
-    #     '';
-    #   };
-    # }
-  };
+  # systemd.services = {
+  #   "go-slog" = {
+  #     enable = true;
+  #     path = [];
+  #     wantedBy = ["multi-user.target"];
+  #     after = ["network.target"];
+  #     serviceConfig = {
+  #       Type = "simple";
+  #       User = "rok";
+  #       Restart = "always";
+  #       ExecStart = ''
+  #         /home/rok/bin/go-slog
+  #       '';
+  #     };
+  #   };
+  # };
 
   # Configure keymap in X11
   services.xserver = {
@@ -234,6 +228,8 @@
   };
 
   networking.firewall.enable = false;
+
+  # environment.extraInit = ""
 
   environment.systemPackages = with pkgs;
     [
@@ -324,6 +320,8 @@
 
       # php82
       # php82Packages.composer
+      
+      xorg.xhost
 
       progress
       cmake
@@ -381,8 +379,10 @@
 
       (pkgs.unstable.chromium.override {
         commandLineArgs = [
+
+          # "--ozone-platform-hint=wayland"
+
           # "--ozone-platform-hint=auto"
-          "--ozone-platform-hint=wayland"
           # "--enable-features=UseOzonePlatform"
           # "--ozone-platform-hint=''"
           # "--ozone-platform=''"
