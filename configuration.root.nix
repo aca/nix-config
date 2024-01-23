@@ -274,7 +274,7 @@
   users.users.rok = {
     isNormalUser = true;
     description = "rok";
-    extraGroups = ["networkmanager" "wheel" "docker" "adbusers" "libvirtd"];
+    extraGroups = ["networkmanager" "wheel" "docker" "adbusers" "libvirtd" "libvirt"];
     packages = with pkgs; [];
   };
 
