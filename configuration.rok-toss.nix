@@ -247,6 +247,7 @@
       pkgs.unstable.alacritty
       pkgs.neovim-nightly
       pkgs.jq
+      pkgs.unstable.rustdesk
       # pkgs.unstable.docker
       kubectl
       # colima
