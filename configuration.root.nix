@@ -361,6 +361,8 @@
   #   enable = true; # replace with podman
   #   package = pkgs.unstable.docker;
   # };
+  
+  virtualisation.containers.registries.insecure = [ "localhost:5000" ];
 
   virtualisation.podman = {
     enable = true; # replace with podman
