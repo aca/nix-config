@@ -357,10 +357,10 @@
   # ];
 
   hardware.bluetooth.enable = true;
-  # virtualisation.docker = {
-  #   enable = true; # replace with podman
-  #   package = pkgs.unstable.docker;
-  # };
+  virtualisation.docker = {
+    enable = true; # replace with podman
+    package = pkgs.unstable.docker;
+  };
   
   virtualisation.containers.registries.insecure = [ "localhost:5000" ];
 
@@ -627,7 +627,7 @@
       asciinema
       just
       pkgs.unstable.kitty
-      pkgs.unstable.docker-client
+      # pkgs.unstable.docker-client
       pkgs.unstable.wezterm
       cmatrix
       texlive.combined.scheme-full
