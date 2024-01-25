@@ -364,12 +364,12 @@
   
   virtualisation.containers.registries.insecure = [ "localhost:5000" ];
 
-  virtualisation.podman = {
-    enable = true; # replace with podman
-    dockerCompat = true;
-    defaultNetwork.settings.dns_enabled = true;
-    # package = unstable.docker;
-  };
+  # virtualisation.podman = {
+  #   enable = false; # replace with podman
+  #   dockerCompat = true;
+  #   defaultNetwork.settings.dns_enabled = true;
+  #   # package = unstable.docker;
+  # };
 
   # programs.firefox.nativeMessagingHosts.tridactyl = true;
   #
@@ -627,6 +627,7 @@
       asciinema
       just
       pkgs.unstable.kitty
+      pkgs.unstable.docker-client
       pkgs.unstable.wezterm
       cmatrix
       texlive.combined.scheme-full
