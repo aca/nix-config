@@ -45,7 +45,7 @@
 
   nix.settings = {
     experimental-features = "nix-command flakes";
-    trusted-users = [ root rok ]
+    trusted-users = [ "root" "rok" ];
   };
 
   nix.gc = {
@@ -230,12 +230,12 @@
   i18n.inputMethod = {
     enabled = "fcitx5";
     fcitx5.addons = with pkgs; [
-      pkgs.unstable.fcitx5-mozc
-      pkgs.unstable.fcitx5-gtk
-      pkgs.unstable.fcitx5-with-addons
+      pkgs.fcitx5-mozc
+      pkgs.fcitx5-gtk
+      pkgs.fcitx5-with-addons
       # pkgs.unstable.fcitx5-qt
       # pkgs.unstable.fcitx5-chinese-addons
-      pkgs.unstable.fcitx5-hangul
+      pkgs.fcitx5-hangul
       # pkgs.unstable.fcitx5-lua
     ];
   };

@@ -1,6 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    # nixpkgs.url = /home/rok/src/github.com/NixOS/nixpkgs;
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/master";
     nixpkgs-staging.url = "github:nixos/nixpkgs/staging";
 
