@@ -123,7 +123,7 @@
               nixpkgs.overlays = [
                 inputs.nur.overlay
                 inputs.neovim-nightly-overlay.overlay
-                inputs.nixpkgs-firefox-darwin.overlay
+                # inputs.nixpkgs-firefox-darwin.overlay
                 inputs.zig.overlays.default
                 overlay-unstable
               ];
