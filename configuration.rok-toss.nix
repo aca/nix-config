@@ -14,6 +14,11 @@
   # environment.variables = rec {
   #   LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.oracle-instantclient];
   # };
+ 
+  nix.settings = {
+    experimental-features = "nix-command flakes";
+    trusted-users = ["rok" "kyungrok.chung"];
+  };
 
   services.nix-daemon.enable = true;
 
