@@ -45,6 +45,7 @@
 
   nix.settings = {
     experimental-features = "nix-command flakes";
+    trusted-users = [ root rok ]
   };
 
   nix.gc = {
@@ -238,6 +239,8 @@
       # pkgs.unstable.fcitx5-lua
     ];
   };
+
+  # services.xserver.desktopManager.runXdgAutoStartIfNone = true;
 
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_US.UTF-8";
