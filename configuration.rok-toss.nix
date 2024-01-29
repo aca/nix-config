@@ -15,10 +15,10 @@
   #   LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.oracle-instantclient];
   # };
  
-  nix.settings = {
-    experimental-features = "nix-command flakes";
-    trusted-users = ["rok" "kyungrok.chung"];
-  };
+  # nix.settings = {
+  #   experimental-features = "nix-command flakes";
+  #   trusted-users = ["rok" "kyungrok.chung"];
+  # };
 
   services.nix-daemon.enable = true;
 
@@ -249,7 +249,6 @@
       pkgs.yabai
       pkgs.duti
       # pkgs.unstable.xonsh
-      pkgs.unstable.alacritty
       pkgs.neovim-nightly
       pkgs.jq
       pkgs.unstable.rustdesk
