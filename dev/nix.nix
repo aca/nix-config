@@ -4,6 +4,6 @@
   ...
 }: {
   environment.systemPackages = with pkgs; [
-    nil # flake
+    nil # nix language server 
   ];
 }

@@ -277,7 +277,7 @@
   users.users.rok = {
     isNormalUser = true;
     description = "rok";
-    extraGroups = ["networkmanager" "wheel" "docker" "adbusers" "libvirtd" "libvirt"];
+    extraGroups = ["networkmanager" "wheel" "docker" "adbusers" "libvirtd" "libvirt" "syncthing"];
     packages = with pkgs; [];
   };
 
@@ -363,6 +363,10 @@
   virtualisation.docker = {
     enable = true; # replace with podman
     package = pkgs.unstable.docker;
+    daemon.settings = {
+      # hosts = ["tcp://127.0.0.1:2375"];
+      hosts = ["tcp://0.0.0.0:2375"];
+    };
   };
   
   virtualisation.containers.registries.insecure = [ "localhost:5000" ];
