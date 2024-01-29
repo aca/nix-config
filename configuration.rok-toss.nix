@@ -15,10 +15,10 @@
   #   LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.oracle-instantclient];
   # };
  
-  # nix.settings = {
-  #   experimental-features = "nix-command flakes";
-  #   trusted-users = ["rok" "kyungrok.chung"];
-  # };
+  nix.settings = {
+    experimental-features = "nix-command flakes";
+    trusted-users = ["rok" "kyungrok.chung"];
+  };
 
   services.nix-daemon.enable = true;
 
@@ -240,7 +240,7 @@
     ]
     ++ [
       darwin.iproute2mac
-      xorg.luit
+      # xorg.luit
       # firefox-bin
       zigpkgs.master
       # system
@@ -251,7 +251,7 @@
       # pkgs.unstable.xonsh
       pkgs.neovim-nightly
       pkgs.jq
-      pkgs.unstable.rustdesk
+      # pkgs.unstable.rustdesk
       # pkgs.unstable.docker
       kubectl
       # colima
