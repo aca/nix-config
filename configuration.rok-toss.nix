@@ -212,7 +212,7 @@
       "utm"
       "android-platform-tools"
       "datagrip"
-      "iterm2"
+      # "iterm2"
       "microsoft-teams"
       "android-sdk"
       "docker"
@@ -250,6 +250,7 @@
       pkgs.duti
       # pkgs.unstable.xonsh
       pkgs.neovim-nightly
+      pkgs.unstable.alacritty
       pkgs.jq
       # pkgs.unstable.rustdesk
       # pkgs.unstable.docker

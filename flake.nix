@@ -132,8 +132,17 @@
                 # inputs.nixpkgs-firefox-darwin.overlay
                 inputs.zig.overlays.default
                 overlay-unstable
+                # (self: super: {
+                #   advcpmv = super.callPackage ./pkgs/advcpmv.nix {pkgs = super;};
+                # })
+                # (self: super: {
+                #   mpv-unwrapped = super.mpv-unwrapped.override {
+                #     ffmpeg_5 = ffmpeg_5-full;
+                #   };
+                # })
               ];
             })
+
             ./configuration.rok-toss.nix
             home-manager.darwinModules.home-manager
             {
