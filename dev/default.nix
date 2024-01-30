@@ -119,5 +119,6 @@
 
     # docker
     dive
+    croc
   ];
 }
