@@ -207,14 +207,14 @@
     ];
   };
 
-  # virtualisation.docker.enable = true;
+  virtualisation.docker.enable = true;
   virtualisation.containers.registries.insecure = [ "localhost:5000" "100.85.204.31:5000" ];
 
-  virtualisation.podman = {
-    enable = false; # replace with podman
-    dockerCompat = true;
-    defaultNetwork.settings.dns_enabled = true;
-  };
+  # virtualisation.podman = {
+  #   enable = true;
+  #   dockerCompat = true;
+  #   defaultNetwork.settings.dns_enabled = true;
+  # };
 
   services.openssh.enable = true;
   services.qemuGuest.enable = true;
