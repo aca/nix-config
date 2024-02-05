@@ -374,6 +374,8 @@
       vbindiff
       unixtools.xxd
 
+      pkgs.unstable.vector
+
       pkgs.unstable.zls
       pkgs.unstable.zig
       # pkgs.google-chrome
