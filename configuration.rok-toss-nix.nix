@@ -241,6 +241,7 @@
     ]
     ++ [
       kubedock
+      openssh
       xorg.libX11
       _9pfs
       bolt
