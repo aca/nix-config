@@ -5,6 +5,11 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/master";
     nixpkgs-staging.url = "github:nixos/nixpkgs/staging";
 
+    templ = {
+      url = "github:a-h/templ";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     turbo = {
       url = "github:alexghr/turborepo.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -166,6 +171,7 @@
             }: {
               nixpkgs.overlays = [
                 inputs.neovim-nightly-overlay.overlay
+                inputs.templ.overlays.default
                 overlay-unstable
                 tmux-overlay
               ];
@@ -238,11 +244,11 @@
               nixpkgs.overlays = with pkgs; [
                 inputs.neovim-nightly-overlay.overlay
                 inputs.zig.overlays.default
+                inputs.templ.overlays.default
                 inputs.nil.overlays.default
                 overlay-unstable
 
                 # fenix.overlays.default
-
                 inputs.nur.overlay
                 tmux-overlay
 

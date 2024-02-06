@@ -372,6 +372,7 @@
       s3fs
       fluent-bit
       vbindiff
+        inetutils
       unixtools.xxd
 
       pkgs.unstable.vector
