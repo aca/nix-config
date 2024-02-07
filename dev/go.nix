@@ -11,9 +11,8 @@
     pkgs.unstable.gomodifytags
     pkgs.unstable.gofumpt
 
-    templ
+    # templ
     sbomnix
-
     visidata
     # oracle-instantclient
     bfs
