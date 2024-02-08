@@ -140,22 +140,22 @@
       atomix # puzzle game
     ]);
 
-  # systemd.services = {
-  #   "go-slog" = {
-  #     enable = true;
-  #     path = [];
-  #     wantedBy = ["multi-user.target"];
-  #     after = ["network.target"];
-  #     serviceConfig = {
-  #       Type = "simple";
-  #       User = "rok";
-  #       Restart = "always";
-  #       ExecStart = ''
-  #         /home/rok/bin/go-slog
-  #       '';
-  #     };
-  #   };
-  # };
+  systemd.services = {
+    "example" = {
+      enable = true;
+      path = [];
+      wantedBy = ["multi-user.target"];
+      after = ["network.target"];
+      serviceConfig = {
+        Type = "simple";
+        User = "rok";
+        Restart = "always";
+        ExecStart = ''
+          /home/rok/bin/go-slog
+        '';
+      };
+    };
+  };
 
   # Configure keymap in X11
   services.xserver = {
