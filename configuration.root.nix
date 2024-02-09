@@ -15,6 +15,7 @@
     ./dev/data.nix
     ./dev/default.nix
     ./dev/go.nix
+    ./dev/rust.nix
     ./dev/lua.nix
     ./dev/python.nix
     ./dev/nix.nix
@@ -29,7 +30,7 @@
   };
 
   services.prometheus = {
-    enable = true;
+    enable = false;
     port = 9001;
     scrapeConfigs = [
       {
@@ -637,7 +638,7 @@
       # pkgs.unstable.docker-client
       pkgs.unstable.wezterm
       cmatrix
-      texlive.combined.scheme-full
+      # texlive.combined.scheme-full
 
       sd
 

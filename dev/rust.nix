@@ -4,6 +4,6 @@
   ...
 }: {
   environment.systemPackages = with pkgs; [
-    # nil # nix language server 
+    pkgs.unstable.rust-analyzer
   ];
 }

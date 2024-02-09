@@ -51,13 +51,13 @@
     pkgs.unstable.ripgrep
     pkgs.unstable.ghq
     pkgs.unstable.vifm
-    pkgs.unstable.yazi
+    # pkgs.unstable.yazi
     pkgs.unstable.elvish
     pkgs.unstable.gron
 
-    pkgs.unstable.aria2
-    pkgs.unstable.pueue
-    pkgs.unstable.age
+    aria2
+    pueue
+    age
     pkgs.unstable.alejandra
     recode
 
