@@ -700,11 +700,12 @@
       # rav1e
       #
       xxHash
+      lm_sensors
 
       # sway stuff
       pkgs.unstable.sway
       pkgs.unstable.xdragon
-      # pkgs.unstable.alacritty # gpu accelerated terminal
+      pkgs.unstable.alacritty # gpu accelerated terminal
       # pkgs.unstable.dbus-sway-environment
       pkgs.unstable.rofi-wayland
       pkgs.unstable.wayland
