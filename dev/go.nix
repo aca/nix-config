@@ -11,7 +11,6 @@
     pkgs.unstable.gomodifytags
     pkgs.unstable.gofumpt
 
-    # templ
     sbomnix
     visidata
     # oracle-instantclient
