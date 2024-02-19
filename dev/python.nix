@@ -12,6 +12,7 @@
           boto3
           pyyaml
           yt-dlp
+          frogmouth
           pandas
           numpy
         ])
