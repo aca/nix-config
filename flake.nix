@@ -253,6 +253,7 @@
               nixpkgs.overlays = with pkgs; [
                 inputs.neovim-nightly-overlay.overlay
                 inputs.zig.overlays.default
+                # inputs.zls.overlays.default
                 inputs.templ.overlays.default
                 inputs.nil.overlays.default
                 overlay-unstable
@@ -260,110 +261,6 @@
                 # fenix.overlays.default
                 inputs.nur.overlay
                 tmux-overlay
-
-                # (
-                #   self: super: {
-                #     alacritty = super.alacritty.overrideAttrs (old: rec {
-                #       pname = "alacritty";
-                #       version = "0.13.0-rc2";
-                #       rpathLibs =
-                #         [
-                #           expat
-                #           fontconfig
-                #           freetype
-                #         ]
-                #         ++ lib.optionals stdenv.isLinux [
-                #           libGL
-                #           xorg.libX11
-                #           xorg.libXcursor
-                #           xorg.libXi
-                #           xorg.libXrandr
-                #           xorg.libXxf86vm
-                #           xorg.libxcb
-                #           libxkbcommon
-                #           wayland
-                #         ];
-                #
-                #       postInstall =
-                #         (
-                #           if stdenv.isDarwin
-                #           then ''
-                #             mkdir $out/Applications
-                #             cp -r extra/osx/Alacritty.app $out/Applications
-                #             ln -s $out/bin $out/Applications/Alacritty.app/Contents/MacOS
-                #           ''
-                #           else ''
-                #             install -D extra/linux/Alacritty.desktop -t $out/share/applications/
-                #             install -D extra/linux/org.alacritty.Alacritty.appdata.xml -t $out/share/appdata/
-                #             install -D extra/logo/compat/alacritty-term.svg $out/share/icons/hicolor/scalable/apps/Alacritty.svg
-                #
-                #             # patchelf generates an ELF that binutils' "strip" doesn't like:
-                #             #    strip: not enough room for program headers, try linking with -N
-                #             # As a workaround, strip manually before running patchelf.
-                #             $STRIP -S $out/bin/alacritty
-                #
-                #             patchelf --add-rpath "${lib.makeLibraryPath rpathLibs}" $out/bin/alacritty
-                #           ''
-                #         )
-                #         + ''
-                #
-                #           # installShellCompletion --zsh extra/completions/_alacritty
-                #           # installShellCompletion --bash extra/completions/alacritty.bash
-                #           # installShellCompletion --fish extra/completions/alacritty.fish
-                #
-                #           # install -dm 755 "$out/share/man/man1"
-                #           # gzip -c extra/alacritty.man > "$out/share/man/man1/alacritty.1.gz"
-                #           # gzip -c extra/alacritty-msg.man > "$out/share/man/man1/alacritty-msg.1.gz"
-                #
-                #           # install -Dm 644 alacritty.yml $out/share/doc/alacritty.yml
-                #
-                #           install -dm 755 "$terminfo/share/terminfo/a/"
-                #           tic -xe alacritty,alacritty-direct -o "$terminfo/share/terminfo" extra/alacritty.info
-                #           mkdir -p $out/nix-support
-                #           echo "$terminfo" >> $out/nix-support/propagated-user-env-packages
-                #         '';
-                #
-                #       #
-                #       # postInstall = ''
-                #       #   # patchelf generates an ELF that binutils' "strip" doesn't like:
-                #       #   #    strip: not enough room for program headers, try linking with -N
-                #       #   # As a workaround, strip manually before running patchelf.
-                #       #   $STRIP -S $out/bin/alacritty
-                #       #
-                #       #   patchelf --add-rpath "${lib.makeLibraryPath rpathLibs}" $out/bin/alacritty
-                #       #
-                #       #   install -dm 755 "$terminfo/share/terminfo/a/"
-                #       #   tic -xe alacritty,alacritty-direct -o "$terminfo/share/terminfo" extra/alacritty.info
-                #       #   mkdir -p $out/nix-support
-                #       #   echo "$terminfo" >> $out/nix-support/propagated-user-env-packages
-                #       # '';
-                #
-                #       src = super.fetchFromGitHub {
-                #         owner = "alacritty";
-                #         repo = "alacritty";
-                #         rev = "refs/tags/v${version}";
-                #         hash = "sha256-6OhajngMr7vt+JFRYMRwKtlcvkpDGD7KeQaab+2/rsI=";
-                #         # hash = lib.fakeHash;
-                #       };
-                #       cargoDeps = old.cargoDeps.overrideAttrs (old: {
-                #         name = "${pname}-vendor.tar.gz";
-                #         # inherit src version;
-                #         inherit src;
-                #         # outputHash = lib.fakeHash;
-                #         outputHash = "sha256-xGw2j9QwoDCBuAQBSP40PRTQY2qAptA+CHFdbTx7Fy4=";
-                #       });
-                #     });
-                #   }
-                # )
-
-                # (self: super: {
-                #   mpv-unwrapped = super.mpv-unwrapped.override {
-                #     ffmpeg_5 = ffmpeg_5-full;
-                #   };
-                # })
-                # (self: super: {
-                #   advcpmv = super.callPackage ./pkgs/advcpmv.nix {pkgs = super;};
-                # })
               ];
             })
 
@@ -452,9 +349,9 @@
               ];
             })
 
-            # {
-            #   environment.systemPackages = [zls.packages.x86_64-linux.default];
-            # }
+            {
+              environment.systemPackages = [zls.packages.x86_64-linux.default];
+            }
 
             agenix.nixosModules.default
             {

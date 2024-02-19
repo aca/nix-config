@@ -701,6 +701,7 @@
       #
       xxHash
       lm_sensors
+      zls
 
       # sway stuff
       pkgs.unstable.sway
