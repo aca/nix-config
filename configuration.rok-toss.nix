@@ -28,13 +28,13 @@
       "laishulu/macism"
       "aca/tap"
       "zegervdv/zathura"
+      "homebrew/cask-versions" # wezterm
       # "encoredev/tap/encore"
       # "chipmk/tap/docker-mac-net-connect"
     ];
     brews = [
       "laishulu/macism/macism"
       "zegervdv/zathura/zathura-pdf-poppler"
-
       "aca/tap/agec"
       "mas"
       "mupdf"
@@ -239,6 +239,7 @@
     [
     ]
     ++ [
+      sourcekit-lsp
       darwin.iproute2mac
       # xorg.luit
       # firefox-bin
@@ -337,13 +338,14 @@
 
     # https://github.com/vovkasm/input-source-switcher
     # # escape -> :issw com.apple.keylayout.US
-    # escape -> :/opt/homebrew/bin/macism com.apple.keylayout.US
+    escape -> :/opt/homebrew/bin/macism com.apple.keylayout.US; skhd -k "esc";
 
     #
     # FIXME
     # <esc><esc> moves cursor to right
     # escape -> :xkbswitch -e -s US
-    lcmd + lctrl - 0 : open '/System/Applications/Mission Control.app';
+    lcmd + lctrl - 0 : open '/System/Applications/Mission Control.app'; 
+
 
 
     # lcmd + lctrl - t : alacritty -m space --focus 1;
