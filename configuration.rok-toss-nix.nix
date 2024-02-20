@@ -208,7 +208,11 @@
   };
 
   virtualisation.docker.enable = true;
-  virtualisation.containers.registries.insecure = [ "localhost:5000" "100.85.204.31:5000" ];
+  virtualisation.containers.registries.insecure = [
+    "localhost:5000"
+    "100.75.184.56:5000"
+    "100.85.204.31:5000"
+  ];
 
   # virtualisation.podman = {
   #   enable = true;
@@ -322,7 +326,7 @@
 
       # php82
       # php82Packages.composer
-      
+
       xorg.xhost
 
       progress
@@ -373,7 +377,7 @@
       s3fs
       fluent-bit
       vbindiff
-        inetutils
+      inetutils
       unixtools.xxd
 
       pkgs.unstable.vector
@@ -385,7 +389,6 @@
 
       (pkgs.unstable.chromium.override {
         commandLineArgs = [
-
           # "--ozone-platform-hint=wayland"
 
           # "--ozone-platform-hint=auto"

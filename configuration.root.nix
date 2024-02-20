@@ -46,7 +46,7 @@
 
   nix.settings = {
     experimental-features = "nix-command flakes";
-    trusted-users = [ "root" "rok" ];
+    trusted-users = ["root" "rok"];
   };
 
   nix.gc = {
@@ -369,8 +369,12 @@
       hosts = ["tcp://0.0.0.0:2375"];
     };
   };
-  
-  virtualisation.containers.registries.insecure = [ "localhost:5000", "100.75.184.56:5000" ];
+
+  virtualisation.containers.registries.insecure = [
+    "localhost:5000"
+    "100.75.184.56:5000"
+    "100.85.204.31:5000"
+  ];
 
   # virtualisation.podman = {
   #   enable = false; # replace with podman
