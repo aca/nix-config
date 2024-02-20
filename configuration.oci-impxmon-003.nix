@@ -71,5 +71,6 @@
     zsh
     fish
     xsel
+    just
   ];
 }
