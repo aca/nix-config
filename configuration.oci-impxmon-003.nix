@@ -25,7 +25,7 @@
 
   nixpkgs.config.permittedInsecurePackages = ["nodejs-16.20.1"];
 
-  services.docker-registry = {
+  services.dockerRegistry = {
     enable = true;
     listenAddress = "127.0.0.1"; 
   };
