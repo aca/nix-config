@@ -291,7 +291,7 @@
         };
 
       oci-impxmon-003 = let
-        system = "aarch64-linux";
+        system = "x86_64-linux";
         overlay-unstable = final: prev: {
           unstable = import nixpkgs-unstable {
             inherit system;
