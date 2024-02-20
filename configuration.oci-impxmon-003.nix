@@ -21,13 +21,24 @@
 
   zramSwap.enable = true;
 
-  networking.firewall.enable = false;
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 22 ];
+    allowedUDPPortRanges = [
+      # {
+      #   from = 4000;
+      #   to = 4007;
+      # }
+    ];
+  };
+
+  networking.firewall.interfaces."tailscale0".allowedTCPPorts = [ 5000 ];
 
   nixpkgs.config.permittedInsecurePackages = ["nodejs-16.20.1"];
 
   services.dockerRegistry = {
     enable = true;
-    listenAddress = "127.0.0.1"; 
+    listenAddress = "127.0.0.1";
   };
 
   environment.systemPackages = with pkgs; [
