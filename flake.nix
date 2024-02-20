@@ -290,6 +290,22 @@
           ];
         };
 
+      oci-impxmon-003 = let
+        system = "aarch64-linux";
+        overlay-unstable = final: prev: {
+          unstable = import nixpkgs-unstable {
+            inherit system;
+            config.allowUnfree = true;
+          };
+        };
+      in
+        nixpkgs.lib.nixosSystem rec {
+          modules = [
+            agenix.nixosModules.default
+            ./configuration.oci-impxmon-003.nix
+          ];
+        };
+
       oci-xnzm1001-001 = let
         system = "aarch64-linux";
         overlay-unstable = final: prev: {
