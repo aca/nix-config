@@ -12,4 +12,6 @@
     device = "/dev/sda1";
     fsType = "ext4";
   };
+
+  nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 }
