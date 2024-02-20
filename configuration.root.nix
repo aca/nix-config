@@ -370,7 +370,7 @@
     };
   };
   
-  virtualisation.containers.registries.insecure = [ "localhost:5000" ];
+  virtualisation.containers.registries.insecure = [ "localhost:5000", "100.75.184.56:5000" ];
 
   # virtualisation.podman = {
   #   enable = false; # replace with podman

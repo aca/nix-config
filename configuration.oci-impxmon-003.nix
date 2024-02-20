@@ -38,7 +38,7 @@
 
   services.dockerRegistry = {
     enable = true;
-    listenAddress = "127.0.0.1";
+    listenAddress = "0.0.0.0";
   };
 
   environment.systemPackages = with pkgs; [
