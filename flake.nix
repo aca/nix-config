@@ -303,6 +303,17 @@
           modules = [
             agenix.nixosModules.default
             ./configuration.oci-impxmon-003.nix
+
+            ({
+              config,
+              pkgs,
+              ...
+            }: {
+              nixpkgs.overlays = [
+                overlay-unstable
+              ];
+            })
+
           ];
         };
 
