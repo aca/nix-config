@@ -48,7 +48,7 @@
     tmux
     jq
     gcc
-    go
+    pkgs.unstable.go_1_22
     fd
     github-runner
     nodejs_20
