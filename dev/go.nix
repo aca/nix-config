@@ -4,7 +4,7 @@
   ...
 }: {
   environment.systemPackages = with pkgs; [
-    pkgs.unstable.go_1_21
+    pkgs.unstable.go_1_22
     pkgs.unstable.gotests
     pkgs.unstable.gopls
     pkgs.unstable.gotestsum
