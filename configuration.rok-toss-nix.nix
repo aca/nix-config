@@ -244,7 +244,8 @@
       # glxinfo
     ]
     ++ [
-      kubedock
+      # kubedock
+      inetutils
       openssh
       xorg.libX11
       _9pfs

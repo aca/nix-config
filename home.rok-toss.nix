@@ -22,6 +22,7 @@
   programs.home-manager.enable = true;
 
   home.packages = [
+    pkgs.inetutils
     # pkgs.htop
     # pkgs.bfs
     # pkgs.pueue
