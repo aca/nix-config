@@ -549,6 +549,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-zig-0-12": {
+      "locked": {
+        "lastModified": 1708536163,
+        "narHash": "sha256-UdGZLYXoIJRal/J/uYlMqPi27LE92wdsIHtDOWRVXhM=",
+        "owner": "vancluever",
+        "repo": "nixpkgs",
+        "rev": "aba18e2126357afc8a997c12dcf027517b7432b0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vancluever",
+        "ref": "vancluever-zig-0-12",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nur": {
       "locked": {
         "lastModified": 1708098276,
@@ -577,6 +593,7 @@
         "nixpkgs-firefox-darwin": "nixpkgs-firefox-darwin",
         "nixpkgs-staging": "nixpkgs-staging",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "nixpkgs-zig-0-12": "nixpkgs-zig-0-12",
         "nur": "nur",
         "templ": "templ",
         "turbo": "turbo",

@@ -10,6 +10,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # ghostty
+    nixpkgs-zig-0-12.url = "github:vancluever/nixpkgs/vancluever-zig-0-12";
+    zig = {
+      url = "github:mitchellh/zig-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     turbo = {
       url = "github:alexghr/turborepo.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -36,11 +43,6 @@
       url = "github:nix-community/neovim-nightly-overlay";
       # inputs.nixpkgs.follows = "nixpkgs";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-
-    zig = {
-      url = "github:mitchellh/zig-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     zls = {
@@ -84,6 +86,7 @@
     agenix,
     # turbo,
     zig,
+    nixpkgs-zig-0-12,
     zls,
     darwin,
     ...
@@ -273,7 +276,8 @@
             {
               environment.systemPackages = [
                 agenix.packages.x86_64-linux.default
-                zig.packages.x86_64-linux.master
+                # zig.packages.x86_64-linux.master
+                inputs.nixpkgs-zig-0-12.legacyPackages.x86_64-linux.zig_0_12
                 # inputs.alacritty.defaultPackage.x86_64-linux
                 # turbo.packages.x86_64-linux.default
               ];

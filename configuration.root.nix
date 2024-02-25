@@ -531,7 +531,6 @@
       # pkgs.unstable.nodePackages_latest.vscode-langservers-extracted
 
       # nodePackages_latest.fx
-      # nodePackages_latest.prettier
       # nodePackages.yaml-language-server
       # nodePackages.vscode-langservers-extracted
 

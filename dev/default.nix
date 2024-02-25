@@ -104,6 +104,7 @@
     nodePackages_latest.pnpm
     nodePackages_latest.pyright
     nodePackages_latest.prettier
+    pkgs.unstable.biome
     nodePackages_latest.yaml-language-server
     nodePackages_latest.vscode-langservers-extracted
     nodePackages_latest.sql-formatter
