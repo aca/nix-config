@@ -76,6 +76,7 @@
     pkg-config
     clang
     clang-tools_16
+    socat
     gnumake
     cmake
     ncurses
