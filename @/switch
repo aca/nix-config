@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+hostname=$(hostname -s)
+case "$(hostname -s)" in
+  *chung02)
+    hostname=$rok-toss
+    ;;
+esac
+
+if OS_NAME=$(uname -s) && [ "$OS_NAME" = "Darwin" ]; then
+  nix run nix-darwin -- switch --flake ".#${hostname}" --impure "$@"
+else
+  sudo nixos-rebuild switch --flake ".#${hostname}" --impure "$@"
+fi
