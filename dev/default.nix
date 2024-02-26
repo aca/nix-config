@@ -108,7 +108,7 @@
     nodePackages_latest.yaml-language-server
     nodePackages_latest.vscode-langservers-extracted
     nodePackages_latest.sql-formatter
-    pkgs.unstable.uutils-coreutils-noprefix
+    # pkgs.unstable.uutils-coreutils-noprefix
 
     # pkgs.unstable.alacritty
     php82
