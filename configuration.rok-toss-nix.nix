@@ -10,6 +10,7 @@
     ./nixos/fonts.nix
     # ./pkgs/sway.nix
 
+    ./dev/c.nix
     ./dev/default.nix
     ./dev/data.nix
     ./dev/linux.nix
