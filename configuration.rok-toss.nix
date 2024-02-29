@@ -245,17 +245,18 @@
       # firefox-bin
       zigpkgs.master
       # system
-      pkgs.coreutils-full
-      pkgs.skhd
-      pkgs.yabai
-      pkgs.duti
+      coreutils-full
+      skhd
+      yabai
+      duti
       # pkgs.unstable.xonsh
-      pkgs.neovim-nightly
-      pkgs.unstable.alacritty
-      pkgs.jq
+      neovim-nightly
+      unstable.alacritty
+      jq
       # pkgs.unstable.rustdesk
       # pkgs.unstable.docker
       kubectl
+      maestro
       # colima
       # pkgs.unstable.vector
     ];
