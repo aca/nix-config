@@ -379,6 +379,7 @@
       s3fs
       fluent-bit
       vbindiff
+      unstable.goconvey
       inetutils
       unixtools.xxd
 

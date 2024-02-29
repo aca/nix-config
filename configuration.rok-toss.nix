@@ -256,6 +256,7 @@
       # pkgs.unstable.rustdesk
       # pkgs.unstable.docker
       kubectl
+      unstable.goconvey
       maestro
       # colima
       # pkgs.unstable.vector
