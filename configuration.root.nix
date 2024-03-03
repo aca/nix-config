@@ -21,10 +21,8 @@
     ./dev/nix.nix
   ];
 
-  # grafana configuration
   services.grafana = {
-    enable = true;
-    # domain = "grafana.pele";
+    enable = false;
     settings.server.http_port = 9000;
     settings.server.http_addr = "127.0.0.1";
   };
@@ -489,7 +487,6 @@
     ]
     ++ [
       # browser
-      pkgs.unstable.chromium
       # pkgs.unstable.microsoft-edge
       # (pkgs.unstable.vivaldi.override {
       #   proprietaryCodecs = true;
@@ -497,6 +494,7 @@
       # })
       # pkgs.unstable.vivaldi-ffmpeg-codecs
       # pkgs.unstable.widevine-cdm
+      chromium
       pkgs.unstable.google-chrome
 
       # https://github.com/fcitx/fcitx5/issues/862
@@ -775,6 +773,7 @@
       pkg-config
       # pkgs.unstable.yazi
       pkgs.unstable.jetbrains.datagrip
+      pkgs.unstable.jetbrains.clion
       # (lowPrio uutils-coreutils-noprefix)
       vscode.fhs
       unrar
@@ -785,6 +784,8 @@
       # xsel
       entr
       diskus
+      kooha
+      obs-studio
       zsh
       # htop
       cmake

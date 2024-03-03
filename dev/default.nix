@@ -40,20 +40,20 @@
     stylua
 
     tmux
-    pkgs.unstable.bkt
-    pkgs.unstable.fzf
-    pkgs.unstable.nnn
-    pkgs.unstable.ttyd
-    pkgs.unstable.tig
+    bkt
+    fzf
+    nnn
+    ttyd
+    tig
     # pkgs.unstable.tmux
-    pkgs.unstable.just
-    pkgs.unstable.fd
-    pkgs.unstable.ripgrep
-    pkgs.unstable.ghq
+    just
+    fd
+    ripgrep
+    ghq
     pkgs.unstable.vifm
     # pkgs.unstable.yazi
     pkgs.unstable.elvish
-    pkgs.unstable.gron
+    gron
 
     aria2
     pueue
@@ -119,8 +119,7 @@
 
     lazygit
 
-    # docker
-    dive
+    # dive
     croc
   ];
 }
