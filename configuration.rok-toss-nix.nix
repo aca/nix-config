@@ -43,6 +43,10 @@
     LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.oracle-instantclient];
   };
 
+  programs.wireshark = {
+    enable = true;
+  };
+
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
       url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
@@ -357,7 +361,6 @@
       webkitgtk
       zf
       wev
-      wireshark
       pkgs.unstable.ripgrep
       # pkgs.unstable.docker
       pkgs.unstable.docker-client
