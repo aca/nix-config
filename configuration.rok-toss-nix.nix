@@ -203,7 +203,7 @@
   users.users.rok = {
     isNormalUser = true;
     description = "rok";
-    extraGroups = ["networkmanager" "wheel" "docker"];
+    extraGroups = ["networkmanager" "wheel" "docker" "wireshark"];
     packages = with pkgs; [
       # firefox
       # pueue
@@ -278,6 +278,7 @@
       dura
       entr
       fish
+      wireshark
       cloc
       gh
       glances
