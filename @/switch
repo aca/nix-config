@@ -3,7 +3,7 @@ set -euxo pipefail
 hostname=$(hostname -s)
 case "$(hostname -s)" in
   *chung02)
-    hostname=$rok-toss
+    hostname=rok-toss
     ;;
 esac
 
