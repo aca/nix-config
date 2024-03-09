@@ -48,9 +48,9 @@
         # "browser.shell.checkDefaultBrowser" = false;
         # "devtools.theme" = "dark";
         #
-        # "ui.systemUsesDarkTheme" = 1;
-        # "toolkit.telemetry.unified" = false;
-        # "toolkit.telemetry.enabled" = false;
+        "ui.systemUsesDarkTheme" = 1;
+        "toolkit.telemetry.unified" = false;
+        "toolkit.telemetry.enabled" = false;
         # "toolkit.telemetry.server" = "data:,";
         # "toolkit.telemetry.archive.enabled" = false;
         # "toolkit.telemetry.coverage.opt-out" = true;

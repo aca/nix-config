@@ -356,7 +356,9 @@
       terraform
       texlive.combined.scheme-full
       tshark
-      typst
+      # typst
+      # typst-lsp
+      # typstfmt
       virtiofsd
       waypipe
       webkitgtk

@@ -638,7 +638,7 @@
       just
       pkgs.unstable.kitty
       # pkgs.unstable.docker-client
-      pkgs.unstable.wezterm
+      # pkgs.unstable.wezterm
       cmatrix
       # texlive.combined.scheme-full
 
@@ -685,12 +685,11 @@
 
       terraform
       tig
-      pkgs.unstable.typst
       virtiofsd
       watchexec
       wev
-      pkgs.unstable.yarn
-      pkgs.unstable.zathura
+      yarn
+      zathura
       zef
       patchelf
       ttyd
@@ -720,25 +719,26 @@
       pkgs.unstable.wl-clipboard # clipboard
       pkgs.unstable.xdg-utils # for opening default programs when clicking links
       pkgs.unstable.dunst
-      pkgs.unstable.glib # gsettings
-      pkgs.unstable.dracula-theme # gtk theme
-      pkgs.unstable.gnome3.adwaita-icon-theme # default gnome cursors
-      pkgs.unstable.swaylock
-      pkgs.unstable.pavucontrol
+      glib # gsettings
+      dracula-theme # gtk theme
+      gnome3.adwaita-icon-theme # default gnome cursors
+      swaylock
+      pavucontrol
       pkgs.unstable.swayidle
       pkgs.unstable.pulseaudio
-      pkgs.unstable.grim # screenshot functionality
+      grim # screenshot functionality
       pkgs.unstable.slurp # screenshot functionality
-      pkgs.unstable.bemenu # wayland clone of dmenu
-      pkgs.unstable.mako # notification system developed by swaywm maintainer
+      # bemenu # wayland clone of dmenu
+      mako # notification system developed by swaywm maintainer
       pkgs.unstable.wdisplays # tool to configure displays
       pkgs.unstable.kanshi
 
       pkgs.unstable.syncthing
       pkgs.unstable.mupdf
       pkgs.unstable.pueue
-      pkgs.unstable.helix
-      pkgs.unstable.gh
+      helix
+      kakoune
+      gh
 
       woeusb
 
