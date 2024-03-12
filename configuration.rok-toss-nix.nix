@@ -20,9 +20,9 @@
     ./dev/go.nix
   ];
 
-      nixpkgs.config.permittedInsecurePackages = [
-        "nix-2.16.2"
-      ];
+  nixpkgs.config.permittedInsecurePackages = [
+    "nix-2.16.2"
+  ];
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
