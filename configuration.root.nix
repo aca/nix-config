@@ -495,7 +495,25 @@
       # pkgs.unstable.vivaldi-ffmpeg-codecs
       # pkgs.unstable.widevine-cdm
       chromium
-      pkgs.unstable.google-chrome
+      (pkgs.unstable.google-chrome.override {
+        commandLineArgs = [
+          # "--ozone-platform-hint=wayland"
+
+          # "--ozone-platform-hint=auto"
+          # "--enable-features=UseOzonePlatform"
+          # "--ozone-platform-hint=''"
+          # "--ozone-platform=''"
+
+          # "--enable-features=WebContentsForceDark"
+          "--enable-quic"
+          "--enable-zero-copy"
+          "--remote-debugging-port=9222"
+          # "--force-dark-mode"
+          # NOTES: ozone-platform=wayland fcitx win+space not work
+          # "--disable-features=UseOzonePlatform"
+          # "--gtk-version=4" # fcitx
+        ];
+      })
 
       # https://github.com/fcitx/fcitx5/issues/862
       # pkgs.unstable.google-chrome

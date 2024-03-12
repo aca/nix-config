@@ -145,7 +145,7 @@
 
   programs.firefox = {
     enable = true;
-    package = pkgs.unstable.firefox-devedition.override {
+    package = pkgs.unstable.firefox-devedition-bin.override {
       nativeMessagingHosts = [
         pkgs.tridactyl-native
         pkgs.plasma-browser-integration
@@ -156,11 +156,19 @@
       settings = {
         # "browser.startup.homepage" = "about:blank";
         # "browser.urlbar.placeholderName" = "Google";
-        # "app.update.auto" = false;
+        "app.update.auto" = false;
+        "browser.tabs.crashReporting.sendReport" = false;
+        "dom.reporting.crash.enabled" = false;
+        "services.sync.prefs.sync-seen.browser.crashReports.unsubmittedCheck.autoSubmit2" = false;
+        "services.sync.prefs.sync.browser.crashReports.unsubmittedCheck.autoSubmit2" = false;
+        "toolkit.startup.max_resumed_crashes" = 0;
+        "browser.sessionstore.resume_from_crash" = 0;
+        "browser.sessionstore.max_resumed_crashes" = 0;
+        "toolkit.startup.recent_crashes" = 0;
         # "browser.aboutConfig.showWarning" =
         # "browser.startup.page" = 3; # Restore previous session
         #
-        # "browser.newtabpage.enabled" = false;
+        # "browser.newtabpage.enabled" = falsew
         # "browser.newtab.url" = "about:blank";
         #
         # "browser.warnOnQuit" = false;
@@ -180,7 +188,7 @@
         # "browser.crashReports.unsubmittedCheck.autoSubmit2" = false; # don't submit backlogged reports
         # "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
 
-        "browser.onboarding.enabled" = false;
+        # "browser.onboarding.enabled" = false;
         # "browser.download.dir" = "${config.user.home}/Downloads";
       };
       # name = "default";
