@@ -20,6 +20,10 @@
     ./dev/go.nix
   ];
 
+      nixpkgs.config.permittedInsecurePackages = [
+        "nix-2.16.2"
+      ];
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -392,7 +396,7 @@
       pkgs.unstable.vector
 
       pkgs.unstable.zls
-      pkgs.unstable.zig
+      # pkgs.unstable.zig
       # pkgs.google-chrome
       oracle-instantclient
 

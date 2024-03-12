@@ -192,6 +192,7 @@
             {
               environment.systemPackages = [
                 agenix.packages.aarch64-linux.default
+                inputs.nixpkgs-zig-0-12.legacyPackages.aarch64-linux.zig_0_12
               ];
             }
             home-manager.nixosModules.home-manager
@@ -255,7 +256,7 @@
               nixpkgs.overlays = with pkgs; [
                 inputs.neovim-nightly-overlay.overlay
                 inputs.zig.overlays.default
-                # inputs.zls.overlays.default
+                inputs.zls.overlays.default
                 inputs.templ.overlays.default
                 inputs.nil.overlays.default
                 overlay-unstable
@@ -378,10 +379,6 @@
                 # })
               ];
             })
-
-            {
-              environment.systemPackages = [zls.packages.x86_64-linux.default];
-            }
 
             agenix.nixosModules.default
             {
