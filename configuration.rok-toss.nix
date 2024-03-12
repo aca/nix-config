@@ -255,8 +255,10 @@
       jq
       # pkgs.unstable.rustdesk
       # pkgs.unstable.docker
+      #
+      pkgs.unstable.pdm
       kubectl
-      unstable.goconvey
+      pkgs.unstable.goconvey
       maestro
       # colima
       # pkgs.unstable.vector

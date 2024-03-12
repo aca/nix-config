@@ -40,8 +40,7 @@
     # https://codeberg.org/totoroot/dotfiles/src/branch/main/flake.nix
 
     neovim-nightly-overlay = {
-      url = "github:nix-community/neovim-nightly-overlay";
-      # inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/neovim-nightly-overlay?rev=ece06fb15216c67a8894453eeeca8559fb652927";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 

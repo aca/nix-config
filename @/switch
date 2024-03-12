@@ -7,6 +7,8 @@ case "$(hostname -s)" in
     ;;
 esac
 
+export NIXPKGS_ALLOW_INSECURE=1
+
 # nix flake update
 if OS_NAME=$(uname -s) && [ "$OS_NAME" = "Darwin" ]; then
   nix run nix-darwin -- switch --flake ".#${hostname}" --impure "$@"

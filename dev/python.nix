@@ -14,7 +14,6 @@
           yt-dlp
           frogmouth
           pandas
-          bittensor
           numpy
         ])
     )
