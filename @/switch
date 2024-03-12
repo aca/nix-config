@@ -13,5 +13,5 @@ export NIXPKGS_ALLOW_INSECURE=1
 if OS_NAME=$(uname -s) && [ "$OS_NAME" = "Darwin" ]; then
   nix run nix-darwin -- switch --flake ".#${hostname}" --impure "$@"
 else
-  sudo nixos-rebuild switch --flake ".#${hostname}" --impure "$@"
+  sudo NIXPKGS_ALLOW_INSECURE=1 nixos-rebuild switch --flake ".#${hostname}" --impure "$@"
 fi
