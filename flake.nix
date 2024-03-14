@@ -193,6 +193,7 @@
               environment.systemPackages = [
                 agenix.packages.aarch64-linux.default
                 inputs.nixpkgs-zig-0-12.legacyPackages.aarch64-linux.zig_0_12
+                inputs.zls.packages.aarch64-linux.default
               ];
             }
             home-manager.nixosModules.home-manager
@@ -202,37 +203,6 @@
               home-manager.users.rok = import ./home.rok-toss-nix.nix;
             }
             ./configuration.rok-toss-nix.nix
-          ];
-        };
-
-      rok-toss-nix-amd64 = let
-        system = "x86_64-linux";
-        overlay-unstable = final: prev: {
-          unstable = import nixpkgs-unstable {
-            inherit system;
-            config.allowUnfree = true;
-          };
-        };
-      in
-        nixpkgs.lib.nixosSystem rec {
-          modules = [
-            ({
-              config,
-              pkgs,
-              ...
-            }: {nixpkgs.overlays = [inputs.neovim-nightly-overlay.overlay overlay-unstable];})
-
-            agenix.nixosModules.default
-            {
-              environment.systemPackages = [agenix.packages.aarch64-linux.default];
-            }
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.rok = import ./home.rok-toss-nix-amd64.nix;
-            }
-            ./configuration.rok-toss-nix-amd64.nix
           ];
         };
 
@@ -317,7 +287,6 @@
                 overlay-unstable
               ];
             })
-
           ];
         };
 

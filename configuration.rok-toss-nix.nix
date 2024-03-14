@@ -149,22 +149,22 @@
       atomix # puzzle game
     ]);
 
-  systemd.services = {
-    "example" = {
-      enable = true;
-      path = [];
-      wantedBy = ["multi-user.target"];
-      after = ["network.target"];
-      serviceConfig = {
-        Type = "simple";
-        User = "rok";
-        Restart = "always";
-        ExecStart = ''
-          /home/rok/bin/go-slog
-        '';
-      };
-    };
-  };
+  # systemd.services = {
+  #   "example" = {
+  #     enable = true;
+  #     path = [];
+  #     wantedBy = ["multi-user.target"];
+  #     after = ["network.target"];
+  #     serviceConfig = {
+  #       Type = "simple";
+  #       User = "rok";
+  #       Restart = "always";
+  #       ExecStart = ''
+  #         /home/rok/bin/go-slog
+  #       '';
+  #     };
+  #   };
+  # };
 
   # Configure keymap in X11
   services.xserver = {
@@ -395,7 +395,7 @@
 
       pkgs.unstable.vector
 
-      pkgs.unstable.zls
+      # pkgs.unstable.zls
       # pkgs.unstable.zig
       # pkgs.google-chrome
       oracle-instantclient
