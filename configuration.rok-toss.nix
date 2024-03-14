@@ -124,7 +124,7 @@
       # # "mysql"
       # # "postgresql"
       # "ncc"
-      # "ncdu"
+      "ncdu"
       # "neomutt"
       # "nghttp2"
       # "nginx"
