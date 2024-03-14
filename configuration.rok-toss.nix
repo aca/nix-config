@@ -124,7 +124,6 @@
       # # "mysql"
       # # "postgresql"
       # "ncc"
-      "ncdu"
       # "neomutt"
       # "nghttp2"
       # "nginx"
@@ -258,7 +257,8 @@
       #
       pkgs.unstable.pdm
       kubectl
-      pkgs.unstable.goconvey
+      ncdu
+      goconvey
       maestro
       # colima
       # pkgs.unstable.vector

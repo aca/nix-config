@@ -90,23 +90,23 @@
     darwin,
     ...
   } @ inputs: let
-    tmux-overlay = self: super: {
-      tmux = super.tmux.overrideAttrs (old: rec {
-        pname = "tmux";
-        version = "3.4-next";
-
-        patches = [];
-        src = super.fetchFromGitHub {
-          owner = "tmux";
-          repo = "tmux";
-          # rev = "refs/tags/v${version}";
-          rev = "4266d3efc89cdf7d1af907677361caa24b58c9eb";
-          # hash = "sha256-6OhajngMr7vt+JFRYMRwKtlcvkpDGD7KeQaab+2/rsI=";
-          # sha256 = lib.fakeHash;
-          sha256 = "sha256-LliON7p1KyVucCu61sPKihYxtXsAKCvAvRBvNgoV0/g=";
-        };
-      });
-    };
+    # tmux-overlay = self: super: {
+    #   tmux = super.tmux.overrideAttrs (old: rec {
+    #     pname = "tmux";
+    #     version = "3.4-next";
+    #
+    #     patches = [];
+    #     src = super.fetchFromGitHub {
+    #       owner = "tmux";
+    #       repo = "tmux";
+    #       # rev = "refs/tags/v${version}";
+    #       rev = "4266d3efc89cdf7d1af907677361caa24b58c9eb";
+    #       # hash = "sha256-6OhajngMr7vt+JFRYMRwKtlcvkpDGD7KeQaab+2/rsI=";
+    #       # sha256 = lib.fakeHash;
+    #       sha256 = "sha256-LliON7p1KyVucCu61sPKihYxtXsAKCvAvRBvNgoV0/g=";
+    #     };
+    #   });
+    # };
   in {
     darwinConfigurations = {
       rok-toss = let
@@ -184,7 +184,7 @@
                 inputs.neovim-nightly-overlay.overlay
                 inputs.templ.overlays.default
                 overlay-unstable
-                tmux-overlay
+                # tmux-overlay
               ];
             })
 
@@ -233,7 +233,7 @@
 
                 # fenix.overlays.default
                 inputs.nur.overlay
-                tmux-overlay
+                # tmux-overlay
               ];
             })
 
