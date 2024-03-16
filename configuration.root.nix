@@ -573,6 +573,8 @@
       socat
       sops
       sqlite
+
+pciutils
       sshfs
       sublime-merge
       # git-cola
