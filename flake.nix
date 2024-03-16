@@ -243,10 +243,12 @@
 
             agenix.nixosModules.default
 
+
             {
               environment.systemPackages = [
                 agenix.packages.x86_64-linux.default
                 # zig.packages.x86_64-linux.master
+                inputs.zls.packages.x86_64-linux.default
                 inputs.nixpkgs-zig-0-12.legacyPackages.x86_64-linux.zig_0_12
                 # inputs.alacritty.defaultPackage.x86_64-linux
                 # turbo.packages.x86_64-linux.default
