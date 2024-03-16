@@ -226,7 +226,7 @@
               nixpkgs.overlays = with pkgs; [
                 inputs.neovim-nightly-overlay.overlay
                 inputs.zig.overlays.default
-                inputs.zls.overlays.default
+                # inputs.zls.overlays.default
                 inputs.templ.overlays.default
                 inputs.nil.overlays.default
                 overlay-unstable
