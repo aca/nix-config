@@ -551,7 +551,7 @@
       # nodePackages.vscode-langservers-extracted
 
       # pkgs.unstable.bun
-      pkgs.unstable.deno
+      # pkgs.unstable.deno
 
       # formatter
       pkgs.unstable.alejandra # nix

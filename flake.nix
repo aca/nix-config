@@ -2,7 +2,12 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
     # nixpkgs.url = /home/rok/src/github.com/NixOS/nixpkgs;
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/master";
+    # https://status.nixos.org/
+    nixpkgs-unstable = {
+      # url = "github:NixOS/nixpkgs/master?rev=9af9c1c87ed3e3ed271934cb896e0cdd33dae212";
+      url = "github:NixOS/nixpkgs?rev=9af9c1c87ed3e3ed271934cb896e0cdd33dae212";
+      # url = "github:nix-community/neovim-nightly-overlay?rev=ece06fb15216c67a8894453eeeca8559fb652927";
+    };
     nixpkgs-staging.url = "github:nixos/nixpkgs/staging";
 
     templ = {
@@ -242,7 +247,6 @@
             # }
 
             agenix.nixosModules.default
-
 
             {
               environment.systemPackages = [
