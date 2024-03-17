@@ -2,11 +2,10 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
     # nixpkgs.url = /home/rok/src/github.com/NixOS/nixpkgs;
-    # https://status.nixos.org/
     nixpkgs-unstable = {
-      # url = "github:NixOS/nixpkgs/master?rev=9af9c1c87ed3e3ed271934cb896e0cdd33dae212";
-      url = "github:NixOS/nixpkgs?rev=9af9c1c87ed3e3ed271934cb896e0cdd33dae212";
-      # url = "github:nix-community/neovim-nightly-overlay?rev=ece06fb15216c67a8894453eeeca8559fb652927";
+      # https://status.nixos.org/
+      # url = "github:NixOS/nixpkgs/master";
+      url = "github:NixOS/nixpkgs?rev=d211b80d2944a41899a6ab24009d9729cca05e49";
     };
     nixpkgs-staging.url = "github:nixos/nixpkgs/staging";
 
