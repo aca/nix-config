@@ -38,7 +38,7 @@
     diskus
 
     stylua
-    ncdu
+    # ncdu
 
     pkgs.unstable.tmux
     bkt

@@ -258,7 +258,7 @@
       #
       pkgs.unstable.pdm
       kubectl
-      ncdu
+      # ncdu
       goconvey
       maestro
       # colima
