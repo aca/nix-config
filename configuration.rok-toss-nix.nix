@@ -381,6 +381,7 @@
       pkgs.unstable.xclip
       pkgs.unstable.kitty
 
+      jdt-language-server
       pkgs.unstable.kotlin-language-server
       xsel
       yarn
