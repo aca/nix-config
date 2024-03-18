@@ -422,7 +422,9 @@
     # focus last window (limit to current desktop)
     lcmd + lctrl - w : /run/current-system/sw/bin/yabai -m window --focus last;
     # lcmd + lctrl - q : fish -c "/run/current-system/sw/bin/yabai.circular next"; /run/current-system/sw/bin/yabai -m window --focus last;
-    lcmd + lctrl - q : kill $(/run/current-system/sw/bin/yabai -m query --windows --window | /opt/homebrew/bin/jq -r .pid); /run/current-system/sw/bin/yabai -m window --close;
+    
+    # kill current windows, if there's no "titlebar", kill pid directly
+    lcmd + lctrl - q : kill $(/run/current-system/sw/bin/yabai -m query --windows --window | /run/current-system/sw/bin/jq -r .pid); /run/current-system/sw/bin/yabai -m window --close;
     # lcmd + lctrl - q : /run/current-system/sw/bin/yabai -m window --close;
 
     # balance size of windows, '='
