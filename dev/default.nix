@@ -38,6 +38,7 @@
     diskus
 
     stylua
+    ncdu
 
     pkgs.unstable.tmux
     bkt
@@ -58,7 +59,6 @@
     aria2
     pueue
     age
-    pkgs.unstable.alejandra
     recode
 
     ruby
@@ -111,8 +111,8 @@
     # pkgs.unstable.uutils-coreutils-noprefix
 
     # pkgs.unstable.alacritty
-    php82
-    php82Packages.composer
+    # php82
+    # php82Packages.composer
 
     pkgs.unstable.alejandra
     pkgs.unstable.nixd
