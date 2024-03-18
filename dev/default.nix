@@ -39,7 +39,7 @@
 
     stylua
 
-    tmux
+    pkgs.unstable.tmux
     bkt
     fzf
     nnn

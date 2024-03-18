@@ -66,6 +66,7 @@ in {
     dracula-theme # gtk theme
     gnome3.adwaita-icon-theme # default gnome cursors
     swaylock
+    swaybg
     pavucontrol
     swayidle
     pulseaudio
