@@ -52,7 +52,7 @@
     ripgrep
     ghq
     pkgs.unstable.vifm
-    # pkgs.unstable.yazi
+    pkgs.unstable.yazi
     pkgs.unstable.elvish
     gron
 

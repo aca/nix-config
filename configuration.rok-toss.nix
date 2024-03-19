@@ -14,13 +14,26 @@
   # environment.variables = rec {
   #   LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.oracle-instantclient];
   # };
- 
+
   nix.settings = {
     experimental-features = "nix-command flakes";
     trusted-users = ["rok" "kyungrok.chung"];
   };
 
   services.nix-daemon.enable = true;
+
+  fonts = {
+    fontDir = {
+        enable = true;
+    };
+    fonts = [
+      pkgs.dejavu_fonts
+      pkgs.monaspace
+      pkgs.mona-sans
+      pkgs.hubot-sans
+      pkgs.mona-sans
+    ];
+  };
 
   homebrew = {
     enable = true;
@@ -349,7 +362,7 @@
     # FIXME
     # <esc><esc> moves cursor to right
     # escape -> :xkbswitch -e -s US
-    lcmd + lctrl - 0 : open '/System/Applications/Mission Control.app'; 
+    lcmd + lctrl - 0 : open '/System/Applications/Mission Control.app';
 
 
 
@@ -422,7 +435,7 @@
     # focus last window (limit to current desktop)
     lcmd + lctrl - w : /run/current-system/sw/bin/yabai -m window --focus last;
     # lcmd + lctrl - q : fish -c "/run/current-system/sw/bin/yabai.circular next"; /run/current-system/sw/bin/yabai -m window --focus last;
-    
+
     # kill current windows, if there's no "titlebar", kill pid directly
     lcmd + lctrl - q : kill $(/run/current-system/sw/bin/yabai -m query --windows --window | /run/current-system/sw/bin/jq -r .pid); /run/current-system/sw/bin/yabai -m window --close;
     # lcmd + lctrl - q : /run/current-system/sw/bin/yabai -m window --close;
