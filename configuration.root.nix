@@ -106,71 +106,53 @@
 
   # services.cockpit.enable = false;
 
-  systemd.services = {
-    # "waiter" = {
-    #   enable = true;
-    #   path = [ pkgs.bash ];
-    #   wantedBy = [ "multi-user.target" ];
-    #   after = [ "network.target" ];
-    #   serviceConfig = {
-    #     Type = "notify";
-    #     ExecStart = ''
-    #       /home/rok/bin/waiter
-    #     '';
-    #   };
-    # };
+  systemd.services."qbittorrent-nox" = {
+    enable = false;
+    path = [pkgs.qbittorrent-nox];
+    wantedBy = ["multi-user.target"];
+    after = ["network.target"];
+    serviceConfig = {
+      Type = "exec";
+      User = "rok";
+      ExecStart = ''
+        /run/current-system/sw/bin/qbittorrent-nox
+      '';
+    };
+  };
 
-    # doesn't work for udp trackers
-    # https://github.com/qbittorrent/qBittorrent/issues/18970
-    # https://github.com/qbittorrent/qBittorrent/issues/7838
-    # "proxy-socks5" = {
-    #   enable = true;
-    #   path = [ ];
-    #   wantedBy = [ "multi-user.target" ];
-    #   after = [ "network.target" ];
-    #   serviceConfig = {
-    #     Type = "simple";
-    #     User = "rok";
-    #     Restart = "always";
-    #     ExecStart = ''
-    #       /run/current-system/sw/bin/ssh -D 1337 -q -C root@oci-xnzm1001-002 "sh -c 'sleep 24h; echo 1'"
-    #     '';
-    #   };
-    # };
+  systemd.services."qbittorrent-reschedule" = {
+    path = [pkgs.bash pkgs.curl pkgs.jq pkgs.findutils];
+    enable = true;
+    serviceConfig = {
+      Type = "oneshot";
+      User = "root";
+      ExecStart = "/home/rok/.bin/qbittorrent-reschedule";
+    };
+  };
 
-    "qbittorrent-nox" = {
-      enable = false;
-      path = [pkgs.qbittorrent-nox];
+  systemd.services."qbittorrent-clean" = {
+    path = [pkgs.bash pkgs.curl pkgs.jq pkgs.findutils];
+    enable = false;
+    serviceConfig = {
+      Type = "oneshot";
+      User = "root";
+      ExecStart = "/home/rok/.bin/qbittorrent-clean";
+    };
+  };
+
+  systemd.services."p2p-clipboard" = {
+      enable = true;
+      path = [];
       wantedBy = ["multi-user.target"];
       after = ["network.target"];
       serviceConfig = {
-        Type = "exec";
+        Type = "simple";
         User = "rok";
+        Restart = "always";
         ExecStart = ''
-          /run/current-system/sw/bin/qbittorrent-nox
+          /home/rok/bin/p2p-clipboard --listen 100.85.204.31:34853 --key /home/rok/.config/p2p-clipboard/key
         '';
       };
-    };
-
-    "qbittorrent-reschedule" = {
-      path = [pkgs.bash pkgs.curl pkgs.jq pkgs.findutils];
-      enable = true;
-      serviceConfig = {
-        Type = "oneshot";
-        User = "root";
-        ExecStart = "/home/rok/.bin/qbittorrent-reschedule";
-      };
-    };
-
-    "qbittorrent-clean" = {
-      path = [pkgs.bash pkgs.curl pkgs.jq pkgs.findutils];
-      enable = false;
-      serviceConfig = {
-        Type = "oneshot";
-        User = "root";
-        ExecStart = "/home/rok/.bin/qbittorrent-clean";
-      };
-    };
   };
 
   # Bootloader.
@@ -574,7 +556,7 @@
       sops
       sqlite
 
-pciutils
+      pciutils
       sshfs
       sublime-merge
       # git-cola
@@ -767,7 +749,6 @@ pciutils
         # mimeTypes = [];
         # icon = "nix-snowflake";
       })
-
 
       woeusb
 

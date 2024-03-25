@@ -149,7 +149,7 @@
       atomix # puzzle game
     ]);
 
-  systemd.services."root-oracle" = {
+  systemd.services."p2p-clipboard" = {
       enable = true;
       path = [];
       wantedBy = ["multi-user.target"];
@@ -159,12 +159,12 @@
         User = "rok";
         Restart = "always";
         ExecStart = ''
-          /home/rok/bin/p2p-clipboard -v TCP-LISTEN:1521,fork TCP:100.85.204.31:1521
+          /home/rok/bin/p2p-clipboard --connect 100.85.204.31:34853 --key /home/rok/.config/p2p-clipboard/key
         '';
       };
   };
 
-  systemd.services."p2p-clipboard" = {
+  systemd.services."root-oracle" = {
       enable = true;
       path = [];
       wantedBy = ["multi-user.target"];
