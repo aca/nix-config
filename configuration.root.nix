@@ -140,20 +140,20 @@
     };
   };
 
-  systemd.services."p2p-clipboard" = {
-      enable = true;
-      path = [];
-      wantedBy = ["multi-user.target"];
-      after = ["network.target"];
-      serviceConfig = {
-        Type = "simple";
-        User = "rok";
-        Restart = "always";
-        ExecStart = ''
-          /home/rok/bin/p2p-clipboard --listen 100.85.204.31:34853 --key /home/rok/.config/p2p-clipboard/key
-        '';
-      };
-  };
+  # systemd.services."p2p-clipboard" = {
+  #     enable = true;
+  #     path = [];
+  #     wantedBy = ["multi-user.target"];
+  #     after = ["network.target"];
+  #     serviceConfig = {
+  #       Type = "simple";
+  #       User = "rok";
+  #       Restart = "always";
+  #       ExecStart = ''
+  #         /home/rok/bin/p2p-clipboard --listen 100.85.204.31:34853 --key /home/rok/.config/p2p-clipboard/key
+  #       '';
+  #     };
+  # };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;

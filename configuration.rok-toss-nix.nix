@@ -159,7 +159,7 @@
         User = "rok";
         Restart = "always";
         ExecStart = ''
-          /home/rok/bin/p2p-clipboard --connect 100.85.204.31:34853 --key /home/rok/.config/p2p-clipboard/key
+          /home/rok/bin/p2p-clipboard --connect 100.85.204.31:34853 12D3KooWN5pG6hxtegNe2gYfJFtuFU3vFPidRPHRELtSuzRcpxbB
         '';
       };
   };
