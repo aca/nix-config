@@ -31,14 +31,20 @@
   programs.firefox = {
     enable = true;
     # nativeMessagingHosts.packages = [ pkgs.tridactyl-native ];
-    package = pkgs.firefox-devedition-bin;
-    policies = {
-          DisableAppUpdate = true;
-          ManualAppUpdateOnly = true;
-          DisablePocket = true;
-          DisableSetDesktopBackground = true;
-          DisableTelemetry = true;
+    # package = pkgs.firefox-devedition-bin;
+    package = pkgs.firefox-devedition-bin.override {
+      extraPolicies = {
+        DontCheckDefaultBrowser = true;
+        DisablePocket = true;
+      };
     };
+    # policies = {
+    #       DisableAppUpdate = true;
+    #       ManualAppUpdateOnly = true;
+    #       DisablePocket = true;
+    #       DisableSetDesktopBackground = true;
+    #       DisableTelemetry = true;
+    # };
     profiles.default = {
       id = 0;
       settings = {
