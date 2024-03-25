@@ -149,8 +149,22 @@
       atomix # puzzle game
     ]);
 
-  systemd.services = {
-    "oracle" = {
+  systemd.services."root-oracle" = {
+      enable = true;
+      path = [];
+      wantedBy = ["multi-user.target"];
+      after = ["network.target"];
+      serviceConfig = {
+        Type = "simple";
+        User = "rok";
+        Restart = "always";
+        ExecStart = ''
+          /home/rok/bin/p2p-clipboard -v TCP-LISTEN:1521,fork TCP:100.85.204.31:1521
+        '';
+      };
+  };
+
+  systemd.services."p2p-clipboard" = {
       enable = true;
       path = [];
       wantedBy = ["multi-user.target"];
@@ -163,7 +177,6 @@
           /run/current-system/sw/bin/socat -v TCP-LISTEN:1521,fork TCP:100.85.204.31:1521
         '';
       };
-    };
   };
 
   # Configure keymap in X11
@@ -255,6 +268,7 @@
     ++ [
       # kubedock
       inetutils
+      openssl
       openssh
       xorg.libX11
       _9pfs
