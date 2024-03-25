@@ -34,6 +34,9 @@
     package = pkgs.firefox-devedition-bin;
     policies = {
           ManualAppUpdateOnly = true;
+          DisablePocket = true;
+          DisableSetDesktopBackground = true;
+          DisableTelemetry = true;
     };
     profiles.default = {
       id = 0;
