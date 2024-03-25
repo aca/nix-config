@@ -42,6 +42,7 @@ selection-background = b5d5ff
 selection-foreground = 000000
 '' + (
 if pkgs.stdenv.isDarwin then ''
+background-opacity = 0.8
 '' else ''''
   );
 }
