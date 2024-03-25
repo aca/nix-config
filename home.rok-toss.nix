@@ -77,7 +77,7 @@
       isDefault = true;
       extensions = with pkgs.nur.repos.rycee.firefox-addons; [
         ublock-origin
-        # bypass-paywalls-clean
+        bypass-paywalls-clean
         tridactyl
       ];
 

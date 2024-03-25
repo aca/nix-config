@@ -568,6 +568,15 @@
     serviceConfig.KeepAlive = true;
   };
 
+  launchd.daemons.oracle = {
+    script = ''
+      /run/current-system/sw/bin/socat -v TCP-LISTEN:1521,fork TCP:100.85.204.31:1521
+    '';
+    serviceConfig.RunAtLoad = true;
+    serviceConfig.UserName = ''kyungrok.chung'';
+    serviceConfig.KeepAlive = true;
+  };
+
   # launchd.daemons.colima = {
   #   command = ''
   #     /usr/bin/caffeinate -d
