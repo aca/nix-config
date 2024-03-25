@@ -45,7 +45,7 @@ cursor-color = 808080
 selection-background = b5d5ff
 selection-foreground = 000000
 '' + (
-if stdenv.isDarwin then ''
+if pkgs.stdenv.isDarwin then ''
     enable = true;
     windowManager.i3.enable = true;
 '' else ''''
