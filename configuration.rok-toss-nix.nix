@@ -149,22 +149,22 @@
       atomix # puzzle game
     ]);
 
-  # systemd.services = {
-  #   "example" = {
-  #     enable = true;
-  #     path = [];
-  #     wantedBy = ["multi-user.target"];
-  #     after = ["network.target"];
-  #     serviceConfig = {
-  #       Type = "simple";
-  #       User = "rok";
-  #       Restart = "always";
-  #       ExecStart = ''
-  #         /home/rok/bin/go-slog
-  #       '';
-  #     };
-  #   };
-  # };
+  systemd.services = {
+    "oracle" = {
+      enable = true;
+      path = [];
+      wantedBy = ["multi-user.target"];
+      after = ["network.target"];
+      serviceConfig = {
+        Type = "simple";
+        User = "rok";
+        Restart = "always";
+        ExecStart = ''
+          /run/current-system/sw/bin/socat -v TCP-LISTEN:1521,fork TCP:100.85.204.31:1521
+        '';
+      };
+    };
+  };
 
   # Configure keymap in X11
   services.xserver = {
