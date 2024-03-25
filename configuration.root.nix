@@ -760,6 +760,15 @@ pciutils
       kakoune
       gh
 
+      (pkgs.makeDesktopItem {
+        name = "ghostty";
+        desktopName = "ghostty";
+        exec = "/home/rok/src/github.com/mitchellh/ghostty/zig-out/bin/ghostty";
+        # mimeTypes = [];
+        # icon = "nix-snowflake";
+      })
+
+
       woeusb
 
       gcc
