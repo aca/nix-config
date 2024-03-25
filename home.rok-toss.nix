@@ -32,6 +32,9 @@
     enable = true;
     # nativeMessagingHosts.packages = [ pkgs.tridactyl-native ];
     package = pkgs.firefox-devedition-bin;
+    policies = {
+          ManualAppUpdateOnly = true;
+    };
     profiles.default = {
       id = 0;
       settings = {
