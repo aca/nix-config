@@ -240,15 +240,15 @@
     ];
   };
 
-  environment.etc."firefox/policies/policies.json".text = ''
-{
-  "policies": {
-    "DontCheckDefaultBrowser": true,
-    "DisablePocket": true
-  }
-}
-'';
-
+#   environment.etc."firefox/policies/policies.json".text = ''
+# {
+#   "policies": {
+#     "DontCheckDefaultBrowser": true,
+#     "DisablePocket": true
+#   }
+# }
+# '';
+#
 
   # environment.etc = {
   #   "/etc/ssh/sshd_config.d/999-config.conf" = {

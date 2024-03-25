@@ -33,6 +33,15 @@
     # nativeMessagingHosts.packages = [ pkgs.tridactyl-native ];
     # package = pkgs.firefox-devedition-bin;
     package = pkgs.firefox-devedition-bin;
+    # package = pkgs.wrapFirefox pkgs.firefox-devedition-bin {
+    #     extraPolicies = {
+    #           DisableAppUpdate = true;
+    #           ManualAppUpdateOnly = true;
+    #           DisablePocket = true;
+    #           DisableSetDesktopBackground = true;
+    #           DisableTelemetry = true;
+    #     };
+    # };
 
     policies = {
           DisableAppUpdate = true;
@@ -44,17 +53,22 @@
     profiles.default = {
       id = 0;
       settings = {
-        # "browser.startup.homepage" = "about:blank";
+        "app.update.auto" = false;
+        "app.update.checkInstallTime" = false;
+        "browser.startup.homepage" = "about:blank";
+        "browser.aboutConfig.showWarning" = false;
+        "browser.warnOnQuit" = false;
+        "browser.shell.checkDefaultBrowser" = false;
+        "app.update.interval" = 2592000;
+        "extensions.pocket.enabled" = false;
+
         # "browser.urlbar.placeholderName" = "Google";
         # "app.update.auto" = false;
-        # "browser.aboutConfig.showWarning" = false;
         # "browser.startup.page" = 3; # Restore previous session
         #
         # "browser.newtabpage.enabled" = false;
         # "browser.newtab.url" = "about:blank";
         #
-        # "browser.warnOnQuit" = false;
-        # "browser.shell.checkDefaultBrowser" = false;
         # "devtools.theme" = "dark";
         #
         # "ui.systemUsesDarkTheme" = 1;
