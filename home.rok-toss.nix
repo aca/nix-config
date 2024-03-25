@@ -33,6 +33,7 @@
     # nativeMessagingHosts.packages = [ pkgs.tridactyl-native ];
     package = pkgs.firefox-devedition-bin;
     policies = {
+          DisableAppUpdate = true;
           ManualAppUpdateOnly = true;
           DisablePocket = true;
           DisableSetDesktopBackground = true;
