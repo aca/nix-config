@@ -21,10 +21,7 @@ keybind = ctrl+equal=increase_font_size:1
 keybind = ctrl+minus=decrease_font_size:1
 keybind = ctrl+shift+v=paste_from_clipboard
 
-
-
 font-family	= Iosevka Term Slab Light
-
 
 palette = 0=#4f4f4f
 palette = 1=#fa6c60
@@ -47,7 +44,12 @@ foreground = f1f1f1
 cursor-color = 808080
 selection-background = b5d5ff
 selection-foreground = 000000
-  '';
+'' + (
+if stdenv.isDarwin then ''
+    enable = true;
+    windowManager.i3.enable = true;
+'' else ''''
+  );
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
