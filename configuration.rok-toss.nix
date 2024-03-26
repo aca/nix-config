@@ -24,7 +24,7 @@
 
   fonts = {
     fontDir = {
-        enable = true;
+      enable = true;
     };
     fonts = [
       pkgs.dejavu_fonts
@@ -240,15 +240,15 @@
     ];
   };
 
-#   environment.etc."firefox/policies/policies.json".text = ''
-# {
-#   "policies": {
-#     "DontCheckDefaultBrowser": true,
-#     "DisablePocket": true
-#   }
-# }
-# '';
-#
+  #   environment.etc."firefox/policies/policies.json".text = ''
+  # {
+  #   "policies": {
+  #     "DontCheckDefaultBrowser": true,
+  #     "DisablePocket": true
+  #   }
+  # }
+  # '';
+  #
 
   # environment.etc = {
   #   "/etc/ssh/sshd_config.d/999-config.conf" = {
@@ -577,7 +577,7 @@
     serviceConfig.KeepAlive = true;
   };
 
-  launchd.daemons.forward = {
+  launchd.daemons.forward5173 = {
     script = ''
       /run/current-system/sw/bin/socat -v TCP-LISTEN:5173,fork TCP:100.82.204.67:5173
     '';
@@ -586,7 +586,7 @@
     serviceConfig.KeepAlive = true;
   };
 
-  launchd.daemons.forward = {
+  launchd.daemons.forward5174 = {
     script = ''
       /run/current-system/sw/bin/socat -v TCP-LISTEN:5174,fork TCP:100.82.204.67:5174
     '';
