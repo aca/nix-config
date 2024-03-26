@@ -11,6 +11,7 @@
     # ./pkgs/sway.nix
 
     ./dev/c.nix
+    ./dev/rust.nix
     ./dev/default.nix
     ./dev/data.nix
     ./dev/linux.nix
@@ -56,9 +57,9 @@
       url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
     }))
 
-    (final: prev: {
-      podman = pkgs.unstable.podman;
-    })
+    # (final: prev: {
+    #   podman = pkgs.unstable.podman;
+    # })
 
     # https://github.com/NixOS/nixpkgs/issues/244159
     # (
@@ -154,6 +155,9 @@
       path = [];
       wantedBy = ["multi-user.target"];
       after = ["network.target"];
+      environment = {
+        DISPLAY = ":0";
+      };
       serviceConfig = {
         Type = "simple";
         User = "rok";
@@ -236,11 +240,11 @@
     "100.85.204.31:5000"
   ];
 
-  # virtualisation.podman = {
-  #   enable = true;
-  #   dockerCompat = true;
-  #   defaultNetwork.settings.dns_enabled = true;
-  # };
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = false;
+    defaultNetwork.settings.dns_enabled = true;
+  };
 
   services.openssh.enable = true;
   services.qemuGuest.enable = true;
