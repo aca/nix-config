@@ -9,7 +9,10 @@
     + (
       if pkgs.stdenv.isDarwin
       then ''
-        # background-opacity = 0.8
+[window]
+decorations = "none"
+opacity = 0.8
+option_as_alt = "Both"
       ''
       else ''''
     );
