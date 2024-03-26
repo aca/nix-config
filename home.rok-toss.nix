@@ -6,7 +6,7 @@
 }: {
   imports = [
     ./pkgs/home.ghostty.nix
-    ./pkgs/home.alacritty.nix
+    ./pkgs/alacritty/home.alacritty.nix
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
