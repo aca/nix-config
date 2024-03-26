@@ -392,7 +392,7 @@
       pkgs.unstable.deno
       pkgs.unstable.syncthing
       pkgs.unstable.tailscale
-      pkgs.unstable.watchexec
+      pkgs.watchexec
       pkgs.unstable.alacritty
       # pkgs.unstable.alacritty
       pkgs.unstable.wl-clipboard
