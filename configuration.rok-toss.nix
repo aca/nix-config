@@ -577,6 +577,24 @@
     serviceConfig.KeepAlive = true;
   };
 
+  launchd.daemons.forward = {
+    script = ''
+      /run/current-system/sw/bin/socat -v TCP-LISTEN:5173,fork TCP:100.82.204.67:5173
+    '';
+    serviceConfig.RunAtLoad = true;
+    serviceConfig.UserName = ''kyungrok.chung'';
+    serviceConfig.KeepAlive = true;
+  };
+
+  launchd.daemons.forward = {
+    script = ''
+      /run/current-system/sw/bin/socat -v TCP-LISTEN:5174,fork TCP:100.82.204.67:5174
+    '';
+    serviceConfig.RunAtLoad = true;
+    serviceConfig.UserName = ''kyungrok.chung'';
+    serviceConfig.KeepAlive = true;
+  };
+
   # launchd.daemons.colima = {
   #   command = ''
   #     /usr/bin/caffeinate -d
