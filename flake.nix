@@ -45,8 +45,8 @@
 
     neovim-nightly-overlay = {
       # 20240325
-      # url = "github:nix-community/neovim-nightly-overlay?rev=119bbc295f56b531cb87502f5d2fff13dcc35a35";
-      url = "github:nix-community/neovim-nightly-overlay";
+      url = "github:nix-community/neovim-nightly-overlay?rev=ece06fb15216c67a8894453eeeca8559fb652927";
+      # url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
