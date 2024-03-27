@@ -126,7 +126,6 @@
         };
       in
         inputs.darwin.lib.darwinSystem rec {
-          system = "aarch64-darwin";
           specialArgs = {inherit inputs;};
           modules = [
             ({
