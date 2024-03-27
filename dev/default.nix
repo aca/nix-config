@@ -74,8 +74,8 @@
     ninja
     meson
     pkg-config
-    clang
-    clang-tools_16
+    # clang
+    # clang-tools_16
     socat
     gnumake
     cmake
