@@ -262,6 +262,9 @@
     [
     ]
     ++ [
+      pkgs.darwin.apple_sdk.frameworks.SystemConfiguration
+      pkgs.darwin.apple_sdk.frameworks.CoreFoundation
+      pkgs.darwin.apple_sdk.frameworks.Security
       sourcekit-lsp
       darwin.iproute2mac
       # xorg.luit
