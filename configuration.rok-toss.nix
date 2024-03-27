@@ -366,7 +366,7 @@
 
     # https://github.com/vovkasm/input-source-switcher
     # # escape -> :issw com.apple.keylayout.US
-    escape -> :/opt/homebrew/bin/macism com.apple.keylayout.US; skhd -k "esc";
+    # escape -> :/opt/homebrew/bin/macism com.apple.keylayout.US; skhd -k "esc";
 
     #
     # FIXME
