@@ -291,6 +291,7 @@
       # pkgs.unstable.vector
     ];
 
+  services.skhd.enable = true;
   services.yabai = {
     enable = true;
     enableScriptingAddition = true;
@@ -353,7 +354,6 @@
       # yabai -m rule --add app='^mpv$' manage=off
     '';
   };
-  services.skhd.enable = true;
   services.skhd.skhdConfig = ''
     :: default : /run/current-system/sw/bin/yabai -m config active_window_border_color 0xFF696969
 

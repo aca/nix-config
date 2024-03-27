@@ -6,6 +6,8 @@
 }: {
   home.file."${config.xdg.configHome}/ghostty/config".text = ''
 window-decoration = false
+confirm-close-surface = false
+quit-after-last-window-closed = true
 macos-option-as-alt = true
 adjust-cell-width = -1
 
