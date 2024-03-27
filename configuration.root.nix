@@ -657,8 +657,6 @@
       pkgs.unstable.vlc
       ncdu
       # pkgs.unstable.neovim
-      # neovim-nightly
-      # neovim-nightly
       neovim-nightly
       netcat-gnu
       nginx
