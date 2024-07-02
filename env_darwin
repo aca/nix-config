@@ -1,0 +1,2 @@
+# use system clang instead of nix for cgo build
+export CC=/usr/bin/clang

@@ -1,0 +1,10 @@
+# libvirt
+export LIBVIRT_DEFAULT_URI="qemu:///system"
+export VIRSH_DEFAULT_CONNECT_URI="qemu:///system"
+
+# IM
+export GLFW_IM_MODULE=fcitx
+export GTK_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
+export SDL_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx

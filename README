@@ -1,0 +1,8 @@
+nix-config
+==========
+
+nix-config for sync.
+
+deploy
+    
+    nixos-rebuild switch --fast --flake '.#oci-impxmon-003' --target-host oci-impxmon-003 --build-host oci-impxmon-003
