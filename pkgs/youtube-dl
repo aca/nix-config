@@ -1,0 +1,12 @@
+-f "bestvideo[height<=4096][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"
+--ignore-errors
+--geo-bypass
+--write-sub
+--output "%(extractor_key)s/%(uploader)s/%(upload_date)s_%(title).50s_%(id)s.%(ext)s"
+--download-archive ".youtube-dl"
+--rm-cache-dir
+--yes-playlist
+--paths temp:/tmp/yt
+--netrc
+# -f best
+# --cookies-from-browser chrome

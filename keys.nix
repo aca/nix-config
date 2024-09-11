@@ -1,0 +1,5 @@
+{
+  home = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home";
+  root = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC4PDiS3q4XfHGXd2om/ErP8kYr3dymD84XON3PTgBbM rok@rok-x1g10";
+  rok-chatreey-t9 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICJ63aPg+Sr8RaJHcpXNR2zlIJx7Xj2kitAVHfaxEs3i rok@rok-chatreey-t9";
+}
