@@ -18,8 +18,8 @@ in {
       clipboard-trim-trailing-spaces = true
       clipboard-paste-protection = false
       
-      clipboard-read = deny
-      clipboard-write = deny
+      # clipboard-read = deny
+      # clipboard-write = deny
 
       window-decoration = false
       confirm-close-surface = false
