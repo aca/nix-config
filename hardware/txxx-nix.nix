@@ -228,10 +228,10 @@ cSkpjP40nriYryWZiIobxwpD4xj6gwmd48sy3Aar/qM4Lu7XHuPOW6TQjDW6qw==
   systemd.services."systemd-homed".serviceConfig.WatchdogSec = 0;
   systemd.services."systemd-networkd".serviceConfig.WatchdogSec = lib.mkIf config.systemd.network.enable 0;
 
-  # ssh config
-  programs.ssh.extraConfig = ''
-    Include /opt/orbstack-guest/etc/ssh_config
-  '';
+  # # ssh config
+  # programs.ssh.extraConfig = ''
+  #   Include /opt/orbstack-guest/etc/ssh_config
+  # '';
 
   # indicate builder support for emulated architectures
   nix.settings.extra-platforms = [
