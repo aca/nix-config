@@ -12,6 +12,7 @@ in {
 
   # security.pki.certificateFiles = []
 
+
   services.nginx.defaultHTTPListenPort = 8888;
   services.cgit.home = {
      nginx.location = "/cgit";

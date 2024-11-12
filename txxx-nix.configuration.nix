@@ -37,7 +37,7 @@ in {
     ./pkgs/tmux.nix
 
     ./env.nix
-    ./hardware/rok-txxx-nix.nix
+    ./hardware/txxx-nix.nix
     ./nixos/fonts.nix
 
     ./dev/nix.nix
@@ -62,8 +62,8 @@ in {
   # Disable wait online as it's causing trouble at rebuild
   # See: https://github.com/NixOS/nixpkgs/issues/180175
   # systemd.services.systemd-udevd.restartIfChanged = false;
-  systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
-  systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
+  # systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
+  # systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
 
   programs.direnv = {
     enable = true;
@@ -95,10 +95,6 @@ in {
   environment.sessionVariables = rec {
     # LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.oracle-instantclient];
     NIXPKGS_ALLOW_UNFREE = "1";
-  };
-
-  programs.wireshark = {
-    enable = false;
   };
 
   nixpkgs.overlays = [
@@ -134,14 +130,13 @@ in {
     trusted-users = ["rok"];
   };
 
-  networking.hostName = "rok-txxx-nix";
-  networking.wireless.enable = false;
+  networking.hostName = "txxx-nix";
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.availableKernelModules = ["virtiofs"];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.loader.systemd-boot.enable = true;
+  # boot.loader.efi.canTouchEfiVariables = true;
+  # boot.initrd.availableKernelModules = ["virtiofs"];
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Enable networking
   networking.networkmanager.enable = true;

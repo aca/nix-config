@@ -9,18 +9,17 @@ case "$(hostname -s)" in
 esac
 
 export NIXPKGS_ALLOW_INSECURE=1
-nix run --extra-experimental-features nix-command --extra-experimental-features flakes nix-darwin -- switch --flake ".#txxx" --impure "$@"
-exit 0
 
 # export GIT_SSH_COMMAND='ssh -J rok@root -i /home/rok/.ssh/id_ed25519'
 
 
 # nix flake update
 if OS_NAME=$(uname -s) && [ "$OS_NAME" = "Darwin" ]; then
+    nix run --extra-experimental-features nix-command --extra-experimental-features flakes nix-darwin -- switch --flake ".#txxx" --impure "$@"
 else
   # sudo NIXPKGS_ALLOW_INSECURE=1 NIX_DEBUG=7 nixos-rebuild switch --flake ".#${hostname}" --impure  "$@" 
   # sudo NIXPKGS_ALLOW_INSECURE=1 NIX_DEBUG=7 nixos-rebuild switch --flake ".#${hostname}" --impure --show-trace --log-format bar-with-logs "$@"
-  NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild build --flake ".#${hostname}" --impure "$@" 2>&1 | tee ~/rebuild.log.$(date +%Y%m%dT%H%M%S)
+  # NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild build --flake ".#${hostname}" --impure "$@" 2>&1 | tee ~/rebuild.log.$(date +%Y%m%dT%H%M%S)
   sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --flake ".#${hostname}" --impure "$@" 2>&1 | tee ~/rebuild.log.$(date +%Y%m%dT%H%M%S)
 
   # sudo GIT_SSH_COMMAND='ssh -J rok@root -i /home/rok/.ssh/id_ed25519' nixos-rebuild switch --flake ".#${hostname}" --impure "$@"

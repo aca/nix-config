@@ -100,7 +100,7 @@ in rec {
     #  DefaultTimeoutStopSec=240s
   '';
 
-  services.openssh.enable = true;
+  # services.openssh.enable = true;
 
   security.sudo.wheelNeedsPassword = false;
   services.gnome.gnome-keyring.enable = true;
@@ -111,6 +111,8 @@ in rec {
     ./pkgs/tmux.nix
   ];
 
+
+  services.openssh.enable = true;
   # Disable wait online as it's causing trouble at rebuild
   # See: https://github.com/NixOS/nixpkgs/issues/180175
   # systemd.services.systemd-udevd.restartIfChanged = false;

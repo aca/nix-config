@@ -215,7 +215,8 @@ kyungrok.chung ALL = (ALL) ALL
       # yabai -m config mouse_modifier               fn
       # yabai -m config mouse_action1                move
       # yabai -m config mouse_action2                resize
-      yabai -m config external_bar all:30:0
+      # yabai -m config external_bar all:30:0
+      yabai -m config external_bar all:0:0
 
       # general space settings
       yabai -m config layout                       bsp
@@ -227,14 +228,14 @@ kyungrok.chung ALL = (ALL) ALL
 
       # yabai -m rule --add app='^CopyQ$' manage=off
       # yabai -m rule --add app='^mpv$' manage=off
+      
+      yabai -m signal --add event=dock_did_restart action="sudo /run/current-system/sw/bin/yabai --load-sa"
+      # yabai -m rule --add app="^(System Settings|System Information|Activity Monitor|FaceTime|Screen Sharing|Calculator|Stickies|TinkerTool|Progressive Downloader|Transmission|Airflow)$" manage=off
+      sudo yabai --load-sa
 
-            yabai -m rule --add app="^(System Settings|System Information|Activity Monitor|FaceTime|Screen Sharing|Calculator|Stickies|TinkerTool|Progressive Downloader|Transmission|Airflow)$" manage=off
-            yabai -m signal --add event=dock_did_restart action="sudo /run/current-system/sw/bin/yabai --load-sa"
-            sudo yabai --load-sa
-
-                  yabai -m signal --add event=window_focused action="/opt/homebrew/bin/sketchybar --trigger window_focus"
-                  yabai -m signal --add event=window_created action="/opt/homebrew/bin/sketchybar --trigger windows_on_spaces"
-                  yabai -m signal --add event=window_destroyed action="/opt/homebrew/bin/sketchybar --trigger windows_on_spaces"
+      # yabai -m signal --add event=window_focused action="/opt/homebrew/bin/sketchybar --trigger window_focus"
+      # yabai -m signal --add event=window_created action="/opt/homebrew/bin/sketchybar --trigger windows_on_spaces"
+      # yabai -m signal --add event=window_destroyed action="/opt/homebrew/bin/sketchybar --trigger windows_on_spaces"
 
     '';
   };
