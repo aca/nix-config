@@ -7,7 +7,7 @@
     ./hardware/oci-xnzm1001-003.nix
   ];
 
-  system.stateVersion = "23.11";
+  system.stateVersion = "24.05";
 
   networking.hostName = "oci-xnzm1001-003";
 

@@ -113,6 +113,10 @@ in {
     ];
   };
 
+  security.sudo.extraConfig = ''
+kyungrok.chung ALL = (ALL) ALL
+  '';
+
   #   environment.etc."firefox/policies/policies.json".text = ''
   # {
   #   "policies": {

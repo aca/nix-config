@@ -7,7 +7,7 @@
     ./hardware/oci-acadx0-002.nix
   ];
 
-  # system.stateVersion = "23.11";
+  # system.stateVersion = "24.05";
   system.stateVersion = "24.05";
 
   networking.hostName = "oci-acadx0-002";

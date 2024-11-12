@@ -13,7 +13,7 @@ in {
     ./pkgs/vifm/vifmrc.nix
   ];
 
-  home.stateVersion = "23.11";
+  home.stateVersion = "24.05";
   programs.home-manager.enable = true;
 
   home.username = "rok";

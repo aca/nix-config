@@ -7,7 +7,7 @@
     ./hardware/oci-impxmon-003.nix
   ];
 
-  system.stateVersion = "23.11";
+  system.stateVersion = "24.05";
 
   networking.hostName = "oci-impxmon-003";
   networking.domain = "";
