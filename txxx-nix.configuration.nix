@@ -8,7 +8,7 @@
   ...
 } @ args: let
   # inherit (import ./vars.nix) work;
-  hostName = "txxx-nix";
+  hostName = "rok-txxx-nix";
 in {
   # disabledModules = ["services/networking/tailscale.nix"];
   # services.prometheus.exporters.node.enable = true;
@@ -32,11 +32,12 @@ in {
   ];
 
   imports = [
+    # "${args.inputs.nixpkgs-aca}/nixos/modules/services/networking/tailscale.nix"
     ./pkgs/scripts.nix
     ./pkgs/tmux.nix
 
     ./env.nix
-    ./hardware/txxx-nix.nix
+    ./hardware/rok-txxx-nix.nix
     ./nixos/fonts.nix
 
     ./dev/nix.nix
@@ -100,7 +101,34 @@ in {
     enable = false;
   };
 
-  system.stateVersion = "24.05";
+  nixpkgs.overlays = [
+    # (import (builtins.fetchTarball {
+    #   url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
+    # }))
+
+    # (final: prev: {
+    #   podman = pkgs.unstable.podman;
+    # })
+
+    # https://github.com/NixOS/nixpkgs/issues/244159
+    # (
+    #   let
+    #     pinnedPkgs = import
+    #       (pkgs.fetchFromGitHub {
+    #         owner = "NixOS";
+    #         repo = "nixpkgs";
+    #         rev = "b6bbc53029a31f788ffed9ea2d459f0bb0f0fbfc";
+    #         sha256 = "sha256-JVFoTY3rs1uDHbh0llRb1BcTNx26fGSLSiPmjojT+KY=";
+    #       })
+    #       { };
+    #   in
+    #   final: prev: {
+    #     docker = pinnedPkgs.docker;
+    #   }
+    # )
+  ];
+
+  system.stateVersion = "23.11";
   nix.settings = {
     experimental-features = "nix-command flakes";
     trusted-users = ["rok"];
@@ -523,6 +551,7 @@ in {
       chezmoi
       fuse3
       fuse-common
+
       cgit
       fcgiwrap
       caddy

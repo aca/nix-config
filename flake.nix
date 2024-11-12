@@ -290,7 +290,7 @@
     #   });
     # };
   in {
-    darwinConfigurations.rok-txxx = let
+    darwinConfigurations.txxx = let
       username = "kyungrok.chung";
       system = "aarch64-darwin";
       overlay-unstable = final: prev: {
@@ -319,13 +319,13 @@
               ];
           })
 
-          ./rok-txxx.configuration.nix
+          ./txxx.configuration.nix
           home-manager.darwinModules.home-manager
           {
             home-manager.sharedModules = [mac-app-util.homeManagerModules.default];
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users."${username}" = import ./rok-txxx.home-manager.nix;
+            home-manager.users."${username}" = import ./txxx.home-manager.nix;
             home-manager.extraSpecialArgs = specialArgs;
             users.users."${username}".home = "/Users/${username}";
           }
@@ -349,44 +349,13 @@
               # inputs.zls.packages.aarch64-linux.default
             ];
           }
-          ./rok-txxx-nix.configuration.nix
+          ./txxx-nix.configuration.nix
           home-manager.nixosModules.home-manager
           {
             # https://github.com/nix-community/home-manager/issues/1698
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.rok = import ./txxx-nix.home-manager.nix;
-            home-manager.extraSpecialArgs = specialArgs;
-            home-manager.backupFileExtension = "bak";
-          }
-        ];
-      };
-
-    # .#rok-txxx-nix
-    nixosConfigurations.rok-txxx-nix = nixpkgs.lib.nixosSystem rec {
-        system = "aarch64-linux";
-        specialArgs = {inherit inputs system;};
-        modules = [
-          ./all.configuration.nix
-          agenix.nixosModules.default
-          {
-            environment.systemPackages = [
-              inputs.agenix.packages.aarch64-linux.default
-              inputs.ghostty.packages.aarch64-linux.default
-              # zig
-              # inputs.lazybox.packages.aarch64-linux.xxx
-              # inputs.lazybox.packages.aarch64-linux.xxx2
-              # inputs.nixpkgs-zig-0-12.legacyPackages.aarch64-linux.zig_0_12
-              # inputs.zls.packages.aarch64-linux.default
-            ];
-          }
-          ./rok-txxx-nix.configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-            # https://github.com/nix-community/home-manager/issues/1698
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.rok = import ./rok-txxx-nix.home-manager.nix;
             home-manager.extraSpecialArgs = specialArgs;
             home-manager.backupFileExtension = "bak";
           }

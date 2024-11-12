@@ -904,7 +904,7 @@ in {
     settings = {
       devices = {
         # "root" = {id = "D5HADJL-KDECRCV-GPTJ3RE-MPXNFBH-U6KG3CA-LVSDPP2-MT72ETM-RDM77AG";};
-        "rok-txxx-nix" = {id = "OBPLELA-TYCW5SL-SNNFVFT-JHKT6WY-RQBDG6L-6RHVNHH-KSTKJQV-ITVQMQF";};
+        "txxx-nix" = {id = "OBPLELA-TYCW5SL-SNNFVFT-JHKT6WY-RQBDG6L-6RHVNHH-KSTKJQV-ITVQMQF";};
         "home" = {id = "JIMRCFS-4AQYUPQ-AGCUPAT-D3GK7EN-WZAMSZM-EPSBDHE-PQFWKT5-4DWUMA3";};
       };
     };
@@ -914,7 +914,7 @@ in {
     "txxx" = {
       # Name of folder in Syncthing, also the folder ID
       path = "/home/rok/src/txxx"; # Which folder to add to Syncthing
-      devices = ["rok-txxx-nix" "home"]; # Which devices to share the folder with
+      devices = ["txxx-nix" "home"]; # Which devices to share the folder with
     };
   };
 

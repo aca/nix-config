@@ -4,12 +4,12 @@ set -euxo pipefail
 hostname=${HOSTNAME:-$(hostname -s)}
 case "$(hostname -s)" in
   *chung02)
-    hostname=rok-txxx
+    hostname=txxx
     ;;
 esac
 
 export NIXPKGS_ALLOW_INSECURE=1
-nix run --extra-experimental-features nix-command --extra-experimental-features flakes nix-darwin -- switch --flake ".#rok-txxx" --impure "$@"
+nix run --extra-experimental-features nix-command --extra-experimental-features flakes nix-darwin -- switch --flake ".#txxx" --impure "$@"
 exit 0
 
 # export GIT_SSH_COMMAND='ssh -J rok@root -i /home/rok/.ssh/id_ed25519'

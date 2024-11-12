@@ -8,7 +8,7 @@ set edit:insert:binding[Ctrl-'['] = $edit:command:start~
 set edit:rprompt-persistent = $true
 
 var user = [&$true="" &$false=$E:USER"@"][(eq $E:USER rok)]
-var hostname = [&$true="nix" &$false=(platform:hostname)][(eq $E:HOST "rok-txxx-nix")]
+var hostname = [&$true="nix" &$false=(platform:hostname)][(eq $E:HOST "txxx-nix")]
 
 set edit:prompt = {
 
