@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+# hostname=$(hostname -s)
+hostname=${HOSTNAME:-$(hostname -s)}
+case "$(hostname -s)" in
+  *chung02)
+    hostname=rok-txxx
+    ;;
+esac
+
+export NIXPKGS_ALLOW_INSECURE=1
+nix run nix-darwin -- switch --flake ".#${hostname}" --impure "$@"
+
+# export GIT_SSH_COMMAND='ssh -J rok@root -i /home/rok/.ssh/id_ed25519'
+
+# nix flake update
+export NIXPKGS_ALLOW_INSECURE=1
+if OS_NAME=$(uname -s) && [ "$OS_NAME" = "Darwin" ]; then
+else
+  # sudo NIXPKGS_ALLOW_INSECURE=1 NIX_DEBUG=7 nixos-rebuild switch --flake ".#${hostname}" --impure  "$@" 
+  # sudo NIXPKGS_ALLOW_INSECURE=1 NIX_DEBUG=7 nixos-rebuild switch --flake ".#${hostname}" --impure --show-trace --log-format bar-with-logs "$@"
+  NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild build --flake ".#${hostname}" --impure "$@" 2>&1 | tee ~/rebuild.log.$(date +%Y%m%dT%H%M%S)
+  sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --flake ".#${hostname}" --impure "$@" 2>&1 | tee ~/rebuild.log.$(date +%Y%m%dT%H%M%S)
+
+  # sudo GIT_SSH_COMMAND='ssh -J rok@root -i /home/rok/.ssh/id_ed25519' nixos-rebuild switch --flake ".#${hostname}" --impure "$@"
+fi
+
+    # Instead, either run `nix flake update` or `nixos-rebuild build`
+    # as the current user, and then run `sudo nixos-rebuild switch`.

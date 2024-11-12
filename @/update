@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+export NIXPKGS_ALLOW_INSECURE=1
+nix flake update
