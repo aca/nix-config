@@ -8,7 +8,7 @@
   ...
 } @ args: let
   # inherit (import ./vars.nix) work;
-  hostName = "rok-txxx-nix";
+  hostName = "txxx-nix";
 in {
   # disabledModules = ["services/networking/tailscale.nix"];
   # services.prometheus.exporters.node.enable = true;
@@ -165,9 +165,22 @@ in {
 
   # GUI
   services.xserver.enable = true;
-  # services.xserver.displayManager.startx.enable = true;
-  # services.xserver.displayManager.lightdm.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.displayManager.lightdm.enable = true;
+#   displayManager = { 
+#   defaultSession = "none+i3"; 
+#   lightdm = { 
+#     enable = true; 
+#     greeter.enable = false; 
+#     autoLogin = { 
+#       enable = true; 
+#       user = "dooy"; 
+#     }; 
+#   }; 
+# };
+
+
+
   environment.gnome.excludePackages =
     (with pkgs; [
       gnome-photos
