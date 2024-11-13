@@ -166,6 +166,8 @@ in {
   # GUI
   services.xserver.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.displayManager.startx.enable = true;
+  services.xserver.windowManager.i3.enable = true;
   services.xserver.displayManager.lightdm.enable = true;
 #   displayManager = { 
 #   defaultSession = "none+i3"; 
@@ -178,9 +180,6 @@ in {
 #     }; 
 #   }; 
 # };
-
-
-
   environment.gnome.excludePackages =
     (with pkgs; [
       gnome-photos
@@ -278,6 +277,7 @@ in {
   services.xserver.xkb.variant = "";
   services.xserver.xkb.layout = "us";
   services.libinput.enable = true;
+
 
   # sound
   sound.enable = true;
