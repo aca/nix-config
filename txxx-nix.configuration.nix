@@ -167,13 +167,13 @@ in {
   # services.xserver.windowManager.i3.enable = true;
   # services.xserver.displayManager.lightdm.enable = true;
   # services.xserver.displayManager.gdm.enable = true;
+  services.displayManager = {
+    defaultSession = "none+i3";
+  };
 
   services.xserver = {
     enable = true;
     desktopManager = {xterm.enable = false;};
-    displayManager = {
-      defaultSession = "none+i3";
-    };
     windowManager.i3 = {
       enable = true;
       configFile = ./pkgs/i3/config;
@@ -185,13 +185,6 @@ in {
       ];
     };
   };
-
-
-
-
-
-
-
 
   environment.gnome.excludePackages =
     (with pkgs; [
