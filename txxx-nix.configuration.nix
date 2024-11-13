@@ -396,6 +396,8 @@ in {
 
   networking.firewall.enable = false;
 
+  programs.dconf.enable = true;
+
   # fileSystems."/mnt/host".device = "share";
   # fileSystems."/mnt/host".fsType = "9p";
   # fileSystems."/mnt/host".options = ["trans=virtio" "-oversion=9p2000.L"];
