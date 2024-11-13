@@ -396,9 +396,9 @@ in {
 
   networking.firewall.enable = false;
 
-  fileSystems."/mnt/host".device = "share";
-  fileSystems."/mnt/host".fsType = "9p";
-  fileSystems."/mnt/host".options = ["trans=virtio" "-oversion=9p2000.L"];
+  # fileSystems."/mnt/host".device = "share";
+  # fileSystems."/mnt/host".fsType = "9p";
+  # fileSystems."/mnt/host".options = ["trans=virtio" "-oversion=9p2000.L"];
 
   # fileSystems."/home/rok/src/".options = ["trans=virtio" "-oversion=9p2000.L"];
   # share	/mnt/macos	9p	trans=virtio,version=9p2000.L,rw,_netdev,nofail	0	0
