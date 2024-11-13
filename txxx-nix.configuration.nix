@@ -32,7 +32,6 @@ in {
   ];
 
   imports = [
-    # "${args.inputs.nixpkgs-aca}/nixos/modules/services/networking/tailscale.nix"
     ./pkgs/scripts.nix
     ./pkgs/tmux.nix
 
@@ -162,23 +161,37 @@ in {
   services.tailscale.extraSetFlags = ["--ssh" "--advertise-exit-node=true"];
 
   # GUI
-  services.xserver.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.displayManager.startx.enable = true;
-  services.xserver.windowManager.i3.enable = true;
-  services.xserver.displayManager.lightdm.enable = true;
+  # services.xserver.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.displayManager.startx.enable = true;
+  # services.xserver.windowManager.i3.enable = true;
+  # services.xserver.displayManager.lightdm.enable = true;
   # services.xserver.displayManager.gdm.enable = true;
-  #   displayManager = {
-  #   defaultSession = "none+i3";
-  #   lightdm = {
-  #     enable = true;
-  #     greeter.enable = false;
-  #     autoLogin = {
-  #       enable = true;
-  #       user = "dooy";
-  #     };
-  #   };
-  # };
+
+  services.xserver = {
+    enable = true;
+    desktopManager = {xterm.enable = false;};
+    displayManager = {
+      defaultSession = "none+i3";
+    };
+    windowManager.i3 = {
+      enable = true;
+      configFile = ./pkgs/i3/config;
+      extraPackages = with pkgs; [
+        dmenu
+        i3status
+        i3lock
+        i3blocks
+      ];
+    };
+  };
+
+
+
+
+
+
+
 
   environment.gnome.excludePackages =
     (with pkgs; [

@@ -22,7 +22,7 @@ in {
     ./dev/go.nix
     ./dev/c.nix
     ./dev/rust.nix
-    # ./dev/python.nix
+    ./dev/default_ssh.nix
     ./dev/default.nix
   ];
 

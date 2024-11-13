@@ -103,7 +103,7 @@ in rec {
   # services.openssh.enable = true;
 
   security.sudo.wheelNeedsPassword = false;
-  services.gnome.gnome-keyring.enable = true;
+  # services.gnome.gnome-keyring.enable = true;
   imports = [
     ./env.nix
     ./dev/default_ssh.nix
