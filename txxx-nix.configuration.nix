@@ -161,30 +161,29 @@ in {
   services.tailscale.extraSetFlags = ["--ssh" "--advertise-exit-node=true"];
 
   # GUI
-  # services.xserver.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
-  # services.xserver.displayManager.startx.enable = true;
-  # services.xserver.windowManager.i3.enable = true;
-  # services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.displayManager.startx.enable = true;
+  services.xserver.displayManager.lightdm.enable = true;
   # services.xserver.displayManager.gdm.enable = true;
-  services.displayManager = {
-    defaultSession = "none+i3";
-  };
+  # services.displayManager = {
+  #   defaultSession = "none+i3";
+  # };
 
-  services.xserver = {
-    enable = true;
-    desktopManager = {xterm.enable = false;};
-    windowManager.i3 = {
-      enable = true;
-      configFile = ./pkgs/i3/config;
-      extraPackages = with pkgs; [
-        dmenu
-        i3status
-        i3lock
-        i3blocks
-      ];
-    };
-  };
+  # services.xserver = {
+  #   enable = true;
+  #   desktopManager = {xterm.enable = false;};
+  #   windowManager.i3 = {
+  #     enable = true;
+  #     configFile = ./pkgs/i3/config;
+  #     extraPackages = with pkgs; [
+  #       dmenu
+  #       i3status
+  #       i3lock
+  #       i3blocks
+  #     ];
+  #   };
+  # };
 
   environment.gnome.excludePackages =
     (with pkgs; [
@@ -396,6 +395,7 @@ in {
 
   networking.firewall.enable = false;
 
+  fonts.packages = [pkgs.iosevka];
   programs.dconf.enable = true;
 
   # fileSystems."/mnt/host".device = "share";

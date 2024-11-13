@@ -11,6 +11,7 @@ in {
     ./pkgs/home_defaults.nix
     ./pkgs/elvish/elvish.nix
     ./pkgs/vifm/vifmrc.nix
+    ./pkgs/alacritty/home.alacritty.nix
   ];
 
   home.stateVersion = "24.05";
