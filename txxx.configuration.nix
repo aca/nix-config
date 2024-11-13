@@ -77,10 +77,10 @@ in {
       "mupdf"
       "syncthing"
     ];
-    onActivation.autoUpdate = false;
     # updates homebrew packages on activation,
-    # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
+    onActivation.autoUpdate = false;
     casks = [
+      "font-iosevka-term-nerd-font"
       # "google-chrome@canary"
       # "podman-desktop"
       # "podman-desktop"
@@ -139,6 +139,8 @@ kyungrok.chung ALL = (ALL) ALL
     [
     ]
     ++ [
+      # iosevka-term
+      raycast
       # pkgs.darwin.apple_sdk.frameworks.SystemConfiguration
       # pkgs.darwin.apple_sdk.frameworks.CoreFoundation
       # pkgs.darwin.apple_sdk.frameworks.Security
@@ -312,6 +314,7 @@ kyungrok.chung ALL = (ALL) ALL
     # focus last desktop
     # 0x33: backspace
     lcmd + lctrl - 0x33 : /run/current-system/sw/bin/yabai -m space --focus recent;
+    lcmd + lctrl - tab: /run/current-system/sw/bin/yabai -m window --focus recent;
 
     # focus & move next/previous monitor, [ ]
     lcmd + lctrl - 0x1E : /run/current-system/sw/bin/yabai -m display --focus next;

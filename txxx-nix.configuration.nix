@@ -12,7 +12,7 @@
 in {
   # disabledModules = ["services/networking/tailscale.nix"];
   # services.prometheus.exporters.node.enable = true;
- 
+
   services.caddy.enable = true;
   # services.caddy.virtualHosts."localhost".extraConfig = ''
   #   reverse_proxy http://localhost:8888
@@ -245,7 +245,7 @@ in {
   #     ExecStop = ''/run/current-system/sw/bin/docker stop --time 5 %n'';
   #   };
   # };
-  
+
   # microsocks not work
   systemd.services."socks5-proxy" = {
     enable = true;
@@ -253,7 +253,7 @@ in {
       Type = "simple";
       Restart = "always";
       ExecStart = ''
-      ${pkgs.microsocks}/bin/microsocks -i 100.80.130.113 -p 1080
+        ${pkgs.microsocks}/bin/microsocks -i 100.80.130.113 -p 1080
       '';
     };
   };
@@ -277,7 +277,6 @@ in {
   services.xserver.xkb.variant = "";
   services.xserver.xkb.layout = "us";
   services.libinput.enable = true;
-
 
   # sound
   sound.enable = true;
@@ -312,10 +311,26 @@ in {
     description = "rok";
     extraGroups = ["networkmanager" "wheel" "docker" "wireshark"];
     packages = with pkgs; [
-      # firefox
-      # pueue
-      kate
-      #  thunderbird
+      # (
+      #   pkgs.stdenvNoCC.mkDerivation {
+      #     name = "gillsans-font";
+      #     dontConfigue = true;
+      #     src = pkgs.fetchzip {
+      #       url = "https://freefontsvault.s3.amazonaws.com/2020/02/Gill-Sans-Font-Family.zip";
+      #       sha256 = "sha256-YcZUKzRskiqmEqVcbK/XL6ypsNMbY49qJYFG3yZVF78=";
+      #       stripRoot = false;
+      #     };
+      #     installPhase = ''
+      #       mkdir -p $out/share/fonts
+      #       cp -R $src $out/share/fonts/opentype/
+      #     '';
+      #     meta = {description = "A Gill Sans Font Family derivation.";};
+      #   }
+      # )
+      # # firefox
+      # # pueue
+      # kate
+      # #  thunderbird
     ];
   };
 

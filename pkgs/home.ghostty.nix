@@ -54,6 +54,7 @@ in {
       #
       # font-family = "Iosevka Term Slab Light"
       font-family = "IosevkaTermSlab NFM Light"
+      # font-family = "Iosevka"
       # font-family = "ZedMono Nerd Font Mono"
       # font-family = "BlexMono Nerd Font"
 
