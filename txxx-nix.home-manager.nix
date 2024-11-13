@@ -24,7 +24,7 @@ in {
   #   EXAMPLE_VAR = (builtins.fromJSON (builtins.readFile config.age.secrets.txxx.path)).workdir;
   # };
 
-  home.file.".config/mpv".source = "${inputs.dotfiles.outPath}/.config/mpv";
+  # home.file.".config/mpv".source = "${inputs.dotfiles.outPath}/.config/mpv";
 
   services.pueue = {
     enable = true;

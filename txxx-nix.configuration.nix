@@ -169,17 +169,19 @@ in {
   services.xserver.displayManager.startx.enable = true;
   services.xserver.windowManager.i3.enable = true;
   services.xserver.displayManager.lightdm.enable = true;
-#   displayManager = { 
-#   defaultSession = "none+i3"; 
-#   lightdm = { 
-#     enable = true; 
-#     greeter.enable = false; 
-#     autoLogin = { 
-#       enable = true; 
-#       user = "dooy"; 
-#     }; 
-#   }; 
-# };
+  # services.xserver.displayManager.gdm.enable = true;
+  #   displayManager = {
+  #   defaultSession = "none+i3";
+  #   lightdm = {
+  #     enable = true;
+  #     greeter.enable = false;
+  #     autoLogin = {
+  #       enable = true;
+  #       user = "dooy";
+  #     };
+  #   };
+  # };
+
   environment.gnome.excludePackages =
     (with pkgs; [
       gnome-photos
@@ -390,15 +392,20 @@ in {
 
   networking.firewall.enable = false;
 
-  # fileSystems."/home/rok/Downloads".device = "share";
-  # fileSystems."/home/rok/Downloads".fsType = "9p";
-  # fileSystems."/home/rok/Downloads".options = ["trans=virtio" "-oversion=9p2000.L"];
+  fileSystems."/mnt/host".device = "share";
+  fileSystems."/mnt/host".fsType = "9p";
+  fileSystems."/mnt/host".options = ["trans=virtio" "-oversion=9p2000.L"];
+
+  # fileSystems."/home/rok/src/".options = ["trans=virtio" "-oversion=9p2000.L"];
+  # share	/mnt/macos	9p	trans=virtio,version=9p2000.L,rw,_netdev,nofail	0	0
+  # /mnt/macos    [mount point] fuse.bindfs map=501/1000:@20/@1000,x-systemd.requires=/mnt/macos 0 0
 
   # environment.extraInit = ""
 
   environment.systemPackages = with pkgs;
     [
       # jdk17
+      alacritty
     ]
     ++ [
       elvish
