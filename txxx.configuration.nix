@@ -55,25 +55,25 @@ in {
   #
 
   homebrew = {
-    enable = false;
+    enable = true;
     caskArgs.no_quarantine = false;
     global.brewfile = true;
     # `brew leaves` to show installed
     # `brew list --cask`
     taps = [
-      "laishulu/macism"
+      # "laishulu/macism"
       "aca/tap"
-      "zegervdv/zathura"
-      "homebrew/cask-versions" # wezterm
+      # "zegervdv/zathura"
+      # "homebrew/cask-versions" # wezterm
       # "encoredev/tap/encore"
       # "chipmk/tap/docker-mac-net-connect"
     ];
     brews = [
-      "laishulu/macism/macism"
-      "zegervdv/zathura/zathura-pdf-poppler"
+      # "laishulu/macism/macism"
+      # "zegervdv/zathura/zathura-pdf-poppler"
       "aca/tap/agec"
-      "telnet"
-      "mas"
+      # "telnet"
+      # "mas"
       "mupdf"
       "syncthing"
     ];
@@ -94,7 +94,7 @@ in {
       # "hammerspoon"
       # "krita"
       # "microsoft-edge-beta"
-      # "utm"
+      "utm"
       # "android-platform-tools"
       # "datagrip"
       # # "iterm2"

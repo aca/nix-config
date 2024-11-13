@@ -59,11 +59,11 @@ in {
     export DISPLAY=:0
   '';
 
+  # systemd.services.systemd-udevd.restartIfChanged = false;
   # Disable wait online as it's causing trouble at rebuild
   # See: https://github.com/NixOS/nixpkgs/issues/180175
-  # systemd.services.systemd-udevd.restartIfChanged = false;
-  # systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
-  # systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
+  systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
+  systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
 
   programs.direnv = {
     enable = true;

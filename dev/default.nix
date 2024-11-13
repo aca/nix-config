@@ -25,6 +25,7 @@ in {
     neovim
     cargo
     git-branchless
+    inetutils
     gtrash
 
     file
