@@ -133,10 +133,8 @@ in {
   networking.hostName = "txxx-nix";
 
   # Bootloader.
-  # boot.loader.systemd-boot.enable = true;
-  # boot.loader.efi.canTouchEfiVariables = true;
-  # boot.initrd.availableKernelModules = ["virtiofs"];
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.initrd.availableKernelModules = ["virtiofs"];
 
   # Enable networking
   networking.networkmanager.enable = true;
