@@ -10,6 +10,7 @@ esac
 
 export NIXPKGS_ALLOW_INSECURE=1
 
+hostname="txxx-nix"
 # export GIT_SSH_COMMAND='ssh -J rok@root -i /home/rok/.ssh/id_ed25519'
 
 

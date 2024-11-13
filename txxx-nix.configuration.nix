@@ -165,9 +165,9 @@ in {
 
   # GUI
   services.xserver.enable = true;
-  services.xserver.displayManager.startx.enable = true;
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.displayManager.startx.enable = true;
+  # services.xserver.displayManager.lightdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
   environment.gnome.excludePackages =
     (with pkgs; [
       gnome-photos
