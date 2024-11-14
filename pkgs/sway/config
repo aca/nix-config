@@ -155,6 +155,8 @@ bindsym $mod+v exec copyq toggle
 
 # Kill focused window
 bindsym $mod+q kill
+# alt - q for vm
+bindsym Mod1+q kill 
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.

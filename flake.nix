@@ -341,7 +341,7 @@
           {
             environment.systemPackages = [
               inputs.agenix.packages.aarch64-linux.default
-              # inputs.ghostty.packages.aarch64-linux.default
+              inputs.ghostty.packages.aarch64-linux.default
               # zig
               # inputs.lazybox.packages.aarch64-linux.xxx
               # inputs.lazybox.packages.aarch64-linux.xxx2

@@ -45,12 +45,10 @@ in {
     ];
   };
 
-
   environment.variables = {
-    WLR_NO_HARDWARE_CURSORS=1;
+    WLR_NO_HARDWARE_CURSORS = 1;
   };
-
-
+  
   imports = [
     ./pkgs/scripts.nix
     ./pkgs/tmux.nix
@@ -74,9 +72,9 @@ in {
     ./dev/go.nix
   ];
 
-  environment.extraInit = lib.mkAfter ''
-    export DISPLAY=:0
-  '';
+  # environment.extraInit = lib.mkAfter ''
+  #   export DISPLAY=:0
+  # '';
 
   # systemd.services.systemd-udevd.restartIfChanged = false;
   # Disable wait online as it's causing trouble at rebuild
@@ -411,7 +409,38 @@ in {
 
   networking.firewall.enable = false;
 
-  fonts.packages = [pkgs.iosevka];
+  fonts = {
+    enableDefaultPackages = true;
+    packages = with pkgs; [
+      # ubuntu_font_family
+      noto-fonts
+      noto-fonts-cjk
+      noto-fonts-emoji
+      iosevka
+      # liberation_ttf
+      # fira-code
+      # fira-code-symbols
+      # mplus-outline-fonts.githubRelease
+      # nerdfonts
+      # iosevka
+      # iosevka-comfy.comfy
+      # iosevka-comfy.comfy-duo
+      # iosevka-comfy.comfy-fixed
+      # iosevka-comfy.comfy-motion
+      # dina-font
+      # sarasa-gothic
+      nanum
+      # proggyfonts
+    ];
+
+    fontconfig = {
+      defaultFonts = {
+        serif = ["NanumGothic" "Noto Sans Mono"];
+        sansSerif = ["NanumGothic" "Noto Sans Mono"];
+        monospace = ["Noto Sans Mono"];
+      };
+    };
+  };
   programs.dconf.enable = true;
 
   # fileSystems."/mnt/host".device = "share";
@@ -601,6 +630,7 @@ in {
       chezmoi
       fuse3
       fuse-common
+      glxinfo
 
       cgit
       fcgiwrap

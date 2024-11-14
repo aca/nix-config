@@ -20,8 +20,8 @@ else
   # sudo NIXPKGS_ALLOW_INSECURE=1 NIX_DEBUG=7 nixos-rebuild switch --flake ".#${hostname}" --impure  "$@" 
   # sudo NIXPKGS_ALLOW_INSECURE=1 NIX_DEBUG=7 nixos-rebuild switch --flake ".#${hostname}" --impure --show-trace --log-format bar-with-logs "$@"
   NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild build --flake ".#${hostname}" --impure "$@" 2>&1 | tee ~/rebuild.log.$(date +%Y%m%dT%H%M%S)
-  sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --flake ".#${hostname}" --impure "$@" 2>&1 | tee ~/rebuild.log.$(date +%Y%m%dT%H%M%S)
-  # sudo GIT_SSH_COMMAND='ssh -J rok@root -i /home/rok/.ssh/id_ed25519' nixos-rebuild switch --flake ".#${hostname}" --impure "$@"
+  # sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --flake ".#${hostname}" --impure "$@" 2>&1 | tee ~/rebuild.log.$(date +%Y%m%dT%H%M%S)
+  sudo GIT_SSH_COMMAND='ssh -J rok@home' nixos-rebuild switch --flake ".#${hostname}" --impure "$@"
 fi
 
     # Instead, either run `nix flake update` or `nixos-rebuild build`
