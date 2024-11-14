@@ -12,8 +12,8 @@ in {
     ./pkgs/elvish/elvish.nix
     ./pkgs/vifm/vifmrc.nix
     ./pkgs/alacritty/home.alacritty.nix
+    ./pkgs/sway/config.nix
   ];
-
   home.stateVersion = "24.05";
   programs.home-manager.enable = true;
 

@@ -45,6 +45,12 @@ in {
     ];
   };
 
+
+  environment.variables = {
+    WLR_NO_HARDWARE_CURSORS=1;
+  };
+
+
   imports = [
     ./pkgs/scripts.nix
     ./pkgs/tmux.nix
@@ -52,9 +58,7 @@ in {
     ./env.nix
     ./hardware/txxx-nix.nix
     ./nixos/fonts.nix
-
-    ./pkgs/sway/config.nix
-
+    ./pkgs/sway/sway.nix
     ./dev/nix.nix
     ./dev/c.nix
     ./dev/rust.nix
@@ -593,8 +597,6 @@ in {
           # "--gtk-version=4" # fcitx
         ];
       })
-
-      x2goclient
 
       chezmoi
       fuse3
