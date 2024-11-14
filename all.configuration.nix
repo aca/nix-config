@@ -45,6 +45,7 @@
         # // (useunstable system "vector")
         // (useunstable system "ripgrep")
         // (useunstable system "yt-dlp")
+        // (useunstable system "alacritty")
         # // (useunstable system "alejandra")
         // (useunstable system "deno")
         # // (useunstable system "rust-analyzer")
