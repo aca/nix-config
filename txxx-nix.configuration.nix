@@ -31,6 +31,20 @@ in {
     (import ./keys.nix).home
   ];
 
+  i18n.inputMethod = {
+    enabled = "fcitx5";
+    fcitx5.addons = with pkgs; [
+      pkgs.fcitx5-mozc
+      pkgs.fcitx5-gtk
+      pkgs.fcitx5-with-addons
+      pkgs.fcitx5-mozc
+      # pkgs.unstable.fcitx5-qt
+      # pkgs.unstable.fcitx5-chinese-addons
+      pkgs.fcitx5-hangul
+      # pkgs.unstable.fcitx5-lua
+    ];
+  };
+
   imports = [
     ./pkgs/scripts.nix
     ./pkgs/tmux.nix
@@ -38,6 +52,8 @@ in {
     ./env.nix
     ./hardware/txxx-nix.nix
     ./nixos/fonts.nix
+
+    ./pkgs/sway/config.nix
 
     ./dev/nix.nix
     ./dev/c.nix
@@ -161,10 +177,10 @@ in {
   services.tailscale.extraSetFlags = ["--ssh" "--advertise-exit-node=true"];
 
   # GUI
-  services.xserver.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.displayManager.startx.enable = true;
-  services.xserver.displayManager.lightdm.enable = true;
+  # services.xserver.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.displayManager.startx.enable = true;
+  # services.xserver.displayManager.lightdm.enable = true;
   # services.xserver.displayManager.gdm.enable = true;
   # services.displayManager = {
   #   defaultSession = "none+i3";
@@ -357,33 +373,29 @@ in {
   services.spice-vdagentd.enable = true;
   services.spice-webdavd.enable = true;
 
-  # services.syncthing = {
-  #   enable = true;
-  #   user = "rok";
-  #   dataDir = "/home/rok"; # Default folder for new synced folders
-  #   configDir = "/home/rok/.syncthing"; # Folder for Syncthing's settings and keys
-  #   settings = {
-  #     gui = {
-  #       theme = "black";
-  #     };
-  #     devices = {
-  #       "rok-txxx" = {id = "BMTXVFR-DXR7XUT-TQSN65G-4SPN2SE-Z35J44T-7A4HJEE-6LRI2XT-ZHZS5QF";};
-  #       "root" = {id = "D5HADJL-KDECRCV-GPTJ3RE-MPXNFBH-U6KG3CA-LVSDPP2-MT72ETM-RDM77AG";};
-  #       "home" = {id = "JIMRCFS-4AQYUPQ-AGCUPAT-D3GK7EN-WZAMSZM-EPSBDHE-PQFWKT5-4DWUMA3";};
-  #     };
-  #     # folders = {
-  #     #   ${(builtins.fromJSON (builtins.readFile config.age.secrets."txxx".path)).workdir} = {
-  #     #     path = "/home/rok/src/${(builtins.fromJSON (builtins.readFile config.age.secrets."txxx".path)).workdir}";
-  #     #     devices = ["rok-txxx" "home"];
-  #     #   };
-  #     #   "Downloads" = {
-  #     #     path = "/home/rok/Downloads";
-  #     #     devices = ["rok-txxx"];
-  #     #   };
-  #     # };
-  #     #
-  #   };
-  # };
+  systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true"; # Don't create default ~/Sync folder
+  services.syncthing = {
+    enable = true;
+    user = "rok";
+    dataDir = "/home/rok"; # Default folder for new synced folders
+    configDir = "/home/rok/.syncthing"; # Folder for Syncthing's settings and keys
+    settings = {
+      gui = {
+        theme = "black";
+      };
+      devices = {
+        # "rok-txxx" = {id = "BMTXVFR-DXR7XUT-TQSN65G-4SPN2SE-Z35J44T-7A4HJEE-6LRI2XT-ZHZS5QF";};
+        "root" = {id = "D5HADJL-KDECRCV-GPTJ3RE-MPXNFBH-U6KG3CA-LVSDPP2-MT72ETM-RDM77AG";};
+        "home" = {id = "JIMRCFS-4AQYUPQ-AGCUPAT-D3GK7EN-WZAMSZM-EPSBDHE-PQFWKT5-4DWUMA3";};
+      };
+      folders = {
+        "txxx" = {
+          path = "/home/rok/src/txxx";
+          devices = ["home"];
+        };
+      };
+    };
+  };
 
   # services.syncthing.settings.folders = {
   #   "txxx" = {
