@@ -1,0 +1,18 @@
+#!/usr/bin/env bun
+
+import { $ } from "bun";
+
+try {
+    await $`mount | grep /mnt/archive-0`.quiet();
+    await $`cd /mnt/archive-0`.quiet();
+} catch {
+    console.log("using current directory")
+} 
+
+let argv = Bun.argv.slice(2,)
+
+if (argv[0].match(`^https://.*youtube.com`) || argv[0].match(`^https://.*youtu.be`)) {
+    console.log("this is youtube")
+    await $`yt-dlp ${argv[0]}`
+    await $`exit 0`
+}
