@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --fast --flake '.#root' --target-host root@192.168.0.19 --build-host root@192.168.0.19 --impure

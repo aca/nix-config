@@ -12,19 +12,11 @@ in {
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
   nix.channel.enable = false; # remove nix-channel related tools & configs, we use flakes instead.
 
-  # fileSystems."/mnt/rok-chatreey-t9/cache" = {
-  #   device = "100.87.185.90:/mnt/rok-chatreey-t9/cache";
-  #   fsType = "nfs";
-  #   options = ["noatime" "users" "nofail"];
-  # };
-
   networking.hostName = hostName;
   networking.wireless.iwd.enable = true;
   networking.extraHosts = (import ./local.nix).networking.extraHosts;
 
   services.udev.packages = with pkgs; [via vial];
-
-  # # sudo register_new_matrix_user -c /nix/store/52iw352i6ih3xwsjb2frzk895ndjw42l-homeserver.yaml -c /run/agenix/synapse__registration_shared_secret.age 'http://localhost:8008'
 
   services.gnome.gnome-keyring.enable = true;
 
@@ -98,37 +90,6 @@ in {
   };
   services.logind.lidSwitch = "ignore";
 
-  # systemd.services."ntfy" = {
-  #   enable = true;
-  #   wantedBy = ["multi-user.target"];
-  #   after = ["network.target"];
-  #   serviceConfig = {
-  #     Type = "exec";
-  #     ExecStart = ''
-  #       ${pkgs.ntfy-sh}/bin/ntfy serve -c /home/rok/src/root/ntfy/server.yml
-  #     '';
-  #   };
-  # };
-
-  # services.ntfy-sh = {
-  #   enable = true;
-  #   settings = {
-  #     base-url = "https://jkor-ntfy.duckdns.org";
-  #     listen-http = ":2555";
-  #     behind-proxy = true;
-  #     auth-default-access = "deny-all";
-  #     # auth-file = "/home/rok/src/root/ntfy/user.db";
-  #   };
-  # };
-
-  # attachment-cache-dir: /var/lib/ntfy-sh/attachments
-  # auth-default-access: deny-all
-  # auth-file: /var/lib/ntfy-sh/user.db
-  # base-url: https://jkor-ntfy.duckdns.org
-  # behind-proxy: true
-  # cache-file: /var/lib/ntfy-sh/cache-file.db
-  # listen-http: :2555
-
   programs.adb.enable = true;
   programs.fish.enable = true;
 
@@ -194,24 +155,6 @@ in {
   #   #     Unit = "qbittorrent-clean.service";
   #   #   };
   #   # };
-  # };
-
-  # systemd.services."p2p-clipboard" = {
-  #   enable = true;
-  #   path = [];
-  #   wantedBy = ["multi-user.target"];
-  #   after = ["network.target"];
-  #   environment = {
-  #     DISPLAY = "/run/user/1000/wayland-1";
-  #   };
-  #   serviceConfig = {
-  #     Type = "simple";
-  #     User = "rok";
-  #     Restart = "always";
-  #     ExecStart = ''
-  #       /home/rok/bin/p2p-clipboard --listen 100.85.204.31:34853 --key /home/rok/.config/p2p-clipboard/key
-  #     '';
-  #   };
   # };
 
   # Bootloader.

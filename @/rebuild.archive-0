@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-nixos-rebuild switch --fast --flake '.#archive-0' --target-host root@100.100.82.59 --build-host root@100.100.82.59
