@@ -124,7 +124,7 @@ in {
   services.ntfy-sh = {
     enable = true;
     settings = {
-      base-url = "https://ntfy";
+      base-url = "https://jkor-ntfy.duckdns.org";
       listen-http = ":2555";
       behind-proxy = true;
       # allow sending notifications without authentication
