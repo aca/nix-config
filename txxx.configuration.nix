@@ -383,7 +383,8 @@ in {
 
 
     # # |, sleep
-    # lcmd + lctrl + lalt + shift - 0x2A : pmset displaysleepnow
+    lcmd + lctrl + lalt + shift - 0x2A : pmset displaysleepnow
+    lcmd + lctrl + lalt + shift - escape : pmset displaysleepnow
 
     # esc, mission control
     lcmd + lctrl + lalt - escape : open -a '/System/Applications/Mission Control.app';
