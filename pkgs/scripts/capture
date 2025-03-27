@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+cd /home/rok/store/image/capture || mkdir -p /home/rok/store/image/capture && cd /home/rok/store/image/capture
+
+
+scrot -s -e 'xclip -selection clipboard -t image/png -i $f'

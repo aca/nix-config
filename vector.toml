@@ -1,0 +1,82 @@
+[sources.files]
+type = "file"
+include = [ "/logs/active/**/*" ]
+fingerprint.strategy = "device_and_inode"
+glob_minimum_cooldown_ms = 5000
+# ignore_older_secs = 60000
+
+[transforms.files_transform_1]
+type = "remap"
+inputs = ["files"]
+drop_on_error = true
+source = '''
+  _SYSTEMD_UNIT = replace!(.file, r'.*/(?P<process>[^/]+)', "$$process")
+  msg = .message
+  parsed, err = parse_json(.message)
+  if err == null {
+      .= parsed
+  } else {
+      . = {}
+      .msg = msg
+      .level = "ERROR"
+  }
+  .process = _SYSTEMD_UNIT
+  del(.raw)
+'''
+
+[sinks.stdout]
+type = "console"
+inputs = [ "files_transform_1" ]
+encoding.codec = "json"
+
+[transforms.files_transform_logfmt]
+type = "remap"
+inputs = ["files_transform_1"]
+drop_on_error = true
+source = '''
+  del(.raw)
+'''
+
+[transforms.files_transform1_filter_noti]
+type = "filter"
+inputs = [ "files_transform_logfmt" ]
+condition = """
+.level == "NOTI"
+"""
+
+[transforms.throttle_noti]
+type = "throttle"
+inputs = [ "files_transform1_filter_noti" ]
+threshold = 120
+window_secs = 30
+
+[transforms.files_transform1_filter_error]
+type = "filter"
+inputs = [ "files_transform_logfmt" ]
+condition = """
+.level == "ERROR"
+"""
+
+[transforms.throttle_error]
+type = "throttle"
+inputs = [ "files_transform1_filter_error" ]
+threshold = 120
+window_secs = 30
+
+[sinks.ntfy_error]
+type = "http"
+inputs = [ "throttle_error" ]
+batch.max_events = 1
+request.headers = { Content-Type = "text/markdown" }
+encoding.codec = "text"
+framing.method = "newline_delimited"
+uri = "http://archive-0:2555/error"
+
+[sinks.ntfy_noti]
+type = "http"
+inputs = [ "throttle_noti" ]
+batch.max_events = 1
+request.headers = { Content-Type = "text/markdown" }
+encoding.codec = "text"
+framing.method = "newline_delimited"
+uri = "http://archive-0:2555/noti"

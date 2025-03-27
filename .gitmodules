@@ -1,0 +1,3 @@
+[submodule "pkgs/i3/i3-alternating-layout"]
+	path = pkgs/i3/i3-alternating-layout
+	url = https://github.com/olemartinorg/i3-alternating-layout.git
