@@ -21,8 +21,8 @@ in {
   ];
 
   programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
+    enable = lib.mkForce false;
+    nix-direnv.enable = lib.mkForce false;
   };
 
   users.users.rok = {
