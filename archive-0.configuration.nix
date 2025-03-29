@@ -20,6 +20,11 @@ in {
     ./networking.nix
   ];
 
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
   users.users.rok = {
     isNormalUser = true;
     description = "rok";
