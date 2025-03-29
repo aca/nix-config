@@ -104,8 +104,8 @@ in {
     ++ [
       vim
       vifm
+      shpool
       sqlite-interactive
-      glances
       glances
       duckdb
       fd
@@ -116,6 +116,7 @@ in {
       curl
       fish
       htop
+      glibcLocales
       tmux
       git
       aria2
