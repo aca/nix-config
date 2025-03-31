@@ -317,6 +317,22 @@
         ];
       };
 
+      # home-manager switch switch --flake '.#rok@txxx-nix'
+      homeConfigurations."rok@txxx-nix" = home-manager.lib.homeManagerConfiguration rec {
+        pkgs = nixpkgs.legacyPackages.aarch64-linux;
+        extraSpecialArgs = { inherit inputs; };
+        modules = [
+          import
+          ./txxx-nix.home-manager.nix
+          {
+            nixpkgs.overlays = [
+              # inputs.nur.overlays.default
+              inputs.nur.overlays.default
+            ];
+          }
+        ];
+      };
+
       # home-manager switch switch --flake '.#rok@root'
       homeConfigurations."rok@home" =
         let
@@ -334,9 +350,6 @@
                 # nixpkgs-f2k.overlays.window-managers
               ];
             }
-          ];
-          environment.systemPackages = [
-            agenix.packages.aarch64-linux.default
           ];
         };
 
