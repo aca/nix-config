@@ -20,11 +20,14 @@ in {
     ./networking.nix
   ];
 
+<<<<<<< HEAD
   programs.direnv = {
     enable = lib.mkForce false;
     nix-direnv.enable = lib.mkForce false;
   };
 
+=======
+>>>>>>> 52d7b3f ()
   users.users.rok = {
     isNormalUser = true;
     description = "rok";
@@ -90,6 +93,7 @@ in {
 
   # Internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
+<<<<<<< HEAD
   # i18n.extraLocaleSettings = {
   #   LC_ADDRESS = "en_US.UTF-8";
   #   LC_IDENTIFICATION = "en_US.UTF-8";
@@ -101,6 +105,19 @@ in {
   #   LC_TELEPHONE = "en_US.UTF-8";
   #   LC_TIME = "en_US.UTF-8";
   # };
+=======
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "en_US.UTF-8";
+    LC_IDENTIFICATION = "en_US.UTF-8";
+    LC_MEASUREMENT = "en_US.UTF-8";
+    LC_MONETARY = "en_US.UTF-8";
+    LC_NAME = "en_US.UTF-8";
+    LC_NUMERIC = "en_US.UTF-8";
+    LC_PAPER = "en_US.UTF-8";
+    LC_TELEPHONE = "en_US.UTF-8";
+    LC_TIME = "en_US.UTF-8";
+  };
+>>>>>>> 52d7b3f ()
   time.timeZone = "Asia/Seoul";
 
   # Packages installed in system profile.
@@ -109,9 +126,15 @@ in {
     ++ [
       vim
       vifm
+<<<<<<< HEAD
       shpool
       sqlite-interactive
       glances
+=======
+      sqlite-interactive
+      glances
+      glances
+>>>>>>> 52d7b3f ()
       duckdb
       fd
       bat
@@ -121,7 +144,10 @@ in {
       curl
       fish
       htop
+<<<<<<< HEAD
       glibcLocales
+=======
+>>>>>>> 52d7b3f ()
       tmux
       git
       aria2

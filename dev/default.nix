@@ -6,10 +6,17 @@
   ...
 }: let
 in {
+<<<<<<< HEAD
   # programs.direnv = {
   #   enable = true;
   #   nix-direnv.enable = true;
   # };
+=======
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+>>>>>>> 52d7b3f ()
 
   # environment.systemPackages = with pkgs; [
   #   git
