@@ -766,4 +766,5 @@ in
       gradle_7
       # openjdk23
     ];
+
 }
