@@ -102,6 +102,6 @@ in {
   #   };
   # };
 
-  home.packages = [
-  ];
+  # home.packages = [
+  # ];
 }

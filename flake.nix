@@ -317,21 +317,59 @@
         ];
       };
 
-      # home-manager switch switch --flake '.#rok@txxx-nix'
-      homeConfigurations."rok@txxx-nix" = home-manager.lib.homeManagerConfiguration rec {
-        pkgs = nixpkgs.legacyPackages.aarch64-linux;
-        extraSpecialArgs = { inherit inputs; };
-        modules = [
-          import
-          ./txxx-nix.home-manager.nix
-          {
-            nixpkgs.overlays = [
-              # inputs.nur.overlays.default
-              inputs.nur.overlays.default
-            ];
-          }
-        ];
-      };
+      # let
+      #   system = "aarch64-linux";
+      #   pkgs = nixpkgs.legacyPackages.${system};
+      # in {
+      #   homeConfigurations."rok" = home-manager.lib.homeManagerConfiguration {
+      #     inherit pkgs;
+      #
+      #     # Specify your home configuration modules here, for example,
+      #     # the path to your home.nix.
+      #     modules = [ ./home.nix ];
+      #
+      #     # Optionally use extraSpecialArgs
+      #     # to pass through arguments to home.nix
+      #   };
+      # };
+
+      homeConfigurations."rok@txxx-nix" =
+        let
+            system = "aarch64-linux";
+        in
+        home-manager.lib.homeManagerConfiguration rec {
+          pkgs = nixpkgs.legacyPackages.${system};
+          extraSpecialArgs = { inherit inputs; };
+          modules = [
+            ./txxx-nix.home-manager.nix
+            {
+              nixpkgs.overlays = [
+                # (overlay-unstable )
+                inputs.nur.overlays.default
+                # emacs-overlay.overlay
+                # nixpkgs-f2k.overlays.window-managers
+              ];
+            }
+          ];
+        };
+
+      # # home-manager switch switch --flake '.#rok@txxx-nix'
+      # homeConfigurations."rok@txxx-nix" = home-manager.lib.homeManagerConfiguration {
+      #   # pkgs = nixpkgs.legacyPackages.aarch64-linux;
+      #   # extraSpecialArgs = { inherit inputs; };
+      #   modules = [
+      #     import ./txxx-nix.home-manager.nix
+      #     {
+      #       inherit nixpkgs home-manager;
+      #     }
+      #     # {
+      #     #   nixpkgs.overlays = [
+      #     #     # inputs.nur.overlays.default
+      #     #     inputs.nur.overlays.default
+      #     #   ];
+      #     # }
+      #   ];
+      # };
 
       # home-manager switch switch --flake '.#rok@root'
       homeConfigurations."rok@home" =

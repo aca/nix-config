@@ -8,6 +8,9 @@
 let
   useunstable = system: pkg: { ${pkg} = inputs.nixpkgs-unstable.legacyPackages.${system}.${pkg}; };
   usenightly = system: pkg: { ${pkg} = inputs.nixpkgs-nightly.legacyPackages.${system}.${pkg}; };
+  extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
 
   # nix.settings.experimental-features = "nix-command flakes";
   # nix.extraOptions = ''
@@ -195,7 +198,6 @@ rec {
 
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
-<<<<<<< HEAD
     # LC_ADDRESS = "en_US.UTF-8";
     # LC_IDENTIFICATION = "en_US.UTF-8";
     # LC_MEASUREMENT = "en_US.UTF-8";
@@ -205,17 +207,15 @@ rec {
     # LC_PAPER = "en_US.UTF-8";
     # LC_TELEPHONE = "en_US.UTF-8";
     # LC_TIME = "en_US.UTF-8";
-=======
-    LC_ADDRESS = "en_US.UTF-8";
-    LC_IDENTIFICATION = "en_US.UTF-8";
-    LC_MEASUREMENT = "en_US.UTF-8";
-    LC_MONETARY = "en_US.UTF-8";
-    LC_NAME = "en_US.UTF-8";
-    LC_NUMERIC = "en_US.UTF-8";
-    LC_PAPER = "en_US.UTF-8";
-    LC_TELEPHONE = "en_US.UTF-8";
-    LC_TIME = "en_US.UTF-8";
->>>>>>> 52d7b3f ()
+    # LC_ADDRESS = "en_US.UTF-8";
+    # LC_IDENTIFICATION = "en_US.UTF-8";
+    # LC_MEASUREMENT = "en_US.UTF-8";
+    # LC_MONETARY = "en_US.UTF-8";
+    # LC_NAME = "en_US.UTF-8";
+    # LC_NUMERIC = "en_US.UTF-8";
+    # LC_PAPER = "en_US.UTF-8";
+    # LC_TELEPHONE = "en_US.UTF-8";
+    # LC_TIME = "en_US.UTF-8";
   };
 
   time.timeZone = "Asia/Seoul";
@@ -277,17 +277,10 @@ rec {
     '';
   };
 
-<<<<<<< HEAD
-  # programs.direnv = {
-  #   enable = true;
-  #   nix-direnv.enable = true;
-  # };
-=======
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
   };
->>>>>>> 52d7b3f ()
 
   nix.gc = {
     automatic = true;

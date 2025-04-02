@@ -21,16 +21,13 @@ in {
       "GOTOOLCHAIN" = "local"; # gopls ignore go version
       "NTFY_BASE_URL" = "http://archive-0:2555";
       "NIXPKGS_ALLOW_UNFREE" = "1";
-<<<<<<< HEAD
 
       # "LANG" = "en_US.UTF-8";
       # "LANGUAGE" = "en_US.UTF-8";
       # "LC_ALL" = "en_US.UTF-8";
-=======
-      "LANG" = "en_US.UTF-8";
-      "LANGUAGE" = "en_US.UTF-8";
-      "LC_ALL" = "en_US.UTF-8";
->>>>>>> 52d7b3f ()
+      # "LANG" = "en_US.UTF-8";
+      # "LANGUAGE" = "en_US.UTF-8";
+      # "LC_ALL" = "en_US.UTF-8";
 
       "BROWSER" = "vivaldi";
       "COLORTERM" = "truecolor";
