@@ -47,14 +47,14 @@
     script = "source /run/agenix/env; go run .";
   };
 
-  # systemd.services."trader-buy-cancel" = {
-  #   serviceConfig.User = "rok";
-  #   serviceConfig.Restart = "always";
-  #   serviceConfig.RestartSec = "5s";
-  #   serviceConfig.WorkingDirectory = "/home/rok/src/github.com/investing-kr/bot/cmd/trader-up";
-  #   wantedBy = ["network.target"];
-  #   path = ["/run/current-system/sw"];
-  #   preStart = "git pull --rebase";
-  #   script = "source /run/agenix/env; go run .";
-  # };
+  systemd.services."trader-buy-cancel" = {
+    serviceConfig.User = "rok";
+    serviceConfig.Restart = "always";
+    serviceConfig.RestartSec = "5s";
+    serviceConfig.WorkingDirectory = "/home/rok/src/github.com/investing-kr/bot/cmd/trader-buy-cancel";
+    wantedBy = ["network.target"];
+    path = ["/run/current-system/sw"];
+    preStart = "git pull --rebase";
+    script = "source /run/agenix/env; go run .";
+  };
 }
