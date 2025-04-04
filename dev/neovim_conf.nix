@@ -19,7 +19,7 @@ rec {
     ];
     startLimitIntervalSec = 10;
     script = ''
-      fd --type f --extension lua . init | entr -n -r bash -c "cat init/*.lua | luajit -b - init.lua"
+      fd --type f --extension lua . init | timeout 10m entr -n -r bash -c "cat init/*.lua | luajit -b - init.lua"
     '';
   };
 
@@ -39,7 +39,7 @@ rec {
     ];
     startLimitIntervalSec = 10;
     script = ''
-      fd --type f --extension lua . lazy | entr -n -r bash -c "cat lazy/*.lua | luajit -b - lua/init-lazy.lua"
+      fd --type f --extension lua . lazy | timeout 10m entr -n -r bash -c "cat lazy/*.lua | luajit -b - lua/init-lazy.lua"
     '';
   };
 }

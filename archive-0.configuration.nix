@@ -141,6 +141,7 @@ in {
       ghq
       go
       ethtool
+      mpv
       curl
       fish
       htop

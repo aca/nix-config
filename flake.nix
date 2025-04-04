@@ -480,9 +480,10 @@
           {
             environment.systemPackages = [
               # inputs.zapret.packages.x86_64-linux.default
-              inputs.ghostty.packages.x86_64-linux.default
-              # inputs.zen-browser.packages."${system}".default
-              inputs.agenix.packages.x86_64-linux.default
+              inputs.zen-browser.packages.${system}.twilight-official
+              inputs.ghostty.packages.${system}.default
+              inputs.zen-browser.packages."${system}".default
+              inputs.agenix.packages.${system}.default
             ];
           }
         ];

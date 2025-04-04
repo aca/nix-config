@@ -11,10 +11,18 @@ let
   hostname = "home";
 in
 {
+  environment.variables.ZK_ROOT = "/home/rok/src/git.internal/zk";
+
   age.secrets."hosts" = {
     file = ./secrets/hosts.age;
     mode = "777";
   };
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
 
   # nix.settings = {
   #   experimental-features = [
@@ -1013,6 +1021,8 @@ in
       yamlfmt
       beautysh
       buf
+
+      flatbuffers
       black
       cmake-format
     ]

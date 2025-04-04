@@ -14,6 +14,8 @@
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "both";
   services.tailscale.extraSetFlags = ["--ssh" "--advertise-exit-node=true"];
+  # services.tailscale.extraDaemonFlags = ["--socks5-server=100.95.211.5:1080"]; # blocked by firewall
+  services.tailscale.extraDaemonFlags = ["--socks5-server=0.0.0.0:1080"]; # blocked by firewall
 
   services.openssh.enable = true;
   users.users.root.openssh.authorizedKeys.keys = [
