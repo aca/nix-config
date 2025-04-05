@@ -166,6 +166,7 @@ in
 
   imports = [
     ./pkgs/cgit.nix
+    ./pkgs/wine.nix
     ./dev/neovim_conf.nix
     ./workstation.nix
     ./networking.nix
