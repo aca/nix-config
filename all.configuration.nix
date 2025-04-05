@@ -135,6 +135,7 @@ let
       // (useunstable system "pueue")
       // (useunstable system "tmux")
       // (useunstable system "qbittorrent-nox")
+      // (useunstable system "wine-wayland")
       // (useunstable system "lua-language-server")
       // (useunstable system "basedpyright")
       // (useunstable system "pueue")

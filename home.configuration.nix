@@ -23,7 +23,6 @@ in
     nix-direnv.enable = true;
   };
 
-
   # nix.settings = {
   #   experimental-features = [
   #     "nix-command"
@@ -616,7 +615,8 @@ in
   };
 
   i18n.inputMethod = {
-    enabled = "fcitx5";
+    type = "fcitx5";
+    enable = true;
     fcitx5.addons = with pkgs; [
       pkgs.fcitx5-mozc
       pkgs.fcitx5-gtk
@@ -1401,7 +1401,6 @@ in
   services.samba-wsdd.enable = true; # make shares visible for windows 10 clients
   services.samba = {
     enable = true;
-    securityType = "user";
     # extraConfig = ''
     #   workgroup = WORKGROUP
     #   server string = smbnix
@@ -1415,7 +1414,14 @@ in
     #   guest account = nobody
     #   map to guest = bad user
     # '';
-    shares = {
+
+    # evaluation warning: The option `services.samba.shares' defined in `/nix/store/4cwn12ljgkz3dyj0d8gj7cczxmq32jzs-source/home.configuration.nix' has been renamed to `services.samba.settings'.
+    # evaluation warning: The option `services.samba.securityType' defined in `/nix/store/4cwn12ljgkz3dyj0d8gj7cczxmq32jzs-source/home.configuration.nix' has been renamed to `services.samba.settings.global.security'.
+    # evaluation warning: The option `hardware.opengl.extraPackages' defined in `/nix/store/4cwn12ljgkz3dyj0d8gj7cczxmq32jzs-source/home.configuration.nix' has been renamed to `hardware.graphics.extraPackages'.
+    settings = {
+      global = {
+        security = "user";
+      };
       shared = {
         path = "/home/rok/store/vm/shared";
         browseable = "yes";
