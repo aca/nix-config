@@ -899,6 +899,8 @@ in
       # android-udev-rules
       # flutter
       # jdk11
+      tig
+      lazygit
     ]
     ++ [
       litecli

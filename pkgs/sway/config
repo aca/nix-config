@@ -221,7 +221,7 @@ bindsym $mod+apostrophe exec /run/current-system/sw/bin/sway-workspace next-on-o
     bindsym $mod+6 workspace number 6
     bindsym $mod+7 workspace number 7
     bindsym $mod+8 workspace number 8
-    bindsym $mod+0 exec /home/rok/src/codeberg.org/aca/nix-config/pkgs/scripts/swayswitch
+    bindsym $mod+0 --release exec /home/rok/src/codeberg.org/aca/nix-config/pkgs/scripts/swayswitch
     # Move focused container to workspace
     bindsym $mod+Shift+1 move container to workspace number 1
     bindsym $mod+Shift+2 move container to workspace number 2
