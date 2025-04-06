@@ -1233,6 +1233,7 @@ in
       woeusb
 
       gcc
+      wimlib
       gettext
       dnsmasq
       killall
