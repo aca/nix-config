@@ -280,7 +280,7 @@
           {
             environment.systemPackages = [
               inputs.agenix.packages.aarch64-linux.default
-              inputs.zen-browser.packages.aarch64-linux.twilight-official
+              # inputs.zen-browser.packages.aarch64-linux.twilight-official
               inputs.ghostty.packages.aarch64-linux.default
               # zig
               # inputs.lazybox.packages.aarch64-linux.xxx2
@@ -480,9 +480,9 @@
           {
             environment.systemPackages = [
               # inputs.zapret.packages.x86_64-linux.default
-              inputs.zen-browser.packages.${system}.twilight-official
+              # inputs.zen-browser.packages.${system}.twilight-official
               inputs.ghostty.packages.${system}.default
-              inputs.zen-browser.packages."${system}".default
+              # inputs.zen-browser.packages."${system}".default
               inputs.agenix.packages.${system}.default
             ];
           }
