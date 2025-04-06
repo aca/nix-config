@@ -64,7 +64,7 @@
         tridactyl
       ];
 
-      userChrome = builtins.readFile ./pkgs/firefox/userChrome.css;
+      userChrome = builtins.readFile ./userChrome.css;
       # userContent = builtins.readFile ./pkgs/firefox/userContent.css;
 
       # https://github.com/crambaud/waterfall
