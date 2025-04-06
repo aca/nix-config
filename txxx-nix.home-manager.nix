@@ -3,8 +3,10 @@
   lib,
   inputs,
   ...
-}: let
-in {
+}:
+let
+in
+{
   imports = [
     ./pkgs/home_defaults.nix
     ./pkgs/elvish/elvish.nix
@@ -40,6 +42,7 @@ in {
         "services.sync.prefs.sync.browser.crashReports.unsubmittedCheck.autoSubmit2" = false;
         "toolkit.startup.max_resumed_crashes" = 0;
         "browser.sessionstore.resume_from_crash" = 0;
+        "browser.compactmode.show" = true;
         "browser.sessionstore.max_resumed_crashes" = 0;
         "toolkit.startup.recent_crashes" = 0;
         # "browser.aboutConfig.showWarning" =

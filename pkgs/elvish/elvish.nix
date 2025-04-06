@@ -29,7 +29,7 @@ in {
     # fn cp {|@a| e:advcp -gv $@a}
     # fn mv {|@a| e:advmv -gv $@a}
     + ''
-      fn rm {|@a| ${pkgs.gtrash}/bin/gtrash put -- $@a}
+      fn rm {|@a| ${pkgs.rmtrash}/bin/rmtrash $@a}
       fn cp {|@a| e:cp -v $@a}
       fn mv {|@a| e:mv -v $@a}
       fn grep {|@a| ${pkgs.coreutils}/bin/stdbuf -i0 -o0 -e0 ${pkgs.gnugrep}/bin/grep $@a}

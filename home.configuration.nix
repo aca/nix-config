@@ -1043,7 +1043,7 @@ in
       pciutils
       sshfs
       browsh
-      firefox-bin
+      # firefox-bin
       sublime-merge
       # git-cola
       sshpass

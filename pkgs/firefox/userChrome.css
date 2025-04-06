@@ -1,7 +1,7 @@
 :root {
 	--tab-active-bg-color: #057;
 	--tab-inactive-bg-color: #333;
-	--tab-active-fg-fallback-color: #057;		/* color of text in an active tab without a container */
+	--tab-active-fg-fallback-color: #eee;		/* color of text in an active tab without a container */
 	--tab-inactive-fg-fallback-color: #888;		/* color of text in an inactive tab without a container */
 	--urlbar-focused-bg-color: #eee;
 	--urlbar-not-focused-bg-color: #1c1b22;
@@ -10,8 +10,8 @@
 	/* --urlbar-font: 'DejaVu Sans Mono'; */
 
 	/* try increasing if you encounter problems */
-	--urlbar-height-setting: 30px;
-	--tab-min-height: 16px !important;
+	--urlbar-height-setting: 24px;
+	--tab-min-height: 24px !important;
 
 	/* I don't recommend you touch this unless you know what you're doing */
 	--arrowpanel-menuitem-padding: 2px !important;
@@ -23,9 +23,6 @@
 	--toolbar-field-background-color: var(--urlbar-not-focused-bg-color) !important;
 	--toolbar-field-focus-border-color: transparent !important;
 }
-
-#firefox-view-button { display: none !important; }
-. 
 
 /* --- GENERAL DEBLOAT ---------------------------------- */
 
@@ -82,12 +79,12 @@ toolbar .toolbarbutton-1 { padding: 0 0 !important; }
 	--urlbar-height: var(--urlbar-height-setting) !important;
 	--urlbar-toolbar-height: var(--urlbar-height-setting) !important;
 	min-height: var(--urlbar-height-setting) !important;
-	/* border-color: var(--lwt-toolbar-field-border-color, hsla(240,5%,5%,.25)) !important; */
+	border-color: var(--lwt-toolbar-field-border-color, hsla(240,5%,5%,.25)) !important;
 }
 
 #urlbar-input {
-	margin-left: 0em !important;
-	margin-right: 0em !important;
+	margin-left: 0.4em !important;
+	margin-right: 0.4em !important;
 }
 
 #navigator-toolbox {
@@ -201,7 +198,7 @@ tab {
 #tabbrowser-tabs .tabbrowser-tab .tab-close-button { display: none !important; }
 
 /* disable favicons in tab */
-.tab-icon-stack:not([pinned]) { display: none !important; }
+/* .tab-icon-stack:not([pinned]) { display: none !important; } */
 
 .tabbrowser-tab {
 	/* remove border between tabs */
@@ -271,7 +268,7 @@ tab {
 #nav-bar,
 #urlbar {
 	transform: translateY(calc(0px - var(--urlbar-height-setting)));
-	opacity: 0;
+	opacity: 90;
 }
 
 #navigator-toolbox {
