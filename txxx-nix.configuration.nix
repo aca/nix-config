@@ -85,8 +85,9 @@ in
   services.tailscale.permitCertUid = "caddy";
 
   i18n.inputMethod = {
-    enabled = "fcitx5";
-    fcitx5.addons = [
+    type = "fcitx5";
+    enable = true;
+    fcitx5.addons = with pkgs; [
       pkgs.fcitx5-mozc
       pkgs.fcitx5-gtk
       pkgs.fcitx5-with-addons
@@ -766,5 +767,4 @@ in
       gradle_7
       # openjdk23
     ];
-
 }
