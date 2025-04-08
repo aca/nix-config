@@ -8,12 +8,12 @@
 {
   programs.firefox = {
     enable = true;
-    package = pkgs.firefox.override {
-      nativeMessagingHosts = [
-        pkgs.tridactyl-native
-        pkgs.plasma-browser-integration
-      ];
-    };
+    # package = pkgs.firefox.override {
+    #   nativeMessagingHosts = [
+    #     pkgs.tridactyl-native
+    #     pkgs.plasma-browser-integration
+    #   ];
+    # };
     profiles.default = {
       id = 0;
       settings = {

@@ -9,22 +9,22 @@
     ./pkgs/home_defaults.nix
 
     ./pkgs/vifm/vifmrc.nix
-    # ./pkgs/firefox/firefox.nix
+    ./pkgs/firefox/firefox.nix
     ./pkgs/alacritty/home.alacritty.nix
     ./pkgs/elvish/elvish.nix
   ];
 
-  #   # package = pkgs.wrapFirefox pkgs.firefox-devedition-bin {
-  #   #     extraPolicies = {
-  #   #           DisableAppUpdate = true;
-  #   #           ManualAppUpdateOnly = true;
-  #   #           DisablePocket = true;
-  #   #           DisableSetDesktopBackground = true;
-  #   #           DisableTelemetry = true;
-  #   #     };
-  #   # };
-  # programs.firefox.package = pkgs.firefox-bin;
+  package = pkgs.wrapFirefox pkgs.firefox-devedition-bin {
+    extraPolicies = {
+      DisableAppUpdate = true;
+      ManualAppUpdateOnly = true;
+      DisablePocket = true;
+      DisableSetDesktopBackground = true;
+      DisableTelemetry = true;
+    };
+  };
 
+  # programs.firefox.package = pkgs.firefox-bin;
   # programs.firefox.package = pkgs.firefox-bin.override {
   #   nativeMessagingHosts = [
   #     pkgs.tridactyl-native
