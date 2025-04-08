@@ -240,6 +240,7 @@
           system = "aarch64-darwin";
           specialArgs = { inherit inputs system; };
           modules = [
+            ./all.configuration.nix
             (
               {
                 config,
