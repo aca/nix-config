@@ -5,6 +5,7 @@
 }:
 {
   fonts.packages = with pkgs; [
+    cm_unicode
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji
