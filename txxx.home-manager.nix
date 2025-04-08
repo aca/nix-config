@@ -14,7 +14,7 @@
     ./pkgs/elvish/elvish.nix
   ];
 
-  programs.fiefox.package = pkgs.firefox-devedition-bin;
+  programs.firefox.package = pkgs.firefox-devedition-bin;
 
   # programs.firefox.package = pkgs.wrapFirefox pkgs.firefox-devedition-bin {
   #   extraPolicies = {
