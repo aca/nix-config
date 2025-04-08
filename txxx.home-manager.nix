@@ -14,15 +14,17 @@
     ./pkgs/elvish/elvish.nix
   ];
 
-  programs.firefox.package = pkgs.wrapFirefox pkgs.firefox-devedition-bin {
-    extraPolicies = {
-      DisableAppUpdate = true;
-      ManualAppUpdateOnly = true;
-      DisablePocket = true;
-      DisableSetDesktopBackground = true;
-      DisableTelemetry = true;
-    };
-  };
+  programs.fiefox.package = pkgs.firefox-devedition-bin;
+
+  # programs.firefox.package = pkgs.wrapFirefox pkgs.firefox-devedition-bin {
+  #   extraPolicies = {
+  #     DisableAppUpdate = true;
+  #     ManualAppUpdateOnly = true;
+  #     DisablePocket = true;
+  #     DisableSetDesktopBackground = true;
+  #     DisableTelemetry = true;
+  #   };
+  # };
 
   # programs.firefox.package = pkgs.firefox-bin;
   # programs.firefox.package = pkgs.firefox-bin.override {
