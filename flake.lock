@@ -1027,11 +1027,11 @@
         "nixpkgs": "nixpkgs_8"
       },
       "locked": {
-        "lastModified": 1741394771,
-        "narHash": "sha256-D2rXCyhj4IlEBvDSD63z59v+TTElpn9Puvc0MuAXOJI=",
+        "lastModified": 1744074088,
+        "narHash": "sha256-kZA5KrCq+gyqacX5p5q5f0bA7nJgbLkQV1fX4MnkZ+s=",
         "owner": "bandithedoge",
         "repo": "nixpkgs-firefox-darwin",
-        "rev": "08fecf075adbbf16def85b210b653db461963ca4",
+        "rev": "4fb0cddd359b5c0122b2277e289ba109bfb377d3",
         "type": "github"
       },
       "original": {

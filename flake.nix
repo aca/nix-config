@@ -240,7 +240,7 @@
           system = "aarch64-darwin";
           specialArgs = { inherit inputs system; };
           modules = [
-            ./all.configuration.nix
+            # ./all.configuration.nix
             (
               {
                 config,
@@ -249,6 +249,7 @@
               }:
               {
                 nixpkgs.overlays = (overlays_default system) ++ [
+                  inputs.nur.overlays.default
                   inputs.nixpkgs-firefox-darwin.overlay
                   (useunstableoverlay system "yabai")
                   (useunstableoverlay system "skhd")
