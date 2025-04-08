@@ -255,6 +255,16 @@
               }
             )
 
+            {
+              environment.systemPackages = [
+                # inputs.zapret.packages.x86_64-linux.default
+                # inputs.zen-browser.packages.${system}.twilight-official
+                inputs.ghostty.packages.${system}.default
+                # inputs.zen-browser.packages."${system}".default
+                inputs.agenix.packages.${system}.default
+              ];
+            }
+
             ./txxx.configuration.nix
             ./neovim.nix
             home-manager.darwinModules.home-manager
@@ -335,7 +345,7 @@
 
       homeConfigurations."rok@txxx-nix" =
         let
-            system = "aarch64-linux";
+          system = "aarch64-linux";
         in
         home-manager.lib.homeManagerConfiguration rec {
           pkgs = nixpkgs.legacyPackages.${system};
