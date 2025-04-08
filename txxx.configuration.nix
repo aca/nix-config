@@ -326,8 +326,8 @@ nix.enable = false;
     # focus & move next/previous monitor, [ ]
     # lcmd + lctrl + lalt - 0x1E : /run/current-system/sw/bin/yabai -m display --focus next || /run/current-system/sw/bin/yabai -m display --focus first;
     # lcmd + lctrl + lalt - 0x21 : /run/current-system/sw/bin/yabai -m display --focus prev || /run/current-system/sw/bin/yabai -m display --focus last;
-    # lcmd + lctrl + lalt + shift - 0x1E : /run/current-system/sw/bin/yabai -m window --display next;
-    # lcmd + lctrl + lalt + shift - 0x21 : /run/current-system/sw/bin/yabai -m window --display prev;
+    lcmd + lctrl + lalt + shift - 0x1E : /run/current-system/sw/bin/yabai -m window --display next;
+    lcmd + lctrl + lalt + shift - 0x21 : /run/current-system/sw/bin/yabai -m window --display prev;
     lcmd + lctrl + lalt - 0x1E : /run/current-system/sw/bin/yabai -m display --focus next || /run/current-system/sw/bin/yabai -m display --focus first || /run/current-system/sw/bin/yabai -m space --focus next || /run/current-system/sw/bin/yabai -m space --focus first;
     lcmd + lctrl + lalt - 0x21 : /run/current-system/sw/bin/yabai -m display --focus prev || /run/current-system/sw/bin/yabai -m display --focus last || /run/current-system/sw/bin/yabai -m space --focus prev || /run/current-system/sw/bin/yabai -m space --focus last;
 
