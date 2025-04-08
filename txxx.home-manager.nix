@@ -3,7 +3,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   imports = [
     ./pkgs/home_defaults.nix
 
@@ -12,6 +13,13 @@
     ./pkgs/alacritty/home.alacritty.nix
     ./pkgs/elvish/elvish.nix
   ];
+
+  programs.firefox.package = pkgs.firefox-bin.override {
+    nativeMessagingHosts = [
+      pkgs.tridactyl-native
+      pkgs.plasma-browser-integration
+    ];
+  };
 
   programs.java.enable = true;
   programs.java.package = pkgs.jdk17;
