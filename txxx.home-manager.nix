@@ -14,7 +14,7 @@
     ./pkgs/elvish/elvish.nix
   ];
 
-  package = pkgs.wrapFirefox pkgs.firefox-devedition-bin {
+  programs.firefox.package = pkgs.wrapFirefox pkgs.firefox-devedition-bin {
     extraPolicies = {
       DisableAppUpdate = true;
       ManualAppUpdateOnly = true;
