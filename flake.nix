@@ -94,7 +94,7 @@
     zls.url = "github:zigtools/zls";
 
     # neovim.url = "github:nix-community/neovim-nightly-overlay?rev=1b82dbcbbcba812ad19f5c0601d1731731bf4ebe";
-    neovim.url = "github:nix-community/neovim-nightly-overlay";
+    neovim.url = "github:nix-community/neovim-nightly-overlay?rev=5055d63816f4e516cb4a6f75222b95f12757bea7";
     # neovim.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     turbo.url = "github:alexghr/turborepo.nix";
