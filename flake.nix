@@ -8,9 +8,10 @@
       url = "github:LnL7/nix-darwin/nix-darwin-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # nixpkgs-fixed.url = "github:NixOS/nixpkgs?rev=8b908192e64224420e2d59dfd9b2e4309e154c5d";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/master";
-    nixpkgs-nightly.url = "github:NixOS/nixpkgs/master";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs?rev=c8cd81426f45942bb2906d5ed2fe21d2f19d95b7";
+    nixpkgs-nightly.url = "github:NixOS/nixpkgs?rev=c8cd81426f45942bb2906d5ed2fe21d2f19d95b7";
+    # nixpkgs-unstable.url = "github:NixOS/nixpkgs/master";
+    # nixpkgs-nightly.url = "github:NixOS/nixpkgs/master";
 
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
@@ -32,7 +33,7 @@
     flake-utils.url = "github:numtide/flake-utils";
 
     # dotfiles.url = "codeberg:aca/dotfiles/main";
-    dotfiles.url = "git+https://codeberg.org/aca/dotfiles?submodules=1";
+    dotfiles.url = "git+https://codeberg.org/aca/dotfiles?submodules=0";
     dotfiles.flake = false;
 
     scalpel.url = "github:polygon/scalpel";
