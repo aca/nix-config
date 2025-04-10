@@ -36,6 +36,7 @@
     script = "source /run/agenix/env; go run .";
   };
 
+
   systemd.services."trader-up" = {
     serviceConfig.User = "rok";
     serviceConfig.Restart = "always";
