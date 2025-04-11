@@ -16,12 +16,12 @@ in
     ./pkgs/vifm/vifmrc.nix
   ];
 
-  programs.firefox.package = pkgs.firefox-devedition.override {
-      nativeMessagingHosts = [
-        pkgs.tridactyl-native
-        pkgs.plasma-browser-integration
-      ];
-    };
+  # programs.firefox.package = pkgs.firefox-devedition.override {
+  #     nativeMessagingHosts = [
+  #       pkgs.tridactyl-native
+  #       pkgs.plasma-browser-integration
+  #     ];
+  #   };
 
   home.stateVersion = "24.11";
   programs.home-manager.enable = true;

@@ -5,11 +5,27 @@
   lib,
   ...
 }:
+let
+  isNixOS = builtins.pathExists /etc/nixos;
+in
 {
   programs.firefox = {
     enable = true;
-    profiles.default = {
-      id = 0;
+    # package = pkgs.firefox-devedition;
+    package = lib.mkDefault (
+      if isNixOS then
+        pkgs.firefox-devedition.override {
+          nativeMessagingHosts = [
+            pkgs.tridactyl-native
+            pkgs.plasma-browser-integration
+          ];
+        }
+      else
+        pkgs.firefox-devedition
+    );
+    profiles.dev-edition-default = {
+      # id = 0;
+      # name = "profile_0";
       settings = {
         # "browser.startup.homepage" = "about:blank";
         # "browser.urlbar.placeholderName" = "Google";
@@ -49,8 +65,6 @@
         # "browser.onboarding.enabled" = false;
         # "browser.download.dir" = "${config.user.home}/Downloads";
       };
-      name = "default";
-      # name = "dev-edition-default";
       isDefault = true;
       extensions = with pkgs.nur.repos.rycee.firefox-addons; [
         ublock-origin
