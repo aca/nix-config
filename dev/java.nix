@@ -7,6 +7,6 @@
       kotlin
       kotlin-language-server
       openjdk
-      jetbrains.idea-community-bin
+      # jetbrains.idea-community-bin
   ];
 }

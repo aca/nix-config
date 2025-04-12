@@ -2,16 +2,16 @@
 {
   inputs = {
     # NOTES: check https://status.nixos.org/ and specify the revision for cache
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:nixos/nixpkgs/master";
 
     darwin = {
       url = "github:LnL7/nix-darwin/nix-darwin-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs?rev=c8cd81426f45942bb2906d5ed2fe21d2f19d95b7";
-    nixpkgs-nightly.url = "github:NixOS/nixpkgs?rev=c8cd81426f45942bb2906d5ed2fe21d2f19d95b7";
-    # nixpkgs-unstable.url = "github:NixOS/nixpkgs/master";
-    # nixpkgs-nightly.url = "github:NixOS/nixpkgs/master";
+    # nixpkgs-unstable.url = "github:NixOS/nixpkgs?rev=f675531bc7e6657c10a18b565cfebd8aa9e24c14";
+    # nixpkgs-nightly.url = "github:NixOS/nixpkgs?rev=f675531bc7e6657c10a18b565cfebd8aa9e24c14";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/master";
+    nixpkgs-nightly.url = "github:NixOS/nixpkgs/master";
 
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
@@ -38,7 +38,7 @@
 
     scalpel.url = "github:polygon/scalpel";
 
-    zen-browser.url = "github:0xc000022070/zen-browser-flake";
+    # zen-browser.url = "github:0xc000022070/zen-browser-flake";
 
     # fh.url = "https://flakehub.com/f/DeterminateSystems/fh/*.tar.gz";
 
@@ -99,9 +99,9 @@
 
     turbo.url = "github:alexghr/turborepo.nix";
 
-    nixpkgs-firefox-darwin = {
-      url = "github:bandithedoge/nixpkgs-firefox-darwin";
-    };
+    # nixpkgs-firefox-darwin = {
+    #   url = "github:bandithedoge/nixpkgs-firefox-darwin";
+    # };
 
     # Rust toolchains and rust-analyzer nightly for Nix
     fenix.url = "github:nix-community/fenix";
@@ -251,7 +251,7 @@
               {
                 nixpkgs.overlays = (overlays_default system) ++ [
                   inputs.nur.overlays.default
-                  inputs.nixpkgs-firefox-darwin.overlay
+                  # inputs.nixpkgs-firefox-darwin.overlay
                   (useunstableoverlay system "yabai")
                   (useunstableoverlay system "skhd")
                 ];

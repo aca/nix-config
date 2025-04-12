@@ -823,7 +823,7 @@ in
       # fluffychat
       element-desktop
       ntfy-sh
-      neovide
+      # neovide
       # pkgs.unstable.matrix-commander
       matrix-commander
       synapse-admin
@@ -1009,8 +1009,8 @@ in
       # nodePackages.yaml-language-server
       # nodePackages.vscode-langservers-extracted
       # libguestfs
-      libguestfs-with-appliance # https://github.com/NixOS/nixpkgs/issues/37540
-      guestfs-tools
+      # libguestfs-with-appliance # https://github.com/NixOS/nixpkgs/issues/37540
+      # guestfs-tools
       exfat
       # formatter
       alejandra # nix
@@ -1086,11 +1086,11 @@ in
       desktop-file-utils
       entr
       pandoc
-      davinci-resolve
+      # davinci-resolve
       dura
       valgrind
 
-      appimage-run
+      # appimage-run
       # qemu
       # act
 
@@ -1263,9 +1263,9 @@ in
       pkg-config
       libllvm
       # pkgs.unstable.yazi
-      jetbrains.datagrip
+      # jetbrains.datagrip
       # neovide
-      jetbrains.clion
+      # jetbrains.clion
       emacs
       # (lowPrio uutils-coreutils-noprefix)
       freecad-wayland

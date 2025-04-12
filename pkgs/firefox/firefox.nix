@@ -40,6 +40,7 @@ in
         "browser.sessionstore.max_resumed_crashes" = 0;
         "toolkit.startup.recent_crashes" = 0;
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+        "browser.fullscreen.autohide" = false;
         # "browser.aboutConfig.showWarning" =
         # "browser.startup.page" = 3; # Restore previous session
         #

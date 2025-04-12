@@ -155,7 +155,6 @@ in {
       # sourcekit-lsp
       darwin.iproute2mac
       # xorg.luit
-      # firefox-bin
       # zigpkgs.master
       # system
       coreutils-full

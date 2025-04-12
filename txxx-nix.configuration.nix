@@ -409,7 +409,6 @@ in
       "wireshark"
     ];
     packages = with pkgs; [
-      # firefox
       # pueue
       kate
       #  thunderbird

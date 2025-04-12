@@ -96,7 +96,7 @@ let
       // (usenightly system "bun")
       # // (useunstable system "vector")
       // (useunstable system "ripgrep")
-      // (useunstable system "firefox")
+      # // (useunstable system "firefox")
       // (usenightly system "yt-dlp")
       # // (useunstable system "alejandra")
       // (useunstable system "deno")
