@@ -23,6 +23,21 @@ in
       else
         pkgs.firefox-devedition
     );
+    policies = {
+      DisablePocket = true;
+      # ---- EXTENSIONS ----
+      # Check about:support for extension/add-on ID strings.
+      # Valid strings for installation_mode are "allowed", "blocked",
+      # "force_installed" and "normal_installed".
+      ExtensionSettings = {
+        # ctrl + number for firefox
+        "{84601290-bec9-494a-b11c-1baa897a9683}" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/file/4192880/ctrl_number_to_switch_tabs-1.0.2.xpi";
+          installation_mode = "force_installed";
+        };
+      };
+    };
+
     profiles.dev-edition-default = {
       # id = 0;
       # name = "profile_0";
@@ -68,6 +83,7 @@ in
       };
       isDefault = true;
       extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+        # firefox-ctrlnumber
         ublock-origin
         # bypass-paywalls-clean
         tridactyl

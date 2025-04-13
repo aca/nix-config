@@ -11,11 +11,12 @@
     ruff
 
     basedpyright
-    (python311.withPackages (ps:
+    (python312.withPackages (ps:
       with ps; [
         boto3
         pyyaml
         openai
+        binance-connector
         bpython
         torch
         pandas
