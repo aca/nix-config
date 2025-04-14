@@ -105,7 +105,7 @@
     };
   };
   virtualisation.docker = {
-    enable = true; # replace with podman
+    enable = false; # replace with podman
     # package = pkgs.docker;
     daemon.settings = {
       # hosts = ["tcp://127.0.0.1:2375"];
