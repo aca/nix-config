@@ -43,6 +43,7 @@
   services.dbus.enable = true;
 
   services.openssh.enable = true;
+  services.openssh.settings.PasswordAuthentication = false;
   users.users.root.openssh.authorizedKeys.keys = [
     (import ./keys.nix).root
     (import ./keys.nix).home

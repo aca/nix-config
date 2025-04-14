@@ -26,6 +26,7 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "both";
   services.tailscale.extraSetFlags = [
@@ -37,6 +38,7 @@
   age.identityPaths = ["/home/rok/.ssh/id_ed25519"];
 
   services.openssh.enable = true;
+  services.openssh.settings.PasswordAuthentication = false;
   users.users.root.openssh.authorizedKeys.keys = [
     (import ./keys.nix).root
     (import ./keys.nix).home
@@ -69,19 +71,6 @@
   };
 
   zramSwap.enable = true;
-
-  # services.github-runner = {
-  #   enable = true;
-  #   url = ''https://github.com/investing-kr/oci-arm-host-capacity'';
-  #   tokenFile = ''/root/.github'';
-  #   name = ''oci-aca-002'';
-  #   replace = true;
-  #   extraLabels = [ "nix" ];
-  #   extraPackages = with pkgs; [
-  #     php82
-  #     php82Packages.composer
-  #   ];
-  # };
 
   networking.firewall = {
     enable = true;
