@@ -23,9 +23,7 @@
 
   system.stateVersion = "24.11";
   networking.hostName = "oci-aca-001";
-
   boot.kernelPackages = pkgs.linuxPackages_latest;
-
 
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "both";
@@ -104,15 +102,16 @@
       };
     };
   };
-  virtualisation.docker = {
-    enable = false; # replace with podman
-    # package = pkgs.docker;
-    daemon.settings = {
-      # hosts = ["tcp://127.0.0.1:2375"];
-      hosts = ["tcp://0.0.0.0:2375"];
-      # insecure-registries = import ./dev/docker.insecure-registries.nix;
-    };
-  };
+
+  # virtualisation.docker = {
+  #   enable = false; # replace with podman
+  #   # package = pkgs.docker;
+  #   daemon.settings = {
+  #     # hosts = ["tcp://127.0.0.1:2375"];
+  #     hosts = ["tcp://0.0.0.0:2375"];
+  #     # insecure-registries = import ./dev/docker.insecure-registries.nix;
+  #   };
+  # };
 
   environment.systemPackages = with pkgs; [
     fzf
