@@ -222,15 +222,15 @@ in rec {
 
   services.fwupd.enable = true;
 
-  virtualisation.containers.enable = true;
-  virtualisation.containers.policy = {
-    default = [{type = "insecureAcceptAnything";}];
-    transports = {
-      docker-daemon = {
-        "" = [{type = "insecureAcceptAnything";}];
-      };
-    };
-  };
+  # virtualisation.containers.enable = true;
+  # virtualisation.containers.policy = {
+  #   default = [{type = "insecureAcceptAnything";}];
+  #   transports = {
+  #     docker-daemon = {
+  #       "" = [{type = "insecureAcceptAnything";}];
+  #     };
+  #   };
+  # };
 
   systemd.tmpfiles.settings."logs" = {
     "/logs" = {
