@@ -95,7 +95,7 @@
   #   ];
   # };
 
-  virtualisation.containers.enable = false;
+  virtualisation.containers.enable = true;
   virtualisation.containers.policy = {
     default = [{type = "insecureAcceptAnything";}];
     transports = {
@@ -105,7 +105,7 @@
     };
   };
   virtualisation.docker = {
-    enable = false; # replace with podman
+    enable = true; # replace with podman
     # package = pkgs.docker;
     daemon.settings = {
       # hosts = ["tcp://127.0.0.1:2375"];
