@@ -21,23 +21,6 @@
   #   };
   # };
 
-  # psql -U postgres -d postgres -h 100.73.136.56 -p 5432
-  # services.postgresql = {
-  #   enable = true;
-  #   ensureDatabases = [ "asset" ];
-  #   enableTCPIP = true;
-  #   authentication = pkgs.lib.mkOverride 10 ''
-  #     local all all              trust
-  #     host  all all 127.0.0.1/32 trust
-  #     host  all all ::1/128      trust
-  #     host  all all 100.0.0.0/8 trust
-  #   '';
-  #   ensureUsers = [
-  #     { name = "rok"; }
-  #   ];
-  #   settings.port = 5432;
-  # };
-
   system.stateVersion = "24.11";
   networking.hostName = "oci-aca-001";
 
@@ -52,11 +35,6 @@
   services.tailscale.extraDaemonFlags = ["--socks5-server=0.0.0.0:1080"]; # blocked by firewall
 
   age.identityPaths = ["/home/rok/.ssh/id_ed25519"];
-  # age.secrets."env" = {
-  #   file = ./secrets/env.oci-aca-001.age;
-  #   mode = "777";
-  # };
-  # environment.extraInit = "source ${config.age.secrets."env".path}";
 
   services.openssh.enable = true;
   users.users.root.openssh.authorizedKeys.keys = [
@@ -152,6 +130,7 @@
     git
     jq
     fd
+    htop
     ripgrep
     gcc
     procps
