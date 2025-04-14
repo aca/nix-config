@@ -112,12 +112,12 @@
   # };
 
   networking.firewall = {
-    enable = false;
-    # allowedTCPPorts = [
-    #   22
-    #   80
-    #   443
-    # ];
+    enable = true;
+    allowedTCPPorts = [
+      22
+      80
+      443
+    ];
   };
 
 
