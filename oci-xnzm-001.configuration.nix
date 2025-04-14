@@ -74,7 +74,6 @@
     xsel
   ];
 
-
   # # curl 100.79.222.108:9100/prometheus
   # services.prometheus = {
   #   exporters = {

@@ -1,6 +1,4 @@
-{
-  pkgs ? import <nixpkgs> { }
-}:
+{pkgs ? import <nixpkgs> {}}:
 pkgs.buildGoModule rec {
   name = "qbt";
   version = "0.1";

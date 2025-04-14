@@ -4,7 +4,6 @@
   lib,
   ...
 }: let
-
   # bash script to let dbus know about important env variables and
   # propagate them to relevent services run at the end of sway config
   # see
@@ -43,10 +42,7 @@
     '';
   };
 in {
-
-
   environment.systemPackages = with pkgs; [
-
     (import ./sway-workspace.nix)
 
     # alacritty # gpu accelerated terminal

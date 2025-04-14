@@ -4,11 +4,11 @@
   ...
 }: {
   environment.systemPackages = with pkgs; [
-      android
-      android-tools
-      android-studio
-      android-udev-rules
-      flutter
-      jdk11
+    android
+    android-tools
+    android-studio
+    android-udev-rules
+    flutter
+    jdk11
   ];
 }

@@ -22,7 +22,6 @@
     }
   ];
 
-
   # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/monitoring/prometheus/exporters.nix
   services.prometheus.exporters.node = {
     enable = true;

@@ -3,8 +3,7 @@
   pkgs,
   lib,
   ...
-}:
-{
+}: {
   imports = [
     ./pkgs/home_defaults.nix
 

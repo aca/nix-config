@@ -77,9 +77,9 @@ in {
     findutils
     moreutils
 
-   autoconf
-   automake
-   m4
+    autoconf
+    automake
+    m4
     atool
     curl
     xorg.luit

@@ -4,24 +4,22 @@
   pkgs,
   lib,
   ...
-}:
-let
+}: let
   isNixOS = builtins.pathExists /etc/nixos;
-in
-{
+in {
   programs.firefox = {
     enable = true;
     # package = pkgs.firefox-devedition;
     package = lib.mkDefault (
-      if isNixOS then
+      if isNixOS
+      then
         pkgs.firefox-devedition.override {
           nativeMessagingHosts = [
             pkgs.tridactyl-native
             pkgs.plasma-browser-integration
           ];
         }
-      else
-        pkgs.firefox-devedition-bin
+      else pkgs.firefox-devedition-bin
     );
     policies = {
       DisablePocket = true;

@@ -4,7 +4,7 @@
   inputs,
   lib,
   ...
-}: let 
+}: let
 in {
   home.file.".local/share/elvish/lib/github.com/aca/elvish-utils".source = inputs.elvish-utils.outPath;
   home.file.".local/share/elvish/lib/github.com/xiaq/edit.elv".source = inputs.elvish-edit-elv.outPath;
@@ -78,6 +78,5 @@ in {
     #     unset-env https_proxy
     #     unset-env no_proxy
     # }
-    + (builtins.readFile ./ghostty.elv)
-    ;
+    + (builtins.readFile ./ghostty.elv);
 }

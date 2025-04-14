@@ -23,7 +23,6 @@
 
   services.logind.lidSwitch = "ignore";
 
-
   # programs.adb.enable = true;
   programs.fish.enable = true;
 
@@ -349,14 +348,12 @@
       # tools
       # via
       # vial
-
     ]
     ++ [
       # nodePackages_latest.fx
       # nodePackages_latest.prettier
       # nodePackages.yaml-language-server
       # nodePackages.vscode-langservers-extracted
-
     ]
     ++ [
       # pup
@@ -472,7 +469,6 @@
       # gptfdisk
       # zip
 
-
       # video
       # rav1e
       #
@@ -482,15 +478,7 @@
       gcc
       gettext
       killall
-      
-      
-      
-      
-      
-      
-      
-      
-      
+
       inetutils
       wget
       coreutils-full

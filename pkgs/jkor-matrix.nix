@@ -9,8 +9,7 @@
   inputs,
   lib,
   ...
-}:
-{
+}: {
   # use caddy as a reverse proxy, serve synapse, sliding-sync
   services.caddy.enable = true;
   services.caddy.virtualHosts."mx-synapse.duckdns.org".extraConfig = ''
@@ -36,7 +35,7 @@
 
   services.postgresql = {
     enable = true;
-    ensureDatabases = [ "asset" ];
+    ensureDatabases = ["asset"];
     enableTCPIP = true;
     # authentication = pkgs.lib.mkOverride 10 ''
     #   local all all              trust
@@ -50,7 +49,7 @@
       local all       all     trust
     '';
     ensureUsers = [
-      { name = "rok"; }
+      {name = "rok";}
     ];
     settings.port = 5432;
   };

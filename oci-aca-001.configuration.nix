@@ -3,17 +3,11 @@
   inputs,
   pkgs,
   ...
-}:
-{
+}: {
   imports = [
     ./hardware/oci-aca-001.nix
     ./pkgs/jkor-matrix.nix
-    # inputs.vaultix.nixosModules.default
   ];
-
-  # services.userborn.enable = true;
-
-  # systemd.sysusers.enable = true;
 
   # services.grafana = {
   #   enable = true;
@@ -55,9 +49,9 @@
     "--ssh"
     "--advertise-exit-node=true"
   ];
-  services.tailscale.extraDaemonFlags = [ "--socks5-server=0.0.0.0:1080" ]; # blocked by firewall
+  services.tailscale.extraDaemonFlags = ["--socks5-server=0.0.0.0:1080"]; # blocked by firewall
 
-  age.identityPaths = [ "/home/rok/.ssh/id_ed25519" ];
+  age.identityPaths = ["/home/rok/.ssh/id_ed25519"];
   # age.secrets."env" = {
   #   file = ./secrets/env.oci-aca-001.age;
   #   mode = "777";
@@ -120,7 +114,6 @@
     ];
   };
 
-
   # nixpkgs.config.permittedInsecurePackages = ["nodejs-16.20.1"];
   # age.secrets."github.com__aca__oci-aca-002.age".file = ./secrets/github.com__aca__oci-aca-002.age;
   # services.github-runners.aca__oci-arm-host-capacity__oci-aca-002_001 = {
@@ -137,10 +130,10 @@
 
   virtualisation.containers.enable = true;
   virtualisation.containers.policy = {
-    default = [ { type = "insecureAcceptAnything"; } ];
+    default = [{type = "insecureAcceptAnything";}];
     transports = {
       docker-daemon = {
-        "" = [ { type = "insecureAcceptAnything"; } ];
+        "" = [{type = "insecureAcceptAnything";}];
       };
     };
   };
@@ -149,7 +142,7 @@
     # package = pkgs.docker;
     daemon.settings = {
       # hosts = ["tcp://127.0.0.1:2375"];
-      hosts = [ "tcp://0.0.0.0:2375" ];
+      hosts = ["tcp://0.0.0.0:2375"];
       # insecure-registries = import ./dev/docker.insecure-registries.nix;
     };
   };

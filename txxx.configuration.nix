@@ -8,7 +8,7 @@
   hostName = "txxx";
 in {
   nix.package = pkgs.nix;
-nix.enable = false;
+  nix.enable = false;
 
   nix.settings.experimental-features = "nix-command flakes";
   # nix.settings.trusted-users = ["root" "rok"];
@@ -41,7 +41,6 @@ nix.enable = false;
   # environment.variables = rec {
   #   LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.oracle-instantclient];
   # };
-
 
   # fonts = {
   #   fontDir = {

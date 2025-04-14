@@ -13,7 +13,7 @@
     nixd
     # nixVersions.latest
     nixfmt-rfc-style
-      nix-tree
+    nix-tree
     alejandra
     home-manager
     devenv

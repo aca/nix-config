@@ -2,8 +2,7 @@
   config,
   pkgs,
   ...
-}:
-{
+}: {
   fonts.packages = with pkgs; [
     cm_unicode
     noto-fonts

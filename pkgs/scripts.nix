@@ -5,23 +5,22 @@
   inputs,
   modules,
   ...
-}:
-let
+}: let
   hostname = config.networking.hostName;
   binscripts =
     builtins.mapAttrs (name: text: builtins.readFile ((builtins.toString ./.) + "/scripts/${name}"))
-      (
-        lib.filterAttrs (
-          key: value:
-          value == "regular"
+    (
+      lib.filterAttrs (
+        key: value:
+          value
+          == "regular"
           && key != "tsconfig.json"
           && key != "bun.lockb"
           && key != "package.json"
           && key != ".gitignore"
-        ) (builtins.readDir ./scripts)
-      );
-in
-{
+      ) (builtins.readDir ./scripts)
+    );
+in {
   # imports = [
   #   ./scripts__git.nix
   # ];
@@ -198,7 +197,8 @@ in
       })
 
       (
-        if pkgs.stdenv.isLinux then
+        if pkgs.stdenv.isLinux
+        then
           pkgs.writeShellScriptBin "ci" ''
             # if [ "$SSH_TTY" != "" ]; then
             #     yank
@@ -214,19 +214,18 @@ in
                 wl-copy
             fi
           ''
-        else
-          pkgs.writeShellScriptBin "ci" ''pbcopy''
+        else pkgs.writeShellScriptBin "ci" ''pbcopy''
       )
 
       (
-        if pkgs.stdenv.isLinux then
-          pkgs.writeShellScriptBin "pbcopy" "ci"
-        else
-          pkgs.writeShellScriptBin "pbcopy.darwin" "ci"
+        if pkgs.stdenv.isLinux
+        then pkgs.writeShellScriptBin "pbcopy" "ci"
+        else pkgs.writeShellScriptBin "pbcopy.darwin" "ci"
       )
 
       (
-        if pkgs.stdenv.isLinux then
+        if pkgs.stdenv.isLinux
+        then
           pkgs.writeShellScriptBin "co" ''
             # if pgrep copyq 1>/dev/null 2>/dev/null; then
             #     copyq read 0
@@ -236,19 +235,18 @@ in
                 wl-paste --no-newline
             fi
           ''
-        else
-          pkgs.writeShellScriptBin "co" ''pbpaste''
+        else pkgs.writeShellScriptBin "co" ''pbpaste''
       )
 
       (
-        if pkgs.stdenv.isLinux then
-          pkgs.writeShellScriptBin "pbpaste" ''co''
-        else
-          pkgs.writeShellScriptBin "pbpaste.darwin" ''ci''
+        if pkgs.stdenv.isLinux
+        then pkgs.writeShellScriptBin "pbpaste" ''co''
+        else pkgs.writeShellScriptBin "pbpaste.darwin" ''ci''
       )
 
       (
-        if pkgs.stdenv.isDarwin then
+        if pkgs.stdenv.isDarwin
+        then
           pkgs.writeShellScriptBin "vol" ''
             ${pkgs.elvish}/bin/elvish -c 'use math; osascript -e "set Volume "(math:round (/ $args[0] 10))'
             # sudo osascript -e "set Volume "(math:round (/ $args[0] 10))
@@ -297,8 +295,7 @@ in
       # (builtins.mapAttrs (name: text: pkgs.writeShellScriptBin name text) (builtins.readDir ./scripts))
     ]
     ++ (map (
-      name:
-      (pkgs.writeTextFile {
+      name: (pkgs.writeTextFile {
         name = name;
         text = binscripts.${name};
         executable = true;
@@ -327,3 +324,4 @@ in
 #   nop ?(pactl set-sink-volume $i $args[0]'%')
 # }
 # ''
+

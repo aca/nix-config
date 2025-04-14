@@ -19,7 +19,7 @@ in {
       # clipboard-write = deny
       clipboard-trim-trailing-spaces = true
       clipboard-paste-protection = false
-      
+
 
       window-decoration = false
       confirm-close-surface = false

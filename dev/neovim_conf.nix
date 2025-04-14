@@ -1,8 +1,4 @@
-{
-  pkgs,
-  ...
-}:
-rec {
+{pkgs, ...}: rec {
   systemd.services."nvim-rebuild" = {
     enable = true;
     wantedBy = ["multi-user.target"];

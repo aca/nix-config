@@ -4,7 +4,7 @@
   ...
 }: {
   environment.systemPackages = with pkgs; [
-  # zig
+    # zig
     # zigpkgs.default
   ];
 }

@@ -6,10 +6,8 @@
   inputs,
   system,
   ...
-}:
-let
-in
-{
+}: let
+in {
   fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-cjk-sans

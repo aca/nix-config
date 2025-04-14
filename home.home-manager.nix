@@ -21,7 +21,6 @@ in {
     ./pkgs/alacritty/home.alacritty.nix
   ];
 
-
   home.stateVersion = "24.11";
   home.username = "rok";
   home.homeDirectory = "/home/rok";
@@ -30,7 +29,7 @@ in {
     (pkgs.buildFHSUserEnv {
       name = "pixi";
       runScript = "pixi";
-      targetPkgs = pkgs: with pkgs; [ pixi ];
+      targetPkgs = pkgs: with pkgs; [pixi];
     })
   ];
 
@@ -83,8 +82,6 @@ in {
     name = "qbt-torrent-add";
     exec = "/home/rok/src/github.com/aca/dotfiles/bin/qbt-torrent-add %u";
   };
-
-
 
   # xdg-mime query filetype XXX.toml
   # xdg-mime query filetype XXX.ext
@@ -167,10 +164,8 @@ in {
   # };
 
   # https://github.com/nix-community/home-manager/issues/355#issuecomment-524042996
-  # Note to other users: the problem of old services being never deleted can be avoided by setting 
-  # systemd.user.startServices to true, if no services have failed yet. 
+  # Note to other users: the problem of old services being never deleted can be avoided by setting
+  # systemd.user.startServices to true, if no services have failed yet.
   # Otherwise, you need to systemctl --user reset-failed the degraded services before calling home-manager.
   systemd.user.startServices = true;
-
-
 }

@@ -3,10 +3,8 @@
   lib,
   inputs,
   ...
-}:
-let
-in
-{
+}: let
+in {
   imports = [
     ./pkgs/home_defaults.nix
     ./pkgs/elvish/elvish.nix

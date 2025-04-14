@@ -113,103 +113,98 @@
     };
   };
 
-  outputs =
-    {
-      self,
-      nur,
-      nixpkgs,
-      nixpkgs-unstable,
-      nixpkgs-nightly,
-      # nixpkgs-fixed,
-      # autin,
-      # nixpkgs-aca,
-      # nil,
-      # lazybox,
-      # zapret,
-      home-manager,
-      agenix,
-      dotfiles,
-      # turbo,
-      mac-app-util,
-      zig,
-      zls,
-      darwin,
-      ...
-    }@inputs:
-    let
-      # overlay-aca-x86_64-linux = final: prev: {
-      #   aca = import nixpkgs-aca {
-      #     system = "x86_64-linux";
-      #     config.allowUnfree = true;
-      #   };
-      # };
-      overlay-unstable =
-        system:
-        (final: prev: {
-          unstable = import nixpkgs-unstable {
-            system = system;
-            config.allowUnfree = true;
-          };
-        });
+  outputs = {
+    self,
+    nur,
+    nixpkgs,
+    nixpkgs-unstable,
+    nixpkgs-nightly,
+    # nixpkgs-fixed,
+    # autin,
+    # nixpkgs-aca,
+    # nil,
+    # lazybox,
+    # zapret,
+    home-manager,
+    agenix,
+    dotfiles,
+    # turbo,
+    mac-app-util,
+    zig,
+    zls,
+    darwin,
+    ...
+  } @ inputs: let
+    # overlay-aca-x86_64-linux = final: prev: {
+    #   aca = import nixpkgs-aca {
+    #     system = "x86_64-linux";
+    #     config.allowUnfree = true;
+    #   };
+    # };
+    overlay-unstable = system: (final: prev: {
+      unstable = import nixpkgs-unstable {
+        system = system;
+        config.allowUnfree = true;
+      };
+    });
 
-      useunstable = system: pkg: { ${pkg} = nixpkgs-unstable.legacyPackages.${system}.${pkg}; };
-      useunstableoverlay =
-        system: pkg: (final: prev: { ${pkg} = nixpkgs-unstable.legacyPackages.${system}.${pkg}; });
+    useunstable = system: pkg: {${pkg} = nixpkgs-unstable.legacyPackages.${system}.${pkg};};
+    useunstableoverlay = system: pkg: (final: prev: {${pkg} = nixpkgs-unstable.legacyPackages.${system}.${pkg};});
 
-      # usefixed = system: pkg: {
-      #   ${pkg} = nixpkgs-fixed.legacyPackages.${system}.${pkg};
-      # };
+    # usefixed = system: pkg: {
+    #   ${pkg} = nixpkgs-fixed.legacyPackages.${system}.${pkg};
+    # };
 
-      # (final: prev: {
-      #   unstable = import nixpkgs-unstable {
-      #     system = system;
-      #     config.allowUnfree = true;
-      #   };
-      # })
+    # (final: prev: {
+    #   unstable = import nixpkgs-unstable {
+    #     system = system;
+    #     config.allowUnfree = true;
+    #   };
+    # })
 
-      overlays_default = system: [
-        (
-          final: prev: { } // (useunstable system "linuxPackages_latest") // (useunstable system "vifm")
-          # // (useunstable system "vector")
-          # // (useunstable system "alejandra")
-          # // (useunstable system "rust-analyzer")
-          # // (useunstable system "nodejs")
-          # // (useunstable system "firefox-devedition-bin")
-          # // (useunstable system "chromium")
-          # // (useunstable system "microsoft-edge")
-          # // (useunstable system "pipewire")
-          # // (useunstable system "wireplumber")
-          # // (useunstable system "pwvucontrol")
-          # // (usefixed system "davinci-resolve")
-          # // (usefixed system "libreoffice-qt")
-        )
+    overlays_default = system: [
+      (
+        final: prev: {} // (useunstable system "linuxPackages_latest") // (useunstable system "vifm")
+        # // (useunstable system "vector")
+        # // (useunstable system "alejandra")
+        # // (useunstable system "rust-analyzer")
+        # // (useunstable system "nodejs")
+        # // (useunstable system "firefox-devedition-bin")
+        # // (useunstable system "chromium")
+        # // (useunstable system "microsoft-edge")
+        # // (useunstable system "pipewire")
+        # // (useunstable system "wireplumber")
+        # // (useunstable system "pwvucontrol")
+        # // (usefixed system "davinci-resolve")
+        # // (usefixed system "libreoffice-qt")
+      )
 
-        #   (final: prev: {neovim = inputs.neovim-nightly-overlay.overlays.default;})
-        # (final: prev: {tmux = nixpkgs-unstable.pkgs.tmux;})
-        #   (final: prev: {
-        #     # bun = nixpkgs-unstable.pkgs.bun;
-        #     # gopls = nixpkgs-unstable.pkgs.gopls;
-        #     # fzf = nixpkgs-unstable.pkgs.fzf;
-        #     # fd = nixpkgs-unstable.pkgs.fd;
-        #     # ripgrep = nixpkgs-unstable.pkgs.ripgrep;
-        #     # alejandra = nixpkgs-unstable.pkgs.alejandra;
-        #     # deno = nixpkgs-unstable.pkgs.deno;
-        #     # vector = nixpkgs-unstable.pkgs.vector;
-        #   })
-        # ( self: super: {
-        #  tmux = super.tmux.overrideAttrs (old: rec {
-        #    pname = "tmux";
-        #    version = "3.4-next";
-        #    patches = [];
-        #    src = super.fetchFromGitHub {
-        #      owner = "tmux";
-        #      repo = "tmux";
-        #      rev = "4266d3efc89cdf7d1af907677361caa24b58c9eb";
-        #      sha256 = "sha256-LliON7p1KyVucCu61sPKihYxtXsAKCvAvRBvNgoV0/g=";
-        #    };
-        #    }))};
-      ];
-    in
+      #   (final: prev: {neovim = inputs.neovim-nightly-overlay.overlays.default;})
+      # (final: prev: {tmux = nixpkgs-unstable.pkgs.tmux;})
+      #   (final: prev: {
+      #     # bun = nixpkgs-unstable.pkgs.bun;
+      #     # gopls = nixpkgs-unstable.pkgs.gopls;
+      #     # fzf = nixpkgs-unstable.pkgs.fzf;
+      #     # fd = nixpkgs-unstable.pkgs.fd;
+      #     # ripgrep = nixpkgs-unstable.pkgs.ripgrep;
+      #     # alejandra = nixpkgs-unstable.pkgs.alejandra;
+      #     # deno = nixpkgs-unstable.pkgs.deno;
+      #     # vector = nixpkgs-unstable.pkgs.vector;
+      #   })
+      # ( self: super: {
+      #  tmux = super.tmux.overrideAttrs (old: rec {
+      #    pname = "tmux";
+      #    version = "3.4-next";
+      #    patches = [];
+      #    src = super.fetchFromGitHub {
+      #      owner = "tmux";
+      #      repo = "tmux";
+      #      rev = "4266d3efc89cdf7d1af907677361caa24b58c9eb";
+      #      sha256 = "sha256-LliON7p1KyVucCu61sPKihYxtXsAKCvAvRBvNgoV0/g=";
+      #    };
+      #    }))};
+    ];
+  in
     # overlays = [
     #   inputs.neovim-nightly-overlay.overlays.default
     # ];
@@ -227,20 +222,19 @@
     #   });
     # };
     {
-      darwinConfigurations.txxx =
-        let
-          username = "kyungrok.chung";
-          system = "aarch64-darwin";
-          overlay-unstable = final: prev: {
-            unstable = import nixpkgs-unstable {
-              inherit system;
-              config.allowUnfree = true;
-            };
+      darwinConfigurations.txxx = let
+        username = "kyungrok.chung";
+        system = "aarch64-darwin";
+        overlay-unstable = final: prev: {
+          unstable = import nixpkgs-unstable {
+            inherit system;
+            config.allowUnfree = true;
           };
-        in
+        };
+      in
         inputs.darwin.lib.darwinSystem rec {
           system = "aarch64-darwin";
-          specialArgs = { inherit inputs system; };
+          specialArgs = {inherit inputs system;};
           modules = [
             # ./all.configuration.nix
             (
@@ -248,14 +242,15 @@
                 config,
                 pkgs,
                 ...
-              }:
-              {
-                nixpkgs.overlays = (overlays_default system) ++ [
-                  inputs.nur.overlays.default
-                  inputs.nixpkgs-firefox-darwin.overlay
-                  (useunstableoverlay system "yabai")
-                  (useunstableoverlay system "skhd")
-                ];
+              }: {
+                nixpkgs.overlays =
+                  (overlays_default system)
+                  ++ [
+                    inputs.nur.overlays.default
+                    inputs.nixpkgs-firefox-darwin.overlay
+                    (useunstableoverlay system "yabai")
+                    (useunstableoverlay system "skhd")
+                  ];
               }
             )
 
@@ -273,7 +268,7 @@
             ./neovim.nix
             home-manager.darwinModules.home-manager
             {
-              home-manager.sharedModules = [ mac-app-util.homeManagerModules.default ];
+              home-manager.sharedModules = [mac-app-util.homeManagerModules.default];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users."${username}" = import ./txxx.home-manager.nix;
@@ -285,7 +280,7 @@
 
       nixosConfigurations.txxx-nix = nixpkgs.lib.nixosSystem rec {
         system = "aarch64-linux";
-        specialArgs = { inherit inputs system; };
+        specialArgs = {inherit inputs system;};
         modules = [
           inputs.comin.nixosModules.comin
           ./all.configuration.nix
@@ -303,8 +298,7 @@
             ];
           }
           (
-            { ... }:
-            {
+            {...}: {
               services.comin = {
                 enable = false;
                 remotes = [
@@ -347,13 +341,12 @@
       #   };
       # };
 
-      homeConfigurations."rok@txxx-nix" =
-        let
-          system = "aarch64-linux";
-        in
+      homeConfigurations."rok@txxx-nix" = let
+        system = "aarch64-linux";
+      in
         home-manager.lib.homeManagerConfiguration rec {
           pkgs = nixpkgs.legacyPackages.${system};
-          extraSpecialArgs = { inherit inputs; };
+          extraSpecialArgs = {inherit inputs;};
           modules = [
             ./txxx-nix.home-manager.nix
             {
@@ -386,12 +379,11 @@
       # };
 
       # home-manager switch switch --flake '.#rok@root'
-      homeConfigurations."rok@home" =
-        let
-        in
+      homeConfigurations."rok@home" = let
+      in
         home-manager.lib.homeManagerConfiguration rec {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          extraSpecialArgs = { inherit inputs; };
+          extraSpecialArgs = {inherit inputs;};
           modules = [
             ./home.home-manager.nix
             {
@@ -405,12 +397,11 @@
           ];
         };
 
-      homeConfigurations."rok@root" =
-        let
-        in
+      homeConfigurations."rok@root" = let
+      in
         home-manager.lib.homeManagerConfiguration rec {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          extraSpecialArgs = { inherit inputs; };
+          extraSpecialArgs = {inherit inputs;};
           modules = [
             ./root.home-manager.nix
             {
@@ -427,7 +418,7 @@
       # .#oci-aca-001
       nixosConfigurations.oci-aca-001 = nixpkgs.lib.nixosSystem rec {
         system = "aarch64-linux";
-        specialArgs = { inherit inputs system self; };
+        specialArgs = {inherit inputs system self;};
         modules = [
           inputs.comin.nixosModules.comin
           ./all.configuration.nix
@@ -440,8 +431,7 @@
           }
           ./oci-aca-001.configuration.nix
           (
-            { ... }:
-            {
+            {...}: {
               services.comin = {
                 enable = true;
                 remotes = [
@@ -472,7 +462,7 @@
       # .#home
       nixosConfigurations.home = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs system; };
+        specialArgs = {inherit inputs system;};
         modules = [
           ./all.configuration.nix
           agenix.nixosModules.default
@@ -506,7 +496,7 @@
       # .#root
       nixosConfigurations.root = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs system; };
+        specialArgs = {inherit inputs system;};
         modules = [
           ./all.configuration.nix
           agenix.nixosModules.default
@@ -543,7 +533,7 @@
 
       nixosConfigurations.oci-impx-001 = nixpkgs.lib.nixosSystem rec {
         system = "aarch64-linux";
-        specialArgs = { inherit inputs system; };
+        specialArgs = {inherit inputs system;};
         modules = [
           inputs.comin.nixosModules.comin
           ./all.configuration.nix
@@ -559,8 +549,7 @@
           }
           agenix.nixosModules.default
           (
-            { ... }:
-            {
+            {...}: {
               services.comin = {
                 enable = true;
                 remotes = [
@@ -589,15 +578,14 @@
 
       nixosConfigurations.oci-impx-003 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs system; };
+        specialArgs = {inherit inputs system;};
         modules = [
           inputs.comin.nixosModules.comin
           ./all.configuration.nix
           ./oci-impx-003.configuration.nix
           agenix.nixosModules.default
           (
-            { ... }:
-            {
+            {...}: {
               services.comin = {
                 enable = true;
                 remotes = [
@@ -616,15 +604,14 @@
 
       nixosConfigurations.oci-xnzm-001 = nixpkgs.lib.nixosSystem rec {
         system = "aarch64-linux";
-        specialArgs = { inherit inputs system; };
+        specialArgs = {inherit inputs system;};
         modules = [
           inputs.comin.nixosModules.comin
           ./all.configuration.nix
           ./oci-xnzm-001.configuration.nix
           agenix.nixosModules.default
           (
-            { ... }:
-            {
+            {...}: {
               services.comin = {
                 enable = true;
                 remotes = [
@@ -643,7 +630,7 @@
 
       nixosConfigurations.oci-xnzm-002 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs system; };
+        specialArgs = {inherit inputs system;};
         modules = [
           ./all.configuration.nix
           ./oci-xnzm-002.configuration.nix
@@ -653,7 +640,7 @@
 
       nixosConfigurations.oci-xnzm-003 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs system; };
+        specialArgs = {inherit inputs system;};
         modules = [
           ./all.configuration.nix
           ./oci-xnzm-003.configuration.nix
@@ -663,7 +650,7 @@
 
       nixosConfigurations.oci-xnzm-004 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs system; };
+        specialArgs = {inherit inputs system;};
         modules = [
           ./all.configuration.nix
           ./oci-xnzm-004.configuration.nix
@@ -673,7 +660,7 @@
 
       nixosConfigurations.oci-aca-002 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs system; };
+        specialArgs = {inherit inputs system;};
         modules = [
           ./all.configuration.nix
           ./oci-aca-002.configuration.nix
@@ -683,7 +670,7 @@
 
       nixosConfigurations.oci-aca-003 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs system; };
+        specialArgs = {inherit inputs system;};
         modules = [
           ./all.configuration.nix
           ./oci-aca-003.configuration.nix
@@ -702,8 +689,7 @@
               config,
               pkgs,
               ...
-            }:
-            {
+            }: {
               nixpkgs.overlays = overlays_default system;
             }
           )
@@ -724,17 +710,16 @@
         ];
       };
 
-      nixosConfigurations.rok-nuc =
-        let
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          overlay-unstable = final: prev: {
-            unstable = import nixpkgs-unstable {
-              inherit system;
-              config.allowUnfree = true;
-            };
+      nixosConfigurations.rok-nuc = let
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs;};
+        overlay-unstable = final: prev: {
+          unstable = import nixpkgs-unstable {
+            inherit system;
+            config.allowUnfree = true;
           };
-        in
+        };
+      in
         nixpkgs.lib.nixosSystem rec {
           modules = [
             (
@@ -742,8 +727,7 @@
                 config,
                 pkgs,
                 ...
-              }:
-              {
+              }: {
                 nixpkgs.overlays = overlays_default system;
               }
             )
@@ -768,7 +752,7 @@
 
       nixosConfigurations.archive-0 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs system; };
+        specialArgs = {inherit inputs system;};
         modules = [
           ./all.configuration.nix
           agenix.nixosModules.default
@@ -792,17 +776,16 @@
         ];
       };
 
-      nixosConfigurations.seedbox =
-        let
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          overlay-unstable = final: prev: {
-            unstable = import nixpkgs-unstable {
-              inherit system;
-              config.allowUnfree = true;
-            };
+      nixosConfigurations.seedbox = let
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs;};
+        overlay-unstable = final: prev: {
+          unstable = import nixpkgs-unstable {
+            inherit system;
+            config.allowUnfree = true;
           };
-        in
+        };
+      in
         nixpkgs.lib.nixosSystem rec {
           modules = [
             (
@@ -810,8 +793,7 @@
                 config,
                 pkgs,
                 ...
-              }:
-              {
+              }: {
                 nixpkgs.overlays = overlays_default system;
               }
             )
