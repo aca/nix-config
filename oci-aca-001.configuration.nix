@@ -95,7 +95,7 @@
   #   ];
   # };
 
-  virtualisation.containers.enable = true;
+  virtualisation.containers.enable = false;
   virtualisation.containers.policy = {
     default = [{type = "insecureAcceptAnything";}];
     transports = {
