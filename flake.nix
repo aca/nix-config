@@ -99,9 +99,10 @@
 
     turbo.url = "github:alexghr/turborepo.nix";
 
-    # nixpkgs-firefox-darwin = {
-    #   url = "github:bandithedoge/nixpkgs-firefox-darwin";
-    # };
+    nixpkgs-firefox-darwin = {
+      url = "github:bandithedoge/nixpkgs-firefox-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Rust toolchains and rust-analyzer nightly for Nix
     fenix.url = "github:nix-community/fenix";
@@ -251,7 +252,7 @@
               {
                 nixpkgs.overlays = (overlays_default system) ++ [
                   inputs.nur.overlays.default
-                  # inputs.nixpkgs-firefox-darwin.overlay
+                  inputs.nixpkgs-firefox-darwin.overlay
                   (useunstableoverlay system "yabai")
                   (useunstableoverlay system "skhd")
                 ];

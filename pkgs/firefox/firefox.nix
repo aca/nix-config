@@ -21,7 +21,7 @@ in
           ];
         }
       else
-        pkgs.firefox-devedition
+        pkgs.firefox-devedition-bin
     );
     policies = {
       DisablePocket = true;
