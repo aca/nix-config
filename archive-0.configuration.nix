@@ -115,6 +115,7 @@ in {
       duckdb
       fd
       bat
+      iftop
       ghq
       go
       ethtool
