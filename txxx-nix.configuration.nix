@@ -759,6 +759,7 @@ in {
 
       esbuild
       pavucontrol
+      firefox
 
       gradle_7
       # openjdk23
