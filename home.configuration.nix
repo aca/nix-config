@@ -759,15 +759,15 @@ in {
   # ];
   hardware.bluetooth.enable = true;
 
-  virtualisation.docker = {
-    enable = true; # replace with podman
-    # package = pkgs.docker;
-    daemon.settings = {
-      # hosts = ["tcp://127.0.0.1:2375"];
-      # hosts = ["tcp://0.0.0.0:2375"];
-      # insecure-registries = import ./dev/docker.insecure-registries.nix;
-    };
-  };
+  # virtualisation.docker = {
+  #   enable = true; # replace with podman
+  #   # package = pkgs.docker;
+  #   daemon.settings = {
+  #     # hosts = ["tcp://127.0.0.1:2375"];
+  #     # hosts = ["tcp://0.0.0.0:2375"];
+  #     # insecure-registries = import ./dev/docker.insecure-registries.nix;
+  #   };
+  # };
 
   virtualisation.containers.registries.insecure = [
     "localhost:5000"
@@ -1320,27 +1320,27 @@ in {
   services.spice-vdagentd.enable = true;
   # virtualisation.qemu.guestAgent.enable = true;
 
-  services.syncthing = {
-    enable = true;
-    guiAddress = "0.0.0.0:8384";
-    user = "rok";
-    dataDir = "/home/rok"; # Default folder for new synced folders
-    configDir = "/home/rok/.syncthing"; # Folder for Syncthing's settings and keys
-    settings = {
-      devices = {
-        # "home" = {id = "JIMRCFS-4AQYUPQ-AGCUPAT-D3GK7EN-WZAMSZM-EPSBDHE-PQFWKT5-4DWUMA3";};
-        "root" = {
-          id = "D5HADJL-KDECRCV-GPTJ3RE-MPXNFBH-U6KG3CA-LVSDPP2-MT72ETM-RDM77AG";
-        };
-        "txxx-nix" = {
-          id = "OBPLELA-TYCW5SL-SNNFVFT-JHKT6WY-RQBDG6L-6RHVNHH-KSTKJQV-ITVQMQF";
-        };
-        "txxx" = {
-          id = "BMTXVFR-DXR7XUT-TQSN65G-4SPN2SE-Z35J44T-7A4HJEE-6LRI2XT-ZHZS5QF";
-        };
-      };
-    };
-  };
+  # services.syncthing = {
+  #   enable = true;
+  #   guiAddress = "0.0.0.0:8384";
+  #   user = "rok";
+  #   dataDir = "/home/rok"; # Default folder for new synced folders
+  #   configDir = "/home/rok/.syncthing"; # Folder for Syncthing's settings and keys
+  #   settings = {
+  #     devices = {
+  #       # "home" = {id = "JIMRCFS-4AQYUPQ-AGCUPAT-D3GK7EN-WZAMSZM-EPSBDHE-PQFWKT5-4DWUMA3";};
+  #       "root" = {
+  #         id = "D5HADJL-KDECRCV-GPTJ3RE-MPXNFBH-U6KG3CA-LVSDPP2-MT72ETM-RDM77AG";
+  #       };
+  #       "txxx-nix" = {
+  #         id = "OBPLELA-TYCW5SL-SNNFVFT-JHKT6WY-RQBDG6L-6RHVNHH-KSTKJQV-ITVQMQF";
+  #       };
+  #       "txxx" = {
+  #         id = "BMTXVFR-DXR7XUT-TQSN65G-4SPN2SE-Z35J44T-7A4HJEE-6LRI2XT-ZHZS5QF";
+  #       };
+  #     };
+  #   };
+  # };
 
   programs.nix-ld.enable = true;
   services.syncthing.settings.folders = {

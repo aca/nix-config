@@ -814,20 +814,20 @@ in {
   services.tailscale.extraSetFlags = ["--ssh" "--advertise-exit-node=true"];
 
   services.openssh.enable = true;
-  services.syncthing = {
-    enable = true;
-    guiAddress = "0.0.0.0:8384";
-    user = "rok";
-    dataDir = "/home/rok"; # Default folder for new synced folders
-    configDir = "/home/rok/.syncthing"; # Folder for Syncthing's settings and keys
-    settings = {
-      devices = {
-        # "root" = {id = "D5HADJL-KDECRCV-GPTJ3RE-MPXNFBH-U6KG3CA-LVSDPP2-MT72ETM-RDM77AG";};
-        "txxx-nix" = {id = "OBPLELA-TYCW5SL-SNNFVFT-JHKT6WY-RQBDG6L-6RHVNHH-KSTKJQV-ITVQMQF";};
-        "home" = {id = "JIMRCFS-4AQYUPQ-AGCUPAT-D3GK7EN-WZAMSZM-EPSBDHE-PQFWKT5-4DWUMA3";};
-      };
-    };
-  };
+  # services.syncthing = {
+  #   enable = true;
+  #   guiAddress = "0.0.0.0:8384";
+  #   user = "rok";
+  #   dataDir = "/home/rok"; # Default folder for new synced folders
+  #   configDir = "/home/rok/.syncthing"; # Folder for Syncthing's settings and keys
+  #   settings = {
+  #     devices = {
+  #       # "root" = {id = "D5HADJL-KDECRCV-GPTJ3RE-MPXNFBH-U6KG3CA-LVSDPP2-MT72ETM-RDM77AG";};
+  #       "txxx-nix" = {id = "OBPLELA-TYCW5SL-SNNFVFT-JHKT6WY-RQBDG6L-6RHVNHH-KSTKJQV-ITVQMQF";};
+  #       "home" = {id = "JIMRCFS-4AQYUPQ-AGCUPAT-D3GK7EN-WZAMSZM-EPSBDHE-PQFWKT5-4DWUMA3";};
+  #     };
+  #   };
+  # };
 
   services.syncthing.settings.folders = {
     "txxx" = {

@@ -47,53 +47,53 @@ in {
     ./node-exporter.yml
   ];
 
-  services.grafana = {
-    enable = true;
-    settings = {
-      server = {
-        http_addr = "0.0.0.0";
-        http_port = 3000;
-        serve_from_sub_path = true;
-      };
-      security.admin_pasword = "admin";
-    };
-  };
+  # services.grafana = {
+  #   enable = true;
+  #   settings = {
+  #     server = {
+  #       http_addr = "0.0.0.0";
+  #       http_port = 3000;
+  #       serve_from_sub_path = true;
+  #     };
+  #     security.admin_pasword = "admin";
+  #   };
+  # };
 
-  services.prometheus.alertmanager = {
-    enable = true;
-    configuration = {
-      route = {
-        receiver = "ntfy";
-        group_wait = "30s";
-        group_interval = "5m";
-        repeat_interval = "4h";
-        group_by = ["alertname" "job"];
-        routes = [];
-      };
-      receivers = [
-        {
-          name = "ntfy";
-          webhook_configs = [
-            {
-              url = "https://ntfy.sh/qQe2btaC6w8Qho7k";
-            }
-          ];
-        }
-      ];
-    };
-  };
+  # services.prometheus.alertmanager = {
+  #   enable = true;
+  #   configuration = {
+  #     route = {
+  #       receiver = "ntfy";
+  #       group_wait = "30s";
+  #       group_interval = "5m";
+  #       repeat_interval = "4h";
+  #       group_by = ["alertname" "job"];
+  #       routes = [];
+  #     };
+  #     receivers = [
+  #       {
+  #         name = "ntfy";
+  #         webhook_configs = [
+  #           {
+  #             url = "https://ntfy.sh/qQe2btaC6w8Qho7k";
+  #           }
+  #         ];
+  #       }
+  #     ];
+  #   };
+  # };
 
-  services.grafana.provision.datasources.settings = {
-    apiVersion = 1;
-    datasources = [
-      {
-        name = "Prometheus";
-        type = "prometheus";
-        url = "http://0.0.0.0:9090";
-        orgId = 1;
-      }
-    ];
-  };
+  # services.grafana.provision.datasources.settings = {
+  #   apiVersion = 1;
+  #   datasources = [
+  #     {
+  #       name = "Prometheus";
+  #       type = "prometheus";
+  #       url = "http://0.0.0.0:9090";
+  #       orgId = 1;
+  #     }
+  #   ];
+  # };
 
   services.grafana.provision.dashboards.settings.providers = [
     {
