@@ -6,9 +6,14 @@
   inputs,
   lib,
   ...
-} @ args: let
+}@args:
+let
   hostname = "home";
-in {
+in
+{
+  # security.auditd.enable = true;
+  # services.journald.audit = true;
+
   environment.variables.ZK_ROOT = "/home/rok/src/git.internal/zk";
 
   age.secrets."hosts" = {
@@ -107,14 +112,14 @@ in {
   networking.wireless.iwd.enable = true;
   # networking.extraHosts = (import ./local.nix).networking.extraHosts;
 
-  age.identityPaths = ["/home/rok/.ssh/id_ed25519"];
+  age.identityPaths = [ "/home/rok/.ssh/id_ed25519" ];
   # age.secrets."github.com__aca" = {
   #   file = ./secrets/github.com__aca.age;
   #   mode = "777";
   # };
   # age.secrets.txxx = { file = ./secrets/txxx.age; path = "/etc/txxx"; mode = "777"; };
   # age.secrets."github.com__aca".file = ./secrets/github.com__aca.age;
-  disabledModules = ["services/networking/cgit.nix"];
+  disabledModules = [ "services/networking/cgit.nix" ];
 
   age.secrets."env.home" = {
     file = ./secrets/env.home.age;
@@ -122,14 +127,14 @@ in {
   };
   environment.extraInit = "source ${config.age.secrets."env.home".path}";
 
-  fileSystems."/mnt/rok-chatreey-t9/cache" = {
-    device = "192.168.0.15:/mnt/rok-chatreey-t9/cache";
-    fsType = "nfs";
-    options = [
-      "noatime"
-      "x-systemd.requires=network-online.target"
-    ];
-  };
+  # fileSystems."/mnt/rok-chatreey-t9/cache" = {
+  #   device = "192.168.0.15:/mnt/rok-chatreey-t9/cache";
+  #   fsType = "nfs";
+  #   options = [
+  #     "noatime"
+  #     "x-systemd.requires=network-online.target"
+  #   ];
+  # };
 
   # fileSystems."/mnt/nas" = {
   #   device = "192.168.0.16:/volume1/root";
@@ -228,8 +233,8 @@ in {
 
   systemd.services."gf" = {
     enable = true;
-    wantedBy = ["multi-user.target"];
-    after = ["network.target"];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
     serviceConfig = {
       ProtectHome = "false";
       ProtectSystem = "false";
@@ -480,7 +485,7 @@ in {
 
   systemd.timers."qbittorrent-clean" = {
     enable = true;
-    wantedBy = ["timers.target"];
+    wantedBy = [ "timers.target" ];
     timerConfig = {
       OnBootSec = "10m";
       OnUnitActiveSec = "10m";
@@ -524,9 +529,9 @@ in {
 
   systemd.services."bluetooth-keyboard" = {
     enable = true;
-    path = [];
-    wantedBy = ["multi-user.target"];
-    after = ["network.target"];
+    path = [ ];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
     environment = {
       WAYLAND_DISPLAY = "wayland-1";
       XDG_RUNTIME_DIR = "/run/user/1000";
@@ -544,7 +549,7 @@ in {
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.availableKernelModules = ["virtiofs"];
+  boot.initrd.availableKernelModules = [ "virtiofs" ];
 
   # NOTES(24/07/07): bluetooth doesn't work, there's issue on 6.9
   # https://discourse.nixos.org/t/bluetooth-controller-issues-with-kernel-6-9/45598/3
@@ -581,8 +586,7 @@ in {
           (pkgs.OVMF.override {
             secureBoot = true;
             tpmSupport = true;
-          })
-          .fd
+          }).fd
         ];
       };
     };
@@ -639,11 +643,11 @@ in {
   security.rtkit.enable = true;
   security.sudo.extraRules = [
     {
-      users = ["rok"];
+      users = [ "rok" ];
       commands = [
         {
           command = "ALL";
-          options = ["NOPASSWD"]; # "SETENV" # Adding the following could be a good idea
+          options = [ "NOPASSWD" ]; # "SETENV" # Adding the following could be a good idea
         }
       ];
     }
@@ -814,8 +818,10 @@ in {
   # List packages installed in system profile. To search, run:
   #
   # $ nix search wget
-  environment.systemPackages = with pkgs;
+  environment.systemPackages =
+    with pkgs;
     [
+      go-auditd
       mkcert
       # neovim
       # fluffychat
@@ -836,7 +842,7 @@ in {
     ++ [
       # (import ./packages/sublime-merge/default.nix)
       # (import ./packages/hello/hello.nix)
-      (pkgs.callPackage ./pkgs/qbt.nix {})
+      (pkgs.callPackage ./pkgs/qbt.nix { })
 
       # (
       #   buildGoModule rec {
@@ -913,13 +919,11 @@ in {
       # https://github.com/NixOS/nixpkgs/issues/267579
       # pkgs.unstable.virt-manager
       (virt-manager.overrideAttrs (old: {
-        nativeBuildInputs = old.nativeBuildInputs ++ [wrapGAppsHook];
-        buildInputs =
-          lib.lists.subtractLists [wrapGAppsHook] old.buildInputs
-          ++ [
-            gst_all_1.gst-plugins-base
-            gst_all_1.gst-plugins-good
-          ];
+        nativeBuildInputs = old.nativeBuildInputs ++ [ wrapGAppsHook ];
+        buildInputs = lib.lists.subtractLists [ wrapGAppsHook ] old.buildInputs ++ [
+          gst_all_1.gst-plugins-base
+          gst_all_1.gst-plugins-good
+        ];
       }))
       virt-viewer
       spice
@@ -1149,10 +1153,9 @@ in {
 
       mitmproxy
       (luajit.withPackages (
-        p:
-          with p; [
-            stdlib
-          ]
+        p: with p; [
+          stdlib
+        ]
       ))
 
       nqp
@@ -1449,7 +1452,7 @@ in {
   system.stateVersion = "24.11"; # Did you read the comment?
 
   systemd.services.failsleepexit = {
-    path = [pkgs.bash];
+    path = [ pkgs.bash ];
     enable = true;
     serviceConfig.ExecStart = "/home/rok/src/codeberg.org/aca/nix-config/pkgs/scripts/fail.sleep.exit";
   };
