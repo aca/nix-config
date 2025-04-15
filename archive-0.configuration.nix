@@ -116,6 +116,7 @@ in {
       fd
       bat
       iftop
+      nethogs
       ghq
       go
       ethtool
