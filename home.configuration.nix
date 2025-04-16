@@ -527,24 +527,24 @@ in
   #   # };
   # };
 
-  systemd.services."bluetooth-keyboard" = {
-    enable = true;
-    path = [ ];
-    wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" ];
-    environment = {
-      WAYLAND_DISPLAY = "wayland-1";
-      XDG_RUNTIME_DIR = "/run/user/1000";
-    };
-    serviceConfig = {
-      Type = "simple";
-      User = "rok";
-      Restart = "always";
-      ExecStart = ''
-        /run/current-system/sw/bin/swayidle timeout 30 "" resume "/run/current-system/sw/bin/bluetoothctl connect 6C:93:08:65:FF:E4"
-      '';
-    };
-  };
+  # systemd.services."bluetooth-keyboard" = {
+  #   enable = true;
+  #   path = [ ];
+  #   wantedBy = [ "multi-user.target" ];
+  #   after = [ "network.target" ];
+  #   environment = {
+  #     WAYLAND_DISPLAY = "wayland-1";
+  #     XDG_RUNTIME_DIR = "/run/user/1000";
+  #   };
+  #   serviceConfig = {
+  #     Type = "simple";
+  #     User = "rok";
+  #     Restart = "always";
+  #     ExecStart = ''
+  #       /run/current-system/sw/bin/swayidle timeout 30 "" resume "/run/current-system/sw/bin/bluetoothctl connect 6C:93:08:65:FF:E4"
+  #     '';
+  #   };
+  # };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
