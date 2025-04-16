@@ -821,7 +821,7 @@ in
   environment.systemPackages =
     with pkgs;
     [
-      go-auditd
+      go-audit
       mkcert
       # neovim
       # fluffychat
