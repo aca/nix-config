@@ -36,6 +36,7 @@
   age.identityPaths = ["/home/rok/.ssh/id_ed25519"];
 
   services.openssh.enable = true;
+  # services.openssh.ports = [ ];
   services.openssh.settings.PasswordAuthentication = false;
   users.users.root.openssh.authorizedKeys.keys = [
     (import ./keys.nix).root
@@ -51,6 +52,7 @@
     ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO/acNBaXuGBqtEyJoSMkrWXKYgQ/Q9c52SChgmh1ssT rok@txxx-nix''
     ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC4PDiS3q4XfHGXd2om/ErP8kYr3dymD84XON3PTgBbM rok@rok-x1g10''
   ];
+
 
   users.users.rok = {
     isNormalUser = true;

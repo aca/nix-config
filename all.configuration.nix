@@ -11,7 +11,6 @@
     experimental-features = nix-command flakes
   '';
 
-
   services.openssh.settings.PasswordAuthentication = false;
 
   # nix.settings.experimental-features = "nix-command flakes";
