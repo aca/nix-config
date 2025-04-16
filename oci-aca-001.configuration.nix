@@ -93,15 +93,15 @@
   #   ];
   # };
 
-  virtualisation.containers.enable = false;
-  virtualisation.containers.policy = {
-    default = [{type = "insecureAcceptAnything";}];
-    transports = {
-      docker-daemon = {
-        "" = [{type = "insecureAcceptAnything";}];
-      };
-    };
-  };
+  # virtualisation.containers.enable = false;
+  # virtualisation.containers.policy = {
+  #   default = [{type = "insecureAcceptAnything";}];
+  #   transports = {
+  #     docker-daemon = {
+  #       "" = [{type = "insecureAcceptAnything";}];
+  #     };
+  #   };
+  # };
 
   # virtualisation.docker = {
   #   enable = false; # replace with podman
