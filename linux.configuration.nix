@@ -6,12 +6,16 @@
   inputs,
   system,
   ...
-}: let
-  useunstable = system: pkg: {${pkg} = inputs.nixpkgs-unstable.legacyPackages.${system}.${pkg};};
-  usenightly = system: pkg: {${pkg} = inputs.nixpkgs-nightly.legacyPackages.${system}.${pkg};};
+}:
+let
+  useunstable = system: pkg: { ${pkg} = inputs.nixpkgs-unstable.legacyPackages.${system}.${pkg}; };
+  usenightly = system: pkg: { ${pkg} = inputs.nixpkgs-nightly.legacyPackages.${system}.${pkg}; };
 
   nix.settings.experimental-features = "nix-command flakes";
-  nix.settings.trusted-users = ["root" "rok"];
+  nix.settings.trusted-users = [
+    "root"
+    "rok"
+  ];
 
   nix.gc = {
     automatic = true;
@@ -64,72 +68,89 @@
     inputs.elvish.overlays.default
     inputs.zig.overlays.default
     inputs.agenix.overlays.default
+
+    (self: super: {
+      weechat = super.weechat.override {
+        configure =
+          { availablePlugins, ... }:
+          {
+            scripts = with super.weechatScripts; [
+              # weechat-otr
+              wee-slack
+            ];
+            # Uncomment this if you're on Darwin, there's no PHP support available. See https://github.com/NixOS/nixpkgs/blob/e6bf74e26a1292ca83a65a8bb27b2b22224dcb26/pkgs/applications/networking/irc/weechat/wrapper.nix#L13 for more info.
+            # plugins = builtins.attrValues (builtins.removeAttrs availablePlugins [ "php" ]);
+          };
+      };
+    })
+
     (
       final: prev:
-        {}
-        # // (useunstable system "linuxPackages-latest")
-        // (useunstable system "linuxPackages_latest")
-        # // (useunstable system "attic-client")
-        # // (useunstable system "attic-server")
-        // (useunstable system "linuxPackages_testing")
-        // (useunstable system "linuxPackages_zen")
-        // (useunstable system "vifm")
-        // (usenightly system "go")
-        // (usenightly system "pnpm")
-        // (usenightly system "pnpm_10")
-        # // (useunstable system "go_1_23")
-        // (usenightly system "gopls")
-        # // (useunstable system "pylyzer")
-        // (useunstable system "vscode-langservers-extracted")
-        // (usenightly system "bun")
-        # // (useunstable system "vector")
-        // (useunstable system "ripgrep")
-        // (usenightly system "yt-dlp")
-        # // (useunstable system "alejandra")
-        // (useunstable system "deno")
-        # // (useunstable system "rust-analyzer")
-        # // (useunstable system "nodejs")
-        // (useunstable system "nixd")
-        // (useunstable system "bkt")
-        // (useunstable system "vivaldi-ffmpeg-codecs")
-        # // (useunstable system "chromium")
-        # // (useunstable system "microsoft-edge")
-        # // (useunstable system "ntfy-sh")
-        // (useunstable system "devenv")
-        # // (useunstable system "fcitx5-qt")
-        # // (useunstable system "fcitx5-lua")
-        # // (useunstable system "fcitx5-chinese-addons")
-        # // (useunstable system "fcitx5-mozc")
-        # // (useunstable system "fcitx5-qt")
-        # // (useunstable system "fcitx5-gtk")
-        # // (useunstable system "fcitx5-with-addons")
-        # // (useunstable system "fcitx5-hangul")
-        // (useunstable system "spice-vdagent")
-        # // (useunstable system "pipewire")
-        // (useunstable system "deno")
-        # // (useunstable system "wireplumber")
-        # // (useunstable system "pwvucontrol")
-        // (useunstable system "pnpm_9")
-        # // (usefixed system "davinci-resolve")
-        # // (useunstable system "libreoffice-qt")
-        # // (useunstable system "ntfy-sh")
-        // (useunstable system "vifm")
-        // (useunstable system "nixVersions.latest")
-        // (useunstable system "spice-vdagent")
-        // (useunstable system "nixd")
-        // (useunstable system "bkt")
-        // (useunstable system "fzf")
-        // (useunstable system "pueue")
-        // (useunstable system "tmux")
-        // (useunstable system "qbittorrent-nox")
-        // (useunstable system "lua-language-server")
-        // (useunstable system "basedpyright")
-        // (useunstable system "pueue")
-        // (usenightly system "aider-chat")
-        // (useunstable system "uv")
+      { }
+      # // (useunstable system "linuxPackages-latest")
+      // (useunstable system "linuxPackages_latest")
+      # // (useunstable system "attic-client")
+      # // (useunstable system "attic-server")
+      // (useunstable system "linuxPackages_testing")
+      // (useunstable system "linuxPackages_zen")
+      // (useunstable system "vifm")
+      // (usenightly system "go")
+      // (usenightly system "pnpm")
+      // (usenightly system "pnpm_10")
+      # // (useunstable system "go_1_23")
+      // (usenightly system "gopls")
+      # // (useunstable system "pylyzer")
+      // (useunstable system "vscode-langservers-extracted")
+      // (usenightly system "bun")
+      # // (useunstable system "vector")
+      // (useunstable system "ripgrep")
+      // (usenightly system "yt-dlp")
+      # // (useunstable system "alejandra")
+      // (useunstable system "deno")
+      # // (useunstable system "rust-analyzer")
+      # // (useunstable system "nodejs")
+      // (useunstable system "nixd")
+      // (useunstable system "bkt")
+      // (useunstable system "vivaldi-ffmpeg-codecs")
+      # // (useunstable system "chromium")
+      # // (useunstable system "microsoft-edge")
+      # // (useunstable system "ntfy-sh")
+      // (useunstable system "devenv")
+      # // (useunstable system "fcitx5-qt")
+      # // (useunstable system "fcitx5-lua")
+      # // (useunstable system "fcitx5-chinese-addons")
+      # // (useunstable system "fcitx5-mozc")
+      # // (useunstable system "fcitx5-qt")
+      # // (useunstable system "fcitx5-gtk")
+      # // (useunstable system "fcitx5-with-addons")
+      # // (useunstable system "fcitx5-hangul")
+      // (useunstable system "spice-vdagent")
+      # // (useunstable system "pipewire")
+      // (useunstable system "deno")
+      # // (useunstable system "wireplumber")
+      # // (useunstable system "pwvucontrol")
+      // (useunstable system "pnpm_9")
+      # // (usefixed system "davinci-resolve")
+      # // (useunstable system "libreoffice-qt")
+      # // (useunstable system "ntfy-sh")
+      // (useunstable system "vifm")
+      // (useunstable system "nixVersions.latest")
+      // (useunstable system "spice-vdagent")
+      // (useunstable system "nixd")
+      // (useunstable system "bkt")
+      // (useunstable system "fzf")
+      // (useunstable system "pueue")
+      // (useunstable system "tmux")
+      // (useunstable system "qbittorrent-nox")
+      // (useunstable system "lua-language-server")
+      // (useunstable system "basedpyright")
+      // (useunstable system "pueue")
+      // (usenightly system "aider-chat")
+      // (useunstable system "uv")
     )
   ];
-in rec {
+in
+rec {
   nixpkgs.overlays = overlays system;
 
   nixpkgs.config.permittedInsecurePackages = [
@@ -201,20 +222,26 @@ in rec {
 
   virtualisation.containers.enable = true;
   virtualisation.containers.policy = {
-    default = [{type = "insecureAcceptAnything";}];
+    default = [ { type = "insecureAcceptAnything"; } ];
     transports = {
       docker-daemon = {
-        "" = [{type = "insecureAcceptAnything";}];
+        "" = [ { type = "insecureAcceptAnything"; } ];
       };
     };
   };
 
   systemd.tmpfiles.settings."logs" = {
-    "/logs" = {d.mode = "0777";};
-    "/logs/active" = {d.mode = "0777";};
+    "/logs" = {
+      d.mode = "0777";
+    };
+    "/logs/active" = {
+      d.mode = "0777";
+    };
   };
   systemd.tmpfiles.settings."kv" = {
-    "/var/cache/kv" = {d.mode = "0777";};
+    "/var/cache/kv" = {
+      d.mode = "0777";
+    };
   };
 
   services.vector.journaldAccess = true;
@@ -230,7 +257,7 @@ in rec {
   ];
 
   networking.hosts = {
-    "100.127.31.30" = ["git.internal"];
+    "100.127.31.30" = [ "git.internal" ];
   };
 
   # networking.search = [

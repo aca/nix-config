@@ -284,6 +284,7 @@
         modules = [
           inputs.comin.nixosModules.comin
           ./all.configuration.nix
+          ./linux.configuration.nix
           ./neovim.nix
           agenix.nixosModules.default
           {

@@ -18,6 +18,8 @@ in {
   #   ./certs/home.internal+1.pem
   # ];
 
+  # services.weechat.enable = true;
+
   environment.variables.ZK_ROOT = "/home/rok/src/git.internal/zk";
   environment.variables.ZK_LOCAL_ROOT = "/home/rok/src/git.internal/zk/to" + "os";
 
@@ -605,6 +607,7 @@ in {
       nmap
       nodejs_20
       nodePackages_latest.pnpm
+      weechat
       nodePackages_latest.sql-formatter
 
       virtualgl
@@ -759,7 +762,7 @@ in {
 
       esbuild
       pavucontrol
-      firefox
+      # firefox
 
       gradle_7
       # openjdk23

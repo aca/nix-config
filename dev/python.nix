@@ -26,6 +26,12 @@
         ipython
         pyjwt
         numpy
+
+        # browser 
+        secretstorage
+        pycryptodome
+        python-snappy
+        plyvel
       ]))
     #   python3.withPackages
     #   (
