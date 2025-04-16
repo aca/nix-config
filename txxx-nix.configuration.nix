@@ -730,6 +730,8 @@ in {
       })
 
       # x2goclient
+      go-audit
+      audit
 
       zig
       zls
