@@ -7,6 +7,11 @@
     ./hardware/oci-aca-002.nix
   ];
 
+nix.settings = { 
+    max-jobs = 1;
+    cores = 1;
+};
+
   # system.stateVersion = "24.11";
   system.stateVersion = "24.11";
 
