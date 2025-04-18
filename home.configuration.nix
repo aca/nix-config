@@ -1151,6 +1151,7 @@ in
       # )
       #
 
+scrot
       mitmproxy
       (luajit.withPackages (
         p: with p; [

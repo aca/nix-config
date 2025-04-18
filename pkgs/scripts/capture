@@ -3,5 +3,10 @@ set -euxo pipefail
 
 cd /home/rok/store/image/capture || mkdir -p /home/rok/store/image/capture && cd /home/rok/store/image/capture
 
+if [ -z "$WAYLAND_DISPLAY" ]; then
+    scrot -s -e 'xclip -selection clipboard -t image/png -i $f'
+else
+    grim -g "$(slurp -d)" - | wl-copy
+fi
 
-scrot -s -e 'xclip -selection clipboard -t image/png -i $f'
+
