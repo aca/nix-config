@@ -745,6 +745,7 @@ in {
       jdk23
       valgrind
       # fuse-common
+      thunderbird
       waypipe
       # cgit
       # fcgiwrap
