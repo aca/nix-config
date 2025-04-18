@@ -2,15 +2,16 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     ./hardware/oci-aca-002.nix
   ];
 
-nix.settings = { 
+  nix.settings = {
     max-jobs = 1;
     cores = 1;
-};
+  };
 
   # system.stateVersion = "24.11";
   system.stateVersion = "24.11";
@@ -21,7 +22,10 @@ nix.settings = {
 
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "both";
-  services.tailscale.extraSetFlags = ["--ssh" "--advertise-exit-node=true"];
+  services.tailscale.extraSetFlags = [
+    "--ssh"
+    "--advertise-exit-node=true"
+  ];
 
   services.openssh.enable = true;
   users.users.root.openssh.authorizedKeys.keys = [
@@ -65,37 +69,37 @@ nix.settings = {
   # };
 
   environment.systemPackages = with pkgs; [
-    fzf
+    # fzf
     git
-    tailscale
-    tmux
-    ttyd
-    jq
-    # gcc
-    # go
-    fd
-    github-runner
-    # nodejs_20
-    inetutils
-    aria2
-    elvish
-    vifm
-    php82
-    php82Packages.composer
-    wget
-    coreutils-full
-    moreutils
-    glibcLocales
-    # ghq
-    stow
-    iftop
-    glances
-    gnumake
-    entr
-    procps
-    vim
-    zsh
-    fish
-    xsel
+    # tailscale
+    # tmux
+    # ttyd
+    # jq
+    # # gcc
+    # # go
+    # fd
+    # github-runner
+    # # nodejs_20
+    # inetutils
+    # aria2
+    # elvish
+    # vifm
+    # php82
+    # php82Packages.composer
+    # wget
+    # coreutils-full
+    # moreutils
+    # glibcLocales
+    # # ghq
+    # stow
+    # iftop
+    # glances
+    # gnumake
+    # entr
+    # procps
+    # vim
+    # zsh
+    # fish
+    # xsel
   ];
 }
