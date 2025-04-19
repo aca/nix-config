@@ -33,7 +33,7 @@
   ];
   services.tailscale.extraDaemonFlags = ["--socks5-server=0.0.0.0:1080"]; # blocked by firewall
 
-  age.identityPaths = ["/home/rok/.ssh/id_ed25519"];
+  age.identityPaths = ["/root/.ssh/id_ed25519"];
 
   services.openssh.enable = true;
   # services.openssh.ports = [ ];
