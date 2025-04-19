@@ -8,6 +8,15 @@
     [ (modulesPath + "/profiles/qemu-guest.nix")
     ];
 
+  boot.loader = {
+    efi.efiSysMountPoint = "/boot/efi";
+    grub = {
+      efiSupport = true;
+      efiInstallAsRemovable = true;
+      device = "nodev";
+    };
+  };
+
   boot.initrd.availableKernelModules = [ "xhci_pci" "virtio_scsi" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];

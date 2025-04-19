@@ -35,7 +35,7 @@
 
   services.postgresql = {
     enable = true;
-    ensureDatabases = ["asset"];
+    # ensureDatabases = ["asset"];
     enableTCPIP = true;
     # authentication = pkgs.lib.mkOverride 10 ''
     #   local all all              trust

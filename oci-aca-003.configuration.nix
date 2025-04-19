@@ -1,67 +1,16 @@
 {
-  modulesPath,
   config,
-  lib,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     ./hardware/oci-aca-003.nix
-    (modulesPath + "/installer/scan/not-detected.nix")
-    (modulesPath + "/profiles/qemu-guest.nix")
   ];
 
-  disko.devices = {
-    disk.disk1 = {
-      device = lib.mkDefault "/dev/sda";
-      type = "disk";
-      content = {
-        type = "gpt";
-        partitions = {
-          boot = {
-            name = "boot";
-            size = "1M";
-            type = "EF02";
-          };
-          esp = {
-            name = "ESP";
-            size = "500M";
-            type = "EF00";
-            content = {
-              type = "filesystem";
-              format = "vfat";
-              mountpoint = "/boot";
-            };
-          };
-          root = {
-            name = "root";
-            size = "100%";
-            content = {
-              type = "lvm_pv";
-              vg = "pool";
-            };
-          };
-        };
-      };
-    };
-    lvm_vg = {
-      pool = {
-        type = "lvm_vg";
-        lvs = {
-          root = {
-            size = "100%FREE";
-            content = {
-              type = "filesystem";
-              format = "ext4";
-              mountpoint = "/";
-              mountOptions = [
-                "defaults"
-              ];
-            };
-          };
-        };
-      };
-    };
+  nix.settings = {
+    max-jobs = 1;
+    cores = 1;
   };
 
   # system.stateVersion = "24.11";
@@ -73,7 +22,10 @@
 
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "both";
-  services.tailscale.extraSetFlags = ["--ssh" "--advertise-exit-node=true"];
+  services.tailscale.extraSetFlags = [
+    "--ssh"
+    "--advertise-exit-node=true"
+  ];
 
   services.openssh.enable = true;
   users.users.root.openssh.authorizedKeys.keys = [
@@ -90,7 +42,7 @@
   #   enable = true;
   #   url = ''https://github.com/investing-kr/oci-arm-host-capacity'';
   #   tokenFile = ''/root/.github'';
-  #   name = ''oci-aca-002'';
+  #   name = ''oci-aca-003'';
   #   replace = true;
   #   extraLabels = [ "nix" ];
   #   extraPackages = with pkgs; [
@@ -103,11 +55,11 @@
 
   # nixpkgs.config.permittedInsecurePackages = ["nodejs-16.20.1"];
   # age.identityPaths = ["/root/.ssh/id_ed25519"];
-  # age.secrets."github.com__aca__oci-aca-002.age".file = ./secrets/github.com__aca__oci-aca-002.age;
-  # services.github-runners.aca__oci-arm-host-capacity__oci-aca-002_001 = {
+  # age.secrets."github.com__aca__oci-aca-003.age".file = ./secrets/github.com__aca__oci-aca-003.age;
+  # services.github-runners.aca__oci-arm-host-capacity__oci-aca-003_001 = {
   #   enable = true;
   #   url = ''https://github.com/aca/oci-arm-host-capacity'';
-  #   tokenFile = config.age.secrets."github.com__aca__oci-aca-002.age".path;
+  #   tokenFile = config.age.secrets."github.com__aca__oci-aca-003.age".path;
   #   replace = true;
   #   extraLabels = ["nix"];
   #   extraPackages = with pkgs; [
@@ -116,38 +68,38 @@
   #   ];
   # };
 
-  # environment.systemPackages = with pkgs; [
-  #   fzf
-  #   git
-  #   tailscale
-  #   tmux
-  #   ttyd
-  #   jq
-  #   # gcc
-  #   # go
-  #   fd
-  #   github-runner
-  #   # nodejs_20
-  #   inetutils
-  #   aria2
-  #   elvish
-  #   vifm
-  #   php82
-  #   php82Packages.composer
-  #   wget
-  #   coreutils-full
-  #   moreutils
-  #   glibcLocales
-  #   # ghq
-  #   stow
-  #   iftop
-  #   glances
-  #   gnumake
-  #   entr
-  #   procps
-  #   vim
-  #   zsh
-  #   fish
-  #   xsel
-  # ];
+  environment.systemPackages = with pkgs; [
+    # fzf
+    git
+    # tailscale
+    # tmux
+    # ttyd
+    # jq
+    # # gcc
+    # # go
+    # fd
+    # github-runner
+    # # nodejs_20
+    # inetutils
+    # aria2
+    # elvish
+    # vifm
+    # php82
+    # php82Packages.composer
+    # wget
+    # coreutils-full
+    # moreutils
+    # glibcLocales
+    # # ghq
+    # stow
+    # iftop
+    # glances
+    # gnumake
+    # entr
+    # procps
+    # vim
+    # zsh
+    # fish
+    # xsel
+  ];
 }
