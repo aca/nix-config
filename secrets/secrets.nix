@@ -32,12 +32,11 @@ let
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home.local"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC4PDiS3q4XfHGXd2om/ErP8kYr3dymD84XON3PTgBbM rok@rok-x1g10"
   ];
-  "mx-synapse" =
-    [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIASy54PXYykzqICuU7PTwyuR+4t8fG6WDTZg/Bzn09/y rok@oci-aca-001"
-    ]
-    ++ home;
-in {
+  "mx-synapse" = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIASy54PXYykzqICuU7PTwyuR+4t8fG6WDTZg/Bzn09/y root@oci-aca-001"
+  ] ++ home;
+in
+{
   "hosts.age".publicKeys = txxx-nix;
   "env.txxx-nix.age".publicKeys = txxx-nix;
   "env.home.age".publicKeys = home;
