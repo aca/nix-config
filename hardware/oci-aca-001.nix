@@ -13,8 +13,17 @@
     (modulesPath + "/profiles/qemu-guest.nix")
   ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # boot.loader.systemd-boot.enable = true;
+  # boot.loader.efi.canTouchEfiVariables = true;
+
+  boot.loader = {
+    efi.efiSysMountPoint = "/boot/efi";
+    grub = {
+      efiSupport = true;
+      efiInstallAsRemovable = true;
+      device = "nodev";
+    };
+  };
 
   boot.initrd.availableKernelModules = [
     "xhci_pci"
