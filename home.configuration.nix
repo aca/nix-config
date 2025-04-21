@@ -63,16 +63,37 @@ in
 
   services.nginx.defaultHTTPListenPort = 4080;
 
-  # Remove git-receive-pack in next line to forbid push to this server
-  #     location ~ ^/git/(.*\.git/(HEAD|info/refs|objects/info/.*|git-(upload|receive)-pack))$ {
-  #        rewrite ^/git(/.*)$ $1 break;
-  #        fastcgi_pass unix:/var/run/fcgiwrap.socket;
-  #        fastcgi_param SCRIPT_FILENAME     /usr/lib/git-core/git-http-backend;
-  #        fastcgi_param PATH_INFO           $uri;
-  #        fastcgi_param GIT_PROJECT_ROOT    /home/git;
-  #        fastcgi_param GIT_HTTP_EXPORT_ALL "";
-  #        include fastcgi_params;
-  #    }
+  networking.nameservers = [ "127.0.0.1" ];
+
+  # Enable Adguard Home and set bassic settigns
+  services.adguardhome = {
+    enable = true;
+    port = 4500;
+    host = "127.0.0.1";
+    settings = {
+      filtering = {
+        rewrites = [
+          {
+            domain = "xxxxxxxxxxxxxxtest.com";
+            answer = "192.168.50.20";
+          }
+        ];
+      };
+    };
+  };
+
+  services.resolved = {
+    enable = false;
+    dnssec = "false";
+    # domains = ["~."];
+    # fallbackDns = ["1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one"];
+    # extraConfig = ''
+    #   DNSOverTLS=yes
+    # '';
+    # extraConfig = ''
+    #   DNSOverTLS=false
+    # '';
+  };
 
   services.cgit.home = {
     nginx.virtualHost = "git.home.internal";
@@ -91,8 +112,6 @@ in
       enable-commit-graph=1
       clone-prefix=https://git.home.internal
     '';
-    # settings = [
-    # ];
   };
 
   # services.netbird.enable = true;
@@ -373,19 +392,6 @@ in
   #   };
 
   # Domains=~seedbox ~home
-
-  # services.resolved = {
-  #   enable = true;
-  #   dnssec = "false";
-  #   domains = ["~."];
-  #   fallbackDns = ["1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one"];
-  #   # extraConfig = ''
-  #   #   DNSOverTLS=yes
-  #   # '';
-  #   extraConfig = ''
-  #     DNSOverTLS=false
-  #   '';
-  # };
 
   # systemd.services."testhome" = {
   #   enable = true;
@@ -1151,7 +1157,7 @@ in
       # )
       #
 
-scrot
+      scrot
       mitmproxy
       (luajit.withPackages (
         p: with p; [

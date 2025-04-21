@@ -77,7 +77,7 @@ in {
 
   # scrutiny
   services.smartd.enable = true;
-  services.scrutiny.enable = true;
+  services.scrutiny.enable = false;
   services.scrutiny.collector.enable = true;
   services.scrutiny.package = pkgs.unstable.scrutiny;
   services.scrutiny.settings.web.influxdb.tls.insecure_skip_verify = true;
