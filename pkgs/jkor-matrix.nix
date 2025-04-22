@@ -69,13 +69,13 @@
   services.matrix-synapse.enableRegistrationScript = true;
 
   # # bash -c 'echo "registration_shared_secret: $(openssl rand -hex 32)"'
-  # age.secrets."mx-synapse.extraConfigFiles.registration_shared_secret" = {
-  #   file = ../secrets/mx-synapse.extraConfigFiles.registration_shared_secret.age;
-  #   mode = "444";
-  # };
+  age.secrets."mx-synapse.extraConfigFiles.registration_shared_secret" = {
+    file = ../secrets/mx-synapse.extraConfigFiles.registration_shared_secret.age;
+    mode = "444";
+  };
 
   services.matrix-synapse.extraConfigFiles = [
-    # config.age.secrets."mx-synapse.extraConfigFiles.registration_shared_secret".path
+    config.age.secrets."mx-synapse.extraConfigFiles.registration_shared_secret".path
     # registration_shared_secret_path: ${
     # }
     # (pkgs.writeText "config" ''
