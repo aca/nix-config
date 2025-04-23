@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euxo pipefail
+set -exo pipefail
 
 cd /home/rok/store/image/capture || mkdir -p /home/rok/store/image/capture && cd /home/rok/store/image/capture
 
