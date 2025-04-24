@@ -828,6 +828,7 @@ in
     with pkgs;
     [
       go-audit
+      openbao
       mkcert
       # neovim
       # fluffychat

@@ -101,6 +101,7 @@
         // (usenightly system "yt-dlp")
         # // (useunstable system "alejandra")
         // (useunstable system "deno")
+        // (useunstable system "openbao")
         # // (useunstable system "rust-analyzer")
         # // (useunstable system "nodejs")
         // (useunstable system "nixd")
