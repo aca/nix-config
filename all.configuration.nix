@@ -102,7 +102,7 @@
         # // (useunstable system "pylyzer")
         // (useunstable system "vscode-langservers-extracted")
         // (usenightly system "bun")
-        # // (useunstable system "vector")
+        // (usenightly system "vector")
         // (useunstable system "ripgrep")
         # // (useunstable system "firefox")
         // (usenightly system "yt-dlp")
