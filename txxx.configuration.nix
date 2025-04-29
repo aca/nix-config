@@ -84,7 +84,7 @@ in {
     onActivation.autoUpdate = false;
     casks = [
       "font-iosevka-term-slab-nerd-font"
-      "alfred"
+      # "alfred"
       "karabiner-elements"
       "chromium"
       "vmware-fusion"

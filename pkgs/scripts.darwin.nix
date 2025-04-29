@@ -7,21 +7,28 @@
   ...
 }: let
   hostname = config.networking.hostName;
+  binscripts =
+    builtins.mapAttrs (name: text: builtins.readFile ((builtins.toString ./.) + "/scripts.darwin/${name}"))
+    (
+      lib.filterAttrs (
+        key: value:
+          value
+          == "regular"
+          && key != "tsconfig.json"
+          && key != "bun.lockb"
+          && key != "package.json"
+          && key != ".gitignore"
+      ) (builtins.readDir ./scripts.darwin)
+    );
 in {
-  # imports = [
-  #   ./scripts__git.nix
-  # ];
-  environment.systempackages =
-    [
-      (pkgs.writeShellScriptBin "yabai_kill_last" ''
-#!/usr/bin/env bash
-window_pid=$(/run/current-system/sw/bin/yabai -m query --windows --window | jq -r '.pid') 
-count_pid=$(/run/current-system/sw/bin/yabai -m query --windows | /run/current-system/sw/bin/jq "[.[] | select(.pid == '$window_pid')] | length")
-if [ "$count_pid" -gt 1 ]; then
-	/run/current-system/sw/bin/yabai -m window --close
-else
-	/run/current-system/sw/bin/kill "$window_pid"
-fi
-      '')
-    ];
+  environment.systemPackages =
+    (map (
+      name: (pkgs.writeTextFile {
+        name = name;
+        text = binscripts.${name};
+        executable = true;
+        destination = "/bin/${name}";
+      })
+    ) (builtins.attrNames binscripts));
+
 }
