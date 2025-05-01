@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+chromium --user-data-dir=/home/rok/.config/chromium__txxx
+
