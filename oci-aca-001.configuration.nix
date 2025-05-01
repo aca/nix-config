@@ -6,7 +6,7 @@
 }: {
   imports = [
     ./hardware/oci-aca-001.nix
-    ./pkgs/jkor-matrix.nix
+    ./pkgs/mx-synapse.duckdns.org.nix
   ];
 
   # services.grafana = {
