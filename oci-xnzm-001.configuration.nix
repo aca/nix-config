@@ -2,7 +2,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     ./hardware/oci-xnzm-001.nix
     ./all.configuration.nix
@@ -14,9 +15,12 @@
 
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "both";
-  services.tailscale.extraSetFlags = ["--ssh" "--advertise-exit-node=true"];
+  services.tailscale.extraSetFlags = [
+    "--ssh"
+    "--advertise-exit-node=true"
+  ];
   # services.tailscale.extraDaemonFlags = ["--socks5-server=100.95.211.5:1080"]; # blocked by firewall
-  services.tailscale.extraDaemonFlags = ["--socks5-server=0.0.0.0:1080"]; # blocked by firewall
+  services.tailscale.extraDaemonFlags = [ "--socks5-server=0.0.0.0:1080" ]; # blocked by firewall
 
   services.openssh.settings.PasswordAuthentication = false;
   services.openssh.enable = true;
@@ -35,8 +39,12 @@
     enable = true;
     port = 9000;
     # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/monitoring/prometheus/exporters.nix
-    enabledCollectors = ["systemd"];
-    extraFlags = ["--collector.ethtool" "--collector.softirqs" "--collector.tcpstat"];
+    enabledCollectors = [ "systemd" ];
+    extraFlags = [
+      "--collector.ethtool"
+      "--collector.softirqs"
+      "--collector.tcpstat"
+    ];
   };
 
   networking.firewall = {
@@ -78,6 +86,13 @@
     fish
     xsel
   ];
+
+  systemd.services."qbittorrent-nox" = {
+    enable = true;
+    serviceConfig = {
+      ExecStart = "${pkgs.qbittorrent-nox}/bin/qbittorrent-nox";
+    };
+  };
 
   # # curl 100.79.222.108:9100/prometheus
   # services.prometheus = {
