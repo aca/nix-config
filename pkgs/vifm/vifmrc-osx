@@ -3,7 +3,6 @@
 
 " fileviewer */,.*/ tree -L 2 -I .git %c
 " fileviewer */,.*/ br -c ':pt' %c
-
      
 filetype *.hwp open -a HwpMac2014VIEWER %f
 

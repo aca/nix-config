@@ -1170,6 +1170,8 @@ in
       rakudo
       pnpm_10
 
+    wirelesstools
+
       tcpdump
       nmap
       openssl

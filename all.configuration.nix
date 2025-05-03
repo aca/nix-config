@@ -133,6 +133,7 @@
         // (useunstable system "nixVersions.latest")
         // (useunstable system "spice-vdagent")
         // (useunstable system "nixd")
+        // (useunstable system "yazi")
         // (useunstable system "bkt")
         // (useunstable system "fzf")
         // (useunstable system "pueue")
@@ -257,6 +258,7 @@ in rec {
     pkgs.pstree
     pkgs.diskus
     pkgs.fd
+    pkgs.yazi
     pkgs.ncdu
     # pkgs.xcp
     pkgs.expect

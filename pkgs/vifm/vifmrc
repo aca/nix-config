@@ -19,7 +19,8 @@ set dotdirs=
 only
 set millerview
 " filetype *.ts,*.tsx,*.js,*.jsx nvim %f
-filetype *.ts,*.tsx,*.js,*.jsx,*.svelte nvim -- %f
+filetype *.tsx,*.js,*.jsx,*.svelte nvim -- %f
+filetype *.ts open.ts %f
 
 set previewoptions+=graphicsdelay:0
 

@@ -5,6 +5,7 @@
 }: {
   imports = [
     ./hardware/oci-xnzm-001.nix
+    ./all.configuration.nix
   ];
 
   system.stateVersion = "24.11";
@@ -17,7 +18,10 @@
   # services.tailscale.extraDaemonFlags = ["--socks5-server=100.95.211.5:1080"]; # blocked by firewall
   services.tailscale.extraDaemonFlags = ["--socks5-server=0.0.0.0:1080"]; # blocked by firewall
 
+  services.openssh.settings.PasswordAuthentication = false;
   services.openssh.enable = true;
+
+  services.openssh.ports = [ 5022 ]; # tailscale will use port 22
   users.users.root.openssh.authorizedKeys.keys = [
     (import ./keys.nix).root
     (import ./keys.nix).home
@@ -51,6 +55,7 @@
     jq
     gcc
     go
+    nfs-utils
     fd
     just
     inetutils

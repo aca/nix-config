@@ -17,6 +17,7 @@
         pyyaml
         openai
         binance-connector
+        qbittorrent-api
         bpython
         torch
         pandas

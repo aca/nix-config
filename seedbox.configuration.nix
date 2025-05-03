@@ -281,6 +281,9 @@ in {
     aria2
     qbittorrent-nox
     fish
+    btop
+    htop
+    glances
     elvish
 
     dconf # https://github.com/nix-community/home-manager/issues/3113
