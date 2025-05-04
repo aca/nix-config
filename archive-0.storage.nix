@@ -109,7 +109,7 @@
   fileSystems."/mnt/archive-0" = {
     fsType = "fuse.mergerfs";
     device = "/mnt/data*";
-    options = ["minfreespace=10G" "cache.files=partial" "dropcacheonclose=true" "category.create=mfs"];
+    options = ["minfreespace=10G" "cache.files=partial" "dropcacheonclose=true" "category.create=mfs"  "security_capability=false" ];
   };
 
   # hack to fix permission issue
