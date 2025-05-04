@@ -39,7 +39,7 @@
     enable = true;
     port = 9000;
     # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/monitoring/prometheus/exporters.nix
-    enabledCollectors = [ "systemd" ];
+    # enabledCollectors = [ "systemd" ];
     extraFlags = [
       "--collector.ethtool"
       "--collector.softirqs"
@@ -53,6 +53,7 @@
       22
       80
       443
+      5022
     ];
   };
 
@@ -93,6 +94,17 @@
       ExecStart = "${pkgs.qbittorrent-nox}/bin/qbittorrent-nox";
     };
   };
+
+  # services.prometheus = {
+  #   exporters = {
+  #     node = {
+  #       enable = true;
+  #       # enabledCollectors = ["systemd"];
+  #       port = 9100;
+  #       listenAddress = "0.0.0.0";
+  #     };
+  #   };
+  # };
 
   # # curl 100.79.222.108:9100/prometheus
   # services.prometheus = {

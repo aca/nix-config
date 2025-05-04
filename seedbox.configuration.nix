@@ -283,6 +283,7 @@ in {
     fish
     btop
     htop
+    ncdu
     glances
     elvish
 
