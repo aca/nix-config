@@ -3,7 +3,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   # disk
   # fileSystems."/mnt/parity1".device = "/dev/disk/by-uuid/d546a7f7-612e-4b63-84d8-4e751d2fd185";
   # fileSystems."/mnt/parity1".fsType = "ext4";
@@ -11,47 +12,80 @@
 
   fileSystems."/mnt/parity1".device = "/dev/disk/by-uuid/58d76479-d3ce-435c-b21c-df0820432b06";
   fileSystems."/mnt/parity1".fsType = "ext4";
-  fileSystems."/mnt/parity1".options = ["users" "nofail"];
+  fileSystems."/mnt/parity1".options = [
+    "users"
+    "nofail"
+  ];
 
   fileSystems."/mnt/parity2".device = "/dev/disk/by-uuid/da201609-a9b2-46e6-9911-e23fd5eda6a5"; # parity 2
   fileSystems."/mnt/parity2".fsType = "ext4";
-  fileSystems."/mnt/parity2".options = ["users" "nofail"];
+  fileSystems."/mnt/parity2".options = [
+    "users"
+    "nofail"
+  ];
 
   fileSystems."/mnt/data01".device = "/dev/disk/by-uuid/38e2e623-e071-4ffa-9c74-242f46a39e70";
   fileSystems."/mnt/data01".fsType = "ext4";
-  fileSystems."/mnt/data01".options = ["users" "nofail"];
+  fileSystems."/mnt/data01".options = [
+    "users"
+    "nofail"
+  ];
 
   fileSystems."/mnt/data02".device = "/dev/disk/by-uuid/bb51b131-eb4f-4c71-86b9-b9a908033424";
   fileSystems."/mnt/data02".fsType = "ext4";
-  fileSystems."/mnt/data02".options = ["users" "nofail"];
+  fileSystems."/mnt/data02".options = [
+    "users"
+    "nofail"
+  ];
 
   fileSystems."/mnt/data03".device = "/dev/disk/by-uuid/7a9e26f7-9fe0-405e-aa1d-ccdc581ef072";
   fileSystems."/mnt/data03".fsType = "ext4";
-  fileSystems."/mnt/data03".options = ["users" "nofail"];
+  fileSystems."/mnt/data03".options = [
+    "users"
+    "nofail"
+  ];
 
   fileSystems."/mnt/data04".device = "/dev/disk/by-uuid/c011fd3e-f4e3-4460-96b6-eed9b5c17303";
   fileSystems."/mnt/data04".fsType = "ext4";
-  fileSystems."/mnt/data04".options = ["users" "nofail"];
+  fileSystems."/mnt/data04".options = [
+    "users"
+    "nofail"
+  ];
 
   fileSystems."/mnt/data05".device = "/dev/disk/by-uuid/d05b525e-89f5-4f90-88eb-96aa5ae1f4d9";
   fileSystems."/mnt/data05".fsType = "ext4";
-  fileSystems."/mnt/data05".options = ["users" "nofail"];
+  fileSystems."/mnt/data05".options = [
+    "users"
+    "nofail"
+  ];
 
   fileSystems."/mnt/data06".device = "/dev/disk/by-uuid/79a90551-c3f4-4f33-af7f-a56fffd9b6da";
   fileSystems."/mnt/data06".fsType = "ext4";
-  fileSystems."/mnt/data06".options = ["users" "nofail"];
+  fileSystems."/mnt/data06".options = [
+    "users"
+    "nofail"
+  ];
 
   fileSystems."/mnt/data07".device = "/dev/disk/by-uuid/27358321-f957-477a-8cde-03a94aafbe9d";
   fileSystems."/mnt/data07".fsType = "ext4";
-  fileSystems."/mnt/data07".options = ["users" "nofail"];
+  fileSystems."/mnt/data07".options = [
+    "users"
+    "nofail"
+  ];
 
   fileSystems."/mnt/data08".device = "/dev/disk/by-uuid/72dc661d-b13d-4ec0-9195-591b4f20b140";
   fileSystems."/mnt/data08".fsType = "ext4";
-  fileSystems."/mnt/data08".options = ["users" "nofail"];
+  fileSystems."/mnt/data08".options = [
+    "users"
+    "nofail"
+  ];
 
   fileSystems."/mnt/data09".device = "/dev/disk/by-uuid/3bb35a33-0efe-4c07-81fb-38fb1d4864c1";
   fileSystems."/mnt/data09".fsType = "ext4";
-  fileSystems."/mnt/data09".options = ["users" "nofail"];
+  fileSystems."/mnt/data09".options = [
+    "users"
+    "nofail"
+  ];
 
   # snapraid
   # https://github.com/amadvance/snapraid/blob/master/snapraid.conf.example
@@ -109,7 +143,15 @@
   fileSystems."/mnt/archive-0" = {
     fsType = "fuse.mergerfs";
     device = "/mnt/data*";
-    options = ["minfreespace=10G" "cache.files=partial" "dropcacheonclose=true" "category.create=mfs"  "security_capability=false" ];
+    # https://trapexit.github.io/mergerfs/quickstart/#configuration
+    options = [
+      "minfreespace=10G"
+      "cache.files=off"
+      "dropcacheonclose=false"
+      "category.create=pfrd"
+      "security_capability=false"
+      "xattr=nosys"
+    ];
   };
 
   # hack to fix permission issue
@@ -157,7 +199,7 @@
     /run/current-system/sw/bin/cat /mnt/data08/.snapraid.id | /run/current-system/sw/bin/grep data08
   '';
 
-  systemd.services.snapraid-scrub.onFailure = ["ntfy-server-fail@snapraid-scrub.service"];
+  systemd.services.snapraid-scrub.onFailure = [ "ntfy-server-fail@snapraid-scrub.service" ];
   systemd.services."ntfy-server-fail@" = {
     enable = true;
     description = "service fail notification for %i";
