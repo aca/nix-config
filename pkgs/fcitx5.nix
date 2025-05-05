@@ -74,8 +74,8 @@ in
       element-desktop
       ntfy-sh
       elvish
-      glxinfo
-      nvme-cli
+      # glxinfo
+      # nvme-cli
       xwayland
     ]
     ++ [
@@ -118,11 +118,11 @@ in
     ++ [
       convmv # rename filename encoding
       # gimp
-      spice
-      spice-gtk
-      spice-protocol
-      win-virtio
-      win-spice
+      # spice
+      # spice-gtk
+      # spice-protocol
+      # win-virtio
+      # win-spice
     ]
     ++ [
       # browser
@@ -204,7 +204,7 @@ in
     ++ [
       pup
       socat
-      sops
+      # sops
 
       sqlite-interactive
       sublime-merge
@@ -212,7 +212,7 @@ in
       telegram-desktop
       libnotify
       lsof
-      inkscape
+      # inkscape
       pv
     ]
     ++ [
@@ -253,7 +253,7 @@ in
       podman
       trash-cli
       webkitgtk
-      git-annex-utils
+      # git-annex-utils
       gnuplot
       gron
       vbindiff
@@ -290,7 +290,7 @@ in
       unzip
       ouch
 
-      phodav
+      # phodav
       progress
 
       scrot
@@ -301,7 +301,7 @@ in
         ]
       ))
 
-      nqp
+      # nqp
       rakudo
       pnpm_10
 
@@ -316,24 +316,22 @@ in
 
       # terraform
       tig
-      virtiofsd
       watchexec
       wev
       yarn
       zathura
-      obsidian
+      # obsidian
       zef
       patchelf
       ttyd
       powertop
-      gptfdisk
       zip
 
       # rav1e
       #
       xxHash
       lm_sensors
-      zls
+      # zls
 
       # sway stuff
       xdragon
@@ -398,7 +396,7 @@ in
       glibcLocales
       ghq
       stow
-      buildah
+      # buildah
       gnumake
       procps
       procs

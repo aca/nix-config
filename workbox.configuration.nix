@@ -23,7 +23,7 @@ in
     ./dev/default.nix
     ./dev/go.nix
     ./dev/container.nix
-    ./dev/zig.nix
+    # ./dev/zig.nix
     ./dev/rust.nix
     ./dev/lua.nix
     ./dev/js.nix
@@ -31,12 +31,20 @@ in
     ./dev/nix.nix
   ];
 
+  systemd.tmpfiles.rules = [
+    # 형식: "d <path> <mode> <uid> <gid> <age>"
+    # %u → 실제 사용자 이름, %h → 사용자 홈 디렉토리
+    "d /home/%u/src 0755 - - -"
+    "d /home/%u/.local/share/nvim/ 0755 - - -"
+    "d /home/rok/src2 0755 root root -"
+  ];
+
   services.udev.packages = with pkgs; [
     via
     vial
   ];
 
-  services.caddy.enable = true;
+  # services.caddy.enable = true;
   # services.caddy.virtualHosts."http://torrent.workbox".extraConfig = ''
   #   reverse_proxy http://localhost:4321
   # '';
@@ -241,9 +249,9 @@ in
   networking.hostName = "workbox"; # Define your hostname.
   #  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.wireless.iwd.enable = true;
-  # networking.networkmanager.enable = false;
+  networking.networkmanager.enable = false;
   # networking.useNetworkd = false;
-  # networking.useDHCP = true;
+  networking.useDHCP = false;
 
   # systemd.network.enable = true;
   # systemd.network.networks = {
@@ -346,7 +354,7 @@ in
     curl
     pueue
     htop
-    gptfdisk
+    # gptfdisk
 
     # (pkgs.callPackage ./pkgs/qbt.nix {})
     tmux
@@ -394,11 +402,11 @@ in
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
 
-  services.nfs.server.enable = true;
-  services.nfs.server.exports = ''
-    /mnt/rok-chatreey-t9/cache 192.168.0.0/24(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0,fsid=9eebb861-b9b3-415d-a2ff-bd0ab28ff29a) 100.0.0.0/8(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0,fsid=9eebb861-b9b3-415d-a2ff-bd0ab28ff29a)
-  '';
-
+  # services.nfs.server.enable = true;
+  # services.nfs.server.exports = ''
+  #   /mnt/rok-chatreey-t9/cache 192.168.0.0/24(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0,fsid=9eebb861-b9b3-415d-a2ff-bd0ab28ff29a) 100.0.0.0/8(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0,fsid=9eebb861-b9b3-415d-a2ff-bd0ab28ff29a)
+  # '';
+  #
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "both";
   services.tailscale.extraSetFlags = [

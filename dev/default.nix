@@ -23,8 +23,6 @@ in {
   environment.systemPackages = with pkgs; [
     # (import ../pkgs/advcpmv/default.nix)
 
-    # zig
-
     # aider-chat
     neovim
 
