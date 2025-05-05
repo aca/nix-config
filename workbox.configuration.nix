@@ -24,7 +24,7 @@ in {
   systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
 
 
-  networking.wireless.iwd.enable = true;
+  # networking.wireless.iwd.enable = true;
 
   # programs.firefox.enable = true;
 
