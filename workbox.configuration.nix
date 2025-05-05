@@ -31,6 +31,13 @@ in
     ./dev/nix.nix
   ];
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  boot.extraModprobeConfig = ''
+    options rtw88 lps_deep_mode=0
+  '';
+
+
   systemd.tmpfiles.rules = [
     # 형식: "d <path> <mode> <uid> <gid> <age>"
     # %u → 실제 사용자 이름, %h → 사용자 홈 디렉토리
