@@ -213,9 +213,9 @@ services.openssh.settings.PasswordAuthentication = true;
   networking.hostName = "workbox"; # Define your hostname.
   #  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.wireless.iwd.enable = true;
-  networking.networkmanager.enable = false;
-  networking.useNetworkd = false;
-  networking.useDHCP = false;
+  # networking.networkmanager.enable = false;
+  # networking.useNetworkd = false;
+  networking.useDHCP = true;
 
   systemd.network.enable = true;
   # systemd.network.networks = {
