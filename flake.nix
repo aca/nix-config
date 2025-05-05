@@ -777,7 +777,7 @@
         ];
       };
 
-      nixosConfigurations.seedbox = let
+      nixosConfigurations.workbox = let
         system = "x86_64-linux";
         specialArgs = {inherit inputs;};
         overlay-unstable = final: prev: {
@@ -810,10 +810,10 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.rok = import ./seedbox.home-manager.nix;
+              home-manager.users.rok = import ./workbox.home-manager.nix;
               home-manager.extraSpecialArgs = specialArgs;
             }
-            ./seedbox.configuration.nix
+            ./workbox.configuration.nix
           ];
         };
     };
