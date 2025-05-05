@@ -10,9 +10,12 @@
   home.homeDirectory = "/home/rok";
 
   imports = [
-    ./pkgs/elvish/elvish.nix
+    ./pkgs/sway/config.nix
     ./pkgs/vifm/vifmrc.nix
+    ./pkgs/rofi/rofi.nix
     ./pkgs/home_defaults.nix
+    ./pkgs/firefox/firefox.nix
+    ./pkgs/alacritty/home.alacritty.nix
   ];
 
   home.stateVersion = "24.11";
@@ -38,39 +41,39 @@
   #   };
   # };
 
-  systemd.user.services."qbittorrent-nox" = {
-    Install.WantedBy = ["default.target"];
-    # Unit = {
-    #   After = ["proxy-socks5.service"];
-    # };
-    Service = {
-      Type = "exec";
-      ExecStart = ''
-        /run/current-system/sw/bin/qbittorrent-nox
-      '';
-    };
-  };
+  # systemd.user.services."qbittorrent-nox" = {
+  #   Install.WantedBy = ["default.target"];
+  #   # Unit = {
+  #   #   After = ["proxy-socks5.service"];
+  #   # };
+  #   Service = {
+  #     Type = "exec";
+  #     ExecStart = ''
+  #       /run/current-system/sw/bin/qbittorrent-nox
+  #     '';
+  #   };
+  # };
 
-  services.pueue = {
-    enable = true;
-    settings = {
-      client = {
-        dark_mode = true;
-        show_expanded_aliases = false;
-      };
-      daemon = {
-        default_parallel_tasks = 1;
-        pause_group_on_failure = false;
-        pause_all_on_failure = false;
-      };
-      shared = {
-        use_unix_socket = true;
-      };
-    };
-  };
-
-  home.file."${config.xdg.configHome}/qBittorrent/qBittorrent.conf" = {
-    force = true;
-    text = builtins.readFile ./pkgs/qBittorrent/seedbox.qBittorrent.conf;
-  };
+  # services.pueue = {
+  #   enable = true;
+  #   settings = {
+  #     client = {
+  #       dark_mode = true;
+  #       show_expanded_aliases = false;
+  #     };
+  #     daemon = {
+  #       default_parallel_tasks = 1;
+  #       pause_group_on_failure = false;
+  #       pause_all_on_failure = false;
+  #     };
+  #     shared = {
+  #       use_unix_socket = true;
+  #     };
+  #   };
+  # };
+  #
+  # home.file."${config.xdg.configHome}/qBittorrent/qBittorrent.conf" = {
+  #   force = true;
+  #   text = builtins.readFile ./pkgs/qBittorrent/seedbox.qBittorrent.conf;
+  # };
 }

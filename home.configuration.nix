@@ -220,7 +220,7 @@ in
     ./dev/nix.nix
 
     ./pkgs/reboot-if-offline.nix
-    ./pkgs/systemd-x.nix
+    # ./pkgs/systemd-x.nix
     # ./pkgs/reboot-everyday.nix
 
     ./hardware/home.nix

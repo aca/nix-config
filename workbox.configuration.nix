@@ -8,11 +8,32 @@
   lib,
   options,
   ...
-}: let
+}:
+let
   hostName = "workbox";
-in {
+in
+{
   imports = [
     ./hardware/workbox.nix
+    ./pkgs/sway/sway.nix
+    ./pkgs/fcitx5.nix
+    ./pkgs/zapret.nix
+    ./dev/data.nix
+    ./dev/java.nix
+    ./dev/default.nix
+    ./dev/go.nix
+    ./dev/container.nix
+    ./dev/zig.nix
+    ./dev/rust.nix
+    ./dev/lua.nix
+    ./dev/js.nix
+    ./dev/python.nix
+    ./dev/nix.nix
+  ];
+
+  services.udev.packages = with pkgs; [
+    via
+    vial
   ];
 
   services.caddy.enable = true;
@@ -23,6 +44,16 @@ in {
   systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
   systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
 
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [
+      # TODO: replace with AMD
+      # intel-media-driver # LIBVA_DRIVER_NAME=iHD
+      # vaapiIntel # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
+      # vaapiVdpau
+      # libvdpau-va-gl
+    ];
+  };
 
   # networking.wireless.iwd.enable = true;
 
@@ -48,20 +79,17 @@ in {
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-services.openssh.enable = true;
-services.openssh.settings.PermitRootLogin = "yes";
-services.openssh.settings.PasswordAuthentication = true;
-
-
-
+  services.openssh.enable = true;
+  services.openssh.settings.PermitRootLogin = "yes";
+  services.openssh.settings.PasswordAuthentication = true;
 
   boot.initrd.luks.devices = {
-  crypted = {
-     device = "/dev/disk/by-uuid/ae008286-6f50-451f-b9fd-bcce78770f49";
-   preLVM = true;
-  allowDiscards = true;
-};
- };
+    crypted = {
+      device = "/dev/disk/by-uuid/ae008286-6f50-451f-b9fd-bcce78770f49";
+      preLVM = true;
+      allowDiscards = true;
+    };
+  };
 
   # services.prometheus.enable = true;
   # services.prometheus.globalConfig.scrape_interval = "15s"; # "1m"
@@ -179,7 +207,7 @@ services.openssh.settings.PasswordAuthentication = true;
   #   };
   # };
 
-  services.tailscale.enable = true;
+  # services.tailscale.enable = true;
 
   # fileSystems."/mnt/archive-0" = {
   #   device = "192.168.0.25:/mnt/archive-0";
@@ -199,11 +227,11 @@ services.openssh.settings.PasswordAuthentication = true;
 
   security.sudo.extraRules = [
     {
-      users = ["rok"];
+      users = [ "rok" ];
       commands = [
         {
           command = "ALL";
-          options = ["NOPASSWD"]; # "SETENV" # Adding the following could be a good idea
+          options = [ "NOPASSWD" ]; # "SETENV" # Adding the following could be a good idea
         }
       ];
     }
@@ -215,9 +243,9 @@ services.openssh.settings.PasswordAuthentication = true;
   networking.wireless.iwd.enable = true;
   # networking.networkmanager.enable = false;
   # networking.useNetworkd = false;
-  networking.useDHCP = true;
+  # networking.useDHCP = true;
 
-  systemd.network.enable = true;
+  # systemd.network.enable = true;
   # systemd.network.networks = {
   #   "20-wireless" = {
   #     matchConfig.Name = "wlan0";
@@ -240,6 +268,7 @@ services.openssh.settings.PasswordAuthentication = true;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
+
 
   # i18n.extraLocaleSettings = {
   #   LC_ADDRESS = "ko_KR.UTF-8";
@@ -289,9 +318,12 @@ services.openssh.settings.PasswordAuthentication = true;
   users.users.rok = {
     isNormalUser = true;
     description = "rok";
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     linger = true;
-    packages = with pkgs; [];
+    packages = with pkgs; [ ];
   };
 
   users.users.root.openssh.authorizedKeys.keys = [
@@ -366,4 +398,11 @@ services.openssh.settings.PasswordAuthentication = true;
   services.nfs.server.exports = ''
     /mnt/rok-chatreey-t9/cache 192.168.0.0/24(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0,fsid=9eebb861-b9b3-415d-a2ff-bd0ab28ff29a) 100.0.0.0/8(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0,fsid=9eebb861-b9b3-415d-a2ff-bd0ab28ff29a)
   '';
+
+  services.tailscale.enable = true;
+  services.tailscale.useRoutingFeatures = "both";
+  services.tailscale.extraSetFlags = [
+    "--ssh"
+    "--advertise-exit-node=true"
+  ];
 }
