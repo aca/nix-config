@@ -85,11 +85,11 @@
       final: prev:
         {}
         # // (useunstable system "linuxPackages-latest")
+        // (usenightly system "linuxPackages_testing")
+        // (useunstable system "linuxPackages_zen")
         // (useunstable system "linuxPackages_latest")
         # // (useunstable system "attic-client")
         # // (useunstable system "attic-server")
-        // (useunstable system "linuxPackages_testing")
-        // (useunstable system "linuxPackages_zen")
         // (useunstable system "kotlin")
         // (useunstable system "kotlin-language-server")
         # // (useunstable system "jetbrains.idea-community-bin")
