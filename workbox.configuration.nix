@@ -24,11 +24,6 @@ in {
   systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
 
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-
-  boot.loader.efi.canTouchEfiVariables = true;
-
   networking.wireless.iwd.enable = true;
 
   # programs.firefox.enable = true;
