@@ -32,10 +32,10 @@ in
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_testing;
-  boot.kernelModules = [ "8821ce" ];
-  boot.extraModulePackages = with config.boot.kernelPackages; [
-      rtl8821ce
-  ];
+  # boot.kernelModules = [ "8821ce" ];
+  # boot.extraModulePackages = with config.boot.kernelPackages; [
+  #     rtl8821ce
+  # ];
 
 
   boot.extraModprobeConfig = ''
