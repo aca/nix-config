@@ -1284,6 +1284,7 @@ in
       # (lowPrio uutils-coreutils-noprefix)
       freecad-wayland
       vscode.fhs
+      detox
       unrar
       stylua
       # waypipe

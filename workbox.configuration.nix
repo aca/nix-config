@@ -9,43 +9,90 @@
   options,
   ...
 }: let
-  hostName = "seedbox";
+  hostName = "workbox";
 in {
   imports = [
-    ./hardware/seedbox.nix
+    ./hardware/workbox.nix
   ];
 
   services.caddy.enable = true;
-  services.caddy.virtualHosts."http://torrent.seedbox".extraConfig = ''
-    reverse_proxy http://localhost:4321
-  '';
+  # services.caddy.virtualHosts."http://torrent.workbox".extraConfig = ''
+  #   reverse_proxy http://localhost:4321
+  # '';
 
   systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
   systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
 
-  services.prometheus.enable = true;
-  services.prometheus.globalConfig.scrape_interval = "15s"; # "1m"
-  services.prometheus.extraFlags = ["--log.level=debug"];
-  services.prometheus.scrapeConfigs = [
-    {
-      job_name = "node";
-      static_configs = [
-        {targets = ["100.101.62.82:9000"];}
-      ];
-    }
-  ];
-  services.prometheus.alertmanagers = [
-    {
-      scheme = "http";
-      static_configs = [
-        {targets = ["localhost:${toString config.services.prometheus.alertmanager.port}"];}
-      ];
-    }
+
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
+
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  networking.wireless.iwd.enable = true;
+
+  # programs.firefox.enable = true;
+
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = with pkgs; [
+    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    wget
+    git
+
   ];
 
-  services.prometheus.ruleFiles = [
-    ./node-exporter.yml
-  ];
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  # };
+
+  # List services that you want to enable:
+
+  # Enable the OpenSSH daemon.
+services.openssh.enable = true;
+services.openssh.settings.PermitRootLogin = "yes";
+services.openssh.settings.PasswordAuthentication = true;
+
+
+
+
+  boot.initrd.luks.devices = {
+  crypted = {
+     device = "/dev/disk/by-uuid/ae008286-6f50-451f-b9fd-bcce78770f49";
+   preLVM = true;
+  allowDiscards = true;
+};
+ };
+
+  # services.prometheus.enable = true;
+  # services.prometheus.globalConfig.scrape_interval = "15s"; # "1m"
+  # services.prometheus.extraFlags = ["--log.level=debug"];
+  # services.prometheus.scrapeConfigs = [
+  #   {
+  #     job_name = "node";
+  #     static_configs = [
+  #       {targets = ["100.101.62.82:9000"];}
+  #     ];
+  #   }
+  # ];
+  # services.prometheus.alertmanagers = [
+  #   {
+  #     scheme = "http";
+  #     static_configs = [
+  #       {targets = ["localhost:${toString config.services.prometheus.alertmanager.port}"];}
+  #     ];
+  #   }
+  # ];
+
+  hardware.bluetooth.enable = true;
+  #
+  # services.prometheus.ruleFiles = [
+  #   ./node-exporter.yml
+  # ];
 
   # services.grafana = {
   #   enable = true;
@@ -95,20 +142,20 @@ in {
   #   ];
   # };
 
-  services.grafana.provision.dashboards.settings.providers = [
-    {
-      name = "node";
-      options.path = ./grafana/dashboards/1860_rev37.json;
-    }
-  ];
-
-  services.prometheus.exporters.node = {
-    enable = true;
-    port = 9000;
-    # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/monitoring/prometheus/exporters.nix
-    enabledCollectors = ["systemd"];
-    extraFlags = ["--collector.ethtool" "--collector.softirqs" "--collector.tcpstat"];
-  };
+  # services.grafana.provision.dashboards.settings.providers = [
+  #   {
+  #     name = "node";
+  #     options.path = ./grafana/dashboards/1860_rev37.json;
+  #   }
+  # ];
+  #
+  # services.prometheus.exporters.node = {
+  #   enable = true;
+  #   port = 9000;
+  #   # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/monitoring/prometheus/exporters.nix
+  #   enabledCollectors = ["systemd"];
+  #   extraFlags = ["--collector.ethtool" "--collector.softirqs" "--collector.tcpstat"];
+  # };
 
   # services.loki.enable = true;
 
@@ -139,17 +186,17 @@ in {
 
   services.tailscale.enable = true;
 
-  fileSystems."/mnt/archive-0" = {
-    device = "192.168.0.25:/mnt/archive-0";
-    fsType = "nfs";
-    options = ["noatime"];
-  };
+  # fileSystems."/mnt/archive-0" = {
+  #   device = "192.168.0.25:/mnt/archive-0";
+  #   fsType = "nfs";
+  #   options = ["noatime"];
+  # };
 
-  fileSystems."/mnt/rok-chatreey-t9/cache".device = "/dev/disk/by-uuid/c9c56be8-254e-4a7f-8134-83a6dfade66c";
-  fileSystems."/mnt/rok-chatreey-t9/cache".fsType = "ext4";
-  fileSystems."/mnt/rok-chatreey-t9/cache".options = ["defaults" "nofail" "users"];
+  # fileSystems."/mnt/rok-chatreey-t9/cache".device = "/dev/disk/by-uuid/c9c56be8-254e-4a7f-8134-83a6dfade66c";
+  # fileSystems."/mnt/rok-chatreey-t9/cache".fsType = "ext4";
+  # fileSystems."/mnt/rok-chatreey-t9/cache".options = ["defaults" "nofail" "users"];
 
-  system.activationScripts.fix-perm.text = "chmod 777 /mnt/rok-chatreey-t9/cache";
+  # system.activationScripts.fix-perm.text = "chmod 777 /mnt/rok-chatreey-t9/cache";
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -168,7 +215,7 @@ in {
   ];
 
   services.fwupd.enable = true;
-  networking.hostName = "seedbox"; # Define your hostname.
+  networking.hostName = "workbox"; # Define your hostname.
   #  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.wireless.iwd.enable = true;
   networking.networkmanager.enable = false;
@@ -176,18 +223,18 @@ in {
   networking.useDHCP = false;
 
   systemd.network.enable = true;
-  systemd.network.networks = {
-    "20-wireless" = {
-      matchConfig.Name = "wlan0";
-      networkConfig.DHCP = "yes";
-      dhcpV4Config.RouteMetric = 2;
-    };
-    "10-wired" = {
-      matchConfig.Name = "enp*";
-      networkConfig.DHCP = "yes";
-      dhcpV4Config.RouteMetric = 1;
-    };
-  };
+  # systemd.network.networks = {
+  #   "20-wireless" = {
+  #     matchConfig.Name = "wlan0";
+  #     networkConfig.DHCP = "yes";
+  #     dhcpV4Config.RouteMetric = 2;
+  #   };
+  #   "10-wired" = {
+  #     matchConfig.Name = "enp*";
+  #     networkConfig.DHCP = "yes";
+  #     dhcpV4Config.RouteMetric = 1;
+  #   };
+  # };
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -274,17 +321,19 @@ in {
     htop
     gptfdisk
 
-    (pkgs.callPackage ./pkgs/qbt.nix {})
+    # (pkgs.callPackage ./pkgs/qbt.nix {})
     tmux
     git
     ripgrep
     aria2
-    qbittorrent-nox
+    # qbittorrent-nox
     fish
     btop
     htop
     ncdu
     glances
+    lsof
+    psmisc
     elvish
 
     dconf # https://github.com/nix-community/home-manager/issues/3113

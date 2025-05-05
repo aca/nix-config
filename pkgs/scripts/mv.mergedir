@@ -3,8 +3,8 @@
 set -euo pipefail
 
 if [ "$#" -eq 0 ]; then
-    echo "Copy a directory using rsync"
-    echo "Usage: mv.rsyncdir <src> <dst> [options]"
+    echo "Copy a directory using mv, rsync.alternative, as rsync has problem with unicode"
+    echo "Usage: mv.mergedir <src> <dst> [options]"
     exit 1
 fi
 
@@ -34,5 +34,5 @@ shift
 test -d "$src"
 test -d "$dst"
 
-fd --type d --no-ignore --hidden --base-directory $src -x mkdir -pv "$dstabs/{}"
+fd --type d --threads=1 --no-ignore --hidden --base-directory $src -x mkdir -p -v "$dstabs/{}"
 fd --type f --no-ignore --hidden --base-directory $src -x mv -vn "{}" "$dstabs/{}"
