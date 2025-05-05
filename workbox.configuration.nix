@@ -32,6 +32,11 @@ in
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelModules = [ "8821ce" ];
+  boot.extraKernelModules = with config.boot.kernelPackages; [
+      rtl8821ce
+  ];
+
 
   boot.extraModprobeConfig = ''
     options rtw88 lps_deep_mode=0
