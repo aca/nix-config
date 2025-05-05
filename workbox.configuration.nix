@@ -250,22 +250,22 @@ in
   #  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.wireless.iwd.enable = true;
   networking.networkmanager.enable = false;
-  # networking.useNetworkd = false;
+  networking.useNetworkd = false;
   networking.useDHCP = false;
 
-  # systemd.network.enable = true;
-  # systemd.network.networks = {
-  #   "20-wireless" = {
-  #     matchConfig.Name = "wlan0";
-  #     networkConfig.DHCP = "yes";
-  #     dhcpV4Config.RouteMetric = 2;
-  #   };
-  #   "10-wired" = {
-  #     matchConfig.Name = "enp*";
-  #     networkConfig.DHCP = "yes";
-  #     dhcpV4Config.RouteMetric = 1;
-  #   };
-  # };
+  systemd.network.enable = true;
+  systemd.network.networks = {
+    "20-wireless" = {
+      matchConfig.Name = "wlan0";
+      networkConfig.DHCP = "yes";
+      dhcpV4Config.RouteMetric = 2;
+    };
+    "10-wired" = {
+      matchConfig.Name = "enp*";
+      networkConfig.DHCP = "yes";
+      dhcpV4Config.RouteMetric = 1;
+    };
+  };
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
