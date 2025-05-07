@@ -10,10 +10,10 @@
   # inherit (import ./vars.nix) work;
   hostName = "txxx-nix";
 in {
-  networking.nameservers = [
-    "1.1.1.1#one.one.one.one"
-    "1.0.0.1#one.one.one.one"
-  ];
+  # networking.nameservers = [
+  #   "1.1.1.1#one.one.one.one"
+  #   "1.0.0.1#one.one.one.one"
+  # ];
   # security.pki.certificateFiles = [
   #   ./certs/home.internal+1.pem
   # ];
@@ -39,6 +39,44 @@ in {
 
   programs.java.enable = true;
   programs.java.package = pkgs.jdk17;
+
+  services.dnsmasq = {
+    enable = true;
+
+    # Forward *everything* to these upstreams
+    servers = [
+      "1.1.1.1"     # Cloudflare
+      "172.21.223.91"
+    ];
+
+    settings = {
+        log-queries = true;
+        log-dhcp = true;
+    };
+
+    # # Resolve *.lan on your local subnet via another host
+    # extraConfig = ''
+    #   server=/lan/192.168.1.1
+    #   # Don’t forward “.lan” queries to upstreams:
+    #   domain-needed
+    #   bogus-priv
+    # '';
+    #
+    # # (optional) Run an internal DHCP server on eth0
+    # dhcpServer = {
+    #   enable = true;
+    #   interface = "eth0";
+    #   range = "192.168.1.100,192.168.1.250,12h";
+    #   options = { "router" = "192.168.1.1"; };
+    # };
+  };
+
+  # # Ensure local resolver is used system-wide
+  # networking = {
+  #   nameservers = [ "127.0.0.1" "::1" ];
+  #   # OR, if you use systemd-resolved stub resolver:
+  #   # networkmanager.dns = "systemd-resolved";
+  # };
 
   # services.vector.journaldAccess = true;
   # services.vector.enable = true;
@@ -241,6 +279,7 @@ in {
     "--ssh"
     "--advertise-exit-node=true"
   ];
+  services.tailscale.extraDaemonFlags = [ "--socks5-server=0.0.0.0:1080" ];
 
   # GUI
   # services.xserver.enable = true;
