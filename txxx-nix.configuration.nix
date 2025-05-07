@@ -767,6 +767,7 @@ in {
       pavucontrol
       # firefox
 
+      geekbench
       gradle_7
       # openjdk23
     ];
