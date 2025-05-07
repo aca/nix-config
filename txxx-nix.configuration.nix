@@ -6,10 +6,15 @@
   inputs,
   lib,
   ...
-} @ args: let
+}@args:
+let
   # inherit (import ./vars.nix) work;
   hostName = "txxx-nix";
-in {
+in
+{
+  # systemd.sysusers.enable = true;
+
+  services.userborn.enable = true;
   # networking.nameservers = [
   #   "1.1.1.1#one.one.one.one"
   #   "1.0.0.1#one.one.one.one"
@@ -45,13 +50,13 @@ in {
 
     # Forward *everything* to these upstreams
     servers = [
-      "1.1.1.1"     # Cloudflare
+      "1.1.1.1" # Cloudflare
       "172.21.223.91"
     ];
 
     settings = {
-        log-queries = true;
-        log-dhcp = true;
+      log-queries = true;
+      log-dhcp = true;
     };
 
     # # Resolve *.lan on your local subnet via another host
@@ -106,7 +111,7 @@ in {
   #     };
   # };
   networking.hosts = {
-    "100.127.31.30" = ["git.home.internal"];
+    "100.127.31.30" = [ "git.home.internal" ];
   };
 
   # disabledModules = ["services/networking/tailscale.nix"];
@@ -136,7 +141,7 @@ in {
     ];
   };
 
-  age.identityPaths = ["/home/rok/.ssh/id_ed25519"];
+  age.identityPaths = [ "/home/rok/.ssh/id_ed25519" ];
   # age.secrets.txxx = { file = ./secrets/txxx.age; mode = "777"; };
 
   age.secrets."env" = {
@@ -249,7 +254,7 @@ in {
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.availableKernelModules = ["virtiofs"];
+  boot.initrd.availableKernelModules = [ "virtiofs" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Enable networking
@@ -276,6 +281,7 @@ in {
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "both";
   services.tailscale.extraSetFlags = [
+    "--advertise-routes=172.16.0.0/12,10.0.0.0/8"
     "--ssh"
     "--advertise-exit-node=true"
   ];
@@ -427,11 +433,11 @@ in {
   security.sudo.enable = true;
   security.sudo.extraRules = [
     {
-      users = ["rok"];
+      users = [ "rok" ];
       commands = [
         {
           command = "ALL";
-          options = ["NOPASSWD"]; # "SETENV" # Adding the following could be a good idea
+          options = [ "NOPASSWD" ]; # "SETENV" # Adding the following could be a good idea
         }
       ];
     }
@@ -476,7 +482,7 @@ in {
       noto-fonts
       # noto-fonts-cjk
       noto-fonts-emoji
-      (pkgs.nerdfonts.override {fonts = ["IosevkaTermSlab"];})
+      (pkgs.nerdfonts.override { fonts = [ "IosevkaTermSlab" ]; })
       # liberation_ttf
       # fira-code
       # fira-code-symbols
@@ -506,7 +512,7 @@ in {
           "IBM Plex Sans KR"
           "Noto Sans Mono"
         ];
-        monospace = ["IBM Plex Sans KR"];
+        monospace = [ "IBM Plex Sans KR" ];
       };
     };
   };
@@ -560,7 +566,8 @@ in {
 
   # environment.extraInit = ""
 
-  environment.systemPackages = with pkgs;
+  environment.systemPackages =
+    with pkgs;
     [
       # jdk17
       element-desktop
@@ -757,11 +764,12 @@ in {
           # "--ozone-platform=''"
           # Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36
           "--user-agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 14_7_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/130.0.2849.80'"
-          "--enable-features=WebContentsForceDark"
           "--enable-quic"
           "--enable-zero-copy"
           "--remote-debugging-port=9222"
-          "--force-dark-mode"
+          # "--enable-features=WebContentsForceDark"
+          # "--force-dark-mode"
+
           # NOTES: ozone-platform=wayland fcitx win+space not work
           # "--disable-features=UseOzonePlatform"
           # "--gtk-version=4" # fcitx

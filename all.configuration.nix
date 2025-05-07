@@ -4,9 +4,10 @@
   inputs,
   system,
   ...
-}: let
-  useunstable = system: pkg: {${pkg} = inputs.nixpkgs-unstable.legacyPackages.${system}.${pkg};};
-  usenightly = system: pkg: {${pkg} = inputs.nixpkgs-nightly.legacyPackages.${system}.${pkg};};
+}:
+let
+  useunstable = system: pkg: { ${pkg} = inputs.nixpkgs-unstable.legacyPackages.${system}.${pkg}; };
+  usenightly = system: pkg: { ${pkg} = inputs.nixpkgs-nightly.legacyPackages.${system}.${pkg}; };
   extraOptions = ''
     experimental-features = nix-command flakes
   '';
@@ -19,6 +20,14 @@
   # ];
 
   services.openssh.settings.PasswordAuthentication = false;
+
+  # vaultix, not sure it works
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+  };
 
   # nix.settings.experimental-features = "nix-command flakes";
   # nix.extraOptions = ''
@@ -83,78 +92,79 @@
     inputs.agenix.overlays.default
     (
       final: prev:
-        {}
-        # // (useunstable system "linuxPackages-latest")
-        // (usenightly system "linuxPackages_testing")
-        // (useunstable system "linuxPackages_zen")
-        // (useunstable system "linuxPackages_latest")
-        # // (useunstable system "attic-client")
-        # // (useunstable system "attic-server")
-        // (useunstable system "kotlin")
-        // (useunstable system "kotlin-language-server")
-        # // (useunstable system "jetbrains.idea-community-bin")
-        // (useunstable system "vifm")
-        // (usenightly system "go")
-        // (usenightly system "pnpm")
-        // (usenightly system "pnpm_10")
-        # // (useunstable system "go_1_23")
-        // (usenightly system "gopls")
-        # // (useunstable system "pylyzer")
-        // (useunstable system "vscode-langservers-extracted")
-        // (usenightly system "bun")
-        // (usenightly system "vector")
-        // (useunstable system "ripgrep")
-        # // (useunstable system "firefox")
-        // (usenightly system "yt-dlp")
-        # // (useunstable system "alejandra")
-        // (useunstable system "deno")
-        // (useunstable system "openbao")
-        # // (useunstable system "rust-analyzer")
-        # // (useunstable system "nodejs")
-        // (useunstable system "nixd")
-        // (useunstable system "bkt")
-        // (useunstable system "ruff")
-        // (useunstable system "vivaldi-ffmpeg-codecs")
-        # // (useunstable system "chromium")
-        # // (useunstable system "microsoft-edge")
-        # // (useunstable system "ntfy-sh")
-        // (useunstable system "devenv")
-        # // (useunstable system "fcitx5-qt")
-        # // (useunstable system "fcitx5-lua")
-        # // (useunstable system "fcitx5-chinese-addons")
-        # // (useunstable system "fcitx5-mozc")
-        # // (useunstable system "fcitx5-qt")
-        # // (useunstable system "fcitx5-gtk")
-        # // (useunstable system "fcitx5-with-addons")
-        # // (useunstable system "fcitx5-hangul")
-        // (useunstable system "spice-vdagent")
-        # // (useunstable system "pipewire")
-        // (useunstable system "deno")
-        # // (useunstable system "wireplumber")
-        # // (useunstable system "pwvucontrol")
-        // (useunstable system "pnpm_9")
-        # // (usefixed system "davinci-resolve")
-        # // (useunstable system "libreoffice-qt")
-        # // (useunstable system "ntfy-sh")
-        // (useunstable system "vifm")
-        // (useunstable system "nixVersions.latest")
-        // (useunstable system "spice-vdagent")
-        // (useunstable system "nixd")
-        // (useunstable system "yazi")
-        // (useunstable system "bkt")
-        // (useunstable system "fzf")
-        // (useunstable system "pueue")
-        // (useunstable system "tmux")
-        // (useunstable system "qbittorrent-nox")
-        // (useunstable system "wine-wayland")
-        // (useunstable system "lua-language-server")
-        // (useunstable system "basedpyright")
-        // (useunstable system "pueue")
-        // (usenightly system "aider-chat")
-        // (useunstable system "uv")
+      { }
+      # // (useunstable system "linuxPackages-latest")
+      // (usenightly system "linuxPackages_testing")
+      // (useunstable system "linuxPackages_zen")
+      // (useunstable system "linuxPackages_latest")
+      # // (useunstable system "attic-client")
+      # // (useunstable system "attic-server")
+      // (useunstable system "kotlin")
+      // (useunstable system "kotlin-language-server")
+      # // (useunstable system "jetbrains.idea-community-bin")
+      // (useunstable system "vifm")
+      // (usenightly system "go")
+      // (usenightly system "pnpm")
+      // (usenightly system "pnpm_10")
+      # // (useunstable system "go_1_23")
+      // (usenightly system "gopls")
+      # // (useunstable system "pylyzer")
+      // (useunstable system "vscode-langservers-extracted")
+      // (usenightly system "bun")
+      // (usenightly system "vector")
+      // (useunstable system "ripgrep")
+      # // (useunstable system "firefox")
+      // (usenightly system "yt-dlp")
+      # // (useunstable system "alejandra")
+      // (useunstable system "deno")
+      // (useunstable system "openbao")
+      # // (useunstable system "rust-analyzer")
+      # // (useunstable system "nodejs")
+      // (useunstable system "nixd")
+      // (useunstable system "bkt")
+      // (useunstable system "ruff")
+      // (useunstable system "vivaldi-ffmpeg-codecs")
+      # // (useunstable system "chromium")
+      # // (useunstable system "microsoft-edge")
+      # // (useunstable system "ntfy-sh")
+      // (useunstable system "devenv")
+      # // (useunstable system "fcitx5-qt")
+      # // (useunstable system "fcitx5-lua")
+      # // (useunstable system "fcitx5-chinese-addons")
+      # // (useunstable system "fcitx5-mozc")
+      # // (useunstable system "fcitx5-qt")
+      # // (useunstable system "fcitx5-gtk")
+      # // (useunstable system "fcitx5-with-addons")
+      # // (useunstable system "fcitx5-hangul")
+      // (useunstable system "spice-vdagent")
+      # // (useunstable system "pipewire")
+      // (useunstable system "deno")
+      # // (useunstable system "wireplumber")
+      # // (useunstable system "pwvucontrol")
+      // (useunstable system "pnpm_9")
+      # // (usefixed system "davinci-resolve")
+      # // (useunstable system "libreoffice-qt")
+      # // (useunstable system "ntfy-sh")
+      // (useunstable system "vifm")
+      // (useunstable system "nixVersions.latest")
+      // (useunstable system "spice-vdagent")
+      // (useunstable system "nixd")
+      // (useunstable system "yazi")
+      // (useunstable system "bkt")
+      // (useunstable system "fzf")
+      // (useunstable system "pueue")
+      // (useunstable system "tmux")
+      // (useunstable system "qbittorrent-nox")
+      // (useunstable system "wine-wayland")
+      // (useunstable system "lua-language-server")
+      // (useunstable system "basedpyright")
+      // (useunstable system "pueue")
+      // (usenightly system "aider-chat")
+      // (useunstable system "uv")
     )
   ];
-in rec {
+in
+rec {
   nixpkgs.overlays = overlays system;
 
   nixpkgs.config.permittedInsecurePackages = [
@@ -273,7 +283,7 @@ in rec {
   ];
 
   networking.hosts = {
-    "100.127.31.30" = ["git.internal"];
+    "100.127.31.30" = [ "git.internal" ];
   };
 
   # networking.search = [

@@ -17,7 +17,7 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
     nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
 
-    vaultix.url = "github:milieuim/vaultix";
+    vaultix.url = "github:milieuim/vaultix/main";
 
     # nixpkgs-aca.url = "github:aca/nixpkgs/master";
 
@@ -29,7 +29,8 @@
     xbox.inputs.nixpkgs.follows = "nixpkgs";
 
     nur.url = "github:nix-community/NUR";
-    agenix.url = "github:ryantm/agenix";
+    # agenix.url = "github:ryantm/agenix";
+    agenix.url = "github:oluceps/agenix/with-sysuser";
     flake-utils.url = "github:numtide/flake-utils";
 
     # dotfiles.url = "codeberg:aca/dotfiles/main";
@@ -94,8 +95,8 @@
     zls.url = "github:zigtools/zls";
 
     # neovim.url = "github:nix-community/neovim-nightly-overlay?rev=1b82dbcbbcba812ad19f5c0601d1731731bf4ebe";
-    neovim.url = "github:nix-community/neovim-nightly-overlay?rev=5055d63816f4e516cb4a6f75222b95f12757bea7";
-    # neovim.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    neovim.url = "github:nix-community/neovim-nightly-overlay/master";
+    neovim.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     turbo.url = "github:alexghr/turborepo.nix";
 
@@ -114,28 +115,7 @@
   };
 
   outputs =
-    {
-      self,
-      nur,
-      nixpkgs,
-      nixpkgs-unstable,
-      nixpkgs-nightly,
-      # nixpkgs-fixed,
-      # autin,
-      # nixpkgs-aca,
-      # nil,
-      # lazybox,
-      # zapret,
-      home-manager,
-      agenix,
-      dotfiles,
-      # turbo,
-      mac-app-util,
-      zig,
-      zls,
-      darwin,
-      ...
-    }@inputs:
+    { self, nur, nixpkgs, nixpkgs-unstable, nixpkgs-nightly, vaultix, home-manager, agenix, dotfiles, mac-app-util, zig, zls, darwin, ... }@inputs:
     let
       # overlay-aca-x86_64-linux = final: prev: {
       #   aca = import nixpkgs-aca {
@@ -285,9 +265,10 @@
 
       nixosConfigurations.txxx-nix = nixpkgs.lib.nixosSystem rec {
         system = "aarch64-linux";
-        specialArgs = { inherit inputs system; };
+        specialArgs = { inherit inputs system self; };
         modules = [
           inputs.comin.nixosModules.comin
+          # inputs.vaultix.nixosModules.default
           ./all.configuration.nix
           ./linux.configuration.nix
           ./neovim.nix
@@ -432,7 +413,6 @@
         modules = [
           inputs.comin.nixosModules.comin
           ./all.configuration.nix
-          # inputs.vaultix.nixosModules.default
           agenix.nixosModules.default
           {
             environment.systemPackages = [

@@ -1170,7 +1170,7 @@ in
       rakudo
       pnpm_10
 
-    wirelesstools
+      wirelesstools
 
       tcpdump
       nmap
@@ -1329,6 +1329,7 @@ in
     "--ssh"
     "--advertise-exit-node=true"
   ];
+  services.tailscale.extraUpFlags = [ "--accept-routes" ]; # pull whatever routes you approve
   # services.tailscale.extraDaemonFlags = [ "--tun=userspace-networking" "--socks5-server=localhost:1055" "--outbound-http-proxy-listen=localhost:1055"];
 
   services.spice-vdagentd.enable = true;
