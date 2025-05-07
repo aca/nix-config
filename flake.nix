@@ -268,7 +268,7 @@
         specialArgs = { inherit inputs system self; };
         modules = [
           inputs.comin.nixosModules.comin
-          # inputs.vaultix.nixosModules.default
+          inputs.vaultix.nixosModules.default
           ./all.configuration.nix
           ./linux.configuration.nix
           ./neovim.nix
@@ -284,22 +284,6 @@
               # inputs.zls.packages.aarch64-linux.default
             ];
           }
-          (
-            { ... }:
-            {
-              services.comin = {
-                enable = false;
-                remotes = [
-                  {
-                    name = "origin";
-                    url = "https://codeberg.org/aca/nix-config.git";
-                    branches.main.name = "main";
-                    poller.period = 30;
-                  }
-                ];
-              };
-            }
-          )
           ./txxx-nix.configuration.nix
           home-manager.nixosModules.home-manager
           {
