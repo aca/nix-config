@@ -13,8 +13,32 @@ let
 in
 {
   # systemd.sysusers.enable = true;
+  services.userborn.enable = true; # or systemd.sysuser, required
 
-  services.userborn.enable = true;
+  vaultix = {
+    settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICRKLyspdv+Xb8NF2bc6e5FUQ/FFXsxG82Wy+BuyPYY5 rok@txxx-nix";
+
+    secrets = {
+      # secret example
+      test-secret-1 = {
+        file = ./vaultix/globals.json.age;
+        mode = "400";
+        owner = "root";
+        group = "users";
+        # path = "/home/1.txt";
+      };
+    };
+
+    # template example
+    templates.template-test = {
+      name = "template.txt";
+      content = ''
+        for testing vaultix template ${config.vaultix.placeholder.test-secret-1} nya
+      '';
+      path = "/var/template.txt";
+    };
+  };
+
   # networking.nameservers = [
   #   "1.1.1.1#one.one.one.one"
   #   "1.0.0.1#one.one.one.one"

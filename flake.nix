@@ -115,7 +115,22 @@
   };
 
   outputs =
-    { self, nur, nixpkgs, nixpkgs-unstable, nixpkgs-nightly, vaultix, home-manager, agenix, dotfiles, mac-app-util, zig, zls, darwin, ... }@inputs:
+    {
+      self,
+      nur,
+      nixpkgs,
+      nixpkgs-unstable,
+      nixpkgs-nightly,
+      vaultix,
+      home-manager,
+      agenix,
+      dotfiles,
+      mac-app-util,
+      zig,
+      zls,
+      darwin,
+      ...
+    }@inputs:
     let
       # overlay-aca-x86_64-linux = final: prev: {
       #   aca = import nixpkgs-aca {
@@ -785,6 +800,17 @@
             ];
           }
         ];
+      };
+
+      vaultix = inputs.vaultix.configure {
+        # # identical with flake-parts way
+        nodes = self.nixosConfigurations;
+        identity = self;
+        systems = ["x86_64-linux" "aarch64-linux"];
+        extraRecipients = [ ];
+        extraPackages = [ ];
+        cache = "./secret/.cache";
+        # # generating `outputs.vaultix.app.${system}.*`
       };
     };
 }
