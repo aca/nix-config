@@ -283,7 +283,37 @@
         specialArgs = { inherit inputs system self; };
         modules = [
           inputs.comin.nixosModules.comin
-          # inputs.vaultix.nixosModules.default
+          inputs.vaultix.nixosModules.default
+          (
+            { config, ... }:
+            {
+              vaultix = {
+                settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICRKLyspdv+Xb8NF2bc6e5FUQ/FFXsxG82Wy+BuyPYY5 rok@txxx-nix";
+
+                secrets = {
+                  # secret example
+                  test-secret-1 = {
+                    file = ./vaultix/globals.json.age;
+                    mode = "400";
+                    owner = "root";
+                    group = "users";
+                    # path = "/home/1.txt";
+                  };
+                };
+
+                # template example
+                templates.template-test = {
+                  name = "template.txt";
+                  content = ''
+                    for testing vaultix template ${config.vaultix.placeholder.test-secret-1} nya
+                  '';
+                  path = "/var/template.txt";
+                };
+              };
+            }
+          )
+          # (
+          # )
           ./all.configuration.nix
           ./linux.configuration.nix
           ./neovim.nix
@@ -806,7 +836,10 @@
         # # identical with flake-parts way
         nodes = self.nixosConfigurations;
         identity = self;
-        systems = ["x86_64-linux" "aarch64-linux"];
+        systems = [
+          "x86_64-linux"
+          "aarch64-linux"
+        ];
         extraRecipients = [ ];
         extraPackages = [ ];
         cache = "./secret/.cache";
