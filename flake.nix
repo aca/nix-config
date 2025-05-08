@@ -268,7 +268,7 @@
         specialArgs = { inherit inputs system self; };
         modules = [
           inputs.comin.nixosModules.comin
-          inputs.vaultix.nixosModules.default
+          # inputs.vaultix.nixosModules.default
           ./all.configuration.nix
           ./linux.configuration.nix
           ./neovim.nix

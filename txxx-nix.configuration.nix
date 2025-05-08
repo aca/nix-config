@@ -570,6 +570,7 @@ in
     with pkgs;
     [
       # jdk17
+      nickel
       element-desktop
     ]
     ++ [
@@ -789,6 +790,7 @@ in
       kotlin
       kotlin-language-server
       jetbrains.idea-community
+      ripgrep-all
       jdk23
       valgrind
       # fuse-common
@@ -808,7 +810,7 @@ in
       #     # NOTES: ozone-platform=wayland fcitx win+space not work
       #   ];
       # })
-      nyxt
+      # nyxt
 
       esbuild
       pavucontrol
@@ -816,6 +818,7 @@ in
 
       geekbench
       gradle_7
+      janet
       # openjdk23
     ];
 }
