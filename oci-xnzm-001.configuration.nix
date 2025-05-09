@@ -95,6 +95,11 @@
     };
   };
 
+  services.nfs.server.enable = true;
+  services.nfs.server.exports = ''
+    /mnt/Downloads     100.0.0.0/8(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0)
+  '';
+
   # services.prometheus = {
   #   exporters = {
   #     node = {

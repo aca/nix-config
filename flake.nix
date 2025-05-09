@@ -482,12 +482,42 @@
       # .#home
       nixosConfigurations.home = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs system; };
+        specialArgs = { inherit inputs system self; };
         modules = [
           ./all.configuration.nix
           agenix.nixosModules.default
           ./home.configuration.nix
           ./neovim.nix
+
+          inputs.vaultix.nixosModules.default
+          (
+            { config, ... }:
+            {
+              vaultix = {
+                settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICRKLyspdv+Xb8NF2bc6e5FUQ/FFXsxG82Wy+BuyPYY5 rok@txxx-nix";
+
+                secrets = {
+                  # secret example
+                  test-secret-1 = {
+                    file = ./vaultix/globals.json.age;
+                    mode = "400";
+                    owner = "root";
+                    group = "users";
+                    # path = "/home/1.txt";
+                  };
+                };
+
+                # template example
+                templates.template-test = {
+                  name = "template.txt";
+                  content = ''
+                    for testing vaultix template ${config.vaultix.placeholder.test-secret-1} nya
+                  '';
+                  path = "/var/template.txt";
+                };
+              };
+            }
+          )
 
           home-manager.nixosModules.home-manager
           {
