@@ -515,7 +515,6 @@
                   '';
                   path = "/var/template.txt";
                 };
-
               };
             }
           )
