@@ -660,7 +660,6 @@ in
       virtualgl
 
       # xf86-video-vmware
-      okular
       # ov
       p7zip
       pandoc

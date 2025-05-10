@@ -284,7 +284,7 @@ in
       netcat-gnu
       nginx
       nnn
-      okular
+      # okular
 
       p7zip
       unzip

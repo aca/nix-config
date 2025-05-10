@@ -1112,7 +1112,7 @@ in
       podman
       trash-cli
       webkitgtk
-      git-annex-utils
+      # git-annex-utils
       gnuplot
       gron
       vbindiff
@@ -1143,7 +1143,7 @@ in
       netcat-gnu
       nginx
       nnn
-      okular
+      # okular
 
       p7zip
       unzip

@@ -16,7 +16,7 @@ in {
         pkgs.firefox-devedition.override {
           nativeMessagingHosts = [
             pkgs.tridactyl-native
-            pkgs.plasma-browser-integration
+            # pkgs.plasma-browser-integration
           ];
         }
       else pkgs.firefox-devedition-bin

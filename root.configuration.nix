@@ -642,7 +642,6 @@ in {
       netcat-gnu
       nginx
       nnn
-      okular
 
       p7zip
       unzip

@@ -18,6 +18,7 @@
     nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
 
     vaultix.url = "github:milieuim/vaultix";
+    # vaultix.inputs.nixpkgs.follows = "nixpkgs";
 
     # nixpkgs-aca.url = "github:aca/nixpkgs/master";
 
@@ -451,39 +452,40 @@
       };
 
       # .#home
-      nixosConfigurations.home = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.home = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         specialArgs = { inherit self inputs; };
         modules = [
-          ./all.configuration.nix
-          agenix.nixosModules.default
-          ./home.configuration.nix
-          ./neovim.nix
+          # ./all.configuration.nix
+          # agenix.nixosModules.default
+          # ./home.configuration.nix
+          # ./neovim.nix
 
-          inputs.vaultix.nixosModules.default
-          (
-            { config, ... }:
-            {
-              vaultix = {
-                settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home";
-
-                secrets = {
-                  test-secret-1 = {
-                    file = ./xxx.age;
-                  };
-                };
-
-                # template example
-                templates.template-test = {
-                  name = "template.txt";
-                  content = ''
-                    for testing vaultix template ${config.vaultix.placeholder.test-secret-1} nya
-                  '';
-                  path = "/var/template.txt";
-                };
-              };
-            }
-          )
+          # inputs.vaultix.nixosModules.default
+          # (
+          #   { config, ... }:
+          #   {
+          #     vaultix = {
+          #       settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home";
+          #
+          #       secrets = {
+          #         # secret example
+          #         test-secret-1 = {
+          #           file = ./xxx.age;
+          #         };
+          #       };
+          #
+          #       # template example
+          #       templates.template-test = {
+          #         name = "template.txt";
+          #         content = ''
+          #           for testing vaultix template ${config.vaultix.placeholder.test-secret-1} nya
+          #         '';
+          #         path = "/var/template.txt";
+          #       };
+          #     };
+          #   }
+          # )
 
           home-manager.nixosModules.home-manager
           {
@@ -828,14 +830,48 @@
         ];
       };
 
-      vaultix = inputs.vaultix.configure {
-        # # identical with flake-parts way
+      # nixosConfigurations.my-nixos = nixpkgs.lib.nixosSystem rec{
+      #   system = "x86_64-linux";
+      #
+      #   specialArgs = { inherit self inputs; };
+      #
+      #   modules = [
+      #     inputs.vaultix.nixosModules.default
+      #     (
+      #       { config, ... }:
+      #       {
+      #         vaultix = {
+      #           settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home";
+      #
+      #           secrets = {
+      #             # secret example
+      #             test-secret-1 = {
+      #               file = ./xxx.age;
+      #             };
+      #           };
+      #
+      #           # template example
+      #           templates.template-test = {
+      #             name = "template.txt";
+      #             content = ''
+      #               for testing vaultix template ${config.vaultix.placeholder.test-secret-1} nya
+      #             '';
+      #             path = "/var/template.txt";
+      #           };
+      #         };
+      #       }
+      #     )
+      #   ];
+      #   # ...
+      # };
+
+      vaultix = vaultix.configure {
+        # identical with flakeModule way
         nodes = self.nixosConfigurations;
-        # identity = self + "./key.txt";
         identity = "./key.txt";
         extraRecipients = [ ];
         extraPackages = [ ];
-        cache = "./secret/.cache";
+        # cache = "./secret/.cache";
       };
     };
 }
