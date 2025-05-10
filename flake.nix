@@ -325,7 +325,7 @@
       # .#home
       nixosConfigurations.home = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
-        specialArgs = { inherit self inputs; };
+        specialArgs = { inherit inputs system; };
         modules = [
           ./all.configuration.nix
           agenix.nixosModules.default
