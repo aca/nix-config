@@ -623,9 +623,9 @@
         # identical with flakeModule way
         nodes = self.nixosConfigurations;
         identity = "./key.txt";
-        extraRecipients = [ ];
-        extraPackages = [ ];
-        cache = "./.git/vaultix";
+        # extraRecipients = [ ];
+        # extraPackages = [ ];
+        cache = "./vaultix/cache";
       };
     };
 }
