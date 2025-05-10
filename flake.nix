@@ -551,42 +551,43 @@
       # };
       #
 
-      nixosConfigurations.archive-0 = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs system; };
-        modules = [
-          ./all.configuration.nix
-          inputs.vaultix.nixosModules.default
-          agenix.nixosModules.default
-          {
-            environment.systemPackages = [
-              agenix.packages.x86_64-linux.default
-              inputs.elvish.packages.x86_64-linux.default
-              # inputs.farchive.packages.x86_64-linux.default
-              # inputs.xbox.packages.aarch64-linux.diff2
-            ];
-          }
+      # nixosConfigurations.archive-0 = nixpkgs.lib.nixosSystem rec {
+      #   system = "x86_64-linux";
+      #   specialArgs = { inherit inputs system; };
+      #   modules = [
+      #     ./all.configuration.nix
+      #     inputs.vaultix.nixosModules.default
+      #     agenix.nixosModules.default
+      #     {
+      #       environment.systemPackages = [
+      #         agenix.packages.x86_64-linux.default
+      #         inputs.elvish.packages.x86_64-linux.default
+      #         # inputs.farchive.packages.x86_64-linux.default
+      #         # inputs.xbox.packages.aarch64-linux.diff2
+      #       ];
+      #     }
+      #
+      #     (
+      #       { config, ... }:
+      #       {
+      #         vaultix = {
+      #           settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home";
+      #         };
+      #       }
+      #     )
+      #
+      #     home-manager.nixosModules.home-manager
+      #     {
+      #       home-manager.useGlobalPkgs = true;
+      #       home-manager.useUserPackages = true;
+      #       home-manager.users.rok = import ./archive-0.home-manager.nix;
+      #       home-manager.extraSpecialArgs = specialArgs;
+      #       home-manager.backupFileExtension = "~";
+      #     }
+      #     ./archive-0.configuration.nix
+      #   ];
+      # };
 
-          (
-            { config, ... }:
-            {
-              vaultix = {
-                settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home";
-              };
-            }
-          )
-
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.rok = import ./archive-0.home-manager.nix;
-            home-manager.extraSpecialArgs = specialArgs;
-            home-manager.backupFileExtension = "~";
-          }
-          ./archive-0.configuration.nix
-        ];
-      };
       #
       # nixosConfigurations.workbox = nixpkgs.lib.nixosSystem rec {
       #   system = "x86_64-linux";
