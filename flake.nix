@@ -293,7 +293,7 @@
                 secrets = {
                   # secret example
                   test-secret-1 = {
-                    file = ./vaultix/globals.json.age;
+                    file = ./vaultix/xage;
                     mode = "400";
                     owner = "root";
                     group = "users";
@@ -496,25 +496,25 @@
               vaultix = {
                 settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home";
 
-                # secrets = {
-                #   # secret example
-                #   test-secret-1 = {
-                #     file = ./vaultix/globals.json.age;
-                #     # mode = "400";
-                #     # owner = "root";
-                #     # group = "users";
-                #     # path = "/home/1.txt";
-                #   };
-                # };
+                secrets = {
+                  # secret example
+                  test-secret-1 = {
+                    file = ./vaultix/xage;
+                    # mode = "400";
+                    # owner = "root";
+                    # group = "users";
+                    # path = "/home/1.txt";
+                  };
+                };
 
-                # # template example
-                # templates.template-test = {
-                #   name = "template.txt";
-                #   content = ''
-                #     for testing vaultix template ${config.vaultix.placeholder.test-secret-1} nya
-                #   '';
-                #   path = "/var/template.txt";
-                # };
+                # template example
+                templates.template-test = {
+                  name = "template.txt";
+                  content = ''
+                    for testing vaultix template ${config.vaultix.placeholder.test-secret-1} nya
+                  '';
+                  path = "/var/template.txt";
+                };
               };
             }
           )
