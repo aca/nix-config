@@ -327,11 +327,6 @@
         system = "x86_64-linux";
         specialArgs = { inherit inputs system; };
         modules = [
-          ./all.configuration.nix
-          agenix.nixosModules.default
-          ./home.configuration.nix
-          ./neovim.nix
-
           inputs.vaultix.nixosModules.default
           (
             { config, ... }:
@@ -339,6 +334,7 @@
               vaultix = {
                 settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIqpsv22zQgRH08KyNNb59AxnCdONC3wKtWQf8vFLaEM root@nixos";
                 # settings.hostKeys = { path = "./vaultix.key"; type = "ed25519"; };
+                  beforeUserborn = [ "test-secret-1" ];
 
                 secrets = {
                   # secret example
@@ -358,6 +354,11 @@
               };
             }
           )
+          ./all.configuration.nix
+          agenix.nixosModules.default
+          ./home.configuration.nix
+          ./neovim.nix
+
 
           home-manager.nixosModules.home-manager
           {
