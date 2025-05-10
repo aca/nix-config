@@ -337,7 +337,8 @@
             { config, ... }:
             {
               vaultix = {
-                settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home";
+                settings.hostPubkey = ./vaultix.key.pub;
+                settings.hostKeys = { path = "./vaultix.key"; type = "ed25519"; };
 
                 secrets = {
                   # secret example
@@ -623,6 +624,9 @@
         # identical with flakeModule way
         nodes = self.nixosConfigurations;
         identity = "./key.txt";
+        extraRecipients = [
+           ./vaultix.key.pub
+        ];
         # extraRecipients = [ ];
         # extraPackages = [ ];
         cache = "./vaultix/cache";
