@@ -624,7 +624,7 @@
         identity = "./key.txt";
         extraRecipients = [ ];
         extraPackages = [ ];
-        cache = "./git/vaultix";
+        cache = "./.git/vaultix";
       };
     };
 }
