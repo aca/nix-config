@@ -12,6 +12,19 @@ let
   secrets = builtins.extraBuiltins.readSops "Wer";
 in
 {
+  nix.extraOptions = ''
+    plugin-files = ${pkgs.nix-plugins}/lib/nix/plugins
+  '';
+
+  nix.settings = {
+    # plugin-files = "${pkgs.nix-plugins}/lib/nix/plugins";
+    # extra-builtins-file = [ ./lib/extra-builtins.nix ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+  };
+
   # security.auditd.enable = true;
   # services.journald.audit = true;
   # services.userborn.enable = true; # or systemd.sysuser, required
@@ -26,15 +39,6 @@ in
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
-  };
-
-  nix.settings = {
-    plugin-files = "${pkgs.nix-plugins}/lib/nix/plugins";
-    extra-builtins-file = [ ./lib/extra-builtins.nix ];
-    experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
   };
 
   system.activationScripts."experimental-features".text = ''
