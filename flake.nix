@@ -348,13 +348,13 @@
                 };
 
                 # template example
-                templates.template-test = {
-                  name = "template.txt";
-                  content = ''
-                    for testing vaultix template ${config.vaultix.placeholder.test-secret-1} nya
-                  '';
-                  path = "/var/template.txt";
-                };
+                # templates.template-test = {
+                #   name = "template.txt";
+                #   content = ''
+                #     for testing vaultix template ${config.vaultix.placeholder.test-secret-1} nya
+                #   '';
+                #   path = "/var/template.txt";
+                # };
               };
             }
           )
@@ -624,9 +624,9 @@
         # identical with flakeModule way
         nodes = self.nixosConfigurations;
         identity = "./key.txt";
-        extraRecipients = [
-           ./vaultix.key.pub
-        ];
+        # extraRecipients = [
+        #    ./vaultix.key.pub
+        # ];
         # extraRecipients = [ ];
         # extraPackages = [ ];
         cache = "./vaultix/cache";
