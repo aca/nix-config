@@ -1729,7 +1729,6 @@
       },
       "original": {
         "owner": "milieuim",
-        "ref": "main",
         "repo": "vaultix",
         "type": "github"
       }

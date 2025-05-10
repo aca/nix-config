@@ -17,7 +17,7 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
     nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
 
-    vaultix.url = "github:milieuim/vaultix/main";
+    vaultix.url = "github:milieuim/vaultix";
 
     # nixpkgs-aca.url = "github:aca/nixpkgs/master";
 
@@ -278,40 +278,11 @@
           ];
         };
 
-      nixosConfigurations.txxx-nix = nixpkgs.lib.nixosSystem rec {
+      nixosConfigurations.txxx-nix = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
-        specialArgs = { inherit inputs system self; };
+        specialArgs = { inherit inputs self; };
         modules = [
           inputs.comin.nixosModules.comin
-          inputs.vaultix.nixosModules.default
-          (
-            { config, ... }:
-            {
-              vaultix = {
-                settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICRKLyspdv+Xb8NF2bc6e5FUQ/FFXsxG82Wy+BuyPYY5 rok@txxx-nix";
-
-                secrets = {
-                  # secret example
-                  test-secret-1 = {
-                    file = ./vaultix/xage;
-                    mode = "400";
-                    owner = "root";
-                    group = "users";
-                    # path = "/home/1.txt";
-                  };
-                };
-
-                # template example
-                templates.template-test = {
-                  name = "template.txt";
-                  content = ''
-                    for testing vaultix template ${config.vaultix.placeholder.test-secret-1} nya
-                  '';
-                  path = "/var/template.txt";
-                };
-              };
-            }
-          )
           # (
           # )
           ./all.configuration.nix
@@ -336,7 +307,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.rok = import ./txxx-nix.home-manager.nix;
-            home-manager.extraSpecialArgs = specialArgs;
+            home-manager.extraSpecialArgs = { inherit inputs self; };
             home-manager.backupFileExtension = "bak";
           }
         ];
@@ -480,16 +451,16 @@
       };
 
       # .#home
-      nixosConfigurations.home = nixpkgs.lib.nixosSystem rec {
+      nixosConfigurations.home = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs system self; };
+        specialArgs = { inherit self inputs; };
         modules = [
           ./all.configuration.nix
           agenix.nixosModules.default
           ./home.configuration.nix
           ./neovim.nix
-          inputs.vaultix.nixosModules.default
 
+          inputs.vaultix.nixosModules.default
           (
             { config, ... }:
             {
@@ -497,13 +468,8 @@
                 settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home";
 
                 secrets = {
-                  # secret example
                   test-secret-1 = {
-                    file = ./vaultix/xage;
-                    # mode = "400";
-                    # owner = "root";
-                    # group = "users";
-                    # path = "/home/1.txt";
+                    file = ./xxx.age;
                   };
                 };
 
@@ -527,7 +493,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.rok = import ./home.home-manager.nix;
-            home-manager.extraSpecialArgs = specialArgs;
+            home-manager.extraSpecialArgs = { inherit self inputs; };
             home-manager.backupFileExtension = "bak";
           }
 
@@ -535,9 +501,9 @@
             environment.systemPackages = [
               # inputs.zapret.packages.x86_64-linux.default
               # inputs.zen-browser.packages.${system}.twilight-official
-              inputs.ghostty.packages.${system}.default
+              inputs.ghostty.packages.x86_64-linux.default
               # inputs.zen-browser.packages."${system}".default
-              inputs.agenix.packages.${system}.default
+              inputs.agenix.packages.x86_64-linux.default
             ];
           }
         ];
@@ -865,19 +831,11 @@
       vaultix = inputs.vaultix.configure {
         # # identical with flake-parts way
         nodes = self.nixosConfigurations;
-        # identity = self + [ "./key.txt"];
-        # identity = self + [ "./key.txt" ];
-        identity = self;
-        systems = [
-          "x86_64-linux"
-          # "aarch64-linux"
-        ];
-        extraRecipients = [
-          "age1p7mjlnhrx3nthgz6ecywfyaf45xkarrw9ldr49sk0jasqvmm7dfq76nszj"
-        ];
+        # identity = self + "./key.txt";
+        identity = "./key.txt";
+        extraRecipients = [ ];
         extraPackages = [ ];
-        # cache = "./secret/.cache";
-        # # generating `outputs.vaultix.app.${system}.*`
+        cache = "./secret/.cache";
       };
     };
 }
