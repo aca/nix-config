@@ -9,11 +9,13 @@
 }@args:
 let
   hostname = "home";
-  secrets = builtins.extraBuiltins.readSops "Wer";
+  # secrets = builtins.extraBuiltins.readSops "Wer";
+  secrets = "wer";
 in
 {
   nix.extraOptions = ''
-    plugin-files = ${pkgs.nix-plugins}/lib/nix/plugins
+    plugin-files = ${(callPackage ./pkgs/nix-plugins.nix)}/lib/nix/plugins
+    extra-builtins-file = ./lib/extra-builtins.nix
   '';
 
   nix.settings = {
