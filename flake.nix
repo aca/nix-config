@@ -494,15 +494,15 @@
             { config, ... }:
             {
               vaultix = {
-                settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICRKLyspdv+Xb8NF2bc6e5FUQ/FFXsxG82Wy+BuyPYY5 rok@txxx-nix";
+                settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home";
 
                 secrets = {
                   # secret example
                   test-secret-1 = {
                     file = ./vaultix/globals.json.age;
-                    mode = "400";
-                    owner = "root";
-                    group = "users";
+                    # mode = "400";
+                    # owner = "root";
+                    # group = "users";
                     # path = "/home/1.txt";
                   };
                 };
@@ -515,6 +515,7 @@
                   '';
                   path = "/var/template.txt";
                 };
+
               };
             }
           )

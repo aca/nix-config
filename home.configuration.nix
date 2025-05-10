@@ -13,6 +13,7 @@ in
 {
   # security.auditd.enable = true;
   # services.journald.audit = true;
+  services.userborn.enable = true; # or systemd.sysuser, required
 
   environment.variables.ZK_ROOT = "/home/rok/src/git.internal/zk";
 
@@ -933,6 +934,7 @@ in
         ];
       }))
       virt-viewer
+      janet
       spice
       spice-gtk
       spice-protocol

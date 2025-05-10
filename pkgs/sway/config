@@ -356,3 +356,7 @@ exec --no-startup-id /run/current-system/sw/bin/i3altlayout
 # workspace "4" output "HDMI-A-1"
 # workspace "5" output "HDMI-A-1"
 # workspace "6" output "HDMI-A-1"
+
+# tile-2x2.sh — turn the focused container into a 2×2 grid
+bindsym $mod+g exec 'swaymsg split horizontal; swaymsg split vertical; swaymsg focus parent; swaymsg focus right; swaymsg split vertical;
+
