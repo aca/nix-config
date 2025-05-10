@@ -865,7 +865,7 @@
       vaultix = inputs.vaultix.configure {
         # # identical with flake-parts way
         nodes = self.nixosConfigurations;
-        identity = "./key.pub.txt";
+        identity = "./key.txt";
         # identity = self;
         systems = [
           "x86_64-linux"
@@ -873,7 +873,7 @@
         ];
         extraRecipients = [ ];
         extraPackages = [ ];
-        cache = "./secret/.cache";
+        # cache = "./secret/.cache";
         # # generating `outputs.vaultix.app.${system}.*`
       };
     };
