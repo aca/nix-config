@@ -496,25 +496,25 @@
               vaultix = {
                 settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home";
 
-                secrets = {
-                  # secret example
-                  test-secret-1 = {
-                    file = ./vaultix/globals.json.age;
-                    # mode = "400";
-                    # owner = "root";
-                    # group = "users";
-                    # path = "/home/1.txt";
-                  };
-                };
+                # secrets = {
+                #   # secret example
+                #   test-secret-1 = {
+                #     file = ./vaultix/globals.json.age;
+                #     # mode = "400";
+                #     # owner = "root";
+                #     # group = "users";
+                #     # path = "/home/1.txt";
+                #   };
+                # };
 
-                # template example
-                templates.template-test = {
-                  name = "template.txt";
-                  content = ''
-                    for testing vaultix template ${config.vaultix.placeholder.test-secret-1} nya
-                  '';
-                  path = "/var/template.txt";
-                };
+                # # template example
+                # templates.template-test = {
+                #   name = "template.txt";
+                #   content = ''
+                #     for testing vaultix template ${config.vaultix.placeholder.test-secret-1} nya
+                #   '';
+                #   path = "/var/template.txt";
+                # };
               };
             }
           )
@@ -865,10 +865,11 @@
       vaultix = inputs.vaultix.configure {
         # # identical with flake-parts way
         nodes = self.nixosConfigurations;
-        identity = self;
+        ideentity = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home"
+        # identity = self;
         systems = [
           "x86_64-linux"
-          "aarch64-linux"
+          # "aarch64-linux"
         ];
         extraRecipients = [ ];
         extraPackages = [ ];
