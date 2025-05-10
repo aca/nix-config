@@ -488,8 +488,8 @@
           agenix.nixosModules.default
           ./home.configuration.nix
           ./neovim.nix
-
           inputs.vaultix.nixosModules.default
+
           (
             { config, ... }:
             {
@@ -865,13 +865,16 @@
       vaultix = inputs.vaultix.configure {
         # # identical with flake-parts way
         nodes = self.nixosConfigurations;
-        identity = "./key.txt";
-        # identity = self;
+        # identity = self + [ "./key.txt"];
+        # identity = self + [ "./key.txt" ];
+        identity = self;
         systems = [
           "x86_64-linux"
           # "aarch64-linux"
         ];
-        extraRecipients = [ ];
+        extraRecipients = [
+          "age1p7mjlnhrx3nthgz6ecywfyaf45xkarrw9ldr49sk0jasqvmm7dfq76nszj"
+        ];
         extraPackages = [ ];
         # cache = "./secret/.cache";
         # # generating `outputs.vaultix.app.${system}.*`
