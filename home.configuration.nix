@@ -9,6 +9,7 @@
 }@args:
 let
   hostname = "home";
+  secrets = builtins.extraBuiltins.readSops "Wer";
 in
 {
   # security.auditd.enable = true;
@@ -27,12 +28,14 @@ in
     nix-direnv.enable = true;
   };
 
-  # nix.settings = {
-  #   experimental-features = [
-  #     "nix-command"
-  #     "flakes"
-  #   ];
-  # };
+  nix.settings = {
+    plugin-files = "${pkgs.nix-plugins}/lib/nix/plugins";
+    extra-builtins-file = [ ./lib/extra-builtins.nix ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+  };
 
   system.activationScripts."experimental-features".text = ''
     mv /etc/nix/nix.conf /etc/nix/nix.conf.bak
@@ -292,10 +295,11 @@ in
     tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
   '';
 
-  services.caddy.virtualHosts.${config.vaultix.secrets.test-secret-1.path}.extraConfig = ''
+  services.caddy.virtualHosts.${secrets}.extraConfig = ''
     reverse_proxy http://home:4080
     tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
   '';
+
   #
   # networking.hosts = {"127.0.0.1" = ["ntfy.folk-uaru.ts.net"];};
 

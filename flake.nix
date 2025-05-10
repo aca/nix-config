@@ -334,7 +334,7 @@
               vaultix = {
                 settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIqpsv22zQgRH08KyNNb59AxnCdONC3wKtWQf8vFLaEM root@nixos";
                 # settings.hostKeys = { path = "./vaultix.key"; type = "ed25519"; };
-                  beforeUserborn = [ "test-secret-1" ];
+                  # beforeUserborn = [ "test-secret-1" ];
 
                 secrets = {
                   # secret example
