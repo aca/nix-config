@@ -118,11 +118,11 @@
   outputs =
     {
       self,
-      nur,
       nixpkgs,
+      vaultix,
+      nur,
       nixpkgs-unstable,
       nixpkgs-nightly,
-      vaultix,
       home-manager,
       agenix,
       dotfiles,
@@ -133,359 +133,230 @@
       ...
     }@inputs:
     let
-      # overlay-aca-x86_64-linux = final: prev: {
-      #   aca = import nixpkgs-aca {
-      #     system = "x86_64-linux";
-      #     config.allowUnfree = true;
-      #   };
-      # };
-      overlay-unstable =
-        system:
-        (final: prev: {
-          unstable = import nixpkgs-unstable {
-            system = system;
-            config.allowUnfree = true;
-          };
-        });
-
-      useunstable = system: pkg: { ${pkg} = nixpkgs-unstable.legacyPackages.${system}.${pkg}; };
-      useunstableoverlay =
-        system: pkg: (final: prev: { ${pkg} = nixpkgs-unstable.legacyPackages.${system}.${pkg}; });
-
-      # usefixed = system: pkg: {
-      #   ${pkg} = nixpkgs-fixed.legacyPackages.${system}.${pkg};
-      # };
-
-      # (final: prev: {
-      #   unstable = import nixpkgs-unstable {
-      #     system = system;
-      #     config.allowUnfree = true;
-      #   };
-      # })
-
-      overlays_default = system: [
-        (
-          final: prev: { } // (useunstable system "linuxPackages_latest") // (useunstable system "vifm")
-          # // (useunstable system "vector")
-          # // (useunstable system "alejandra")
-          # // (useunstable system "rust-analyzer")
-          # // (useunstable system "nodejs")
-          # // (useunstable system "firefox-devedition-bin")
-          # // (useunstable system "chromium")
-          # // (useunstable system "microsoft-edge")
-          # // (useunstable system "pipewire")
-          # // (useunstable system "wireplumber")
-          # // (useunstable system "pwvucontrol")
-          # // (usefixed system "davinci-resolve")
-          # // (usefixed system "libreoffice-qt")
-        )
-
-        #   (final: prev: {neovim = inputs.neovim-nightly-overlay.overlays.default;})
-        # (final: prev: {tmux = nixpkgs-unstable.pkgs.tmux;})
-        #   (final: prev: {
-        #     # bun = nixpkgs-unstable.pkgs.bun;
-        #     # gopls = nixpkgs-unstable.pkgs.gopls;
-        #     # fzf = nixpkgs-unstable.pkgs.fzf;
-        #     # fd = nixpkgs-unstable.pkgs.fd;
-        #     # ripgrep = nixpkgs-unstable.pkgs.ripgrep;
-        #     # alejandra = nixpkgs-unstable.pkgs.alejandra;
-        #     # deno = nixpkgs-unstable.pkgs.deno;
-        #     # vector = nixpkgs-unstable.pkgs.vector;
-        #   })
-        # ( self: super: {
-        #  tmux = super.tmux.overrideAttrs (old: rec {
-        #    pname = "tmux";
-        #    version = "3.4-next";
-        #    patches = [];
-        #    src = super.fetchFromGitHub {
-        #      owner = "tmux";
-        #      repo = "tmux";
-        #      rev = "4266d3efc89cdf7d1af907677361caa24b58c9eb";
-        #      sha256 = "sha256-LliON7p1KyVucCu61sPKihYxtXsAKCvAvRBvNgoV0/g=";
-        #    };
-        #    }))};
-      ];
     in
-    # overlays = [
-    #   inputs.neovim-nightly-overlay.overlays.default
-    # ];
-    # tmux-overlay = self: super: {
-    #   tmux = super.tmux.overrideAttrs (old: rec {
-    #     pname = "tmux";
-    #     version = "3.4-next";
-    #     patches = [];
-    #     src = super.fetchFromGitHub {
-    #       owner = "tmux";
-    #       repo = "tmux";
-    #       rev = "4266d3efc89cdf7d1af907677361caa24b58c9eb";
-    #       sha256 = "sha256-LliON7p1KyVucCu61sPKihYxtXsAKCvAvRBvNgoV0/g=";
-    #     };
-    #   });
-    # };
     {
-      darwinConfigurations.txxx =
-        let
-          username = "kyungrok.chung";
-          system = "aarch64-darwin";
-          overlay-unstable = final: prev: {
-            unstable = import nixpkgs-unstable {
-              inherit system;
-              config.allowUnfree = true;
-            };
-          };
-        in
-        inputs.darwin.lib.darwinSystem rec {
-          system = "aarch64-darwin";
-          specialArgs = { inherit inputs system; };
-          modules = [
-            # ./all.configuration.nix
-            (
-              {
-                config,
-                pkgs,
-                ...
-              }:
-              {
-                nixpkgs.overlays = (overlays_default system) ++ [
-                  inputs.nur.overlays.default
-                  inputs.nixpkgs-firefox-darwin.overlay
-                  (useunstableoverlay system "yabai")
-                  (useunstableoverlay system "skhd")
-                ];
-              }
-            )
-
-            {
-              environment.systemPackages = [
-                # inputs.zapret.packages.x86_64-linux.default
-                # inputs.zen-browser.packages.${system}.twilight-official
-                # inputs.ghostty.packages.${system}.default
-                # inputs.zen-browser.packages."${system}".default
-                inputs.agenix.packages.${system}.default
-              ];
-            }
-
-            ./txxx.configuration.nix
-            ./neovim.nix
-            home-manager.darwinModules.home-manager
-            {
-              home-manager.sharedModules = [ mac-app-util.homeManagerModules.default ];
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users."${username}" = import ./txxx.home-manager.nix;
-              home-manager.extraSpecialArgs = specialArgs;
-              users.users."${username}".home = "/Users/${username}";
-            }
-          ];
-        };
-
-      nixosConfigurations.txxx-nix = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
-        specialArgs = { inherit inputs self; };
-        modules = [
-          inputs.comin.nixosModules.comin
-          # (
-          # )
-          ./all.configuration.nix
-          ./linux.configuration.nix
-          ./neovim.nix
-          agenix.nixosModules.default
-          {
-            environment.systemPackages = [
-              inputs.agenix.packages.aarch64-linux.default
-              # inputs.zen-browser.packages.aarch64-linux.twilight-official
-              inputs.ghostty.packages.aarch64-linux.default
-              # zig
-              # inputs.lazybox.packages.aarch64-linux.xxx2
-              # inputs.nixpkgs-zig-0-12.legacyPackages.aarch64-linux.zig_0_12
-              # inputs.zls.packages.aarch64-linux.default
-            ];
-          }
-          ./txxx-nix.configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-            # https://github.com/nix-community/home-manager/issues/1698
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.rok = import ./txxx-nix.home-manager.nix;
-            home-manager.extraSpecialArgs = { inherit inputs self; };
-            home-manager.backupFileExtension = "bak";
-          }
-        ];
-      };
-
-      # let
-      #   system = "aarch64-linux";
-      #   pkgs = nixpkgs.legacyPackages.${system};
-      # in {
-      #   homeConfigurations."rok" = home-manager.lib.homeManagerConfiguration {
-      #     inherit pkgs;
+      # darwinConfigurations.txxx =
+      #   let
+      #     username = "kyungrok.chung";
+      #     system = "aarch64-darwin";
+      #   in
+      #   inputs.darwin.lib.darwinSystem rec {
+      #     system = "aarch64-darwin";
+      #     specialArgs = { inherit inputs system; };
+      #     modules = [
+      #       ./all.configuration.nix
+      #       (
+      #         {
+      #           config,
+      #           pkgs,
+      #           ...
+      #         }:
+      #         {
+      #           nixpkgs.overlays = [
+      #             inputs.nur.overlays.default
+      #             inputs.nixpkgs-firefox-darwin.overlay
+      #             # (useunstableoverlay system "yabai")
+      #             # (useunstableoverlay system "skhd")
+      #           ];
+      #         }
+      #       )
       #
-      #     # Specify your home configuration modules here, for example,
-      #     # the path to your home.nix.
-      #     modules = [ ./home.nix ];
+      #       {
+      #         environment.systemPackages = [
+      #           # inputs.zapret.packages.x86_64-linux.default
+      #           # inputs.zen-browser.packages.${system}.twilight-official
+      #           # inputs.ghostty.packages.${system}.default
+      #           # inputs.zen-browser.packages."${system}".default
+      #           inputs.agenix.packages.${system}.default
+      #         ];
+      #       }
       #
-      #     # Optionally use extraSpecialArgs
-      #     # to pass through arguments to home.nix
+      #       ./txxx.configuration.nix
+      #       ./neovim.nix
+      #       home-manager.darwinModules.home-manager
+      #       {
+      #         home-manager.sharedModules = [ mac-app-util.homeManagerModules.default ];
+      #         home-manager.useGlobalPkgs = true;
+      #         home-manager.useUserPackages = true;
+      #         home-manager.users."${username}" = import ./txxx.home-manager.nix;
+      #         home-manager.extraSpecialArgs = specialArgs;
+      #         users.users."${username}".home = "/Users/${username}";
+      #       }
+      #     ];
       #   };
-      # };
-
-      homeConfigurations."rok@txxx-nix" =
-        let
-          system = "aarch64-linux";
-        in
-        home-manager.lib.homeManagerConfiguration rec {
-          pkgs = nixpkgs.legacyPackages.${system};
-          extraSpecialArgs = { inherit inputs; };
-          modules = [
-            ./txxx-nix.home-manager.nix
-            {
-              nixpkgs.overlays = [
-                # (overlay-unstable )
-                inputs.nur.overlays.default
-                # emacs-overlay.overlay
-                # nixpkgs-f2k.overlays.window-managers
-              ];
-            }
-          ];
-        };
-
-      # # home-manager switch switch --flake '.#rok@txxx-nix'
-      # homeConfigurations."rok@txxx-nix" = home-manager.lib.homeManagerConfiguration {
-      #   # pkgs = nixpkgs.legacyPackages.aarch64-linux;
-      #   # extraSpecialArgs = { inherit inputs; };
+      #
+      # nixosConfigurations.txxx-nix = nixpkgs.lib.nixosSystem {
+      #   system = "aarch64-linux";
+      #   specialArgs = { inherit inputs self; };
       #   modules = [
-      #     import ./txxx-nix.home-manager.nix
+      #     inputs.comin.nixosModules.comin
+      #     # (
+      #     # )
+      #     ./all.configuration.nix
+      #     ./linux.configuration.nix
+      #     ./neovim.nix
+      #     agenix.nixosModules.default
       #     {
-      #       inherit nixpkgs home-manager;
+      #       environment.systemPackages = [
+      #         inputs.agenix.packages.aarch64-linux.default
+      #         # inputs.zen-browser.packages.aarch64-linux.twilight-official
+      #         inputs.ghostty.packages.aarch64-linux.default
+      #         # zig
+      #         # inputs.lazybox.packages.aarch64-linux.xxx2
+      #         # inputs.nixpkgs-zig-0-12.legacyPackages.aarch64-linux.zig_0_12
+      #         # inputs.zls.packages.aarch64-linux.default
+      #       ];
       #     }
-      #     # {
-      #     #   nixpkgs.overlays = [
-      #     #     # inputs.nur.overlays.default
-      #     #     inputs.nur.overlays.default
-      #     #   ];
-      #     # }
+      #     ./txxx-nix.configuration.nix
+      #     home-manager.nixosModules.home-manager
+      #     {
+      #       # https://github.com/nix-community/home-manager/issues/1698
+      #       home-manager.useGlobalPkgs = true;
+      #       home-manager.useUserPackages = true;
+      #       home-manager.users.rok = import ./txxx-nix.home-manager.nix;
+      #       home-manager.extraSpecialArgs = { inherit inputs self; };
+      #       home-manager.backupFileExtension = "bak";
+      #     }
       #   ];
       # };
-
-      # home-manager switch switch --flake '.#rok@root'
-      homeConfigurations."rok@home" =
-        let
-        in
-        home-manager.lib.homeManagerConfiguration rec {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          extraSpecialArgs = { inherit inputs; };
-          modules = [
-            ./home.home-manager.nix
-            {
-              nixpkgs.overlays = [
-                (overlay-unstable "x86_64-linux")
-                inputs.nur.overlays.default
-                # emacs-overlay.overlay
-                # nixpkgs-f2k.overlays.window-managers
-              ];
-            }
-          ];
-        };
-
-      homeConfigurations."rok@root" =
-        let
-        in
-        home-manager.lib.homeManagerConfiguration rec {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          extraSpecialArgs = { inherit inputs; };
-          modules = [
-            ./root.home-manager.nix
-            {
-              nixpkgs.overlays = [
-                (overlay-unstable "x86_64-linux")
-                inputs.nur.overlays.default
-                # emacs-overlay.overlay
-                # nixpkgs-f2k.overlays.window-managers
-              ];
-            }
-          ];
-        };
-
-      # .#oci-aca-001
-      nixosConfigurations.oci-aca-001 = nixpkgs.lib.nixosSystem rec {
-        system = "aarch64-linux";
-        specialArgs = { inherit inputs system self; };
-        modules = [
-          inputs.comin.nixosModules.comin
-          ./all.configuration.nix
-          agenix.nixosModules.default
-          {
-            environment.systemPackages = [
-              inputs.agenix.packages.${system}.default
-            ];
-          }
-          ./oci-aca-001.configuration.nix
-          (
-            { ... }:
-            {
-              services.comin = {
-                enable = true;
-                remotes = [
-                  {
-                    name = "origin";
-                    url = "https://codeberg.org/aca/nix-config.git";
-                    branches.main.name = "main";
-                    poller.period = 30;
-                  }
-                ];
-              };
-            }
-          )
-          home-manager.nixosModules.home-manager
-          {
-            # home-manager.sharedModules = [
-            #   (import ./pkgs/vifm/vifmrc.nix)
-            # ];
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.rok = import ./oci-aca-001.home-manager.nix;
-            home-manager.extraSpecialArgs = specialArgs;
-            home-manager.backupFileExtension = "bak";
-          }
-        ];
-      };
+      #
+      # # #ome-manager switch switch --flake '.#rok@txxx-nix'
+      # homeConfigurations."rok@txxx-nix" =
+      #   let
+      #     system = "aarch64-linux";
+      #   in
+      #   home-manager.lib.homeManagerConfiguration rec {
+      #     pkgs = nixpkgs.legacyPackages.${system};
+      #     extraSpecialArgs = { inherit inputs; };
+      #     modules = [
+      #       ./txxx-nix.home-manager.nix
+      #       {
+      #         nixpkgs.overlays = [
+      #           inputs.nur.overlays.default
+      #         ];
+      #       }
+      #     ];
+      #   };
+      #
+      # # home-manager switch switch --flake '.#rok@root'
+      # homeConfigurations."rok@home" =
+      #   let
+      #   in
+      #   home-manager.lib.homeManagerConfiguration rec {
+      #     pkgs = nixpkgs.legacyPackages.x86_64-linux;
+      #     extraSpecialArgs = { inherit inputs; };
+      #     modules = [
+      #       ./home.home-manager.nix
+      #       {
+      #         nixpkgs.overlays = [
+      #           # (overlay-unstable "x86_64-linux")
+      #           inputs.nur.overlays.default
+      #           # emacs-overlay.overlay
+      #           # nixpkgs-f2k.overlays.window-managers
+      #         ];
+      #       }
+      #     ];
+      #   };
+      #
+      # # home-manager switch switch --flake '.#rok@home'
+      # homeConfigurations."rok@root" =
+      #   let
+      #   in
+      #   home-manager.lib.homeManagerConfiguration rec {
+      #     pkgs = nixpkgs.legacyPackages.x86_64-linux;
+      #     extraSpecialArgs = { inherit inputs; };
+      #     modules = [
+      #       ./root.home-manager.nix
+      #       {
+      #         nixpkgs.overlays = [
+      #           # (overlay-unstable "x86_64-linux")
+      #           inputs.nur.overlays.default
+      #           # emacs-overlay.overlay
+      #           # nixpkgs-f2k.overlays.window-managers
+      #         ];
+      #       }
+      #     ];
+      #   };
+      #
+      # # .#oci-aca-001
+      # nixosConfigurations.oci-aca-001 = nixpkgs.lib.nixosSystem rec {
+      #   system = "aarch64-linux";
+      #   specialArgs = { inherit inputs system self; };
+      #   modules = [
+      #     inputs.comin.nixosModules.comin
+      #     ./all.configuration.nix
+      #     agenix.nixosModules.default
+      #     {
+      #       environment.systemPackages = [
+      #         inputs.agenix.packages.${system}.default
+      #       ];
+      #     }
+      #     ./oci-aca-001.configuration.nix
+      #     (
+      #       { ... }:
+      #       {
+      #         services.comin = {
+      #           enable = true;
+      #           remotes = [
+      #             {
+      #               name = "origin";
+      #               url = "https://codeberg.org/aca/nix-config.git";
+      #               branches.main.name = "main";
+      #               poller.period = 30;
+      #             }
+      #           ];
+      #         };
+      #       }
+      #     )
+      #     home-manager.nixosModules.home-manager
+      #     {
+      #       # home-manager.sharedModules = [
+      #       #   (import ./pkgs/vifm/vifmrc.nix)
+      #       # ];
+      #       home-manager.useGlobalPkgs = true;
+      #       home-manager.useUserPackages = true;
+      #       home-manager.users.rok = import ./oci-aca-001.home-manager.nix;
+      #       home-manager.extraSpecialArgs = specialArgs;
+      #       home-manager.backupFileExtension = "bak";
+      #     }
+      #   ];
+      # };
 
       # .#home
       nixosConfigurations.home = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         specialArgs = { inherit self inputs; };
         modules = [
-          # ./all.configuration.nix
-          # agenix.nixosModules.default
-          # ./home.configuration.nix
-          # ./neovim.nix
+          ./all.configuration.nix
+          agenix.nixosModules.default
+          ./home.configuration.nix
+          ./neovim.nix
 
-          # inputs.vaultix.nixosModules.default
-          # (
-          #   { config, ... }:
-          #   {
-          #     vaultix = {
-          #       settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home";
-          #
-          #       secrets = {
-          #         # secret example
-          #         test-secret-1 = {
-          #           file = ./xxx.age;
-          #         };
-          #       };
-          #
-          #       # template example
-          #       templates.template-test = {
-          #         name = "template.txt";
-          #         content = ''
-          #           for testing vaultix template ${config.vaultix.placeholder.test-secret-1} nya
-          #         '';
-          #         path = "/var/template.txt";
-          #       };
-          #     };
-          #   }
-          # )
+          inputs.vaultix.nixosModules.default
+          (
+            { config, ... }:
+            {
+              vaultix = {
+                settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home";
+
+                secrets = {
+                  # secret example
+                  test-secret-1 = {
+                    file = ./xxx.age;
+                  };
+                };
+
+                # template example
+                templates.template-test = {
+                  name = "template.txt";
+                  content = ''
+                    for testing vaultix template ${config.vaultix.placeholder.test-secret-1} nya
+                  '';
+                  path = "/var/template.txt";
+                };
+              };
+            }
+          )
 
           home-manager.nixosModules.home-manager
           {
@@ -511,274 +382,181 @@
         ];
       };
 
-      # .#root
-      nixosConfigurations.root = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs system; };
-        modules = [
-          ./all.configuration.nix
-          agenix.nixosModules.default
-          ./root.configuration.nix
-
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.rok = import ./root.home-manager.nix;
-            home-manager.extraSpecialArgs = specialArgs;
-            home-manager.backupFileExtension = "bak";
-          }
-
-          {
-            environment.systemPackages = [
-              # elvish
-              # inputs.elvish.packages.x86_64-linux.default
-              agenix.packages.x86_64-linux.default
-              # inputs.ghostty.packages.x86_64-linux.default
-              inputs.watchrun.packages.x86_64-linux.default
-              inputs.ghostty.packages.x86_64-linux.default
-              # inputs.templ.packages.x86_64-linux.default
-              # inputs.fh.packages.x86_64-linux.default
-              # zig.packages.x86_64-linux.master
-              # inputs.zls.packages.x86_64-linux.default
-              # inputs.nixpkgs-zig-0-12.legacyPackages.x86_64-linux.zig_0_12
-              # inputs.alacritty.defaultPackage.x86_64-linux
-              # turbo.packages.x86_64-linux.default
-            ];
-          }
-        ];
-      };
-
-      nixosConfigurations.oci-impx-001 = nixpkgs.lib.nixosSystem rec {
-        system = "aarch64-linux";
-        specialArgs = { inherit inputs system; };
-        modules = [
-          inputs.comin.nixosModules.comin
-          ./all.configuration.nix
-          ./log.nix
-          ./oci-impx-001.configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.rok = import ./oci-impx-001.home-manager.nix;
-            home-manager.extraSpecialArgs = specialArgs;
-            home-manager.backupFileExtension = "bak";
-          }
-          agenix.nixosModules.default
-          (
-            { ... }:
-            {
-              services.comin = {
-                enable = true;
-                remotes = [
-                  {
-                    name = "origin";
-                    url = "https://codeberg.org/aca/nix-config.git";
-                    branches.main.name = "main";
-                    poller.period = 10;
-                  }
-                ];
-              };
-            }
-          )
-        ];
-      };
-
-      # nixosConfigurations.oci-impx-002 = nixpkgs.lib.nixosSystem rec {
+      # # .#root
+      # nixosConfigurations.root = nixpkgs.lib.nixosSystem rec {
       #   system = "x86_64-linux";
-      #   specialArgs = {inherit inputs system;};
+      #   specialArgs = { inherit inputs system; };
       #   modules = [
       #     ./all.configuration.nix
-      #     ./oci-impx-002.configuration.nix
+      #     agenix.nixosModules.default
+      #     ./root.configuration.nix
+      #
+      #     home-manager.nixosModules.home-manager
+      #     {
+      #       home-manager.useGlobalPkgs = true;
+      #       home-manager.useUserPackages = true;
+      #       home-manager.users.rok = import ./root.home-manager.nix;
+      #       home-manager.extraSpecialArgs = specialArgs;
+      #       home-manager.backupFileExtension = "bak";
+      #     }
+      #
+      #     {
+      #       environment.systemPackages = [
+      #         # elvish
+      #         # inputs.elvish.packages.x86_64-linux.default
+      #         agenix.packages.x86_64-linux.default
+      #         # inputs.ghostty.packages.x86_64-linux.default
+      #         inputs.watchrun.packages.x86_64-linux.default
+      #         inputs.ghostty.packages.x86_64-linux.default
+      #         # inputs.templ.packages.x86_64-linux.default
+      #         # inputs.fh.packages.x86_64-linux.default
+      #         # zig.packages.x86_64-linux.master
+      #         # inputs.zls.packages.x86_64-linux.default
+      #         # inputs.nixpkgs-zig-0-12.legacyPackages.x86_64-linux.zig_0_12
+      #         # inputs.alacritty.defaultPackage.x86_64-linux
+      #         # turbo.packages.x86_64-linux.default
+      #       ];
+      #     }
+      #   ];
+      # };
+      #
+      # nixosConfigurations.oci-impx-001 = nixpkgs.lib.nixosSystem rec {
+      #   system = "aarch64-linux";
+      #   specialArgs = { inherit inputs system; };
+      #   modules = [
+      #     inputs.comin.nixosModules.comin
+      #     ./all.configuration.nix
+      #     ./log.nix
+      #     ./oci-impx-001.configuration.nix
+      #     home-manager.nixosModules.home-manager
+      #     {
+      #       home-manager.useGlobalPkgs = true;
+      #       home-manager.useUserPackages = true;
+      #       home-manager.users.rok = import ./oci-impx-001.home-manager.nix;
+      #       home-manager.extraSpecialArgs = specialArgs;
+      #       home-manager.backupFileExtension = "bak";
+      #     }
+      #     agenix.nixosModules.default
+      #     (
+      #       { ... }:
+      #       {
+      #         services.comin = {
+      #           enable = true;
+      #           remotes = [
+      #             {
+      #               name = "origin";
+      #               url = "https://codeberg.org/aca/nix-config.git";
+      #               branches.main.name = "main";
+      #               poller.period = 10;
+      #             }
+      #           ];
+      #         };
+      #       }
+      #     )
+      #   ];
+      # };
+      #
+      # nixosConfigurations.oci-impx-003 = nixpkgs.lib.nixosSystem rec {
+      #   system = "x86_64-linux";
+      #   specialArgs = { inherit inputs system; };
+      #   modules = [
+      #     inputs.comin.nixosModules.comin
+      #     ./all.configuration.nix
+      #     ./oci-impx-003.configuration.nix
+      #     agenix.nixosModules.default
+      #     (
+      #       { ... }:
+      #       {
+      #         services.comin = {
+      #           enable = true;
+      #           remotes = [
+      #             {
+      #               name = "origin";
+      #               url = "https://codeberg.org/aca/nix-config.git";
+      #               branches.main.name = "main";
+      #               poller.period = 10;
+      #             }
+      #           ];
+      #         };
+      #       }
+      #     )
+      #   ];
+      # };
+      #
+      # nixosConfigurations.oci-xnzm-001 = nixpkgs.lib.nixosSystem rec {
+      #   system = "aarch64-linux";
+      #   specialArgs = { inherit inputs system; };
+      #   modules = [
+      #     inputs.comin.nixosModules.comin
+      #     ./all.configuration.nix
+      #     ./oci-xnzm-001.configuration.nix
+      #     agenix.nixosModules.default
+      #     (
+      #       { ... }:
+      #       {
+      #         services.comin = {
+      #           enable = true;
+      #           remotes = [
+      #             {
+      #               name = "origin";
+      #               url = "https://codeberg.org/aca/nix-config.git";
+      #               branches.main.name = "main";
+      #               poller.period = 10;
+      #             }
+      #           ];
+      #         };
+      #       }
+      #     )
+      #   ];
+      # };
+      #
+      # nixosConfigurations.oci-xnzm-002 = nixpkgs.lib.nixosSystem rec {
+      #   system = "x86_64-linux";
+      #   specialArgs = { inherit inputs system; };
+      #   modules = [
+      #     ./all.configuration.nix
+      #     ./oci-xnzm-002.configuration.nix
       #     agenix.nixosModules.default
       #   ];
       # };
-
-      nixosConfigurations.oci-impx-003 = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs system; };
-        modules = [
-          inputs.comin.nixosModules.comin
-          ./all.configuration.nix
-          ./oci-impx-003.configuration.nix
-          agenix.nixosModules.default
-          (
-            { ... }:
-            {
-              services.comin = {
-                enable = true;
-                remotes = [
-                  {
-                    name = "origin";
-                    url = "https://codeberg.org/aca/nix-config.git";
-                    branches.main.name = "main";
-                    poller.period = 10;
-                  }
-                ];
-              };
-            }
-          )
-        ];
-      };
-
-      nixosConfigurations.oci-xnzm-001 = nixpkgs.lib.nixosSystem rec {
-        system = "aarch64-linux";
-        specialArgs = { inherit inputs system; };
-        modules = [
-          inputs.comin.nixosModules.comin
-          ./all.configuration.nix
-          ./oci-xnzm-001.configuration.nix
-          agenix.nixosModules.default
-          (
-            { ... }:
-            {
-              services.comin = {
-                enable = true;
-                remotes = [
-                  {
-                    name = "origin";
-                    url = "https://codeberg.org/aca/nix-config.git";
-                    branches.main.name = "main";
-                    poller.period = 10;
-                  }
-                ];
-              };
-            }
-          )
-        ];
-      };
-
-      nixosConfigurations.oci-xnzm-002 = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs system; };
-        modules = [
-          ./all.configuration.nix
-          ./oci-xnzm-002.configuration.nix
-          agenix.nixosModules.default
-        ];
-      };
-
-      nixosConfigurations.oci-xnzm-003 = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs system; };
-        modules = [
-          ./all.configuration.nix
-          ./oci-xnzm-003.configuration.nix
-          agenix.nixosModules.default
-        ];
-      };
-
-      nixosConfigurations.oci-xnzm-004 = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs system; };
-        modules = [
-          ./all.configuration.nix
-          ./oci-xnzm-004.configuration.nix
-          agenix.nixosModules.default
-        ];
-      };
-
-      nixosConfigurations.oci-aca-002 = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs system; };
-        modules = [
-          ./all.configuration.nix
-          ./oci-aca-002.configuration.nix
-          agenix.nixosModules.default
-        ];
-      };
-
-      nixosConfigurations.oci-aca-003 = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs system; };
-        modules = [
-          ./all.configuration.nix
-          ./oci-aca-003.configuration.nix
-          agenix.nixosModules.default
-        ];
-      };
-
-      nixosConfigurations.rok-chatreey-t8 = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-        specialArgs = {
-          inherit inputs;
-        };
-        modules = [
-          (
-            {
-              config,
-              pkgs,
-              ...
-            }:
-            {
-              nixpkgs.overlays = overlays_default system;
-            }
-          )
-
-          agenix.nixosModules.default
-          # {
-          #   environment.systemPackages = [
-          #     agenix.packages.x86_64-linux.default
-          #   ];
-          # }
-          # home-manager.nixosModules.home-manager
-          # {
-          #   home-manager.useGlobalPkgs = true;
-          #   home-manager.useUserPackages = true;
-          #   home-manager.users.rok = import ./home.rok-chatreey-t9.nix;
-          # }
-          ./rok-chatreey-t8.configuration.nix
-        ];
-      };
-
-      nixosConfigurations.rok-nuc =
-        let
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          overlay-unstable = final: prev: {
-            unstable = import nixpkgs-unstable {
-              inherit system;
-              config.allowUnfree = true;
-            };
-          };
-        in
-        nixpkgs.lib.nixosSystem rec {
-          modules = [
-            (
-              {
-                config,
-                pkgs,
-                ...
-              }:
-              {
-                nixpkgs.overlays = overlays_default system;
-              }
-            )
-
-            agenix.nixosModules.default
-            {
-              environment.systemPackages = [
-                agenix.packages.x86_64-linux.default
-              ];
-            }
-            home-manager.nixosModules.home-manager
-
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.rok = import ./rok-nuc.home-manager.nix;
-            }
-
-            ./rok-nuc.configuration.nix
-          ];
-        };
+      #
+      # nixosConfigurations.oci-xnzm-003 = nixpkgs.lib.nixosSystem rec {
+      #   system = "x86_64-linux";
+      #   specialArgs = { inherit inputs system; };
+      #   modules = [
+      #     ./all.configuration.nix
+      #     ./oci-xnzm-003.configuration.nix
+      #     agenix.nixosModules.default
+      #   ];
+      # };
+      #
+      # nixosConfigurations.oci-aca-002 = nixpkgs.lib.nixosSystem rec {
+      #   system = "x86_64-linux";
+      #   specialArgs = { inherit inputs system; };
+      #   modules = [
+      #     ./all.configuration.nix
+      #     ./oci-aca-002.configuration.nix
+      #     agenix.nixosModules.default
+      #   ];
+      # };
+      #
+      # nixosConfigurations.oci-aca-003 = nixpkgs.lib.nixosSystem rec {
+      #   system = "x86_64-linux";
+      #   specialArgs = { inherit inputs system; };
+      #   modules = [
+      #     ./all.configuration.nix
+      #     ./oci-aca-003.configuration.nix
+      #     agenix.nixosModules.default
+      #   ];
+      # };
+      #
 
       nixosConfigurations.archive-0 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         specialArgs = { inherit inputs system; };
         modules = [
           ./all.configuration.nix
+          inputs.vaultix.nixosModules.default
           agenix.nixosModules.default
           {
             environment.systemPackages = [
@@ -788,6 +566,16 @@
               # inputs.xbox.packages.aarch64-linux.diff2
             ];
           }
+
+          (
+            { config, ... }:
+            {
+              vaultix = {
+                settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home";
+              };
+            }
+          )
+
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -799,70 +587,35 @@
           ./archive-0.configuration.nix
         ];
       };
-
-      nixosConfigurations.workbox = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs system; };
-        modules = [
-          ./all.configuration.nix
-          agenix.nixosModules.default
-          ./workbox.configuration.nix
-          ./neovim.nix
-
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.rok = import ./workbox.home-manager.nix;
-            home-manager.extraSpecialArgs = specialArgs;
-            home-manager.backupFileExtension = "bak";
-          }
-
-          {
-            environment.systemPackages = [
-              # inputs.zapret.packages.x86_64-linux.default
-              # inputs.zen-browser.packages.${system}.twilight-official
-              inputs.ghostty.packages.${system}.default
-              # inputs.zen-browser.packages."${system}".default
-              inputs.agenix.packages.${system}.default
-            ];
-          }
-        ];
-      };
-
-      # nixosConfigurations.my-nixos = nixpkgs.lib.nixosSystem rec{
+      #
+      # nixosConfigurations.workbox = nixpkgs.lib.nixosSystem rec {
       #   system = "x86_64-linux";
-      #
-      #   specialArgs = { inherit self inputs; };
-      #
+      #   specialArgs = { inherit inputs system; };
       #   modules = [
-      #     inputs.vaultix.nixosModules.default
-      #     (
-      #       { config, ... }:
-      #       {
-      #         vaultix = {
-      #           settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home";
+      #     ./all.configuration.nix
+      #     agenix.nixosModules.default
+      #     ./workbox.configuration.nix
+      #     ./neovim.nix
       #
-      #           secrets = {
-      #             # secret example
-      #             test-secret-1 = {
-      #               file = ./xxx.age;
-      #             };
-      #           };
+      #     home-manager.nixosModules.home-manager
+      #     {
+      #       home-manager.useGlobalPkgs = true;
+      #       home-manager.useUserPackages = true;
+      #       home-manager.users.rok = import ./workbox.home-manager.nix;
+      #       home-manager.extraSpecialArgs = specialArgs;
+      #       home-manager.backupFileExtension = "bak";
+      #     }
       #
-      #           # template example
-      #           templates.template-test = {
-      #             name = "template.txt";
-      #             content = ''
-      #               for testing vaultix template ${config.vaultix.placeholder.test-secret-1} nya
-      #             '';
-      #             path = "/var/template.txt";
-      #           };
-      #         };
-      #       }
-      #     )
+      #     {
+      #       environment.systemPackages = [
+      #         # inputs.zapret.packages.x86_64-linux.default
+      #         # inputs.zen-browser.packages.${system}.twilight-official
+      #         inputs.ghostty.packages.${system}.default
+      #         # inputs.zen-browser.packages."${system}".default
+      #         inputs.agenix.packages.${system}.default
+      #       ];
+      #     }
       #   ];
-      #   # ...
       # };
 
       vaultix = vaultix.configure {
@@ -871,7 +624,7 @@
         identity = "./key.txt";
         extraRecipients = [ ];
         extraPackages = [ ];
-        # cache = "./secret/.cache";
+        cache = "./git/vaultix";
       };
     };
 }

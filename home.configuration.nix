@@ -13,7 +13,7 @@ in
 {
   # security.auditd.enable = true;
   # services.journald.audit = true;
-  services.userborn.enable = true; # or systemd.sysuser, required
+  # services.userborn.enable = true; # or systemd.sysuser, required
 
   environment.variables.ZK_ROOT = "/home/rok/src/git.internal/zk";
 
