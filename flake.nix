@@ -865,7 +865,7 @@
       vaultix = inputs.vaultix.configure {
         # # identical with flake-parts way
         nodes = self.nixosConfigurations;
-        identity = "./id_ed25519.pub";
+        identity = "./key.pub.txt";
         # identity = self;
         systems = [
           "x86_64-linux"
