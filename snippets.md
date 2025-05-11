@@ -1,3 +1,4 @@
+overlay
 
     # tmux-overlay = self: super: {
     #   tmux = super.tmux.overrideAttrs (old: rec {
@@ -13,14 +14,16 @@
     #   });
     # };
 
-      # useunstable = system: pkg: { ${pkg} = nixpkgs-unstable.legacyPackages.${system}.${pkg}; };
-      # useunstableoverlay =
-      #   system: pkg: (final: prev: { ${pkg} = nixpkgs-unstable.legacyPackages.${system}.${pkg}; });
-      # usefixed = system: pkg: { ${pkg} = nixpkgs-fixed.legacyPackages.${system}.${pkg}; };
+overlay
 
-      # (final: prev: {
-      #   unstable = import nixpkgs-unstable {
-      #     system = system;
-      #     config.allowUnfree = true;
-      #   };
-      # })
+    # useunstable = system: pkg: { ${pkg} = nixpkgs-unstable.legacyPackages.${system}.${pkg}; };
+    # useunstableoverlay =
+    #   system: pkg: (final: prev: { ${pkg} = nixpkgs-unstable.legacyPackages.${system}.${pkg}; });
+    # usefixed = system: pkg: { ${pkg} = nixpkgs-fixed.legacyPackages.${system}.${pkg}; };
+
+    # (final: prev: {
+    #   unstable = import nixpkgs-unstable {
+    #     system = system;
+    #     config.allowUnfree = true;
+    #   };
+    # })
