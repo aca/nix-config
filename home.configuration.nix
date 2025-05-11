@@ -10,7 +10,7 @@
 }@args:
 let
   hostname = "home";
-  secrets = builtins.extraBuiltins.readSops "/home/rok/.ssh/id_ed25519" ./secrets.nix.age;
+  secrets = builtins.extraBuiltins.readSops "/home/rok/.ssh/id_ed25519" ./secrets.json.age;
   # secrets = "wer";
 in
 {
