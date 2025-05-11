@@ -10,7 +10,7 @@
 }@args:
 let
   hostname = "home";
-  secrets = builtins.extraBuiltins.readSops ./secrets.nix;
+  secrets = builtins.extraBuiltins.readSops "/home/rok/.ssh/id_ed25519" ./secrets.nix.age;
   # secrets = "wer";
 in
 {
@@ -298,7 +298,7 @@ in
     tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
   '';
 
-  services.caddy.virtualHosts.${secrets.a}.extraConfig = ''
+  services.caddy.virtualHosts.${secrets}.extraConfig = ''
     reverse_proxy http://home:4080
     tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
   '';
