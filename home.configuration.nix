@@ -10,7 +10,8 @@
 }@args:
 let
   hostname = "home";
-  secrets = builtins.extraBuiltins.readSops "/home/rok/.ssh/id_ed25519" ./secrets.json.age;
+  # secrets = builtins.extraBuiltins.readSops "/home/rok/.ssh/id_ed25519" ./secrets.json.age;
+  # secrets = builtins.extraBuiltins.readSops "werwrwer";
   # secrets = "wer";
 in
 {
@@ -298,8 +299,13 @@ in
     tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
   '';
 
-  services.caddy.virtualHosts.${secrets.a}.extraConfig = ''
-    reverse_proxy http://home:4080
+  # services.caddy.virtualHosts.${builtins.extraBuiltins.readSops "werwrwer"}.extraConfig = ''
+  #   reverse_proxy http://home:4080
+  #   tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
+  # '';
+
+  services.caddy.virtualHosts.${builtins.extraBuiltins.readSops ./secrets/var1.age}.extraConfig = ''
+    reverse_proxy http://xxx:4080
     tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
   '';
   
@@ -467,24 +473,24 @@ in
     };
   };
 
-  systemd.services."qbittorrent-clean" = {
-    enable = true;
-    serviceConfig = {
-      Type = "oneshot";
-      User = "rok";
-      ExecStart = "/run/current-system/sw/bin/timeout 10s /run/current-system/sw/bin/qbt torrent remove -f completed";
-    };
-  };
-
-  systemd.timers."qbittorrent-clean" = {
-    enable = true;
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnBootSec = "10m";
-      OnUnitActiveSec = "10m";
-      Unit = "qbittorrent-clean.service";
-    };
-  };
+  # systemd.services."qbittorrent-clean" = {
+  #   enable = true;
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     User = "rok";
+  #     ExecStart = "/run/current-system/sw/bin/timeout 10s /run/current-system/sw/bin/qbt torrent remove -f completed";
+  #   };
+  # };
+  #
+  # systemd.timers."qbittorrent-clean" = {
+  #   enable = true;
+  #   wantedBy = [ "timers.target" ];
+  #   timerConfig = {
+  #     OnBootSec = "10m";
+  #     OnUnitActiveSec = "10m";
+  #     Unit = "qbittorrent-clean.service";
+  #   };
+  # };
 
   # systemd.timers = {
   #   "reboot-network-off" = {

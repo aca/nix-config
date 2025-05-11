@@ -57,5 +57,8 @@ in
   "github.com__aca__oci-aca-002.age".publicKeys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICbYB4RbI25LHP8/kfc6zBsb+N9t/t2HGdH3qBjKuaKF root@oci-aca-002"
   ];
+
+  "var1.age".publicKeys = home;
+
   # "tailscale.com/root".publicKeys = [];
 }
