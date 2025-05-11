@@ -10,13 +10,10 @@
 }@args:
 let
   hostname = "home";
-  # secrets = builtins.extraBuiltins.readSops "Wer";
-  secrets = "wer";
+  secrets = builtins.extraBuiltins.readSops ./secrets.nix;
+  # secrets = "wer";
 in
 {
-    # plugin-files = ${pkgs.callPackage ./pkgs/nix-plugins.nix {}}/lib/nix/plugins
-  nix.extraOptions = ''
-  '';
 
   nix.settings = {
     plugin-files = "${pkgs.nix-plugins}/lib/nix/plugins/libnix-extra-builtins.so";
@@ -301,7 +298,7 @@ in
     tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
   '';
 
-  services.caddy.virtualHosts.${secrets}.extraConfig = ''
+  services.caddy.virtualHosts.${secrets.a}.extraConfig = ''
     reverse_proxy http://home:4080
     tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
   '';
@@ -433,28 +430,6 @@ in
   #
 
   systemd.services.printenv-rok = {
-    # Dec 18 22:17:41 home env[1921354]: LANG=en_US.UTF-8
-    # Dec 18 22:17:41 home env[1921354]: LC_ADDRESS=en_US.UTF-8
-    # Dec 18 22:17:41 home env[1921354]: LC_IDENTIFICATION=en_US.UTF-8
-    # Dec 18 22:17:41 home env[1921354]: LC_MEASUREMENT=en_US.UTF-8
-    # Dec 18 22:17:41 home env[1921354]: LC_MONETARY=en_US.UTF-8
-    # Dec 18 22:17:41 home env[1921354]: LC_NAME=en_US.UTF-8
-    # Dec 18 22:17:41 home env[1921354]: LC_NUMERIC=en_US.UTF-8
-    # Dec 18 22:17:41 home env[1921354]: LC_PAPER=en_US.UTF-8
-    # Dec 18 22:17:41 home env[1921354]: LC_TELEPHONE=en_US.UTF-8
-    # Dec 18 22:17:41 home env[1921354]: LC_TIME=en_US.UTF-8
-    # Dec 18 22:17:41 home env[1921354]: PATH=/nix/store/b1wvkjx96i3s7wblz38ya0zr8i93zbc5-coreutils-9.5/bin:/nix/store/w8pnfazxqwmrqmwkb5zrz1bifsd8abxl-findutils-4.10.0/bin:/nix/store/85amyk92rg19l4fy0qmy7wr4jmq8p5z0-g>
-    # Dec 18 22:17:41 home env[1921354]: USER=rok
-    # Dec 18 22:17:41 home env[1921354]: LOGNAME=rok
-    # Dec 18 22:17:41 home env[1921354]: HOME=/home/rok
-    # Dec 18 22:17:41 home env[1921354]: SHELL=/run/current-system/sw/bin/bash
-    # Dec 18 22:17:41 home env[1921354]: INVOCATION_ID=367400f0e5dc48249b74d4eb4b917146
-    # Dec 18 22:17:41 home env[1921354]: JOURNAL_STREAM=9:12120923
-    # Dec 18 22:17:41 home env[1921354]: SYSTEMD_EXEC_PID=1921354
-    # Dec 18 22:17:41 home env[1921354]: MEMORY_PRESSURE_WATCH=/sys/fs/cgroup/system.slice/printenv-rok.service/memory.pressure
-    # Dec 18 22:17:41 home env[1921354]: MEMORY_PRESSURE_WRITE=c29tZSAyMDAwMDAgMjAwMDAwMAA=
-    # Dec 18 22:17:41 home env[1921354]: LOCALE_ARCHIVE=/nix/store/gzali8g9fnxfzd2i15g0xmvzywx24hib-glibc-locales-2.40-36/lib/locale/locale-archive
-    # Dec 18 22:17:41 home env[1921354]: TZDIR=/nix/store/dfsiy184c8z6gf5x6cqfyahxv9g16828-tzdata-2024b/share/zoneinfo
     enable = true;
     serviceConfig = {
       Type = "oneshot";
