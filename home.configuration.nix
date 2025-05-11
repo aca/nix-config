@@ -298,10 +298,10 @@ in
     tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
   '';
 
-  # services.caddy.virtualHosts.${secrets.a}.extraConfig = ''
-  #   reverse_proxy http://home:4080
-  #   tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
-  # '';
+  services.caddy.virtualHosts.${secrets.a}.extraConfig = ''
+    reverse_proxy http://home:4080
+    tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
+  '';
   
   #
   # networking.hosts = {"127.0.0.1" = ["ntfy.folk-uaru.ts.net"];};
