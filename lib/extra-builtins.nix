@@ -1,7 +1,5 @@
 { exec, ... }:
 {
-  readSops =
-    identity:
-    name:
+  readSops = identity: name:
     import (exec [ ./decrypt.sh identity nixFile ]);
 }
