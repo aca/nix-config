@@ -88,10 +88,21 @@
     xsel
   ];
 
+  users.users.qbittorrent-nox = {
+    isNormalUser = true;
+    homeMode = "777";
+    description = "rok";
+    linger = true;
+    extraGroups = [
+    ];
+  };
+
+
   systemd.services."qbittorrent-nox" = {
     enable = true;
     serviceConfig = {
       ExecStart = "${pkgs.qbittorrent-nox}/bin/qbittorrent-nox";
+      User = "qbittorrent-nox";
     };
   };
 
