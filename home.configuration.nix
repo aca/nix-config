@@ -4,6 +4,7 @@
   pkgs,
   options,
   inputs,
+  nix,
   lib,
   ...
 }@args:
@@ -13,9 +14,8 @@ let
   secrets = "wer";
 in
 {
+    # plugin-files = ${pkgs.callPackage ./pkgs/nix-plugins.nix {}}/lib/nix/plugins
   nix.extraOptions = ''
-    plugin-files = ${(callPackage ./pkgs/nix-plugins.nix)}/lib/nix/plugins
-    extra-builtins-file = ./lib/extra-builtins.nix
   '';
 
   nix.settings = {

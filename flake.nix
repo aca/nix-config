@@ -484,32 +484,32 @@
       #   ];
       # };
       #
-      # nixosConfigurations.oci-xnzm-001 = nixpkgs.lib.nixosSystem rec {
-      #   system = "aarch64-linux";
-      #   specialArgs = { inherit inputs system; };
-      #   modules = [
-      #     inputs.comin.nixosModules.comin
-      #     ./all.configuration.nix
-      #     ./oci-xnzm-001.configuration.nix
-      #     agenix.nixosModules.default
-      #     (
-      #       { ... }:
-      #       {
-      #         services.comin = {
-      #           enable = true;
-      #           remotes = [
-      #             {
-      #               name = "origin";
-      #               url = "https://codeberg.org/aca/nix-config.git";
-      #               branches.main.name = "main";
-      #               poller.period = 10;
-      #             }
-      #           ];
-      #         };
-      #       }
-      #     )
-      #   ];
-      # };
+      nixosConfigurations.seedbox = nixpkgs.lib.nixosSystem rec {
+        system = "aarch64-linux";
+        specialArgs = { inherit inputs system; };
+        modules = [
+          inputs.comin.nixosModules.comin
+          ./all.configuration.nix
+          ./seedbox.configuration.nix
+          agenix.nixosModules.default
+          (
+            { ... }:
+            {
+              services.comin = {
+                enable = true;
+                remotes = [
+                  {
+                    name = "origin";
+                    url = "https://codeberg.org/aca/nix-config.git";
+                    branches.main.name = "main";
+                    poller.period = 10;
+                  }
+                ];
+              };
+            }
+          )
+        ];
+      };
       #
       # nixosConfigurations.oci-xnzm-002 = nixpkgs.lib.nixosSystem rec {
       #   system = "x86_64-linux";

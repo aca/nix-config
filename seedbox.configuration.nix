@@ -5,13 +5,13 @@
 }:
 {
   imports = [
-    ./hardware/oci-xnzm-001.nix
+    ./hardware/seedbox.nix
     ./all.configuration.nix
   ];
 
   system.stateVersion = "24.11";
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  networking.hostName = "oci-xnzm-001";
+  networking.hostName = "seedbox";
 
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "both";

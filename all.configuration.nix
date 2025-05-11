@@ -53,6 +53,19 @@ let
   overlays = system: [
     inputs.nur.overlays.default
 
+    # (self: super: {
+    #   # Replace “some-package” with the attribute name in nixpkgs
+    #   nix-plugins = super.nix-plugins.overrideAttrs (oldAttrs: {
+    #     # point `src` at your GitHub fork:
+    #     src = super.fetchFromGitHub {
+    #       owner = "aca";
+    #       repo = "nix-plugins";
+    #       rev = "a5e5ac4471a2a1e079e11a9c761c0e2cb145c245";
+    #       hash = "sha256-1hP5PzH2bYDka7CkksZh88jKCzlSs/m4M+GmZwWjln4=";
+    #     };
+    #   });
+    # })
+
     # (_: super: {
     #   neovim =
     #     pkgs.wrapNeovim inputs.neovim.packages.${system}.default {
