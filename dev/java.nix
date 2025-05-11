@@ -6,7 +6,7 @@
   environment.systemPackages = with pkgs; [
     kotlin
     kotlin-language-server
-    openjdk
+    # openjdk
     # jetbrains.idea-community-bin
   ];
 }

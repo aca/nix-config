@@ -294,7 +294,7 @@ in
       progress
 
       scrot
-      mitmproxy
+      # mitmproxy
       (luajit.withPackages (
         p: with p; [
           stdlib

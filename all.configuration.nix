@@ -53,6 +53,10 @@ let
   overlays = system: [
     inputs.nur.overlays.default
 
+
+
+    # (system: pkg: { ${pkg} = inputs.nixpkgs-unstable.legacyPackages.${system}.${pkg}; })
+
     # (self: super: {
     #   # Replace “some-package” with the attribute name in nixpkgs
     #   nix-plugins = super.nix-plugins.overrideAttrs (oldAttrs: {
@@ -67,11 +71,9 @@ let
     # })
 
     # (_: super: {
-    #   neovim =
-    #     pkgs.wrapNeovim inputs.neovim.packages.${system}.default {
-    #     };
+    #   nix = pkgs.wrapNeovim inputs.neovim.packages.${system}.default { };
     # })
-
+    #
     # (_: super: {
     #   neovim =
     #     pkgs.wrapNeovimUnstable
@@ -159,7 +161,7 @@ let
       # // (useunstable system "libreoffice-qt")
       # // (useunstable system "ntfy-sh")
       // (useunstable system "vifm")
-      // (useunstable system "nixVersions.latest")
+      # // (useunstable system "nixVersions.latest")
       // (useunstable system "spice-vdagent")
       // (useunstable system "nixd")
       // (useunstable system "yazi")

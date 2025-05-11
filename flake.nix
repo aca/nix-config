@@ -2,7 +2,8 @@
 {
   inputs = {
     # NOTES: check https://status.nixos.org/ and specify the revision for cache
-    nixpkgs.url = "github:nixos/nixpkgs/master";
+    # nixpkgs.url = "github:nixos/nixpkgs/master";
+    nixpkgs.url = "github:nixos/nixpkgs/24.11";
 
     darwin = {
       url = "github:LnL7/nix-darwin/nix-darwin-24.11";

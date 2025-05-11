@@ -25,7 +25,7 @@
   services.openssh.settings.PasswordAuthentication = false;
   services.openssh.enable = true;
 
-  services.openssh.ports = [ 5022 ]; # tailscale will use port 22
+  services.openssh.ports = [ 22 ]; # tailscale will use port 22
   users.users.root.openssh.authorizedKeys.keys = [
     (import ./keys.nix).root
     (import ./keys.nix).home
@@ -53,7 +53,7 @@
       22
       80
       443
-      5022
+      # 5022
     ];
   };
 

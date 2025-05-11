@@ -5,13 +5,13 @@
 }: {
   # https://github.com/dbohdan/structured-text-tools
   environment.systemPackages = with pkgs; [
-    quarto
+    # quarto
     jq
-    dasel
-    # trdsql
-    youplot
-    # q
-    miller
-    duckdb
+    # dasel
+    # # trdsql
+    # youplot
+    # # q
+    # miller
+    # duckdb
   ];
 }

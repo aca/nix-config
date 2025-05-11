@@ -19,8 +19,8 @@ in
   '';
 
   nix.settings = {
-    # plugin-files = "${pkgs.nix-plugins}/lib/nix/plugins";
-    # extra-builtins-file = [ ./lib/extra-builtins.nix ];
+    plugin-files = "${pkgs.nix-plugins}/lib/nix/plugins/libnix-extra-builtins.so";
+    extra-builtins-file = [ ./lib/extra-builtins.nix ];
     experimental-features = [
       "nix-command"
       "flakes"
@@ -218,7 +218,7 @@ in
     # ./pkgs/nix-alien.nix
 
     ./dev/data.nix
-    ./dev/java.nix
+    # ./dev/java.nix
     ./dev/default.nix
     ./dev/go.nix
     ./dev/container.nix
@@ -278,20 +278,20 @@ in
     };
   };
 
-  services.prometheus = {
-    enable = true;
-    port = 9001;
-    # scrapeConfigs = [
-    #   {
-    #     job_name = "oci-xnzm-001";
-    #     static_configs = [
-    #       {
-    #         targets = ["100.79.222.108:9100"];
-    #       }
-    #     ];
-    #   }
-    # ];
-  };
+  # services.prometheus = {
+  #   enable = true;
+  #   port = 9001;
+  #   # scrapeConfigs = [
+  #   #   {
+  #   #     job_name = "oci-xnzm-001";
+  #   #     static_configs = [
+  #   #       {
+  #   #         targets = ["100.79.222.108:9100"];
+  #   #       }
+  #   #     ];
+  #   #   }
+  #   # ];
+  # };
 
   services.tailscale.permitCertUid = "caddy";
   services.caddy.enable = true;
@@ -1172,7 +1172,7 @@ in
       #
 
       scrot
-      mitmproxy
+      # mitmproxy
       (luajit.withPackages (
         p: with p; [
           stdlib
@@ -1293,7 +1293,7 @@ in
       # jetbrains.datagrip
       # neovide
       # jetbrains.clion
-      emacs
+      # emacs
       # (lowPrio uutils-coreutils-noprefix)
       freecad-wayland
       vscode.fhs
