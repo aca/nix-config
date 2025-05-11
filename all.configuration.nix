@@ -297,6 +297,7 @@ rec {
     pkgs.ncdu
     # pkgs.xcp
     pkgs.expect
+    pkgs.pass
     pkgs.rmtrash
   ];
 

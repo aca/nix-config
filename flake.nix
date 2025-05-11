@@ -18,7 +18,7 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
     nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
 
-    vaultix.url = "github:milieuim/vaultix";
+    # vaultix.url = "github:milieuim/vaultix";
     # vaultix.inputs.nixpkgs.follows = "nixpkgs";
 
     # nixpkgs-aca.url = "github:aca/nixpkgs/master";
@@ -120,7 +120,7 @@
     {
       self,
       nixpkgs,
-      vaultix,
+      # vaultix,
       nur,
       nixpkgs-unstable,
       nixpkgs-nightly,
@@ -328,33 +328,6 @@
         system = "x86_64-linux";
         specialArgs = { inherit inputs system; };
         modules = [
-          inputs.vaultix.nixosModules.default
-          (
-            { config, ... }:
-            {
-              vaultix = {
-                settings.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIqpsv22zQgRH08KyNNb59AxnCdONC3wKtWQf8vFLaEM root@nixos";
-                # settings.hostKeys = { path = "./vaultix.key"; type = "ed25519"; };
-                # beforeUserborn = [ "test-secret-1" ];
-
-                secrets = {
-                  # secret example
-                  test-secret-1 = {
-                    file = ./xxx.age;
-                  };
-                };
-
-                # template example
-                # templates.template-test = {
-                #   name = "template.txt";
-                #   content = ''
-                #     for testing vaultix template ${config.vaultix.placeholder.test-secret-1} nya
-                #   '';
-                #   path = "/var/template.txt";
-                # };
-              };
-            }
-          )
           ./all.configuration.nix
           agenix.nixosModules.default
           ./home.configuration.nix
@@ -621,16 +594,5 @@
       #   ];
       # };
 
-      vaultix = vaultix.configure {
-        # identical with flakeModule way
-        nodes = self.nixosConfigurations;
-        identity = "./key.txt";
-        # extraRecipients = [
-        #    ./vaultix.key.pub
-        # ];
-        # extraRecipients = [ ];
-        # extraPackages = [ ];
-        cache = "./vaultix/cache";
-      };
     };
 }

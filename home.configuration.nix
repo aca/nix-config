@@ -16,14 +16,14 @@ let
 in
 {
 
-  nix.settings = {
-    plugin-files = "${pkgs.nix-plugins}/lib/nix/plugins/libnix-extra-builtins.so";
-    extra-builtins-file = [ ./lib/extra-builtins.nix ];
-    experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-  };
+  # nix.settings = {
+  #   # plugin-files = "${pkgs.nix-plugins}/lib/nix/plugins/libnix-extra-builtins.so";
+  #   # extra-builtins-file = [ ./lib/extra-builtins.nix ];
+  #   experimental-features = [
+  #     "nix-command"
+  #     "flakes"
+  #   ];
+  # };
 
   # security.auditd.enable = true;
   # services.journald.audit = true;
@@ -41,11 +41,11 @@ in
     nix-direnv.enable = true;
   };
 
-  system.activationScripts."experimental-features".text = ''
-    mv /etc/nix/nix.conf /etc/nix/nix.conf.bak
-    cat /etc/nix/nix.conf.bak > /etc/nix/nix.conf
-    echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
-  '';
+  # system.activationScripts."experimental-features".text = ''
+  #   mv /etc/nix/nix.conf /etc/nix/nix.conf.bak
+  #   cat /etc/nix/nix.conf.bak > /etc/nix/nix.conf
+  #   echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
+  # '';
 
   system.activationScripts."update-hosts" = ''
     cat /etc/hosts > /etc/hosts.bak
@@ -299,16 +299,16 @@ in
     tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
   '';
 
-  # services.caddy.virtualHosts.${builtins.extraBuiltins.readSops "werwrwer"}.extraConfig = ''
+  # services.caddy.virtualHosts.${(builtins.exec [ "age" "--decrypt" "-i" "/home/rok/.ssh/id_ed25519" ./xxx.age ]).a }.extraConfig = ''
   #   reverse_proxy http://home:4080
   #   tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
   # '';
 
-  services.caddy.virtualHosts.${builtins.extraBuiltins.readSops ./secrets/var1.age}.extraConfig = ''
-    reverse_proxy http://xxx:4080
-    tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
-  '';
-  
+  # services.caddy.virtualHosts.${(builtins.extraBuiltins.readSops ./secrets/var1.age)}.extraConfig = ''
+  #   reverse_proxy http://xxx:4080
+  #   tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
+  # '';
+  #
   #
   # networking.hosts = {"127.0.0.1" = ["ntfy.folk-uaru.ts.net"];};
 
