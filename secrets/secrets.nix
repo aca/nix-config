@@ -35,6 +35,9 @@ let
   "mx-synapse" = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILDZidt5wV1NEEbqwuzAjRqu8YGbrBSzlyME4X7PAZn7 root@oci-aca-001"
   ] ++ home;
+  "oci-aca-001" = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILDZidt5wV1NEEbqwuzAjRqu8YGbrBSzlyME4X7PAZn7 root@oci-aca-001"
+  ] ++ home;
 in
 {
   "hosts.age".publicKeys = txxx-nix;
@@ -59,6 +62,8 @@ in
   ];
 
   "var1.age".publicKeys = home;
+
+  "oci-aca-001.nix.age".publicKeys = oci-aca-001;
 
   # "tailscale.com/root".publicKeys = [];
 }

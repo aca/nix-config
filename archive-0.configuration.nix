@@ -212,15 +212,6 @@ in {
     output stdout
     level DEBUG
   '';
-  # services.caddy.virtualHosts."jkor-matrix.duckdns.org".extraConfig = ''
-  #   reverse_proxy http://localhost:8008
-  # '';
-  # services.caddy.virtualHosts."jkor-matrix-ss.duckdns.org".extraConfig = ''
-  #   reverse_proxy http://localhost:8009
-  # '';
-  # services.caddy.virtualHosts."jkor-ntfy.duckdns.org".extraConfig = ''
-  #   reverse_proxy http://localhost:2556
-  # '';
   services.caddy.virtualHosts."http://archive-0".extraConfig = ''
     handle_path /scrutiny {
       reverse_proxy http://localhost:8080

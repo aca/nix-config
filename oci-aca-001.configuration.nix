@@ -9,6 +9,11 @@
     ./pkgs/mx-synapse.duckdns.org.nix
   ];
 
+  services.caddy.virtualHosts.${(builtins.exec [ "age" "--decrypt" "-i" "/root/.ssh/id_ed25519" ./secrets/oci-aca-001.nix.age ]).matrix.host }.extraConfig = ''
+    reverse_proxy http://localhost:8008
+  '';
+
+
   # services.grafana = {
   #   enable = true;
   #   settings = {
