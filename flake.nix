@@ -280,48 +280,48 @@
       #   };
       #
       # # .#oci-aca-001
-      # nixosConfigurations.oci-aca-001 = nixpkgs.lib.nixosSystem rec {
-      #   system = "aarch64-linux";
-      #   specialArgs = { inherit inputs system self; };
-      #   modules = [
-      #     inputs.comin.nixosModules.comin
-      #     ./all.configuration.nix
-      #     agenix.nixosModules.default
-      #     {
-      #       environment.systemPackages = [
-      #         inputs.agenix.packages.${system}.default
-      #       ];
-      #     }
-      #     ./oci-aca-001.configuration.nix
-      #     (
-      #       { ... }:
-      #       {
-      #         services.comin = {
-      #           enable = true;
-      #           remotes = [
-      #             {
-      #               name = "origin";
-      #               url = "https://codeberg.org/aca/nix-config.git";
-      #               branches.main.name = "main";
-      #               poller.period = 30;
-      #             }
-      #           ];
-      #         };
-      #       }
-      #     )
-      #     home-manager.nixosModules.home-manager
-      #     {
-      #       # home-manager.sharedModules = [
-      #       #   (import ./pkgs/vifm/vifmrc.nix)
-      #       # ];
-      #       home-manager.useGlobalPkgs = true;
-      #       home-manager.useUserPackages = true;
-      #       home-manager.users.rok = import ./oci-aca-001.home-manager.nix;
-      #       home-manager.extraSpecialArgs = specialArgs;
-      #       home-manager.backupFileExtension = "bak";
-      #     }
-      #   ];
-      # };
+      nixosConfigurations.oci-aca-001 = nixpkgs.lib.nixosSystem rec {
+        system = "aarch64-linux";
+        specialArgs = { inherit inputs system self; };
+        modules = [
+          inputs.comin.nixosModules.comin
+          ./all.configuration.nix
+          agenix.nixosModules.default
+          {
+            environment.systemPackages = [
+              inputs.agenix.packages.${system}.default
+            ];
+          }
+          ./oci-aca-001.configuration.nix
+          (
+            { ... }:
+            {
+              services.comin = {
+                enable = true;
+                remotes = [
+                  {
+                    name = "origin";
+                    url = "https://codeberg.org/aca/nix-config.git";
+                    branches.main.name = "main";
+                    poller.period = 30;
+                  }
+                ];
+              };
+            }
+          )
+          home-manager.nixosModules.home-manager
+          {
+            # home-manager.sharedModules = [
+            #   (import ./pkgs/vifm/vifmrc.nix)
+            # ];
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.rok = import ./oci-aca-001.home-manager.nix;
+            home-manager.extraSpecialArgs = specialArgs;
+            home-manager.backupFileExtension = "bak";
+          }
+        ];
+      };
 
       # .#home
       nixosConfigurations.home = nixpkgs.lib.nixosSystem rec {
