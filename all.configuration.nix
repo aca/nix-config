@@ -294,6 +294,7 @@ rec {
     pkgs.diskus
     pkgs.fd
     # pkgs.yazi
+    pkgs.age
     pkgs.ncdu
     # pkgs.xcp
     pkgs.expect
