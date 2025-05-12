@@ -50,7 +50,7 @@ in
 
     # Forward *everything* to these upstreams
     servers = [
-      "1.1.1.1" # Cloudflare
+      "8.8.8.8"
       "172.21.223.91"
     ];
 
