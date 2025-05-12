@@ -75,7 +75,7 @@
     ];
   };
 
-  zramSwap.enable = true;
+  zramSwap.enable = false;
 
   networking.firewall = {
     enable = true;

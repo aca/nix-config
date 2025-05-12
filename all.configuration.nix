@@ -293,7 +293,7 @@ rec {
     pkgs.pstree
     pkgs.diskus
     pkgs.fd
-    pkgs.yazi
+    # pkgs.yazi
     pkgs.ncdu
     # pkgs.xcp
     pkgs.expect

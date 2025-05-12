@@ -16,6 +16,6 @@
     nix-tree
     alejandra
     home-manager
-    devenv
+    # devenv
   ];
 }

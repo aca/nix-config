@@ -186,40 +186,40 @@
       #     ];
       #   };
       #
-      # nixosConfigurations.txxx-nix = nixpkgs.lib.nixosSystem {
-      #   system = "aarch64-linux";
-      #   specialArgs = { inherit inputs self; };
-      #   modules = [
-      #     inputs.comin.nixosModules.comin
-      #     # (
-      #     # )
-      #     ./all.configuration.nix
-      #     ./linux.configuration.nix
-      #     ./neovim.nix
-      #     agenix.nixosModules.default
-      #     {
-      #       environment.systemPackages = [
-      #         inputs.agenix.packages.aarch64-linux.default
-      #         # inputs.zen-browser.packages.aarch64-linux.twilight-official
-      #         inputs.ghostty.packages.aarch64-linux.default
-      #         # zig
-      #         # inputs.lazybox.packages.aarch64-linux.xxx2
-      #         # inputs.nixpkgs-zig-0-12.legacyPackages.aarch64-linux.zig_0_12
-      #         # inputs.zls.packages.aarch64-linux.default
-      #       ];
-      #     }
-      #     ./txxx-nix.configuration.nix
-      #     home-manager.nixosModules.home-manager
-      #     {
-      #       # https://github.com/nix-community/home-manager/issues/1698
-      #       home-manager.useGlobalPkgs = true;
-      #       home-manager.useUserPackages = true;
-      #       home-manager.users.rok = import ./txxx-nix.home-manager.nix;
-      #       home-manager.extraSpecialArgs = { inherit inputs self; };
-      #       home-manager.backupFileExtension = "bak";
-      #     }
-      #   ];
-      # };
+      nixosConfigurations.txxx-nix = nixpkgs.lib.nixosSystem rec {
+        system = "aarch64-linux";
+        specialArgs = { inherit inputs self system; };
+        modules = [
+          inputs.comin.nixosModules.comin
+          # (
+          # )
+          ./all.configuration.nix
+          ./linux.configuration.nix
+          ./neovim.nix
+          agenix.nixosModules.default
+          {
+            environment.systemPackages = [
+              inputs.agenix.packages.aarch64-linux.default
+              # inputs.zen-browser.packages.aarch64-linux.twilight-official
+              # inputs.ghostty.packages.aarch64-linux.default
+              # zig
+              # inputs.lazybox.packages.aarch64-linux.xxx2
+              # inputs.nixpkgs-zig-0-12.legacyPackages.aarch64-linux.zig_0_12
+              # inputs.zls.packages.aarch64-linux.default
+            ];
+          }
+          ./txxx-nix.configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            # https://github.com/nix-community/home-manager/issues/1698
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.rok = import ./txxx-nix.home-manager.nix;
+            home-manager.extraSpecialArgs = { inherit inputs self; };
+            home-manager.backupFileExtension = "bak";
+          }
+        ];
+      };
       #
       # # #ome-manager switch switch --flake '.#rok@txxx-nix'
       # homeConfigurations."rok@txxx-nix" =

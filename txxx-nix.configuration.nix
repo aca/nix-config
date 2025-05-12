@@ -55,6 +55,8 @@ in
     ];
 
     settings = {
+      cache-size = 10000;
+      min-cache-ttl = 3600;
       log-queries = true;
       log-dhcp = true;
     };
@@ -137,7 +139,7 @@ in
       pkgs.fcitx5-mozc
       pkgs.fcitx5-hangul
       pkgs.fcitx5-lua
-      pkgs.fcitx5-chinese-addons
+      # pkgs.fcitx5-chinese-addons
     ];
   };
 
@@ -574,16 +576,17 @@ in
       element-desktop
     ]
     ++ [
-      jetbrains.datagrip
-      typst
+      # jetbrains.datagrip
+      # jetbrains.goland
+      # jetbrains.idea-community
+      # typst
       elvish
       inetutils
       openssl
       openssh
-      xorg.libX11
       _9pfs
       bindfs
-      bolt
+      # bolt
       trash-cli
       # pkgs.unstable.xonsh
       xsel
@@ -594,17 +597,17 @@ in
       cron
       scc
       delta
-      racket
+      # racket
       xorg.luit
 
-      xvfb-run
+      # xvfb-run
       dig
       dog
       # dunst
       libnotify
       bat
-      xterm
-      helix
+      # xterm
+      # helix
       cloud-utils
       dura
       entr
@@ -620,10 +623,9 @@ in
       units
       gron
 
-      kubernetes-helm
       # git-annex
       # git-annex-utils
-      upx
+      # upx
       hexyl
       imagemagick
       jo
@@ -632,6 +634,7 @@ in
       # pkgs.unstable.kitty
       ko
       krew
+      kubernetes-helm
       kubectl
       kubectl-images
       kubectl-node-shell
@@ -640,7 +643,7 @@ in
       kubectx
       kubetail
 
-      libreoffice-qt
+      # libreoffice-qt
 
       lshw
       mpv
@@ -649,13 +652,13 @@ in
       # neovim
       # neovim-nightly
       netcat-gnu
-      nginx
+      # nginx
       nixpkgs-fmt
       nmap
-      nodejs_20
-      nodePackages_latest.pnpm
+      # nodejs_20
+      # nodePackages_latest.pnpm
       weechat
-      nodePackages_latest.sql-formatter
+      # nodePackages_latest.sql-formatter
 
       virtualgl
 
@@ -697,7 +700,6 @@ in
       hledger
       # typstfmt
       sublime-merge
-      jetbrains.goland
       virtiofsd
       zf
       ripgrep
@@ -709,14 +711,11 @@ in
       xclip
       # pkgs.unstable.kitty
 
-      jdt-language-server
-      kotlin-language-server
       xsel
       yarn
       zathura
       zef
       s3fs
-      fluent-bit
       vbindiff
       goconvey
       inetutils
@@ -727,32 +726,32 @@ in
 
       oracle-instantclient
 
-      (pkgs.unstable.vivaldi.override {
-        # mesa = pkgs.mesa;
-        commandLineArgs = [
-          # "--ozone-platform-hint=wayland"
-
-          "--user-agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'"
-          # "--ozone-platform-hint=auto"
-          # "--enable-features=UseOzonePlatform"
-          # "--ozone-platform-hint=''"
-          #
-          # vmware
-          "--enable-font-antialiasing"
-          "--disable-gpu"
-
-          # "--ozone-platform=''"
-
-          # "--enable-features=WebContentsForceDark"
-          "--enable-quic"
-          "--enable-zero-copy"
-          "--remote-debugging-port=9223"
-          # "--force-dark-mode"
-          # NOTES: ozone-platform=wayland fcitx win+space not work
-          # "--disable-features=UseOzonePlatform"
-          # "--gtk-version=4" # fcitx
-        ];
-      })
+      # (pkgs.unstable.vivaldi.override {
+      #   # mesa = pkgs.mesa;
+      #   commandLineArgs = [
+      #     # "--ozone-platform-hint=wayland"
+      #
+      #     "--user-agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'"
+      #     # "--ozone-platform-hint=auto"
+      #     # "--enable-features=UseOzonePlatform"
+      #     # "--ozone-platform-hint=''"
+      #     #
+      #     # vmware
+      #     "--enable-font-antialiasing"
+      #     "--disable-gpu"
+      #
+      #     # "--ozone-platform=''"
+      #
+      #     # "--enable-features=WebContentsForceDark"
+      #     "--enable-quic"
+      #     "--enable-zero-copy"
+      #     "--remote-debugging-port=9223"
+      #     # "--force-dark-mode"
+      #     # NOTES: ozone-platform=wayland fcitx win+space not work
+      #     # "--disable-features=UseOzonePlatform"
+      #     # "--gtk-version=4" # fcitx
+      #   ];
+      # })
 
       (chromium.override {
         commandLineArgs = [
@@ -767,8 +766,8 @@ in
           "--enable-quic"
           "--enable-zero-copy"
           "--remote-debugging-port=9222"
-          # "--enable-features=WebContentsForceDark"
-          # "--force-dark-mode"
+          "--enable-features=WebContentsForceDark"
+          "--force-dark-mode"
 
           # NOTES: ozone-platform=wayland fcitx win+space not work
           # "--disable-features=UseOzonePlatform"
@@ -778,27 +777,26 @@ in
 
       # x2goclient
       go-audit
-      audit
+      # audit
 
-      zig
-      zls
-      telegram-desktop
+      # zig
+      # zls
+      # telegram-desktop
       # chezmoi
       fuse3
       xournalpp
       kotlin
       kotlin-language-server
-      jetbrains.idea-community
-      ripgrep-all
-      jdk23
-      valgrind
+      # ripgrep-all
+      # jdk23
+      # valgrind
       # fuse-common
-      thunderbird
+      # thunderbird
       waypipe
       # cgit
       # fcgiwrap
       caddy
-      flatbuffers
+      # flatbuffers
 
       # (pkgs.unstable.microsoft-edge.override {
       #   commandLineArgs = [
@@ -815,7 +813,7 @@ in
       pavucontrol
       # firefox
 
-      geekbench
+      # geekbench
       gradle_7
       janet
       # openjdk23

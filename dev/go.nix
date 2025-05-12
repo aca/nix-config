@@ -14,10 +14,8 @@
     golangci-lint
     sbomnix
 
-    sbomnix
     # visidata
     # oracle-instantclient
-    bfs
 
     # dura
     # nushell
