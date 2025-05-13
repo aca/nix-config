@@ -9,7 +9,8 @@
   inputs,
   lib,
   ...
-}: {
+}:
+{
   # use caddy as a reverse proxy, serve synapse, sliding-sync
   services.caddy.enable = true;
   services.caddy.virtualHosts."mx-synapse.duckdns.org".extraConfig = ''
@@ -49,19 +50,21 @@
       local all       all     trust
     '';
     ensureUsers = [
-      {name = "rok";}
+      { name = "rok"; }
     ];
     settings.port = 5432;
+
+    initialScript = pkgs.writeText "init" ''
+      CREATE ROLE "matrix-synapse";
+      CREATE DATABASE "matrix-synapse" WITH OWNER "matrix-synapse"
+        TEMPLATE template0
+        LC_COLLATE = "C"
+        LC_CTYPE = "C";
+      ALTER ROLE "matrix-synapse" WITH LOGIN;
+    '';
   };
 
-  # services.postgresql.initialScript = pkgs.writeText "Initial-PostgreSQL-Database" ''
-  #   CREATE ROLE "matrix-synapse";
-  #   CREATE DATABASE "matrix-synapse" WITH OWNER "matrix-synapse"
-  #     TEMPLATE template0
-  #     LC_COLLATE = "C"
-  #     LC_CTYPE = "C";
-  # '';
-  services.matrix-synapse.enable = true;
+  services.matrix-synapse.enable = false;
   services.matrix-synapse.settings.server_name = "mx-synapse.duckdns.org";
   services.matrix-synapse.settings.database.name = "psycopg2";
   services.matrix-synapse.settings.public_baseurl = "https://mx-synapse.duckdns.org:443";
