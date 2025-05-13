@@ -47,6 +47,8 @@ in
   "github.com__aca.age".publicKeys = systems;
   "mx-synapse.extraConfigFiles.registration_shared_secret.age".publicKeys = mx-synapse;
 
+  "oci-aca-001/services.matrix-synapse.extraConfigFiles.registration_shared_secret.age".publicKeys = oci-aca-001;
+
   "xxxxx.age".publicKeys = home;
   "agenixtest.age".publicKeys = txxx;
   "txxx.age".publicKeys = txxx;
