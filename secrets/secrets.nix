@@ -36,7 +36,7 @@ let
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILDZidt5wV1NEEbqwuzAjRqu8YGbrBSzlyME4X7PAZn7 root@oci-aca-001"
   ] ++ home;
   "oci-aca-001" = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILDZidt5wV1NEEbqwuzAjRqu8YGbrBSzlyME4X7PAZn7 root@oci-aca-001"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIhIGvIYjtlbwKZcLEGSMi7iB5/0oZDDItPDmnbFUAw3 root@oci-aca-001"
   ] ++ home;
 in
 {
@@ -46,12 +46,6 @@ in
   "env.oci-impx-001.age".publicKeys = oci-impx-001;
   "github.com__aca.age".publicKeys = systems;
   "mx-synapse.extraConfigFiles.registration_shared_secret.age".publicKeys = mx-synapse;
-
-  "home.services.matrix-sliding-sync.environmentFile.age".publicKeys = home;
-  "home.services.matrix-synapse.registration_shared_secret.age".publicKeys = home;
-  "home.services.matrix-synapse.extraConfigFiles.registration_shared_secret.age".publicKeys = home;
-  "home.services.matrix-synapse.extraConfigFiles.registration_shared_secret_path.age".publicKeys =
-    home;
 
   "xxxxx.age".publicKeys = home;
   "agenixtest.age".publicKeys = txxx;
