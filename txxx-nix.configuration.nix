@@ -56,6 +56,7 @@ in
 
     settings = {
       cache-size = 10000;
+      clear-on-reload = true;
       min-cache-ttl = 3600;
       log-queries = true;
       log-dhcp = true;
