@@ -207,9 +207,9 @@ in
 
   # Allow unfree packages
 
-  # environment.sessionVariables = {
-  #   LD_LIBRARY_PATH = lib.makeLibraryPath oracle-insta;
-  # };
+  environment.sessionVariables = {
+    LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.oracle-instantclient];
+  };
 
   # nix.nixPath =
   #   # Prepend default nixPath values.
