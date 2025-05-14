@@ -67,7 +67,7 @@
     '';
   };
 
-  services.matrix-synapse.enable = false;
+  services.matrix-synapse.enable = true;
   services.matrix-synapse.settings.database.name = "psycopg2";
   # services.matrix-synapse.settings.server_name = "matrix.${secrets.INTERNAL_BASEURL}";
   # services.matrix-synapse.settings.public_baseurl = "https://matrix.${secrets.INTERNAL_BASEURL}";

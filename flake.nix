@@ -190,7 +190,6 @@
         system = "aarch64-linux";
         specialArgs = { inherit inputs self system; };
         modules = [
-          inputs.comin.nixosModules.comin
           # (
           # )
           ./all.configuration.nix
@@ -284,7 +283,7 @@
         system = "aarch64-linux";
         specialArgs = { inherit inputs system self; };
         modules = [
-          inputs.comin.nixosModules.comin
+          # inputs.comin.nixosModules.comin
           ./all.configuration.nix
           agenix.nixosModules.default
           {
@@ -293,22 +292,22 @@
             ];
           }
           ./oci-aca-001.configuration.nix
-          (
-            { ... }:
-            {
-              services.comin = {
-                enable = true;
-                remotes = [
-                  {
-                    name = "origin";
-                    url = "https://codeberg.org/aca/nix-config.git";
-                    branches.main.name = "main";
-                    poller.period = 30;
-                  }
-                ];
-              };
-            }
-          )
+          # (
+          #   { ... }:
+          #   {
+          #     services.comin = {
+          #       enable = true;
+          #       remotes = [
+          #         {
+          #           name = "origin";
+          #           url = "https://codeberg.org/aca/nix-config.git";
+          #           branches.main.name = "main";
+          #           poller.period = 30;
+          #         }
+          #       ];
+          #     };
+          #   }
+          # )
           home-manager.nixosModules.home-manager
           {
             # home-manager.sharedModules = [
@@ -462,26 +461,26 @@
         system = "aarch64-linux";
         specialArgs = { inherit inputs system; };
         modules = [
-          inputs.comin.nixosModules.comin
+          # inputs.comin.nixosModules.comin
           ./all.configuration.nix
           ./seedbox.configuration.nix
           agenix.nixosModules.default
-          (
-            { ... }:
-            {
-              services.comin = {
-                enable = true;
-                remotes = [
-                  {
-                    name = "origin";
-                    url = "https://codeberg.org/aca/nix-config.git";
-                    branches.main.name = "main";
-                    poller.period = 10;
-                  }
-                ];
-              };
-            }
-          )
+          # (
+          #   { ... }:
+          #   {
+          #     services.comin = {
+          #       enable = true;
+          #       remotes = [
+          #         {
+          #           name = "origin";
+          #           url = "https://codeberg.org/aca/nix-config.git";
+          #           branches.main.name = "main";
+          #           poller.period = 10;
+          #         }
+          #       ];
+          #     };
+          #   }
+          # )
         ];
       };
       #
