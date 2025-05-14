@@ -49,7 +49,6 @@ in
     # %u → 실제 사용자 이름, %h → 사용자 홈 디렉토리
     "d /home/%u/src 0755 - - -"
     "d /home/%u/.local/share/nvim/ 0755 - - -"
-    "d /home/rok/src2 0755 root root -"
   ];
 
   services.udev.packages = with pkgs; [
