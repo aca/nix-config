@@ -30,13 +30,6 @@ let
   #   "/logs/active" = {d.mode = "0777";};
   # };
 
-  systemd.tmpfiles.rules = [
-    # 형식: "d <path> <mode> <uid> <gid> <age>"
-    # %u → 실제 사용자 이름, %h → 사용자 홈 디렉토리
-    "d /home/%u/src 0755 - - -"
-    "d /home/%u/.local/share/nvim/ 0755 - - -"
-  ];
-
   services.openssh.settings.PasswordAuthentication = false;
 
   # vaultix, not sure it works
