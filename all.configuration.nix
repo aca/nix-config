@@ -24,6 +24,12 @@ let
   #   "d /home/%u/.local/share/nvim/ 0755 %u %g -"
   # ];
 
+
+  # systemd.tmpfiles.settings."logs" = {
+  #   "/logs" = {d.mode = "0777";};
+  #   "/logs/active" = {d.mode = "0777";};
+  # };
+
   systemd.tmpfiles.rules = [
     # 형식: "d <path> <mode> <uid> <gid> <age>"
     # %u → 실제 사용자 이름, %h → 사용자 홈 디렉토리
