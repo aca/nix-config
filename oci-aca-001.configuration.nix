@@ -6,13 +6,13 @@
 }: {
   imports = [
     ./hardware/oci-aca-001.nix
-    ./pkgs/mx-synapse.duckdns.org.nix
+    # ./pkgs/mx-synapse.duckdns.org.nix
   ];
 
-  services.caddy.virtualHosts.${(builtins.exec [ "age" "--decrypt" "-i" "/root/.ssh/id_ed25519" ./secrets/oci-aca-001.nix.age ]).matrix.host }.extraConfig = ''
-    reverse_proxy http://localhost:8008
-  '';
-
+  # age.identityPaths = ["/root/.ssh/id_ed25519"];
+  # services.caddy.virtualHosts.${(builtins.exec [ "age" "--decrypt" "-i" "/root/.ssh/id_ed25519" ./secrets/oci-aca-001.nix.age ]).matrix.host }.extraConfig = ''
+  #   reverse_proxy http://localhost:8008
+  # '';
 
   # services.grafana = {
   #   enable = true;
@@ -37,8 +37,6 @@
     "--advertise-exit-node=true"
   ];
   services.tailscale.extraDaemonFlags = ["--socks5-server=0.0.0.0:1080"]; # blocked by firewall
-
-  age.identityPaths = ["/root/.ssh/id_ed25519"];
 
   services.openssh.enable = true;
   # services.openssh.ports = [ ];
