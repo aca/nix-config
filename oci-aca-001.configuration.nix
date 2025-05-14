@@ -3,17 +3,32 @@
   inputs,
   pkgs,
   ...
-}: {
+}: 
+let
+  secrets = (builtins.exec [ "age" "--decrypt" "-i" "/home/rok/.ssh/id_ed25519" ./secrets/oci-aca-001.nix.age ]);
+in {
   imports = [
     ./hardware/oci-aca-001.nix
-    # ./pkgs/mx-synapse.duckdns.org.nix
+    ./internal.matrix.nix
+  ];
+
+  age.identityPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+  services.matrix-synapse.settings.server_name = "matrix.${secrets.INTERNAL_BASEURL}";
+  services.matrix-synapse.settings.public_baseurl = "https://matrix.${secrets.INTERNAL_BASEURL}";
+
+  age.secrets."services.matrix-synapse.extraConfigFiles.registration_shared_secret" = {
+    file = ./secrets/oci-aca-001/services.matrix-synapse.extraConfigFiles.registration_shared_secret.age;
+    mode = "444";
+  };
+
+  services.matrix-synapse.extraConfigFiles = [
+    config.age.secrets."services.matrix-synapse.extraConfigFiles.registration_shared_secret".path
   ];
 
   services.caddy.enable = true;
 
-  services.caddy.virtualHosts.${(builtins.exec [ "age" "--decrypt" "-i" "/home/rok/.ssh/id_ed25519" ./secrets/oci-aca-001.nix.age ]).BASEURL }.extraConfig = ''
-    reverse_proxy http://home:4080
-    tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
+  services.caddy.virtualHosts."matrix.${secrets.INTERNAL_BASEURL}".extraConfig = ''
+    reverse_proxy http://localhost:8088
   '';
 
   # age.identityPaths = ["/root/.ssh/id_ed25519"];

@@ -7,10 +7,13 @@
   pkgs,
   options,
   inputs,
+  secrets,
   lib,
   ...
 }:
 {
+
+ 
   # use caddy as a reverse proxy, serve synapse, sliding-sync
   services.caddy.enable = true;
   # services.caddy.virtualHosts."mx-synapse.duckdns.org".extraConfig = ''
@@ -65,21 +68,16 @@
   };
 
   services.matrix-synapse.enable = false;
-  services.matrix-synapse.settings.server_name = "mx-synapse.duckdns.org";
   services.matrix-synapse.settings.database.name = "psycopg2";
-  # services.matrix-synapse.settings.public_baseurl = "https://mx-synapse.duckdns.org:443";
+  # services.matrix-synapse.settings.server_name = "matrix.${secrets.INTERNAL_BASEURL}";
+  # services.matrix-synapse.settings.public_baseurl = "https://matrix.${secrets.INTERNAL_BASEURL}";
   services.matrix-synapse.settings.enable_registration = false;
   services.matrix-synapse.enableRegistrationScript = true;
 
   # # bash -c 'echo "registration_shared_secret: $(openssl rand -hex 32)"'
-  age.secrets."services.matrix-synapse.extraConfigFiles.registration_shared_secret" = {
-    file = ./secrets/oci-aca-001/services.matrix-synapse.extraConfigFiles.registration_shared_secret.age
-    mode = "444";
-  };
-
-  services.matrix-synapse.extraConfigFiles = [
-    config.age.secrets."services.matrix-synapse.extraConfigFiles.registration_shared_secret".path
-  ];
+  # services.matrix-synapse.extraConfigFiles = [
+  #   config.age.secrets."services.matrix-synapse.extraConfigFiles.registration_shared_secret".path
+  # ];
 
   services.matrix-synapse.settings.listeners = [
     {
