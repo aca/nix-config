@@ -9,7 +9,7 @@
     # ./pkgs/mx-synapse.duckdns.org.nix
   ];
 
-  services.caddy.virtualHosts.${(builtins.exec [ age "--decrypt" "-i" "/etc/ssh/ssh_host_ed25519_key" ./secrets/oci-aca-001.nix.age ]).BASEURL }.extraConfig = ''
+  services.caddy.virtualHosts.${(builtins.exec [ "age" "--decrypt" "-i" "/etc/ssh/ssh_host_ed25519_key" ./secrets/oci-aca-001.nix.age ]).BASEURL }.extraConfig = ''
     reverse_proxy http://home:4080
     tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
   '';
