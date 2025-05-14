@@ -179,6 +179,7 @@ let
       // (useunstable system "pueue")
       // (usenightly system "aider-chat")
       // (useunstable system "uv")
+      // (useunstable system "gitbutler")
     )
   ];
 in

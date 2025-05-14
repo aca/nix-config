@@ -33,10 +33,10 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/8dd38305-4975-4277-8f20-0fc8b540c585";
-    fsType = "ext4";
-  };
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/8dd38305-4975-4277-8f20-0fc8b540c585";
+      fsType = "ext4";
+    };
 
   fileSystems."/boot/efi" = {
     device = "/dev/disk/by-uuid/6FE7-219E";

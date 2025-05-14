@@ -50,8 +50,8 @@ in
 
     # Forward *everything* to these upstreams
     servers = [
-      "8.8.8.8"
       "172.21.223.91"
+      "8.8.8.8"
     ];
 
     settings = {
@@ -817,6 +817,7 @@ in
       # geekbench
       gradle_7
       janet
+      libreoffice-qt
       # openjdk23
     ];
 }
