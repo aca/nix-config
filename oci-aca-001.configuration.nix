@@ -6,8 +6,13 @@
 }: {
   imports = [
     ./hardware/oci-aca-001.nix
-    ./pkgs/mx-synapse.duckdns.org.nix
+    # ./pkgs/mx-synapse.duckdns.org.nix
   ];
+
+  services.caddy.virtualHosts.${(builtins.exec [ age "--decrypt" "-i" "/etc/ssh/ssh_host_ed25519_key" ./secrets/oci-aca-001.nix.age ]).BASEURL }.extraConfig = ''
+    reverse_proxy http://home:4080
+    tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
+  '';
 
   # age.identityPaths = ["/root/.ssh/id_ed25519"];
   # services.caddy.virtualHosts.${(builtins.exec [ "age" "--decrypt" "-i" "/root/.ssh/id_ed25519" ./secrets/oci-aca-001.nix.age ]).matrix.host }.extraConfig = ''
