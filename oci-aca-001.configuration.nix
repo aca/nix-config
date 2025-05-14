@@ -6,7 +6,7 @@
 }: {
   imports = [
     ./hardware/oci-aca-001.nix
-    # ./pkgs/mx-synapse.duckdns.org.nix
+    ./pkgs/mx-synapse.duckdns.org.nix
   ];
 
   # age.identityPaths = ["/root/.ssh/id_ed25519"];

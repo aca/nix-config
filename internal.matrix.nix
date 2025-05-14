@@ -13,9 +13,9 @@
 {
   # use caddy as a reverse proxy, serve synapse, sliding-sync
   services.caddy.enable = true;
-  services.caddy.virtualHosts."mx-synapse.duckdns.org".extraConfig = ''
-    reverse_proxy http://localhost:8008
-  '';
+  # services.caddy.virtualHosts."mx-synapse.duckdns.org".extraConfig = ''
+  #   reverse_proxy http://localhost:8008
+  # '';
 
   # services.caddy.virtualHosts."mx-synapse-ss.duckdns.org".extraConfig = ''
   #   reverse_proxy http://localhost:8009
@@ -67,37 +67,18 @@
   services.matrix-synapse.enable = false;
   services.matrix-synapse.settings.server_name = "mx-synapse.duckdns.org";
   services.matrix-synapse.settings.database.name = "psycopg2";
-  services.matrix-synapse.settings.public_baseurl = "https://mx-synapse.duckdns.org:443";
+  # services.matrix-synapse.settings.public_baseurl = "https://mx-synapse.duckdns.org:443";
   services.matrix-synapse.settings.enable_registration = false;
   services.matrix-synapse.enableRegistrationScript = true;
 
   # # bash -c 'echo "registration_shared_secret: $(openssl rand -hex 32)"'
-  age.secrets."mx-synapse.extraConfigFiles.registration_shared_secret" = {
-    file = ../secrets/mx-synapse.extraConfigFiles.registration_shared_secret.age;
+  age.secrets."services.matrix-synapse.extraConfigFiles.registration_shared_secret" = {
+    file = ./secrets/oci-aca-001/services.matrix-synapse.extraConfigFiles.registration_shared_secret.age
     mode = "444";
   };
 
   services.matrix-synapse.extraConfigFiles = [
-    config.age.secrets."mx-synapse.extraConfigFiles.registration_shared_secret".path
-    # registration_shared_secret_path: ${
-    # }
-    # (pkgs.writeText "config" ''
-    #   serve_server_wellknown: true
-    #   enable_registration_without_verification: true
-    #   extra_well_known_client_content:
-    #     "org.matrix.msc3575.proxy":
-    #       "url": "https://mx-synapse-ss.duckdns.org"
-    #   rc_login:
-    #     address:
-    #       per_second: 0.15
-    #       burst_count: 100
-    #     account:
-    #       per_second: 0.18
-    #       burst_count: 100
-    #     failed_attempts:
-    #       per_second: 0.19
-    #       burst_count: 100
-    # '')
+    config.age.secrets."services.matrix-synapse.extraConfigFiles.registration_shared_secret".path
   ];
 
   services.matrix-synapse.settings.listeners = [
@@ -114,7 +95,7 @@
           ];
         }
         {
-          compress = false;
+          compress = true;
           names = [
             "federation"
           ];
@@ -125,13 +106,4 @@
       x_forwarded = true;
     }
   ];
-
-  # services.matrix-sliding-sync.enable = true;
-  # services.matrix-sliding-sync.settings.SYNCV3_SERVER = "https://mx-synapse.duckdns.org:443";
-  # secret file with
-  #
-  # SYNCV3_SECRET=$(openssl rand -hex 32)
-  # age.secrets."home.services.matrix-sliding-sync.environmentFile".file =
-  #   ../secrets/home.services.matrix-sliding-sync.environmentFile.age;
-  # age.secrets."home.services.matrix-sliding-sync.environmentFile".mode = "777";
 }

@@ -48,6 +48,7 @@ in
   "mx-synapse.extraConfigFiles.registration_shared_secret.age".publicKeys = mx-synapse;
 
   "oci-aca-001/services.matrix-synapse.extraConfigFiles.registration_shared_secret.age".publicKeys = oci-aca-001;
+  "oci-aca-001.nix.age".publicKeys = oci-aca-001;
 
   "xxxxx.age".publicKeys = home;
   "agenixtest.age".publicKeys = txxx;
@@ -59,7 +60,6 @@ in
 
   "var1.age".publicKeys = home;
 
-  "oci-aca-001.nix.age".publicKeys = oci-aca-001;
 
   # "tailscale.com/root".publicKeys = [];
 }
