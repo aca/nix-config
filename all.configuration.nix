@@ -6,14 +6,12 @@
   ...
 }:
 let
-
   systemd.tmpfiles.rules = [
     # 형식: "d <path> <mode> <uid> <gid> <age>"
     # %u → 실제 사용자 이름, %h → 사용자 홈 디렉토리
     "d /home/%u/src 0755 - - -"
     "d /home/%u/.local/share/nvim/ 0755 - - -"
   ];
-
 
   useunstable = system: pkg: { ${pkg} = inputs.nixpkgs-unstable.legacyPackages.${system}.${pkg}; };
   usenightly = system: pkg: { ${pkg} = inputs.nixpkgs-nightly.legacyPackages.${system}.${pkg}; };
@@ -23,7 +21,6 @@ let
   #   "d /home/%u/src 0755 %u %g -"
   #   "d /home/%u/.local/share/nvim/ 0755 %u %g -"
   # ];
-
 
   # systemd.tmpfiles.settings."logs" = {
   #   "/logs" = {d.mode = "0777";};
@@ -63,8 +60,6 @@ let
 
   overlays = system: [
     inputs.nur.overlays.default
-
-
 
     # (system: pkg: { ${pkg} = inputs.nixpkgs-unstable.legacyPackages.${system}.${pkg}; })
 
@@ -119,9 +114,10 @@ let
     (
       final: prev:
       { }
-      # // (useunstable system "linuxPackages-latest")
-      // (usenightly system "linuxPackages_testing")
+      // (useunstable system "linuxPackages-latest")
+      // (useunstable system "linuxPackages_testing")
       // (useunstable system "linuxPackages_zen")
+      // (useunstable system "jetbrains.datagrip")
       // (useunstable system "linuxPackages_latest")
       # // (useunstable system "attic-client")
       # // (useunstable system "attic-server")

@@ -258,7 +258,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.availableKernelModules = [ "virtiofs" ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_testing;
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -577,7 +577,7 @@ in
       element-desktop
     ]
     ++ [
-      # jetbrains.datagrip
+      jetbrains.datagrip
       # jetbrains.goland
       # jetbrains.idea-community
       # typst

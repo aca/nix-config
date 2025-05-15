@@ -198,9 +198,9 @@
           agenix.nixosModules.default
           {
             environment.systemPackages = [
-              inputs.agenix.packages.aarch64-linux.default
+              inputs.agenix.packages.${system}.default
               # inputs.zen-browser.packages.aarch64-linux.twilight-official
-              # inputs.ghostty.packages.aarch64-linux.default
+              inputs.ghostty.packages.${system}.default
               # zig
               # inputs.lazybox.packages.aarch64-linux.xxx2
               # inputs.nixpkgs-zig-0-12.legacyPackages.aarch64-linux.zig_0_12
@@ -214,7 +214,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.rok = import ./txxx-nix.home-manager.nix;
-            home-manager.extraSpecialArgs = { inherit inputs self; };
+            home-manager.extraSpecialArgs = { inherit inputs; };
             home-manager.backupFileExtension = "bak";
           }
         ];
