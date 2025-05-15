@@ -31,8 +31,8 @@
     xbox.inputs.nixpkgs.follows = "nixpkgs";
 
     nur.url = "github:nix-community/NUR";
-    # agenix.url = "github:ryantm/agenix";
-    agenix.url = "github:oluceps/agenix/with-sysuser";
+    agenix.url = "github:ryantm/agenix";
+    # agenix.url = "github:oluceps/agenix/with-sysuser";
     flake-utils.url = "github:numtide/flake-utils";
 
     # dotfiles.url = "codeberg:aca/dotfiles/main";
