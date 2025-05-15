@@ -88,6 +88,11 @@
     xsel
   ];
 
+  services.caddy.virtualHosts."torrent.internal".extraConfig = ''
+    reverse_proxy http://localhost:8080
+    tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
+  '';
+
   users.users.qbittorrent-nox = {
     isNormalUser = true;
     homeMode = "777";
