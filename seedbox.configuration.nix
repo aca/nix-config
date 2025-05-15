@@ -91,7 +91,6 @@
   users.users.qbittorrent-nox = {
     isNormalUser = true;
     homeMode = "777";
-    description = "rok";
     linger = true;
     extraGroups = [
     ];
