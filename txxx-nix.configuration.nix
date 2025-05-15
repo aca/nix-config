@@ -818,6 +818,7 @@ in
       gradle_7
       janet
       libreoffice-qt
+      # pulumi
       # openjdk23
     ];
 }

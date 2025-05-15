@@ -1,7 +1,2 @@
-/result
-result
-node_modules
-/Youtube
-/.youtube-dl
-.aider*
-.env
+/bin/
+/node_modules/

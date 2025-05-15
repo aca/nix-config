@@ -1,0 +1,7 @@
+name: nix-config
+description: A minimal OCI TypeScript Pulumi program
+runtime: nodejs
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: oci-typescript
