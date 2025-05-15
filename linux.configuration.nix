@@ -258,6 +258,7 @@ rec {
 
   networking.hosts = {
     "100.127.31.30" = [ "git.internal" ];
+    "100.115.43.17" = [ "torrent.internal" ];
   };
 
   # networking.search = [

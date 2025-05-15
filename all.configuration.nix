@@ -347,7 +347,7 @@ rec {
   # vaultix
   # this doesn't work in here, put it in each configuration.nix
   # systemd.sysusers.enable = true;
-  services.userborn.enable = true;
+  # services.userborn.enable = true;
 
   security.pki.certificateFiles = [
     ./certs/mkcert/rootCA.pem

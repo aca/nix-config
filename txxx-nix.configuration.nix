@@ -113,8 +113,10 @@ in
   #       '';
   #     };
   # };
+
   networking.hosts = {
     "100.127.31.30" = [ "git.home.internal" ];
+    # "100.115.43.17" = [ ""]
   };
 
   # disabledModules = ["services/networking/tailscale.nix"];
