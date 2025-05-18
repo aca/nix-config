@@ -14,10 +14,11 @@ let
   ];
 
   # osc7
-  programs.bash.enable = true;
-  programs.bash.vteIntegration = true;
+  # programs.bash.enable = true;
+  # programs.bash.vteIntegration = true;
   programs.fish.enable = true;
   # programs.zsh.enable = true;
+  # programs.bash.vteIntegration = true;
   programs.zsh.vteIntegration = true;
 
   useunstable = system: pkg: { ${pkg} = inputs.nixpkgs-unstable.legacyPackages.${system}.${pkg}; };

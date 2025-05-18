@@ -15,15 +15,8 @@ in
 # secrets = builtins.extraBuiltins.readSops "werwrwer";
 # secrets = "wer";
 {
+  # programs.bash.vteIntegration = true;
 
-  nix.settings = {
-    # plugin-files = "${pkgs.nix-plugins}/lib/nix/plugins/libnix-extra-builtins.so";
-    # extra-builtins-file = [ ./lib/extra-builtins.nix ];
-    experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-  };
 
   # security.auditd.enable = true;
   # services.journald.audit = true;
@@ -34,11 +27,6 @@ in
   age.secrets."hosts" = {
     file = ./secrets/hosts.age;
     mode = "777";
-  };
-
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
   };
 
   # system.activationScripts."experimental-features".text = ''
@@ -195,6 +183,7 @@ in
   # pkgs.callPackage ./pkgs/scripts.nix { inherit hostName } ;
 
   imports = [
+    ./configuration.nix
     ./pkgs/cgit.nix
     ./pkgs/wine.nix
     ./dev/neovim_conf.nix
