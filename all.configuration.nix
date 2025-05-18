@@ -13,6 +13,13 @@ let
     "d /home/%u/.local/share/nvim/ 0755 - - -"
   ];
 
+  # osc7
+  programs.bash.enable = true;
+  programs.bash.vteIntegration = true;
+  programs.fish.enable = true;
+  # programs.zsh.enable = true;
+  programs.zsh.vteIntegration = true;
+
   useunstable = system: pkg: { ${pkg} = inputs.nixpkgs-unstable.legacyPackages.${system}.${pkg}; };
   usenightly = system: pkg: { ${pkg} = inputs.nixpkgs-nightly.legacyPackages.${system}.${pkg}; };
   # systemd.tmpfiles.rules = [
@@ -126,6 +133,8 @@ let
       # // (useunstable system "jetbrains.idea-community-bin")
       // (useunstable system "vifm")
       // (usenightly system "go")
+      // (usenightly system "prometheus")
+      // (usenightly system "grafana")
       // (usenightly system "pnpm")
       // (usenightly system "pnpm_10")
       # // (useunstable system "go_1_23")
@@ -184,6 +193,8 @@ let
       // (usenightly system "aider-chat")
       // (useunstable system "uv")
       // (useunstable system "gitbutler")
+      // (useunstable system "odin")
+      // (useunstable system "ols")
     )
   ];
 in

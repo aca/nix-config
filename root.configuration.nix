@@ -392,25 +392,6 @@ in {
     [
       slack
 
-      (pkgs.vivaldi.override {
-        commandLineArgs = [
-          # "--ozone-platform-hint=wayland"
-
-          # "--ozone-platform-hint=auto"
-          # "--enable-features=UseOzonePlatform"
-          # "--ozone-platform-hint=''"
-          # "--ozone-platform=''"
-
-          # "--enable-features=WebContentsForceDark"
-          "--enable-quic"
-          "--enable-zero-copy"
-          "--remote-debugging-port=9222"
-          # "--force-dark-mode"
-          # NOTES: ozone-platform=wayland fcitx win+space not work
-          # "--disable-features=UseOzonePlatform"
-          # "--gtk-version=4" # fcitx
-        ];
-      })
       (pkgs.google-chrome.override {
         commandLineArgs = [
           # "--ozone-platform-hint=wayland"

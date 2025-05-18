@@ -20,6 +20,11 @@ in {
     ./networking.nix
   ];
 
+  services.nfs.server.enable = true;
+  services.nfs.server.exports = ''
+    /mnt/tmp   100.0.0.0/8(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0)
+  '';
+
   # Given that our systems are headless, emergency mode is useless.
   # We prefer the system to attempt to continue booting so
   # that we can hopefully still access it remotely.
@@ -122,7 +127,7 @@ in {
   services.scrutiny.collector.schedule = "*-*-* 05:00:00";
   services.scrutiny.collector.settings.log.level = "DEBUG";
 
-  # boot.kernelPackages = pkgs.linuxPackages_latest; # use latest kernel
+  boot.kernelPackages = pkgs.linuxPackages_latest; # use latest kernel
   boot.loader.systemd-boot.enable = true; # use systemd-boot instead of grub
   boot.loader.efi.canTouchEfiVariables = true;
 

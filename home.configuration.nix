@@ -10,20 +10,20 @@
 }@args:
 let
   hostname = "home";
-  # secrets = builtins.extraBuiltins.readSops "/home/rok/.ssh/id_ed25519" ./secrets.json.age;
-  # secrets = builtins.extraBuiltins.readSops "werwrwer";
-  # secrets = "wer";
 in
+# secrets = builtins.extraBuiltins.readSops "/home/rok/.ssh/id_ed25519" ./secrets.json.age;
+# secrets = builtins.extraBuiltins.readSops "werwrwer";
+# secrets = "wer";
 {
 
-  # nix.settings = {
-  #   # plugin-files = "${pkgs.nix-plugins}/lib/nix/plugins/libnix-extra-builtins.so";
-  #   # extra-builtins-file = [ ./lib/extra-builtins.nix ];
-  #   experimental-features = [
-  #     "nix-command"
-  #     "flakes"
-  #   ];
-  # };
+  nix.settings = {
+    # plugin-files = "${pkgs.nix-plugins}/lib/nix/plugins/libnix-extra-builtins.so";
+    # extra-builtins-file = [ ./lib/extra-builtins.nix ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+  };
 
   # security.auditd.enable = true;
   # services.journald.audit = true;
@@ -1271,7 +1271,7 @@ in
       pkg-config
       libllvm
       # pkgs.unstable.yazi
-      # jetbrains.datagrip
+      jetbrains.datagrip
       # neovide
       # jetbrains.clion
       # emacs
@@ -1298,6 +1298,9 @@ in
       pwgen
 
       postgresql
+      
+      odin
+      ols
 
       # (callPackage ./pkgs/vtsls.nix {inherit pkgs inputs;})
       # (callPackage ./pkgs/vtsls.nix)
@@ -1517,4 +1520,40 @@ in
 
   services.nfs.server.enable = false;
   services.gvfs.enable = true;
+
+  fileSystems."/mnt/tmp" = {
+    device = "100.100.82.59:/mnt/tmp";
+    fsType = "nfs";
+    # "x-systemd.device-timeout=10s"
+    # x-systemd.automount
+    # _netdev
+    options = [
+      "noatime"
+      # "x-systemd.requires=network-online.target"
+    ];
+  };
+
+  systemd.services."shpool" = {
+    description = "Shpool - Shell Session Pool";
+    wantedBy = [ "default.target" ];
+    requires = [ "shpool.socket" ];
+    serviceConfig = {
+      User = "rok";
+      Type = "simple";
+      ExecStart = "${pkgs.shpool}/bin/shpool daemon";
+      KillMode = "mixed";
+      TimeoutStopSec = "2s";
+      SendSIGHUP = true;
+    };
+  };
+
+  systemd.sockets."shpool" = {
+    description = "Shpool Shell Session Pooler";
+    wantedBy = [ "sockets.target" ];
+    listenStreams = [ "%t/shpool/shpool.socket" ];
+    socketConfig = {
+      User = "rok";
+      SocketMode = "0600";
+    };
+  };
 }

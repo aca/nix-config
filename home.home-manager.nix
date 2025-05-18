@@ -88,11 +88,11 @@ in {
   xdg.mimeApps.enable = true;
   xdg.mimeApps = {
     # NOTES: this is managed by dotfiles, maybe use nix later?
-    defaultApplications."x-scheme-handler/http" = ["vivaldi-stable.desktop"];
-    defaultApplications."x-scheme-handler/https" = ["vivaldi-stable.desktop"];
-    defaultApplications."text/html" = ["vivaldi-stable.desktop"];
-    defaultApplications."x-scheme-handler/about" = ["vivaldi-stable.desktop"];
-    defaultApplications."x-scheme-handler/unknown" = ["vivaldi-stable.desktop"];
+    defaultApplications."x-scheme-handler/http" = ["firefox-devedition.desktop"];
+    defaultApplications."x-scheme-handler/https" = ["firefox-devedition.desktop"];
+    defaultApplications."text/html" = ["firefox-devedition.desktop"];
+    defaultApplications."x-scheme-handler/about" = ["firefox-devedition.desktop"];
+    defaultApplications."x-scheme-handler/unknown" = ["firefox-devedition.desktop"];
 
     defaultApplications."x-scheme-handler/magnet" = ["qbt-torrent-add.desktop"];
     defaultApplications."application/x-bittorrent" = ["qbt-torrent-add.desktop"];
