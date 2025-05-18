@@ -3,7 +3,7 @@
   inputs = {
     # NOTES: check https://status.nixos.org/ and specify the revision for cache
     # nixpkgs.url = "github:nixos/nixpkgs/master";
-    nixpkgs.url = "github:nixos/nixpkgs/24.11";
+    nixpkgs.url = "github:nixos/nixpkgs/25.05-beta";
 
     darwin = {
       url = "github:LnL7/nix-darwin/nix-darwin-24.11";
@@ -97,7 +97,8 @@
     zls.url = "github:zigtools/zls";
 
     # neovim.url = "github:nix-community/neovim-nightly-overlay?rev=1b82dbcbbcba812ad19f5c0601d1731731bf4ebe";
-    neovim.url = "github:nix-community/neovim-nightly-overlay/master";
+    # neovim.url = "github:nix-community/neovim-nightly-overlay/master";
+    neovim.url = "github:nix-community/neovim-nightly-overlay?rev=2c1c0b7af50b9732a78799bca4cba0c6059b5415";
     neovim.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     turbo.url = "github:alexghr/turborepo.nix";
@@ -111,7 +112,7 @@
     fenix.url = "github:nix-community/fenix";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

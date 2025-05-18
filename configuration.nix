@@ -18,8 +18,15 @@ in
       "flakes"
     ];
   };
-  programs.direnv = {
-    nix-direnv.enable = true;
-  };
+  # programs.direnv = {
+  #   nix-direnv.enable = true;
+  # };
+
+  # programs.bash.shellInit = ''
+  #   VTE_VERSION=9999
+  # '';
   programs.bash.vteIntegration = true;
+  # programs.bash.interactiveShellInit = ''
+  #   VTE_VERSION=9999
+  # '';
 }

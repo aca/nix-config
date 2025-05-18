@@ -19,7 +19,7 @@ let
   programs.fish.enable = true;
   # programs.zsh.enable = true;
   # programs.bash.vteIntegration = true;
-  programs.zsh.vteIntegration = true;
+  # programs.zsh.vteIntegration = true;
 
   useunstable = system: pkg: { ${pkg} = inputs.nixpkgs-unstable.legacyPackages.${system}.${pkg}; };
   usenightly = system: pkg: { ${pkg} = inputs.nixpkgs-nightly.legacyPackages.${system}.${pkg}; };
@@ -336,10 +336,10 @@ rec {
     '';
   };
 
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
+  # programs.direnv = {
+  #   enable = true;
+  #   nix-direnv.enable = true;
+  # };
 
   nix.gc = {
     automatic = true;
