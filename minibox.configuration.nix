@@ -6,12 +6,19 @@
 {
   imports = [
     ./hardware/minibox.nix
+
+./configuration.nix
+./workstation.nix
+./pkgs/sway/sway.nix
+
+
     # ./oci-impx-001.app.nix
   ];
 
   system.stateVersion = "25.05";
   boot.kernelPackages = pkgs.linuxPackages_latest;
   networking.hostName = "minibox";
+  networking.wireless.iwd.enable = true;
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -168,4 +175,19 @@
 #       };
 #     };
 #   };
+
+  security.rtkit.enable = true;
+  security.sudo.extraRules = [
+    {
+      users = [ "rok" ];
+      commands = [
+        {
+          command = "ALL";
+          options = [ "NOPASSWD" ]; # "SETENV" # Adding the following could be a good idea
+        }
+      ];
+    }
+  ];
+
+  services.upower.enable = true;
 }

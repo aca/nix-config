@@ -333,17 +333,17 @@
           ./minibox.configuration.nix
           ./neovim.nix
 
-          # home-manager.nixosModules.home-manager
-          # {
-          #   # home-manager.sharedModules = [
-          #   #   (import ./pkgs/vifm/vifmrc.nix)
-          #   # ];
-          #   home-manager.useGlobalPkgs = true;
-          #   home-manager.useUserPackages = true;
-          #   home-manager.users.rok = import ./minibox.home-manager.nix;
-          #   home-manager.extraSpecialArgs = { inherit self inputs; };
-          #   home-manager.backupFileExtension = "bak";
-          # }
+          home-manager.nixosModules.home-manager
+          {
+            # home-manager.sharedModules = [
+            #   (import ./pkgs/vifm/vifmrc.nix)
+            # ];
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.rok = import ./minibox.home-manager.nix;
+            home-manager.extraSpecialArgs = { inherit self inputs; };
+            home-manager.backupFileExtension = "bak";
+          }
 
           {
             environment.systemPackages = [

@@ -55,7 +55,7 @@ in
   # ./hosts
   # ];
 
-  programs.nbd.enable = true;
+  programs.nbd.enable = false;
 
   services.nginx.defaultHTTPListenPort = 4080;
 
