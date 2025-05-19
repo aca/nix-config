@@ -97,9 +97,10 @@
     zls.url = "github:zigtools/zls";
 
     # neovim.url = "github:nix-community/neovim-nightly-overlay?rev=1b82dbcbbcba812ad19f5c0601d1731731bf4ebe";
-    # neovim.url = "github:nix-community/neovim-nightly-overlay/master";
-    neovim.url = "github:nix-community/neovim-nightly-overlay?rev=2c1c0b7af50b9732a78799bca4cba0c6059b5415";
+    neovim.url = "github:nix-community/neovim-nightly-overlay/master";
     neovim.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    # neovim.inputs.neovim-src.url = "github:neovim/neovim?rev=3cdb84e0c694e9f321dbe41c1111d0846c1beb03";
+    # # neovim.url = "github:nix-community/neovim-nightly-overlay?rev=b969e3c7bfcb7a438382dd6e379788f762094df5";
 
     turbo.url = "github:alexghr/turborepo.nix";
 
@@ -352,6 +353,7 @@
               inputs.ghostty.packages.x86_64-linux.default
               # inputs.zen-browser.packages."${system}".default
               inputs.agenix.packages.x86_64-linux.default
+              # inputs.neovim.packages.${system}.default
             ];
           }
         ];

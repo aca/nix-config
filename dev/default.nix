@@ -24,7 +24,7 @@ in {
     # (import ../pkgs/advcpmv/default.nix)
 
     # aider-chat
-    neovim
+    # neovim
 
     pkg-config
     # shpool

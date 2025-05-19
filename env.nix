@@ -3,7 +3,8 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   path = lib.strings.concatStringsSep ":" [
     "$HOME/src/codeberg.org/aca/nix-config/pkgs/scripts"
     "$HOME/src/go.googlesource.com/go/bin"
@@ -14,9 +15,11 @@
     "$HOME/.cargo/bin"
     "$HOME/src/git.internal/xxx/bin"
   ];
-in {
+in
+{
   environment.variables =
     {
+      # "VTE_VERSION" = "9999";
       # "XDG_DATA_DIRS"="$XDG_DATA_DIRS:/home/rok/src/github.com/aca/dotfiles";
       "GOTOOLCHAIN" = "local"; # gopls ignore go version
       "NTFY_BASE_URL" = "http://archive-0:2555";
@@ -39,7 +42,8 @@ in {
       "GOPATH" = "$HOME";
       "GOPROXY" = "direct";
 
-      "NODE_OPTIONS" = "--experimental-fetch --experimental-top-level-await --experimental-modules --no-warnings";
+      "NODE_OPTIONS" =
+        "--experimental-fetch --experimental-top-level-await --experimental-modules --no-warnings";
       "NPM_CONFIG_GLOBALCONFIG" = "~/.npmrc.global";
       "DENO_NO_UPDATE_CHECK" = "1";
 
@@ -47,23 +51,25 @@ in {
       "RIPGREP_CONFIG_PATH" = "$HOME/.config/ripgrep/rc";
       "FZF_DEFAULT_COMMAND" = "${pkgs.fd}/bin/fd -L --hidden --type f --type symlink";
       # --prompt '» '
-      "FZF_DEFAULT_OPTS" = "--min-height 15 --reverse --color gutter:-1 --info=inline --no-scrollbar --no-separator --cycle -m --bind ctrl-a:toggle-all --bind ctrl-n:down --bind ctrl-d:page-down --bind ctrl-u:page-up --bind ctrl-p:up --bind ctrl-w:toggle-preview";
+      "FZF_DEFAULT_OPTS" =
+        "--min-height 15 --reverse --color gutter:-1 --info=inline --no-scrollbar --no-separator --cycle -m --bind ctrl-a:toggle-all --bind ctrl-n:down --bind ctrl-d:page-down --bind ctrl-u:page-up --bind ctrl-p:up --bind ctrl-w:toggle-preview";
       "FZF_ALT_C_COMMAND" = "${pkgs.fd}/bin/fd --hidden --type d --max-depth 10 --no-ignore";
       "BROWSER" = "chromium";
     }
     // (
-      if pkgs.stdenv.isDarwin
-      then {
-        PATH = path + ":/opt/homebrew/bin" + ":$PATH";
-      }
-      else {
-        PATH = path + ":$PATH";
-        "GLFW_IM_MODULE" = "fcitx";
-        GTK_IM_MODULE = "fcitx";
-        XMODIFIERS = "@im=fcitx";
-        SDL_IM_MODULE = "fcitx";
-        QT_IM_MODULE = "fcitx";
-      }
+      if pkgs.stdenv.isDarwin then
+        {
+          PATH = path + ":/opt/homebrew/bin" + ":$PATH";
+        }
+      else
+        {
+          PATH = path + ":$PATH";
+          "GLFW_IM_MODULE" = "fcitx";
+          GTK_IM_MODULE = "fcitx";
+          XMODIFIERS = "@im=fcitx";
+          SDL_IM_MODULE = "fcitx";
+          QT_IM_MODULE = "fcitx";
+        }
     );
 }
 #     # # tool:libvirt
@@ -117,4 +123,3 @@ in {
 #       ''
 #     );
 # }
-

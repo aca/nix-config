@@ -1141,6 +1141,7 @@ in
       # )
       #
 
+      neovim-unwrapped
       scrot
       # mitmproxy
       (luajit.withPackages (

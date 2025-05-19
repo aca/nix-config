@@ -12,15 +12,15 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  hardware.opengl = {
-    enable = true;
-    # driSupport = true;
-    # driSupport32Bit = true;
-  };
+  # hardware.opengl = {
+  #   enable = true;
+  #   # driSupport = true;
+  #   # driSupport32Bit = true;
+  # };
 
   # sound.enable = true;
   hardware.firmware = [pkgs.rtl8761b-firmware];
-  hardware.pulseaudio.enable = false;
+  # hardware.pulseaudio.enable = false;
   # hardware.pulseaudio.enable = lib.mkForce false;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
