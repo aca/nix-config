@@ -5,13 +5,17 @@
 }:
 {
   imports = [
-    # ./hardware/oci-impx-001.nix
+    ./hardware/minibox.nix
     # ./oci-impx-001.app.nix
   ];
 
   system.stateVersion = "25.05";
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  networking.hostName = "oci-impx-001";
+  networking.hostName = "minibox";
+
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.initrd.luks.devices."cryptroot".device =  "/dev/disk/by-uuid/5e4a5e6a-bea4-4330-8560-6d91e6cbdeae";
 
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "both";
@@ -21,7 +25,7 @@
   services.tailscale.extraDaemonFlags = [ "--socks5-server=0.0.0.0:1080" ]; # blocked by firewall
   # services.tailscale.interfaceName = "userspace-networking";
 
-  age.identityPaths = [ "/home/rok/.ssh/id_ed25519" ];
+ #  age.identityPaths = [ "/home/rok/.ssh/id_ed25519" ];
 
   # age.secrets."env" = {
   #   file = ./secrets/env.oci-impx-001.age;
@@ -113,55 +117,55 @@
     # if you use ipv4, this is all you need
     "net.ipv4.conf.all.forwarding" = true;
   };
+# 
+#   networking = {
+#     useDHCP = false;
+#     hostName = "router";
+#     # nameserver = [ "<DNS IP>" ];
+#     # Define VLANS
+#     vlans = {
+#       wan = {
+#         id = 10;
+#         interface = "enp1s0";
+#       };
+#       lan = {
+#         id = 20;
+#         interface = "enp2s0";
+#       };
+#       iot = {
+#         id = 90;
+#         interface = "enp2s0";
+#       };
+#     };
 
-  networking = {
-    useDHCP = false;
-    hostName = "router";
-    # nameserver = [ "<DNS IP>" ];
-    # Define VLANS
-    vlans = {
-      wan = {
-        id = 10;
-        interface = "enp1s0";
-      };
-      lan = {
-        id = 20;
-        interface = "enp2s0";
-      };
-      iot = {
-        id = 90;
-        interface = "enp2s0";
-      };
-    };
 
+#   networking.nat.enable = true;
+   networking.nat.internalInterfaces = [ "enp2s0" ]; # 유선인터페이스 이름에 맞게 수정
 
-  networking.nat.enable = true;
-  networking.nat.internalInterfaces = [ "enp2s0" ]; # 유선인터페이스 이름에 맞게 수정
-
-    interfaces = {
-      # Don't request DHCP on the physical interfaces
-      enp1s0.useDHCP = false;
-      enp2s0.useDHCP = false;
-      enp3s0.useDHCP = false;
-
-      # Handle the VLANs
-      wan.useDHCP = false;
-      lan = {
-        ipv4.addresses = [
-          {
-            address = "10.1.1.1";
-            prefixLength = 24;
-          }
-        ];
-      };
-      iot = {
-        ipv4.addresses = [
-          {
-            address = "10.1.90.1";
-            prefixLength = 24;
-          }
-        ];
-      };
-    };
-  };
+#     interfaces = {
+#       # Don't request DHCP on the physical interfaces
+#       enp1s0.useDHCP = false;
+#       enp2s0.useDHCP = false;
+#       enp3s0.useDHCP = false;
+# 
+#       # Handle the VLANs
+#       wan.useDHCP = false;
+#       lan = {
+#         ipv4.addresses = [
+#           {
+#             address = "10.1.1.1";
+#             prefixLength = 24;
+#           }
+#         ];
+#       };
+#       iot = {
+#         ipv4.addresses = [
+#           {
+#             address = "10.1.90.1";
+#             prefixLength = 24;
+#           }
+#         ];
+#       };
+#     };
+#   };
 }

@@ -324,6 +324,40 @@
         ];
       };
 
+      nixosConfigurations.minibox = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs system; };
+        modules = [
+          ./all.configuration.nix
+          agenix.nixosModules.default
+          ./minibox.configuration.nix
+          ./neovim.nix
+
+          # home-manager.nixosModules.home-manager
+          # {
+          #   # home-manager.sharedModules = [
+          #   #   (import ./pkgs/vifm/vifmrc.nix)
+          #   # ];
+          #   home-manager.useGlobalPkgs = true;
+          #   home-manager.useUserPackages = true;
+          #   home-manager.users.rok = import ./minibox.home-manager.nix;
+          #   home-manager.extraSpecialArgs = { inherit self inputs; };
+          #   home-manager.backupFileExtension = "bak";
+          # }
+
+          {
+            environment.systemPackages = [
+              # inputs.zapret.packages.x86_64-linux.default
+              # inputs.zen-browser.packages.${system}.twilight-official
+              # inputs.ghostty.packages.x86_64-linux.default
+              # inputs.zen-browser.packages."${system}".default
+              inputs.agenix.packages.x86_64-linux.default
+              # inputs.neovim.packages.${system}.default
+            ];
+          }
+        ];
+      };
+
       # .#home
       nixosConfigurations.home = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
