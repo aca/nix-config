@@ -462,25 +462,6 @@ in
     };
   };
 
-  # systemd.services."qbittorrent-clean" = {
-  #   enable = true;
-  #   serviceConfig = {
-  #     Type = "oneshot";
-  #     User = "rok";
-  #     ExecStart = "/run/current-system/sw/bin/timeout 10s /run/current-system/sw/bin/qbt torrent remove -f completed";
-  #   };
-  # };
-  #
-  # systemd.timers."qbittorrent-clean" = {
-  #   enable = true;
-  #   wantedBy = [ "timers.target" ];
-  #   timerConfig = {
-  #     OnBootSec = "10m";
-  #     OnUnitActiveSec = "10m";
-  #     Unit = "qbittorrent-clean.service";
-  #   };
-  # };
-
   # systemd.timers = {
   #   "reboot-network-off" = {
   #     wantedBy = ["timers.target"];
@@ -970,7 +951,6 @@ in
           # NOTES: ozone-platform=wayland fcitx win+space not work
         ];
       })
-      ungoogled-chromium
       (pkgs.google-chrome.override {
         commandLineArgs = [
           # "--enable-features=WebContentsForceDark"

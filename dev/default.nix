@@ -35,8 +35,7 @@ in {
     bun
     # neovim
     cargo
-    git-branchless
-    gtrash
+    # git-branchless
 
     file
     bat
@@ -86,9 +85,9 @@ in {
 
     stylua
     # ncdu
-    natscli
+    # natscli
     imagemagick
-    nats-server
+    # nats-server
     zellij
     # tmux
     fzf
@@ -124,6 +123,7 @@ in {
     # coreutils
     # gcc
     gettext
+    gh
     ninja
     meson
     # pkg-config

@@ -175,12 +175,13 @@ d %h/.kube2 0755 - - -
     builtins.readFile ./git/gitignore;
 
   # screenshot
+    # effect-blur=13x13
+    # effect-vignette=0.5:0.5
+    # fade-in=0.4
   home.file."${config.xdg.configHome}/swaylock/config".text = ''
     daemonize
     ignore-empty-password
     show-failed-attempts
-    effect-blur=13x13
-    effect-vignette=0.5:0.5
     color=6272A4
     font="Inter"
     indicator
@@ -211,7 +212,6 @@ d %h/.kube2 0755 - - -
     grace-no-touch
     datestr=%a, %B %e
     timestr=%I:%M %p
-    fade-in=0.4
   '';
 
   # # virt-manager

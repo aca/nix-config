@@ -6,14 +6,23 @@
 {
   imports = [
     ./hardware/minibox.nix
-
-./configuration.nix
-./workstation.nix
-./pkgs/sway/sway.nix
+    ./dev/default.nix
+    ./configuration.nix
+    ./workstation.nix
+    ./pkgs/sway/sway.nix
 
 
     # ./oci-impx-001.app.nix
   ];
+
+  powerManagement = {
+    enable = true;
+    cpufreq = {
+      min = 100000; # Minimum 2.5 GHz
+      max = 1400000; # Maximum 3.5 GHz
+    };
+    cpuFreqGovernor = "powersave";
+  };
 
   system.stateVersion = "25.05";
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -23,6 +32,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.luks.devices."cryptroot".device =  "/dev/disk/by-uuid/5e4a5e6a-bea4-4330-8560-6d91e6cbdeae";
+
+  services.thermald.enable = false;
 
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "both";
@@ -62,6 +73,8 @@
     ];
   };
 
+  hardware.bluetooth.enable = true;
+
   services.dbus.enable = true;
 
   services.openssh.enable = true;
@@ -95,13 +108,16 @@
     sqlite-interactive
     just
     inetutils
+    gopls
     aria2
     ripgrep
     elvish
     vifm
     wget
     coreutils-full
+    btop
     moreutils
+      dig
     glibcLocales
     ghq
     stow
@@ -113,7 +129,17 @@
     zsh
     fish
     xsel
+    neovim-unwrapped
 
+    (pkgs.chromium.override {
+      commandLineArgs = [
+        # "--enable-features=WebContentsForceDark"
+        "--enable-quic"
+        "--enable-zero-copy"
+        "--remote-debugging-port=9222"
+        # NOTES: ozone-platform=wayland fcitx win+space not work
+      ];
+    })
 
 
     dnsmasq
