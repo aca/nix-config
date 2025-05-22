@@ -99,6 +99,8 @@
   };
 
   environment.systemPackages = with pkgs; [
+  zoom-us
+
     fzf
     git
     tmux
