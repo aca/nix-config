@@ -12,6 +12,8 @@
     ./pkgs/sway/sway.nix
     ./pkgs/fcitx5.nix
 
+    ./dev/nix.nix
+    ./dev/neovim_conf.nix
 
     # ./oci-impx-001.app.nix
   ];
@@ -141,7 +143,7 @@ pciutils
         "--enable-quic"
         "--enable-zero-copy"
         "--remote-debugging-port=9222"
-        "--user-agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'"
+        "--user-agent='Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Mobile Safari/537.36'"
         # NOTES: ozone-platform=wayland fcitx win+space not work
       ];
     })

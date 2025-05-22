@@ -48,7 +48,6 @@ let
     #     nvimconfig;
     # })
 
-    # inputs.neovim-nightly-overlay.overlays.default
     (final: prev: {
       unstable = import inputs.nixpkgs-unstable {
         system = system;

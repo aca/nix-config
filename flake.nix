@@ -39,8 +39,6 @@
     dotfiles.url = "git+https://codeberg.org/aca/dotfiles?submodules=0";
     dotfiles.flake = false;
 
-    scalpel.url = "github:polygon/scalpel";
-
     # zen-browser.url = "github:0xc000022070/zen-browser-flake";
 
     # fh.url = "https://flakehub.com/f/DeterminateSystems/fh/*.tar.gz";
@@ -97,10 +95,14 @@
     zls.url = "github:zigtools/zls";
 
     # neovim.url = "github:nix-community/neovim-nightly-overlay?rev=1b82dbcbbcba812ad19f5c0601d1731731bf4ebe";
-    neovim.url = "github:nix-community/neovim-nightly-overlay/master";
-    neovim.inputs.nixpkgs.follows = "nixpkgs-unstable";
-    # neovim.inputs.neovim-src.url = "github:neovim/neovim?rev=3cdb84e0c694e9f321dbe41c1111d0846c1beb03";
-    # # neovim.url = "github:nix-community/neovim-nightly-overlay?rev=b969e3c7bfcb7a438382dd6e379788f762094df5";
+
+    neovim = {
+        url = "github:neovim/neovim?rev=3cdb84e0c694e9f321dbe41c1111d0846c1beb03";
+        flake = false;
+    };
+    # neovim.url = "github:neovim/neovim";
+    # neovim.flake = false;
+    
 
     turbo.url = "github:alexghr/turborepo.nix";
 

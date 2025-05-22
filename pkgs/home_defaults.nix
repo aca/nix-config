@@ -179,11 +179,8 @@ d %h/.aws 0755 - - -
     daemonize
     ignore-empty-password
     show-failed-attempts
-    color=6272A4
+    color=000000
     font="Inter"
-    indicator
-    indicator-radius=200
-    indicator-thickness=20
     line-color=282A36
     ring-color=BD93F9
     inside-color=282A36

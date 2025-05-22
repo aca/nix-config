@@ -15,8 +15,10 @@ rec {
         src = prev.fetchFromGitHub {
           owner = "neovim";
           repo = "neovim";
-          rev = "3cdb84e0c694e9f321dbe41c1111d0846c1beb03";
-          hash = "sha256-dwVI9U3wTXBuvhPnobyLy//2yHNDaQFYWUNImakz0cQ=";
+          # rev = "3cdb84e0c694e9f321dbe41c1111d0846c1beb03";
+          # hash = "sha256-dwVI9U3wTXBuvhPnobyLy//2yHNDaQFYWUNImakz0cQ=";
+          inherit (inputs.neovim) rev;
+          hash = inputs.neovim.narHash;
         };
         nativeInstallCheckInputs = [ ];
       });
