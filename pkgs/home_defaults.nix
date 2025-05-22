@@ -13,18 +13,15 @@
 
   xdg.configFile."user-tmpfiles.d/default.conf".text = ''
 d %h/bin 0755 - - -
+d %h/bin22 0755 - - -
 d %h/src 0755 - - -
 d %h/.local/share/nvim/site 0755 - - -
 d %h/.ssh 0755 - - -
 d %h/.config/vifm 0755 - - -
 d %h/.config/fish 0755 - - -
+d %h/.local/Trash 0755 - - -
 d %h/.kube 0755 - - -
 d %h/.aws 0755 - - -
-  '';
-
-  xdg.configFile."user-tmpfiles.d/kube.conf".text = ''
-d %h/.kube 0755 - - -
-d %h/.kube2 0755 - - -
   '';
 
   # Let Home Manager install and manage itself.

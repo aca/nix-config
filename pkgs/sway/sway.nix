@@ -80,7 +80,7 @@ in {
   ];
 
   security.rtkit.enable = true;
-  hardware.pulseaudio.enable = false;
+  # hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     pulse.enable = true;

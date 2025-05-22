@@ -80,7 +80,7 @@ in {
       #   # "browser.download.dir" = "${config.user.home}/Downloads";
       # };
       isDefault = true;
-      extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+      extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
         # firefox-ctrlnumber
         ublock-origin
         # bypass-paywalls-clean
