@@ -13,8 +13,8 @@
     cores = 1;
   };
 
-  # system.stateVersion = "24.11";
-  system.stateVersion = "24.11";
+  # system.stateVersion = "25.05";
+  system.stateVersion = "25.05";
 
   networking.hostName = "oci-aca-003";
 

@@ -9,7 +9,7 @@
     ./all.configuration.nix
   ];
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
   boot.kernelPackages = pkgs.linuxPackages_latest;
   networking.hostName = "seedbox";
 
@@ -189,7 +189,7 @@
           { name = "rok"; }
         ];
         # networking.firewall.allowedTCPPorts = [ 5418 ];
-        # system.stateVersion = "24.11";
+        # system.stateVersion = "25.05";
         # services.postgresql.enable = true;
         # services.postgresql.package = pkgs.postgresql_15;
         # networking.firewall.enable = true;

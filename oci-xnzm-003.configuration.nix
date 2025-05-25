@@ -63,7 +63,7 @@
 
   boot.loader.grub.configurationLimit = 1;
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
 
   networking.hostName = "oci-xnzm-003";
 

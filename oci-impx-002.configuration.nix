@@ -7,7 +7,7 @@
     ./hardware/oci-impx-002.nix
   ];
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
   boot.kernelPackages = pkgs.linuxPackages_latest;
   networking.hostName = "oci-impx-002";
 

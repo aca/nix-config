@@ -251,7 +251,7 @@ in
     # )
   ];
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
 
   networking.hostName = "txxx-nix";
   networking.wireless.enable = false;

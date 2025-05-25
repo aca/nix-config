@@ -185,7 +185,7 @@ in {
   '';
 
   # Nix
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
 
   # ntfy user add --role=admin root
   # services.ntfy-sh = {

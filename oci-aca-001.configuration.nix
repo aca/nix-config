@@ -143,7 +143,7 @@ in
   #   };
   # };
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
   networking.hostName = "oci-aca-001";
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
