@@ -1212,6 +1212,7 @@ in
       buildah
       gnumake
       procps
+      fluent-bit
       procs
       fish
       # pkgs.unstable.vim

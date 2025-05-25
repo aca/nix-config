@@ -20,6 +20,9 @@ in
     ./internal.ntfy.nix
   ];
 
+  "internal.ntfy".baseUrl = "https://ntfy.${secrets.INTERNAL_BASEURL}";
+  "internal.ntfy".port = 2556;
+
   # services.alloy = {
   #   enable = true;
   # };

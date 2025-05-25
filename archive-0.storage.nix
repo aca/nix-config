@@ -172,7 +172,7 @@
   #   enable = true;
   #   scriptArgs = "%i";
   #   script = ''sleep 10; echo "failtest something wrong"; exit 0'';
-  #   onFailure = ["ntfy-server-fail@failtest.service"];
+  #   onFailure = ["ntfy-critical@failtest.service"];
   # };
 
   systemd.services.snapraid-sync.preStart = ''
@@ -199,14 +199,14 @@
     /run/current-system/sw/bin/cat /mnt/data08/.snapraid.id | /run/current-system/sw/bin/grep data08
   '';
 
-  # systemd.services.snapraid-scrub.onFailure = [ "ntfy-server-fail@snapraid-scrub.service" ];
-  # systemd.services."ntfy-server-fail@" = {
-  #   enable = true;
-  #   description = "service fail notification for %i";
-  #   scriptArgs = "%i";
-  #   script = ''
-  #     ntfy_addr="http://127.0.0.1${toString config.services.ntfy-sh.settings."listen-http"}/server_fail"
-  #     { echo '```'; journalctl -u "$1" -n 20; echo '```'; } | ${pkgs.curl}/bin/curl -H "Markdown: yes" -H "Priority: urgent" -H "Title: $1 failed" --data-binary @- $ntfy_addr
-  #   '';
-  # };
+  systemd.services.snapraid-scrub.onFailure = [ "ntfy-critical@snapraid-scrub.service" ];
+  systemd.services."ntfy-critical@" = {
+    enable = true;
+    description = "service fail notification for %i";
+    scriptArgs = "%i";
+    script = ''
+      ntfy_addr="http://127.0.0.1${toString config.services.ntfy-sh.settings."listen-http"}/server_fail"
+      { echo '```'; journalctl -u "$1" -n 20; echo '```'; } | ${pkgs.curl}/bin/curl -H "Markdown: yes" -H "Priority: urgent" -H "Title: $1 failed" --data-binary @- $ntfy_addr
+    '';
+  };
 }
