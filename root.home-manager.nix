@@ -20,7 +20,7 @@ in {
     ./pkgs/alacritty/home.alacritty.nix
   ];
 
-  home.stateVersion = "24.11";
+  home.stateVersion = "25.05";
   home.username = "rok";
   home.homeDirectory = "/home/rok";
 
