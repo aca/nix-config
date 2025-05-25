@@ -3,7 +3,7 @@
   inputs = {
     # NOTES: check https://status.nixos.org/ and specify the revision for cache
     # nixpkgs.url = "github:nixos/nixpkgs/master";
-    nixpkgs.url = "github:nixos/nixpkgs/25.05-beta";
+    nixpkgs.url = "github:nixos/nixpkgs/25.05";
 
     darwin = {
       url = "github:LnL7/nix-darwin/nix-darwin-24.11";
@@ -504,22 +504,6 @@
           ./all.configuration.nix
           ./seedbox.configuration.nix
           agenix.nixosModules.default
-          # (
-          #   { ... }:
-          #   {
-          #     services.comin = {
-          #       enable = true;
-          #       remotes = [
-          #         {
-          #           name = "origin";
-          #           url = "https://codeberg.org/aca/nix-config.git";
-          #           branches.main.name = "main";
-          #           poller.period = 10;
-          #         }
-          #       ];
-          #     };
-          #   }
-          # )
         ];
       };
       #

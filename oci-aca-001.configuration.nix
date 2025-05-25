@@ -3,16 +3,111 @@
   inputs,
   pkgs,
   ...
-}: 
+}:
 let
-  secrets = (builtins.exec [ "age" "--decrypt" "-i" "/home/rok/.ssh/id_ed25519" ./secrets/oci-aca-001.nix.age ]);
-in {
+  secrets = builtins.exec [
+    "age"
+    "--decrypt"
+    "-i"
+    "/home/rok/.ssh/id_ed25519"
+    ./secrets/oci-aca-001.nix.age
+  ];
+in
+{
   imports = [
     ./hardware/oci-aca-001.nix
     ./internal.matrix.nix
   ];
 
-  age.identityPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+  # services.alloy = {
+  #   enable = true;
+  # };
+
+  services.loki = {
+    enable = true;
+    configFile = pkgs.writeText "loki-config.yaml" ''
+      auth_enabled: false
+
+      server:
+        http_listen_port: 3100
+        log_level: error
+
+      common:
+        ring:
+          instance_addr: 127.0.0.1
+          kvstore:
+            store: inmemory
+        replication_factor: 1
+        path_prefix: /tmp/loki
+
+      schema_config:
+        configs:
+        - from: 2020-05-15
+          store: tsdb
+          object_store: filesystem
+          schema: v13
+          index:
+            prefix: index_
+            period: 24h
+
+      storage_config:
+        filesystem:
+          directory: /tmp/loki/chunks
+    '';
+  };
+
+  services.grafana = {
+    enable = true;
+    settings = {
+      server = {
+        http_addr = "0.0.0.0";
+        # http_port = 3000;
+        serve_from_sub_path = true;
+      };
+      security.admin_pasword = "admin";
+    };
+    provision.enable = true;
+    provision.datasources.settings = {
+      datasources = [
+        {
+          name = "loki";
+          type = "loki";
+          access = "proxy";
+          url = "http://127.0.0.1:3100";
+          isDefault = false;
+        }
+        {
+          name = "prometheus";
+          type = "prometheus";
+          access = "proxy";
+          url = "http://127.0.0.1:9090";
+          isDefault = false;
+        }
+      ];
+    };
+  };
+
+  services.prometheus = {
+    enable = true;
+    # port = 9001;
+    scrapeConfigs = [
+      {
+        job_name = "seedbox.node-exporter";
+        static_configs = [
+          {
+            targets = [ "seedbox:9000" ];
+            labels = {
+              node = "seedbox";
+            };
+          }
+        ];
+      }
+    ];
+  };
+
+  services.logind.lidSwitch = "ignore";
+
+  age.identityPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
   services.matrix-synapse.settings.server_name = "matrix.${secrets.INTERNAL_BASEURL}";
   services.matrix-synapse.settings.public_baseurl = "https://matrix.${secrets.INTERNAL_BASEURL}";
 
@@ -58,7 +153,7 @@ in {
     "--ssh"
     "--advertise-exit-node=true"
   ];
-  services.tailscale.extraDaemonFlags = ["--socks5-server=0.0.0.0:1080"]; # blocked by firewall
+  services.tailscale.extraDaemonFlags = [ "--socks5-server=0.0.0.0:1080" ]; # blocked by firewall
 
   services.openssh.enable = true;
   # services.openssh.ports = [ ];
@@ -77,7 +172,6 @@ in {
     ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO/acNBaXuGBqtEyJoSMkrWXKYgQ/Q9c52SChgmh1ssT rok@txxx-nix''
     ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC4PDiS3q4XfHGXd2om/ErP8kYr3dymD84XON3PTgBbM rok@rok-x1g10''
   ];
-
 
   users.users.rok = {
     isNormalUser = true;

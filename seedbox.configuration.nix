@@ -39,7 +39,7 @@
     enable = true;
     port = 9000;
     # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/monitoring/prometheus/exporters.nix
-    # enabledCollectors = [ "systemd" ];
+    enabledCollectors = [ "systemd" ];
     extraFlags = [
       "--collector.ethtool"
       "--collector.softirqs"
@@ -145,17 +145,6 @@
   #   };
   # };
 
-  # # curl 100.79.222.108:9100/prometheus
-  # services.prometheus = {
-  #   exporters = {
-  #     node = {
-  #       enable = true;
-  #       enabledCollectors = ["systemd"];
-  #       port = 9100;
-  #       listenAddress = "100.79.222.108";
-  #     };
-  #   };
-  # };
 
   # age.identityPaths = ["/root/.ssh/id_ed25519"];
   # age.secrets."github.com__aca".file = ./secrets/github.com__aca.age;
@@ -230,6 +219,46 @@
   #     SocketMode = "0600";
   #   };
   # };
+
+  # services.prometheus = {
+  #   exporters = {
+  #     node = {
+  #       enable = true;
+  #       # enabledCollectors = ["systemd"];
+  #       # port = 9100;
+  #       listenAddress = "0.0.0.0";
+  #     };
+  #   };
+  # };
+
+  services.vector = {
+    enable = true;
+    journaldAccess = true;
+    settings = {
+      sources = {
+        journald = {
+          type = "journald";
+        };
+      };
+      sinks = {
+        loki = {
+          type = "loki";
+          inputs = [ "journald" ];
+          endpoint = "http://oci-aca-001:3100";
+          compression = "snappy";
+          encoding.codec = "logfmt";
+          labels = {
+            source = "journald";
+            service = "seedbox.journald";
+            job = "seedbox.node-exporter";
+            node = "seedbox";
+            instance = "${config.networking.hostName}:9000";
+          };
+        };
+      };
+    };
+  };
+
   systemd.services.disk-monitor = {
     description = "Daemon to stop qbittorrent-nox if disk free < 5 GB";
     # after = [ "local-fs.target" "network.target" ];

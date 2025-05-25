@@ -119,10 +119,9 @@ in {
   services.fwupd.enable = true; # Hardware update with fwupd
 
   # scrutiny
-  services.smartd.enable = true;
+  # services.smartd.enable = false;
   services.scrutiny.enable = false;
-  services.scrutiny.collector.enable = true;
-  services.scrutiny.package = pkgs.unstable.scrutiny;
+  services.scrutiny.collector.enable = false;
   services.scrutiny.settings.web.influxdb.tls.insecure_skip_verify = true;
   services.scrutiny.collector.schedule = "*-*-* 05:00:00";
   services.scrutiny.collector.settings.log.level = "DEBUG";
@@ -159,6 +158,7 @@ in {
       fd
       bat
       iftop
+      btop
       nethogs
       ghq
       go
