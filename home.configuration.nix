@@ -17,10 +17,8 @@ in
 {
   # programs.bash.vteIntegration = true;
 
-
   # security.auditd.enable = true;
   # services.journald.audit = true;
-  # services.userborn.enable = true; # or systemd.sysuser, required
 
   environment.variables.ZK_ROOT = "/home/rok/src/git.internal/zk";
 
@@ -247,37 +245,22 @@ in
   # systemd.services.grafana.serviceConfig.ReadWritePaths = lib.mkForce "/home/rok";
   # systemd.services.grafana.serviceConfig.BindPaths = lib.mkForce "/home/rok";
 
-  systemd.services."gf" = {
-    enable = true;
-    wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" ];
-    serviceConfig = {
-      ProtectHome = "false";
-      ProtectSystem = "false";
-      PrivateUsers = "false";
-      ReadWritePaths = "/home/rok";
-      PrivateTmp = "false";
-      Type = "exec";
-      ExecStart = ''
-        /run/current-system/sw/bin/sqlite3 /home/rok/asset.db '.schema'
-        /run/current-system/sw/bin/sleep 10000
-      '';
-    };
-  };
-
-  # services.prometheus = {
+  # systemd.services."gf" = {
   #   enable = true;
-  #   port = 9001;
-  #   # scrapeConfigs = [
-  #   #   {
-  #   #     job_name = "oci-xnzm-001";
-  #   #     static_configs = [
-  #   #       {
-  #   #         targets = ["100.79.222.108:9100"];
-  #   #       }
-  #   #     ];
-  #   #   }
-  #   # ];
+  #   wantedBy = [ "multi-user.target" ];
+  #   after = [ "network.target" ];
+  #   serviceConfig = {
+  #     ProtectHome = "false";
+  #     ProtectSystem = "false";
+  #     PrivateUsers = "false";
+  #     ReadWritePaths = "/home/rok";
+  #     PrivateTmp = "false";
+  #     Type = "exec";
+  #     ExecStart = ''
+  #       /run/current-system/sw/bin/sqlite3 /home/rok/asset.db '.schema'
+  #       /run/current-system/sw/bin/sleep 10000
+  #     '';
+  #   };
   # };
 
   services.tailscale.permitCertUid = "caddy";
@@ -297,9 +280,6 @@ in
   #   reverse_proxy http://xxx:4080
   #   tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
   # '';
-  #
-  #
-  # networking.hosts = {"127.0.0.1" = ["ntfy.folk-uaru.ts.net"];};
 
   # systemd.services."ntfy" = {
   #   enable = true;
@@ -773,16 +753,16 @@ in
   #   # vaapiIntel = pkgs.vaapiIntel.override {enableHybridCodec = true;};
   # };
 
-  hardware.opengl = {
-    enable = true;
-    extraPackages = with pkgs; [
-      # TODO: replace with AMD
-      # intel-media-driver # LIBVA_DRIVER_NAME=iHD
-      # vaapiIntel # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
-      # vaapiVdpau
-      # libvdpau-va-gl
-    ];
-  };
+  # hardware.opengl = {
+  #   enable = true;
+  #   extraPackages = with pkgs; [
+  #     # TODO: replace with AMD
+  #     # intel-media-driver # LIBVA_DRIVER_NAME=iHD
+  #     # vaapiIntel # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
+  #     # vaapiVdpau
+  #     # libvdpau-va-gl
+  #   ];
+  # };
 
   # List packages installed in system profile. To search, run:
   #
@@ -907,15 +887,15 @@ in
     ]
     ++ [
       # browser
-      (pkgs.unstable.microsoft-edge.override {
-        commandLineArgs = [
-          # "--enable-features=WebContentsForceDark"
-          "--enable-quic"
-          "--enable-zero-copy"
-          "--remote-debugging-port=9227"
-          # NOTES: ozone-platform=wayland fcitx win+space not work
-        ];
-      })
+      # (pkgs.unstable.microsoft-edge.override {
+      #   commandLineArgs = [
+      #     # "--enable-features=WebContentsForceDark"
+      #     "--enable-quic"
+      #     "--enable-zero-copy"
+      #     "--remote-debugging-port=9227"
+      #     # NOTES: ozone-platform=wayland fcitx win+space not work
+      #   ];
+      # })
       # (pkgs.unstable.vivaldi.override {
       #   proprietaryCodecs = true;
       #   enableWidevine = false;

@@ -17,6 +17,7 @@ in
   imports = [
     ./hardware/oci-aca-001.nix
     ./internal.matrix.nix
+    ./internal.ntfy.nix
   ];
 
   # services.alloy = {
@@ -123,7 +124,11 @@ in
   services.caddy.enable = true;
 
   services.caddy.virtualHosts."matrix.${secrets.INTERNAL_BASEURL}".extraConfig = ''
-    reverse_proxy http://localhost:8088
+    reverse_proxy http://localhost:8448
+  '';
+
+  services.caddy.virtualHosts."ntfy.${secrets.INTERNAL_BASEURL}".extraConfig = ''
+    reverse_proxy http://localhost:2556
   '';
 
   # age.identityPaths = ["/root/.ssh/id_ed25519"];

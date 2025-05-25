@@ -12,17 +12,9 @@
   ...
 }:
 {
-
  
   # use caddy as a reverse proxy, serve synapse, sliding-sync
   services.caddy.enable = true;
-  # services.caddy.virtualHosts."mx-synapse.duckdns.org".extraConfig = ''
-  #   reverse_proxy http://localhost:8008
-  # '';
-
-  # services.caddy.virtualHosts."mx-synapse-ss.duckdns.org".extraConfig = ''
-  #   reverse_proxy http://localhost:8009
-  # '';
 
   # age.secrets.xxxxx.file = ./secrets/xxxxx.age;
   # age.secrets.xxxxx.mode = "777";
@@ -41,12 +33,6 @@
     enable = true;
     # ensureDatabases = ["asset"];
     enableTCPIP = true;
-    # authentication = pkgs.lib.mkOverride 10 ''
-    #   local all all              trust
-    #   host  all all 127.0.0.1/32 trust
-    #   host  all all ::1/128      trust
-    #   host  all all 100.0.0.0/8 trust
-    # '';
 
     authentication = pkgs.lib.mkOverride 10 ''
       #type database  DBuser  auth-method
@@ -84,7 +70,7 @@
       bind_addresses = [
         "0.0.0.0"
       ];
-      port = 8008;
+      port = 8448;
       resources = [
         {
           compress = true;

@@ -169,6 +169,7 @@ in {
       htop
       glibcLocales
       tmux
+      hddtemp
       git
       aria2
       python3
