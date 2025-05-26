@@ -6,7 +6,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/25.05";
     rgit = {
       url = "github:w4/rgit";
-      inputs.nixpkgs = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     darwin = {
