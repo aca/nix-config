@@ -134,6 +134,7 @@
       home-manager,
       agenix,
       dotfiles,
+      rgit,
       mac-app-util,
       zig,
       zls,
@@ -373,6 +374,18 @@
           ./home.configuration.nix
           ./neovim.nix
 
+          rgit.nixosModules.${system}.default
+
+              # inputs.zen-browser.packages.${system}.twilight-official
+          {
+            services.rgit = {
+              enable = true;
+              bindAddress = "[::]:3333";
+              dbStorePath = "/tmp/rgit.db";
+              repositoryStorePath = "/home/rok/src/git.internal";
+            };
+          }
+
           home-manager.nixosModules.home-manager
           {
             # home-manager.sharedModules = [
@@ -383,16 +396,6 @@
             home-manager.users.rok = import ./home.home-manager.nix;
             home-manager.extraSpecialArgs = { inherit self inputs; };
             home-manager.backupFileExtension = "bak";
-          }
-
-          inputs.rgit.nixosModules.default
-          {
-            services.rgit = {
-              enable = true;
-              bindAddress = "[::]:3333";
-              dbStorePath = "/tmp/rgit.db";
-              repositoryStorePath = "/home/rok/src/git.internal";
-            };
           }
 
           {
