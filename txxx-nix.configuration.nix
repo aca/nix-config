@@ -13,7 +13,7 @@ let
 in
 {
   # systemd.sysusers.enable = true;
-  services.userborn.enable = true; # or systemd.sysuser, required
+  # services.userborn.enable = true; # or systemd.sysuser, required
 
   # networking.nameservers = [
   #   "1.1.1.1#one.one.one.one"
@@ -812,6 +812,7 @@ in
       esbuild
       pavucontrol
       # firefox
+neovim-unwrapped
 
       # geekbench
       gradle_7

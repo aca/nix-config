@@ -4,6 +4,10 @@
     # NOTES: check https://status.nixos.org/ and specify the revision for cache
     # nixpkgs.url = "github:nixos/nixpkgs/master";
     nixpkgs.url = "github:nixos/nixpkgs/25.05";
+    rgit = {
+      url = "github:w4/rgit";
+      inputs.nixpkgs = "nixpkgs";
+    };
 
     darwin = {
       url = "github:LnL7/nix-darwin/nix-darwin-25.05";
@@ -97,12 +101,11 @@
     # neovim.url = "github:nix-community/neovim-nightly-overlay?rev=1b82dbcbbcba812ad19f5c0601d1731731bf4ebe";
 
     neovim = {
-        url = "github:neovim/neovim?rev=3cdb84e0c694e9f321dbe41c1111d0846c1beb03";
-        flake = false;
+      url = "github:neovim/neovim?rev=3cdb84e0c694e9f321dbe41c1111d0846c1beb03";
+      flake = false;
     };
     # neovim.url = "github:neovim/neovim";
     # neovim.flake = false;
-    
 
     turbo.url = "github:alexghr/turborepo.nix";
 
@@ -382,6 +385,16 @@
             home-manager.backupFileExtension = "bak";
           }
 
+          rgit.nixosModules.default
+          {
+            services.rgit = {
+              enable = true;
+              bindAddress = "[::]:3333";
+              dbStorePath = "/tmp/rgit.db";
+              repositoryStorePath = "/home/rok/src/git.internal";
+            };
+          }
+
           {
             environment.systemPackages = [
               # inputs.zapret.packages.x86_64-linux.default
@@ -605,6 +618,5 @@
       #     }
       #   ];
       # };
-
     };
 }
