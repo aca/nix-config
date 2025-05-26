@@ -385,7 +385,7 @@
             home-manager.backupFileExtension = "bak";
           }
 
-          rgit.nixosModules.default
+          inputs.rgit.nixosModules.default
           {
             services.rgit = {
               enable = true;
