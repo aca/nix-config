@@ -49,10 +49,6 @@ in
     enable = true;
 
     # Forward *everything* to these upstreams
-    servers = [
-      "172.21.223.91"
-      "8.8.8.8"
-    ];
 
     settings = {
       cache-size = 10000;
@@ -60,6 +56,10 @@ in
       min-cache-ttl = 3600;
       log-queries = true;
       log-dhcp = true;
+      server = [
+        "172.21.223.91"
+        "8.8.8.8"
+      ];
     };
 
     # # Resolve *.lan on your local subnet via another host
@@ -211,7 +211,7 @@ in
   # Allow unfree packages
 
   environment.sessionVariables = {
-    LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.oracle-instantclient];
+    LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [ pkgs.oracle-instantclient ];
   };
 
   # nix.nixPath =
@@ -419,11 +419,11 @@ in
   #   jack.enable = true;
   # };
   services.pipewire.enable = lib.mkForce false;
-  hardware.pulseaudio.enable = lib.mkForce true;
-  hardware.pulseaudio.support32Bit = lib.mkForce true;
-  hardware.pulseaudio.extraConfig = ''
-    unload-module module-suspend-on-idle
-  '';
+  services.pulseaudio.enable = lib.mkForce true;
+  # hardware.pulseaudio.support32Bit = lib.mkForce true;
+  # hardware.pulseaudio.extraConfig = ''
+  #   unload-module module-suspend-on-idle
+  # '';
   # default-fragments = 2
   # default-fragment-size-msec = 20
   # load-module module-loopback sink=analog latency_msec=65
@@ -458,11 +458,7 @@ in
       "docker"
       "wireshark"
     ];
-    packages = with pkgs; [
-      # pueue
-      kate
-      #  thunderbird
-    ];
+    packages = with pkgs; [ ];
   };
 
   virtualisation.docker.enable = true;
@@ -487,7 +483,8 @@ in
       noto-fonts
       # noto-fonts-cjk
       noto-fonts-emoji
-      (pkgs.nerdfonts.override { fonts = [ "IosevkaTermSlab" ]; })
+      # (pkgs.nerdfonts.override { fonts = [ "IosevkaTermSlab" ]; })
+      nerd-fonts.iosevka-term-slab
       # liberation_ttf
       # fira-code
       # fira-code-symbols

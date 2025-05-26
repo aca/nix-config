@@ -29,7 +29,7 @@
 
   system.stateVersion = "25.05";
   boot.kernelPackages = pkgs.linuxPackages_testing;
-  networking.hostName = "minibox";
+  networking.hostName = "SM-S931N";
   networking.wireless.iwd.enable = true;
 
   boot.loader.systemd-boot.enable = true;
