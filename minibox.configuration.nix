@@ -296,4 +296,14 @@ pciutils
         ];
       };
   };
+
+  virtualisation.docker = {
+    enable = true; # replace with podman
+    # package = pkgs.docker;
+    daemon.settings = {
+      # hosts = ["tcp://127.0.0.1:2375"];
+      # hosts = ["tcp://0.0.0.0:2375"];
+      # insecure-registries = import ./dev/docker.insecure-registries.nix;
+    };
+  };
 }
