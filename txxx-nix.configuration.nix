@@ -812,11 +812,13 @@ in
       esbuild
       pavucontrol
       # firefox
-neovim-unwrapped
+      neovim-unwrapped
 
       # geekbench
       gradle_7
       janet
+
+      amazon-q-cli
       libreoffice-qt
       # pulumi
       # openjdk23
