@@ -166,7 +166,7 @@ bindsym $mod+Shift+c reload
 # Exit sway (logs you out of your Wayland session)
 # bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 bindsym $mod+Shift+e exec swaymsg exit
-bindsym $mod+b exec swaylock
+bindsym $mod+b exec swaylock --color 000000 -u --ignore-empty-password -F 
 #
 # Moving around:
 #

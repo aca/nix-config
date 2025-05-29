@@ -117,6 +117,7 @@
     inetutils
     gopls
     aria2
+    tmux-xpanes
     ripgrep
     elvish
     vifm

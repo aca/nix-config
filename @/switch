@@ -2,6 +2,9 @@
 set -euxo pipefail
 
 hostname=${HOSTNAME:-$(hostname -s)}
+
+FLAKE=${1:-$hostname}
+
 case "$hostname" in
   *txxx*)
     export GIT_SSH_COMMAND='ssh -J rok@home -i /home/rok/.ssh/id_ed25519'
@@ -30,7 +33,7 @@ if OS_NAME=$(uname -s) && [ "$OS_NAME" = "Darwin" ]; then
     if [[ "$hostname" = "elckyu"* ]]; then
         hostname=txxx
     fi
-    nix --extra-experimental-features 'nix-command flakes' run  --option allow-unsafe-native-code-during-evaluation true nix-darwin - switch --verbose --flake ".#${hostname}" --impure "$@"
+    nix --extra-experimental-features 'nix-command flakes' run  --option allow-unsafe-native-code-during-evaluation true nix-darwin - switch --verbose --flake ".#${FLAKE}" --impure "$@"
 else
-    sudo XXX=holo NIXPKGS_ALLOW_INSECURE=1 NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --option allow-unsafe-native-code-during-evaluation true --flake ".#${hostname}" --impure "$@" 2>&1 | tee ~/rebuild.log.$(date +%Y%m%dT%H%M%S)
+    sudo XXX=holo NIXPKGS_ALLOW_INSECURE=1 NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --option allow-unsafe-native-code-during-evaluation true --flake ".#${FLAKE}" --impure 2>&1 | tee ~/rebuild.log.$(date +%Y%m%dT%H%M%S)
 fi

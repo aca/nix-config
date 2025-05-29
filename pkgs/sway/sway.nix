@@ -69,7 +69,7 @@ in {
     sway
     swaybg
     swayidle
-    swaylock
+    swaylock-effects
     wayland
     clipman
     waypipe
