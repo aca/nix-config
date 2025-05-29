@@ -102,6 +102,7 @@
   environment.systemPackages = with pkgs; [
   zoom-us
 
+    windsurf
     fzf
     git
     tmux

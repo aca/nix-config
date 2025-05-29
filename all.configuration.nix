@@ -200,6 +200,7 @@ let
       // (useunstable system "basedpyright")
       // (useunstable system "pueue")
       // (usenightly system "aider-chat")
+      // (useunstable system "windsurf")
       // (useunstable system "uv")
       // (useunstable system "gitbutler")
       // (useunstable system "odin")
