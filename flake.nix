@@ -374,17 +374,17 @@
           ./home.configuration.nix
           ./neovim.nix
 
-          rgit.nixosModules.${system}.default
+          # rgit.nixosModules.${system}.default
 
               # inputs.zen-browser.packages.${system}.twilight-official
-          {
-            services.rgit = {
-              enable = true;
-              bindAddress = "[::]:3333";
-              dbStorePath = "/tmp/rgit.db";
-              repositoryStorePath = "/home/rok/src/git.internal";
-            };
-          }
+          # {
+          #   services.rgit = {
+          #     enable = true;
+          #     bindAddress = "[::]:3333";
+          #     dbStorePath = "/tmp/rgit.db";
+          #     repositoryStorePath = "/home/rok/src/git.internal";
+          #   };
+          # }
 
           home-manager.nixosModules.home-manager
           {

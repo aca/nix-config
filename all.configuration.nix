@@ -109,6 +109,7 @@ let
     # inputs.neovim-nightly-overlay.overlays.default
     (final: prev: {
       agenix = inputs.agenix.packages.${system}.default;
+      rgit = inputs.rgit.packages.${system}.default;
       zls = inputs.zls.packages.${system}.default;
       # zig = inputs.zig.packages.${system}.default;
       unstable = import inputs.nixpkgs-unstable {
