@@ -94,7 +94,7 @@ in {
   services.openssh.enable = true; # Enable the OpenSSH daemon.
 
   # Firewall https://nixos.wiki/wiki/Firewall
-  networking.firewall.enable = false;
+  networking.firewall.enable = true;
 
   # Use systemd-networkd instead of networkd, remove all to just use networkd.
   networking.useNetworkd = false;
