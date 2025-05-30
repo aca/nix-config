@@ -591,7 +591,7 @@ in {
 
       trash-cli
       # webkitgtk
-      git-annex-utils
+      # git-annex-utils
       gnuplot
       gron
       vbindiff
@@ -917,7 +917,7 @@ in {
       # sarasa-gothic
 
       iosevka
-      (pkgs.nerdfonts.override {fonts = ["IosevkaTermSlab"];})
+      # (pkgs.nerdfonts.override {fonts = ["IosevkaTermSlab"];})
       nanum
       # proggyfonts
     ];

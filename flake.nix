@@ -412,42 +412,42 @@
       };
 
       # # .#root
-      # nixosConfigurations.root = nixpkgs.lib.nixosSystem rec {
-      #   system = "x86_64-linux";
-      #   specialArgs = { inherit inputs system; };
-      #   modules = [
-      #     ./all.configuration.nix
-      #     agenix.nixosModules.default
-      #     ./root.configuration.nix
-      #
-      #     home-manager.nixosModules.home-manager
-      #     {
-      #       home-manager.useGlobalPkgs = true;
-      #       home-manager.useUserPackages = true;
-      #       home-manager.users.rok = import ./root.home-manager.nix;
-      #       home-manager.extraSpecialArgs = specialArgs;
-      #       home-manager.backupFileExtension = "bak";
-      #     }
-      #
-      #     {
-      #       environment.systemPackages = [
-      #         # elvish
-      #         # inputs.elvish.packages.x86_64-linux.default
-      #         agenix.packages.x86_64-linux.default
-      #         # inputs.ghostty.packages.x86_64-linux.default
-      #         inputs.watchrun.packages.x86_64-linux.default
-      #         inputs.ghostty.packages.x86_64-linux.default
-      #         # inputs.templ.packages.x86_64-linux.default
-      #         # inputs.fh.packages.x86_64-linux.default
-      #         # zig.packages.x86_64-linux.master
-      #         # inputs.zls.packages.x86_64-linux.default
-      #         # inputs.nixpkgs-zig-0-12.legacyPackages.x86_64-linux.zig_0_12
-      #         # inputs.alacritty.defaultPackage.x86_64-linux
-      #         # turbo.packages.x86_64-linux.default
-      #       ];
-      #     }
-      #   ];
-      # };
+      nixosConfigurations.root = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs system; };
+        modules = [
+          ./all.configuration.nix
+          agenix.nixosModules.default
+          ./root.configuration.nix
+
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.rok = import ./root.home-manager.nix;
+            home-manager.extraSpecialArgs = specialArgs;
+            home-manager.backupFileExtension = "bak";
+          }
+
+          {
+            environment.systemPackages = [
+              # elvish
+              # inputs.elvish.packages.x86_64-linux.default
+              agenix.packages.x86_64-linux.default
+              # inputs.ghostty.packages.x86_64-linux.default
+              inputs.watchrun.packages.x86_64-linux.default
+              inputs.ghostty.packages.x86_64-linux.default
+              # inputs.templ.packages.x86_64-linux.default
+              # inputs.fh.packages.x86_64-linux.default
+              # zig.packages.x86_64-linux.master
+              # inputs.zls.packages.x86_64-linux.default
+              # inputs.nixpkgs-zig-0-12.legacyPackages.x86_64-linux.zig_0_12
+              # inputs.alacritty.defaultPackage.x86_64-linux
+              # turbo.packages.x86_64-linux.default
+            ];
+          }
+        ];
+      };
       #
       # nixosConfigurations.oci-impx-001 = nixpkgs.lib.nixosSystem rec {
       #   system = "aarch64-linux";
