@@ -39,6 +39,8 @@ in
   # ];
   imports = [
     ./env.nix
+    ./desktop.linux.nix
+
     ./desktop.nix
     ./pkgs/video.nix
     # ./pkgs/qbittorrent.nix
@@ -227,22 +229,6 @@ in
       matchConfig.Name = "wlan0";
       networkConfig.DHCP = "yes";
       dhcpV4Config.RouteMetric = 2;
-    };
-  };
-
-  # Set your time zone.
-  time.timeZone = "Asia/Seoul";
-
-  # Select internationalisation properties.
-  i18n = {
-    defaultLocale = "en_US.UTF-8";
-    # enable = true;
-    inputMethod = {
-      enable = true;
-      type = "kime";
-      # kime.config = {
-      #   indicator.icon_color = "White";
-      # };
     };
   };
 

@@ -77,6 +77,7 @@ in {
     xdg-utils
     xdragon
     xwayland
+    easyeffects
   ];
 
   security.rtkit.enable = true;
