@@ -434,10 +434,21 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.rok = import ./root.home-manager.nix;
+            home-manager.users.root =
+              { pkgs, ... }:
+              {
+                # home.username = "root";
+                home.stateVersion = "25.05";
+                # home.packages = [
+                #   pkgs.hello
+                # ];
+              };
+
             home-manager.extraSpecialArgs = specialArgs;
             home-manager.backupFileExtension = "bak";
             home-manager.sharedModules = [
-               (import ./home-manager/vifm.nix)
+              # (import ./home-manager/vifm.nix)
+              (import ./pkgs/vifm/vifmrc.nix)
             ];
           }
 

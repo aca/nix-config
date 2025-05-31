@@ -6,9 +6,11 @@
   inputs,
   lib,
   ...
-} @ args: let
+}@args:
+let
   hostName = "root";
-in {
+in
+{
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
   nix.channel.enable = false; # remove nix-channel related tools & configs, we use flakes instead.
 
@@ -16,7 +18,10 @@ in {
   networking.wireless.iwd.enable = true;
   networking.extraHosts = (import ./local.nix).networking.extraHosts;
 
-  services.udev.packages = with pkgs; [via vial];
+  services.udev.packages = with pkgs; [
+    via
+    vial
+  ];
 
   services.gnome.gnome-keyring.enable = true;
 
@@ -62,18 +67,17 @@ in {
     settings.server.http_addr = "127.0.0.1";
   };
 
-services.auto-cpufreq.enable = true;
-services.auto-cpufreq.settings = {
-  battery = {
-     governor = "powersave";
-     turbo = "never";
+  services.auto-cpufreq.enable = true;
+  services.auto-cpufreq.settings = {
+    battery = {
+      governor = "powersave";
+      turbo = "never";
+    };
+    charger = {
+      governor = "performance";
+      turbo = "auto";
+    };
   };
-  charger = {
-     governor = "performance";
-     turbo = "auto";
-  };
-};
-
 
   services.prometheus = {
     enable = false;
@@ -162,10 +166,13 @@ services.auto-cpufreq.settings = {
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.availableKernelModules = ["virtiofs"];
+  boot.initrd.availableKernelModules = [ "virtiofs" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  boot.supportedFilesystems = ["nfs" "ntfs"];
+  boot.supportedFilesystems = [
+    "nfs"
+    "ntfs"
+  ];
   services.rpcbind.enable = true;
 
   # Configure network proxy if necessary
@@ -178,7 +185,7 @@ services.auto-cpufreq.settings = {
   virtualisation.libvirtd.enable = true;
   virtualisation.libvirtd.qemu.swtpm.enable = true;
   virtualisation.libvirtd.qemu.ovmf.enable = true;
-  virtualisation.libvirtd.qemu.ovmf.packages = [pkgs.OVMFFull.fd];
+  virtualisation.libvirtd.qemu.ovmf.packages = [ pkgs.OVMFFull.fd ];
   virtualisation.spiceUSBRedirection.enable = true;
 
   # osx-kvm
@@ -220,18 +227,16 @@ services.auto-cpufreq.settings = {
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
-  i18n.inputMethod = {
-    enabled = "fcitx5";
-    fcitx5.addons = [
-      pkgs.fcitx5-mozc
-      pkgs.fcitx5-gtk
-      pkgs.fcitx5-with-addons
-      pkgs.fcitx5-mozc
-      pkgs.fcitx5-hangul
-      pkgs.fcitx5-lua
-      pkgs.fcitx5-chinese-addons
-    ];
-  };
+  i18n.inputMethod.type = "fcitx5";
+  i18n.inputMethod.fcitx5.addons = [
+    pkgs.fcitx5-mozc
+    pkgs.fcitx5-gtk
+    pkgs.fcitx5-with-addons
+    pkgs.fcitx5-mozc
+    pkgs.fcitx5-hangul
+    pkgs.fcitx5-lua
+    pkgs.fcitx5-chinese-addons
+  ];
 
   # services.xserver.desktopManager.runXdgAutoStartIfNone = true;
 
@@ -244,11 +249,11 @@ services.auto-cpufreq.settings = {
   security.rtkit.enable = true;
   security.sudo.extraRules = [
     {
-      users = ["rok"];
+      users = [ "rok" ];
       commands = [
         {
           command = "ALL";
-          options = ["NOPASSWD"]; # "SETENV" # Adding the following could be a good idea
+          options = [ "NOPASSWD" ]; # "SETENV" # Adding the following could be a good idea
         }
       ];
     }
@@ -258,8 +263,17 @@ services.auto-cpufreq.settings = {
   users.users.rok = {
     isNormalUser = true;
     description = "rok";
-    extraGroups = ["networkmanager" "wheel" "docker" "adbusers" "libvirtd" "libvirt" "syncthing" "matrix-synapse"];
-    packages = with pkgs; [];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+      "adbusers"
+      "libvirtd"
+      "libvirt"
+      "syncthing"
+      "matrix-synapse"
+    ];
+    packages = with pkgs; [ ];
   };
 
   # nixpkgs.overlays = [
@@ -269,7 +283,7 @@ services.auto-cpufreq.settings = {
   # ];
 
   # TODO: should not use this
-  age.identityPaths = ["/home/rok/.ssh/id_ed25519"];
+  age.identityPaths = [ "/home/rok/.ssh/id_ed25519" ];
   age.secrets."github.com__aca" = {
     file = ./secrets/github.com__aca.age;
     mode = "777";
@@ -350,10 +364,10 @@ services.auto-cpufreq.settings = {
 
   virtualisation.containers.enable = true;
   virtualisation.containers.policy = {
-    default = [{type = "insecureAcceptAnything";}];
+    default = [ { type = "insecureAcceptAnything"; } ];
     transports = {
       docker-daemon = {
-        "" = [{type = "insecureAcceptAnything";}];
+        "" = [ { type = "insecureAcceptAnything"; } ];
       };
     };
   };
@@ -385,23 +399,14 @@ services.auto-cpufreq.settings = {
 
   # https://nixos.wiki/wiki/Accelerated_Video_Playback
   nixpkgs.config.packageOverrides = pkgs: {
-    vaapiIntel = pkgs.vaapiIntel.override {enableHybridCodec = true;};
-  };
-
-  hardware.opengl = {
-    enable = true;
-    extraPackages = with pkgs; [
-      intel-media-driver # LIBVA_DRIVER_NAME=iHD
-      vaapiIntel # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
-      vaapiVdpau
-      libvdpau-va-gl
-    ];
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
   };
 
   # List packages installed in system profile. To search, run:
   #
   # $ nix search wget
-  environment.systemPackages = with pkgs;
+  environment.systemPackages =
+    with pkgs;
     [
       slack
 
@@ -435,9 +440,7 @@ services.auto-cpufreq.settings = {
       glxinfo
       nvme-cli
       xwayland
-neovim-unwrapped
-    ]
-    ++ [
+      neovim-unwrapped
     ]
     ++ [
       # (import ./packages/sublime-merge/default.nix)
@@ -494,16 +497,15 @@ neovim-unwrapped
 
       gimp
 
-      # https://github.com/NixOS/nixpkgs/issues/267579
-      (virt-manager.overrideAttrs (old: {
-        nativeBuildInputs = old.nativeBuildInputs ++ [wrapGAppsHook];
-        buildInputs =
-          lib.lists.subtractLists [wrapGAppsHook] old.buildInputs
-          ++ [
-            gst_all_1.gst-plugins-base
-            gst_all_1.gst-plugins-good
-          ];
-      }))
+      # # https://github.com/NixOS/nixpkgs/issues/267579
+      # (virt-manager.overrideAttrs (old: {
+      #   nativeBuildInputs = old.nativeBuildInputs ++ [ wrapGAppsHook ];
+      #   buildInputs = lib.lists.subtractLists [ wrapGAppsHook ] old.buildInputs ++ [
+      #     gst_all_1.gst-plugins-base
+      #     gst_all_1.gst-plugins-good
+      #   ];
+      # }))
+      virt-manager
       virt-viewer
       spice
       spice-gtk
@@ -653,10 +655,11 @@ neovim-unwrapped
       # )
 
       waybar
-      (luajit.withPackages (p:
-        with p; [
+      (luajit.withPackages (
+        p: with p; [
           stdlib
-        ]))
+        ]
+      ))
 
       nqp
       rakudo
@@ -783,18 +786,17 @@ neovim-unwrapped
 
       pwgen
 
-      (
-        python3.withPackages (ps:
-          with ps; [
-            requests
-            sqlite-utils
-            boto3
-            pyyaml
-            yt-dlp
-            pandas
-            numpy
-          ])
-      )
+      (python3.withPackages (
+        ps: with ps; [
+          requests
+          sqlite-utils
+          boto3
+          pyyaml
+          yt-dlp
+          pandas
+          numpy
+        ]
+      ))
     ];
 
   nixpkgs.config.permittedInsecurePackages = [
@@ -805,7 +807,10 @@ neovim-unwrapped
   services.tailscale.useRoutingFeatures = "both";
 
   # tailscaled --tun=userspace-networking --socks5-server=localhost:1055 --outbound-http-proxy-listen=localhost:1055 &
-  services.tailscale.extraSetFlags = ["--ssh" "--advertise-exit-node=true"];
+  services.tailscale.extraSetFlags = [
+    "--ssh"
+    "--advertise-exit-node=true"
+  ];
 
   services.openssh.enable = true;
   # services.syncthing = {
@@ -827,7 +832,10 @@ neovim-unwrapped
     "txxx" = {
       # Name of folder in Syncthing, also the folder ID
       path = "/home/rok/src/txxx"; # Which folder to add to Syncthing
-      devices = ["txxx-nix" "home"]; # Which devices to share the folder with
+      devices = [
+        "txxx-nix"
+        "home"
+      ]; # Which devices to share the folder with
     };
   };
 
@@ -938,9 +946,15 @@ neovim-unwrapped
 
     fontconfig = {
       defaultFonts = {
-        serif = ["NanumGothic" "Noto Sans Mono"];
-        sansSerif = ["NanumGothic" "Noto Sans Mono"];
-        monospace = ["Noto Sans Mono"];
+        serif = [
+          "NanumGothic"
+          "Noto Sans Mono"
+        ];
+        sansSerif = [
+          "NanumGothic"
+          "Noto Sans Mono"
+        ];
+        monospace = [ "Noto Sans Mono" ];
       };
     };
   };

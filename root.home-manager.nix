@@ -14,7 +14,7 @@
 in {
   imports = [
     ./pkgs/sway/config.nix
-    ./pkgs/vifm/vifmrc.nix
+    # ./pkgs/vifm/vifmrc.nix
     ./pkgs/rofi/rofi.nix
     ./pkgs/home_defaults.nix
     ./pkgs/alacritty/home.alacritty.nix

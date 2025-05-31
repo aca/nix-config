@@ -5,6 +5,6 @@
   ...
 }: {
   programs.vifm.extraConfig = ''
-  " hello
-  ''
+  set millerview
+  '';
 }
