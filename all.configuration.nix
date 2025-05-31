@@ -6,20 +6,17 @@
   ...
 }:
 let
-  # not work, set on home-maanger
+  # not work, under /home/$USER, use home-manager
   # systemd.tmpfiles.rules = [
   #   # 형식: "d <path> <mode> <uid> <gid> <age>"
   #   # %u → 실제 사용자 이름, %h → 사용자 홈 디렉토리
   #   "d /home/%u/src 0755 - - -"
-  #   "d /home/%u/.local/share/nvim/ 0755 - - -"
-  #   "d /home/%u/.local/state 0755 - - -"
-  #   "d /home/%u/.local/Trash 0755 - - -"
-  #   "d /home/%u/.local/flatpak 0755 - - -"
-  #   "d /home/%u/.config/fish 0755 - - -"
-  #   "d /home/%u/.config/vifm 0755 - - -"
-  #   "d /home/%u/bin 0755 - - -"
-  #   "d /home/%u/bin22 0755 - - -"
   # ];
+
+  systemd.tmpfiles.settings."logs" = {
+    "/logs" = {d.mode = "0777";};
+    "/logs/active" = {d.mode = "0777";};
+  };
 
   # osc7
   # programs.bash.enable = true;
@@ -31,17 +28,7 @@ let
 
   useunstable = system: pkg: { ${pkg} = inputs.nixpkgs-unstable.legacyPackages.${system}.${pkg}; };
   usenightly = system: pkg: { ${pkg} = inputs.nixpkgs-nightly.legacyPackages.${system}.${pkg}; };
-  # systemd.tmpfiles.rules = [
-  #   # 형식: "d <path> <mode> <uid> <gid> <age>"
-  #   # %u → 실제 사용자 이름, %h → 사용자 홈 디렉토리
-  #   "d /home/%u/src 0755 %u %g -"
-  #   "d /home/%u/.local/share/nvim/ 0755 %u %g -"
-  # ];
 
-  # systemd.tmpfiles.settings."logs" = {
-  #   "/logs" = {d.mode = "0777";};
-  #   "/logs/active" = {d.mode = "0777";};
-  # };
 
   services.openssh.settings.PasswordAuthentication = false;
 
@@ -67,12 +54,6 @@ let
   #   rm /etc/hosts
   #   cat /etc/hosts.bak "${config.age.secrets."hosts".path}" >> /etc/hosts
   # '';
-
-  # nvimconfig = pkgs.neovimUtils.makeNeovimConfig {
-  #   wrapRc = false;
-  #   extraLuaPackages = p: [p.magick];
-  #   extraPackages = p: [p.imagemagick];
-  # };
 
   overlays = system: [
     inputs.nur.overlays.default
@@ -213,7 +194,7 @@ rec {
   nixpkgs.overlays = overlays system;
 
   nixpkgs.config.permittedInsecurePackages = [
-    # matrix issue?
+    # services.matrix issue?
     "olm-3.2.16"
   ];
 

@@ -13,9 +13,9 @@ in
       rev = "master";
       hash = "sha256-8rxO/jvLLRwU7LVX4UxA65+/1BI3rK5uJXkKIGbs5as=";
       # inherit (inputs.sway-workspace) rev;
-      # hash = inputs.qbt-src.narHash;
+      # hash = inputs.sway-workspace.narHash;
     };
-    cargoHash = "sha256-8gT/2RUDIOnmTznjlzupIapHjz2pNQjj3DZ0dg8f+VM=";
+    cargoHash = "sha256-yHDOmqaU8kw8Kzjf1ouubl8F4zRmfezJZbYsWKsetO8=";
   }
 #   # https://phip1611.de/blog/accessing-network-from-a-nix-derivation/
 #   stdenv.mkDerivation rec {

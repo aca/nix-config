@@ -62,6 +62,19 @@ in {
     settings.server.http_addr = "127.0.0.1";
   };
 
+services.auto-cpufreq.enable = true;
+services.auto-cpufreq.settings = {
+  battery = {
+     governor = "powersave";
+     turbo = "never";
+  };
+  charger = {
+     governor = "performance";
+     turbo = "auto";
+  };
+};
+
+
   services.prometheus = {
     enable = false;
     port = 9001;
@@ -422,6 +435,7 @@ in {
       glxinfo
       nvme-cli
       xwayland
+neovim-unwrapped
     ]
     ++ [
     ]

@@ -14,7 +14,7 @@ in {
     ''
     + ''
       use github.com/aca/elvish-utils/fish-completer
-      # use github.com/aca/elvish-utils/fish-completer-apply-all
+      use github.com/aca/elvish-utils/fish-completer-apply-all
       fish-completer:apply just
     ''
     + ''

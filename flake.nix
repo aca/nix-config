@@ -385,6 +385,15 @@
           #     repositoryStorePath = "/home/rok/src/git.internal";
           #   };
           # }
+          # inputs.zen-browser.packages.${system}.twilight-official
+          {
+            services.rgit = {
+              enable = true;
+              bindAddress = "[::]:3333";
+              dbStorePath = "/tmp/rgit.db";
+              repositoryStorePath = "/home/rok/src/git.internal";
+            };
+          }
 
           home-manager.nixosModules.home-manager
           {
@@ -427,6 +436,9 @@
             home-manager.users.rok = import ./root.home-manager.nix;
             home-manager.extraSpecialArgs = specialArgs;
             home-manager.backupFileExtension = "bak";
+            home-manager.sharedModules = [
+               (import ./home-manager/vifm.nix)
+            ];
           }
 
           {
