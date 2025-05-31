@@ -71,7 +71,6 @@ in
   environment.systemPackages = with pkgs;
     [
       mkcert
-      element-desktop
       ntfy-sh
       elvish
       # glxinfo

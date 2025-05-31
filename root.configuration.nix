@@ -32,6 +32,7 @@ in
   # ];
   imports = [
     ./env.nix
+    ./desktop.nix
     ./pkgs/video.nix
     # ./pkgs/qbittorrent.nix
 
