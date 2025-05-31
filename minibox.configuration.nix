@@ -218,30 +218,13 @@ pciutils
   fonts = {
     enableDefaultPackages = true;
     packages = with pkgs; [
-      # ubuntu_font_family
       noto-fonts
-      # noto-fonts-cjk
+      noto-fonts-cjk
       noto-fonts-emoji
-      # (pkgs.nerdfonts.override { fonts = [ "IosevkaTermSlab" ]; })
+      ibm-plex
       nerd-fonts.iosevka-term-slab
-      # font-iosevka-term-slab-nerd-font
-      # liberation_ttf
-      # fira-code
-      # fira-code-symbols
-      # mplus-outline-fonts.githubRelease
-      # nerdfonts
-      iosevka
-      # iosevka-comfy.comfy
-      # iosevka-comfy.comfy-duo
-      # iosevka-comfy.comfy-fixed
-      # iosevka-comfy.comfy-motion
-      # dina-font
-      # sarasa-gothic
-      nanum
-      # office-code-pro
-      source-code-pro
-      # (nerdfonts.override { fonts = [ "source-code-pro" ]; })
-      # proggyfonts
+      nerd-fonts.sauce-code-pro
+      nerd-fonts.blex-mono
     ];
 
     fontconfig = {

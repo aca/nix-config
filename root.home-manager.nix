@@ -14,10 +14,10 @@
 in {
   imports = [
     ./pkgs/sway/config.nix
-    # ./pkgs/vifm/vifmrc.nix
     ./pkgs/rofi/rofi.nix
     ./pkgs/home_defaults.nix
     ./pkgs/alacritty/home.alacritty.nix
+    ./home-manager/desktop.nix
   ];
 
   home.stateVersion = "25.05";
