@@ -74,7 +74,6 @@ in {
       #   # # Disable crash reports
       #   # "breakpad.reportURL" = "";
       #   # "browser.tabs.crashReporting.sendReport" = false;
-      #   # "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
       #
       #   # "browser.onboarding.enabled" = false;
       #   # "browser.download.dir" = "${config.user.home}/Downloads";
@@ -87,6 +86,8 @@ in {
         tridactyl
       ];
 
+      # NOTE: about:config should be set manually, "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+      # setting profile doesn't work well
       userChrome = builtins.readFile ./userChrome.css;
       # userContent = builtins.readFile ./pkgs/firefox/userContent.css;
 

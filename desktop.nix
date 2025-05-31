@@ -18,7 +18,8 @@ in
   ];
 
   environment.systemPackages = [
-    element-desktop
+    pkgs.element-desktop
+    pkgs.easyeffects
   ];
 
 }

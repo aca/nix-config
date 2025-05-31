@@ -25,7 +25,14 @@ in
 
   services.gnome.gnome-keyring.enable = true;
 
-  programs.hyprland.enable = true;
+  # programs.hyprland.enable = true;
+
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+  };
 
   # imports = [
   #   "${inputs.nixpkgs-aca}/nixos/modules/services/networking/tailscale.nix"
@@ -227,17 +234,38 @@ in
   time.timeZone = "Asia/Seoul";
 
   # Select internationalisation properties.
+  # i18n = {
+  #   defaultLocale = "en_US.UTF-8";
+  #   inputMethod = {
+  #     enable = true;
+  #     type = "kime";
+  #     kime.config = {
+  #       indicator.icon_color = "White";
+  #     };
+  #   };
+  # };
+
   i18n.defaultLocale = "en_US.UTF-8";
-  i18n.inputMethod.type = "fcitx5";
-  i18n.inputMethod.fcitx5.addons = [
-    pkgs.fcitx5-mozc
-    pkgs.fcitx5-gtk
-    pkgs.fcitx5-with-addons
-    pkgs.fcitx5-mozc
-    pkgs.fcitx5-hangul
-    pkgs.fcitx5-lua
-    pkgs.fcitx5-chinese-addons
-  ];
+  i18n.inputMethod.type = "kime";
+  # i18n.inputMethod.kime.extraConfig = ''
+  #   daemon:
+  #     modules: [Xim,Indicator]
+  #   indicator:
+  #     icon_color: White
+  #   engine:
+  #     hangul:
+  #       layout: dubeolsik
+  # '';
+  # i18n.inputMethod.type = "fcitx5";
+  # i18n.inputMethod.fcitx5.addons = [
+  #   pkgs.fcitx5-hangul
+  #   pkgs.fcitx5-with-addons
+  #   # pkgs.fcitx5-mozc
+  #   # pkgs.fcitx5-gtk
+  #   # pkgs.fcitx5-mozc
+  #   # pkgs.fcitx5-lua
+  #   # pkgs.fcitx5-chinese-addons
+  # ];
 
   # services.xserver.desktopManager.runXdgAutoStartIfNone = true;
 
@@ -631,6 +659,7 @@ in
 
       sd
 
+      kdePackages.fcitx5-configtool
       grex
       gperf
       lnav
@@ -669,6 +698,7 @@ in
       # nmap
       # termshark
       # tshark
+      jetbrains.datagrip
       # wireshark
 
       # terraform

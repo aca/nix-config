@@ -64,11 +64,17 @@ in
       else
         {
           PATH = path + ":$PATH";
-          "GLFW_IM_MODULE" = "fcitx";
-          GTK_IM_MODULE = "fcitx";
-          XMODIFIERS = "@im=fcitx";
-          SDL_IM_MODULE = "fcitx";
-          QT_IM_MODULE = "fcitx";
+          # "GLFW_IM_MODULE" = "fcitx";
+          # GTK_IM_MODULE = "fcitx";
+          # XMODIFIERS = "@im=fcitx";
+          # SDL_IM_MODULE = "fcitx";
+          # QT_IM_MODULE = "fcitx";
+
+          GLFW_IM_MODULE = "kime";
+          GTK_IM_MODULE = "kime";
+          XMODIFIERS = "@im=kime";
+          SDL_IM_MODULE = "kime";
+          QT_IM_MODULE = "kime";
         }
     );
 }
