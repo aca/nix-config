@@ -982,4 +982,28 @@ in
   # services.nfs.server.exports = ''
   #   /export/win11 192.168.0.0/24(rw,nohide,insecure,no_subtree_check) 192.168.122.0/24(rw,nohide,insecure,no_subtree_check)
   # '';
+
+  # https://discourse.nixos.org/t/removing-persistent-boot-messages-for-a-silent-boot/14835/10
+  # Boot
+  boot = {
+    # Plymouth
+    consoleLogLevel = 0;
+    initrd.verbose = false;
+    plymouth.enable = true;
+    kernelParams = [
+      "quiet"
+      "splash"
+      "rd.systemd.show_status=false"
+      "rd.udev.log_level=3"
+      "udev.log_priority=3"
+      "boot.shell_on_fail"
+    ];
+
+    # # Boot Loader
+    # loader = {
+    #   timeout = 0;
+    #   efi.canTouchEfiVariables = true;
+    #   systemd-boot.enable = true;
+    # };
+  };
 }

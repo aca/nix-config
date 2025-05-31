@@ -7,7 +7,6 @@
 }: let
 in {
   imports = [
-    ./pkgs/sway/config.nix
     ./firefox/firefox.nix
   ];
 
