@@ -2,8 +2,15 @@
 {
   inputs = {
     # NOTES: check https://status.nixos.org/ and specify the revision for cache
+    # TODO: reduce disk size with archived packages
     # nixpkgs.url = "github:nixos/nixpkgs/master";
     nixpkgs.url = "github:nixos/nixpkgs/25.05";
+    # nixpkgs-unstable.url = "github:NixOS/nixpkgs?rev=f675531bc7e6657c10a18b565cfebd8aa9e24c14";
+    # nixpkgs-nightly.url = "github:NixOS/nixpkgs?rev=f675531bc7e6657c10a18b565cfebd8aa9e24c14";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/master";
+    nixpkgs-nightly.url = "github:NixOS/nixpkgs/master";
+    # nixpkgs-aca.url = "github:aca/nixpkgs/master";
+
     rgit = {
       url = "github:w4/rgit";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -13,71 +20,67 @@
       url = "github:LnL7/nix-darwin/nix-darwin-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # nixpkgs-unstable.url = "github:NixOS/nixpkgs?rev=f675531bc7e6657c10a18b565cfebd8aa9e24c14";
-    # nixpkgs-nightly.url = "github:NixOS/nixpkgs?rev=f675531bc7e6657c10a18b565cfebd8aa9e24c14";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/master";
-    nixpkgs-nightly.url = "github:NixOS/nixpkgs/master";
 
-    disko.url = "github:nix-community/disko";
-    disko.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    # vaultix.url = "github:milieuim/vaultix";
-    # vaultix.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-facter-modules = {
+      url = "github:numtide/nixos-facter-modules";
+    };
 
-    # nixpkgs-aca.url = "github:aca/nixpkgs/master";
-
-    mac-app-util.url = "github:hraban/mac-app-util";
     # mac-app-util --  mktrampoline (which somescript.sh) ~/Applications/somescript.app
+    mac-app-util = {
+      url = "github:hraban/mac-app-util";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    # autin.url = "github:atuinsh/atuin/main";
-    xbox.url = "github:aca/xbox/main";
-    xbox.inputs.nixpkgs.follows = "nixpkgs";
+    xbox = {
+      url = "github:aca/xbox/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    nur.url = "github:nix-community/NUR";
-    nur.inputs.nixpkgs.follows = "nixpkgs";
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    agenix.url = "github:ryantm/agenix";
-    # agenix.url = "github:oluceps/agenix/with-sysuser";
-    flake-utils.url = "github:numtide/flake-utils";
+    agenix = {
+      url = "github:ryantm/agenix";
+    };
 
-    # dotfiles.url = "codeberg:aca/dotfiles/main";
-    dotfiles.url = "git+https://codeberg.org/aca/dotfiles?submodules=0";
-    dotfiles.flake = false;
-
-    # zen-browser.url = "github:0xc000022070/zen-browser-flake";
-
-    # fh.url = "https://flakehub.com/f/DeterminateSystems/fh/*.tar.gz";
-
-    # zapret = {
-    #   url = "github:aca/zapret-flake/main";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+    };
 
     comin = {
       url = "github:nlewo/comin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    dotfiles = {
+      url = "git+https://codeberg.org/aca/dotfiles?submodules=0";
+      flake = false;
+    };
+
     elvish-edit-elv = {
       url = "github:xiaq/edit.elv/master";
       flake = false;
     };
+
     elvish-utils = {
       url = "github:aca/elvish-utils/main";
       flake = false;
     };
-    # qbt-src = {
-    #   url = "github:aca/qbittorrent-cli/master";
-    #   flake = false;
-    # };
+
     sway-workspace = {
       url = "github:matejc/sway-workspace/master";
       flake = false;
     };
+
     vtsls = {
       url = "github:yioneko/vtsls/main";
-      # url = "github:yioneko/vtsls?rev=c53d716ad44a527e21372e93fe7f2f894d2e03dd";
       flake = false;
     };
 
@@ -88,28 +91,34 @@
       inputs.nixpkgs-unstable.follows = "nixpkgs-unstable";
     };
 
-    templ.url = "github:a-h/templ";
+    templ = {
+      url = "github:a-h/templ";
+    };
 
-    watchrun.url = "github:aca/watchrun/main";
-    farchive.url = "github:aca/farchive/main";
+    # watchrun.url = "github:aca/watchrun/main";
+    # farchive.url = "github:aca/farchive/main";
 
-    elvish.url = "github:aca/elvish/master";
-    # elvish.inputs.nixpkgs.follows = "nixpkgs";
+    elvish = {
+      url = "github:aca/elvish/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    zig.url = "github:mitchellh/zig-overlay";
-    zig.inputs.nixpkgs.follows = "nixpkgs";
-    zls.url = "github:zigtools/zls";
+    zig = {
+      url = "github:mitchellh/zig-overlay";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    # neovim.url = "github:nix-community/neovim-nightly-overlay?rev=1b82dbcbbcba812ad19f5c0601d1731731bf4ebe";
+    zls = {
+      url = "github:zigtools/zls";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     neovim = {
       url = "github:neovim/neovim?rev=3cdb84e0c694e9f321dbe41c1111d0846c1beb03";
       flake = false;
     };
-    # neovim.url = "github:neovim/neovim";
-    # neovim.flake = false;
 
-    turbo.url = "github:alexghr/turborepo.nix";
+    # turbo.url = "github:alexghr/turborepo.nix";
 
     nixpkgs-firefox-darwin = {
       url = "github:bandithedoge/nixpkgs-firefox-darwin";
@@ -117,7 +126,9 @@
     };
 
     # Rust toolchains and rust-analyzer nightly for Nix
-    fenix.url = "github:nix-community/fenix";
+    fenix = {
+      url = "github:nix-community/fenix";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
@@ -375,19 +386,9 @@
           agenix.nixosModules.default
           ./home.configuration.nix
           ./neovim.nix
+          # inputs.zen-browser.packages.${system}.twilight-official
 
           # rgit.nixosModules.${system}.default
-
-              # inputs.zen-browser.packages.${system}.twilight-official
-          # {
-          #   services.rgit = {
-          #     enable = true;
-          #     bindAddress = "[::]:3333";
-          #     dbStorePath = "/tmp/rgit.db";
-          #     repositoryStorePath = "/home/rok/src/git.internal";
-          #   };
-          # }
-          # inputs.zen-browser.packages.${system}.twilight-official
           {
             services.rgit = {
               enable = true;
@@ -431,6 +432,7 @@
           agenix.nixosModules.default
           ./root.configuration.nix
 
+
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -439,19 +441,25 @@
             home-manager.users.root =
               { pkgs, ... }:
               {
-                # home.username = "root";
                 home.stateVersion = "25.05";
-                # home.packages = [
-                #   pkgs.hello
-                # ];
               };
-
+            home-manager.users.tmp =
+              { pkgs, ... }:
+              {
+                home.stateVersion = "25.05";
+              };
             home-manager.extraSpecialArgs = specialArgs;
             home-manager.backupFileExtension = "bak";
-            home-manager.sharedModules = [
-              # (import ./home-manager/vifm.nix)
-              (import ./pkgs/vifm/vifmrc.nix)
-            ];
+            home-manager.sharedModules = [ (import ./pkgs/vifm/vifmrc.nix) ];
+          }
+
+          {
+            services.rgit = {
+              enable = true;
+              bindAddress = "[::]:3333";
+              dbStorePath = "/tmp/rgit.db";
+              repositoryStorePath = "/home/rok/src/git.internal";
+            };
           }
 
           {
@@ -460,7 +468,7 @@
               # inputs.elvish.packages.x86_64-linux.default
               agenix.packages.x86_64-linux.default
               # inputs.ghostty.packages.x86_64-linux.default
-              inputs.watchrun.packages.x86_64-linux.default
+              # inputs.watchrun.packages.x86_64-linux.default
               inputs.ghostty.packages.x86_64-linux.default
               # inputs.templ.packages.x86_64-linux.default
               # inputs.fh.packages.x86_64-linux.default
@@ -615,36 +623,5 @@
           ./archive-0.configuration.nix
         ];
       };
-
-      #
-      # nixosConfigurations.workbox = nixpkgs.lib.nixosSystem rec {
-      #   system = "x86_64-linux";
-      #   specialArgs = { inherit inputs system; };
-      #   modules = [
-      #     ./all.configuration.nix
-      #     agenix.nixosModules.default
-      #     ./workbox.configuration.nix
-      #     ./neovim.nix
-      #
-      #     home-manager.nixosModules.home-manager
-      #     {
-      #       home-manager.useGlobalPkgs = true;
-      #       home-manager.useUserPackages = true;
-      #       home-manager.users.rok = import ./workbox.home-manager.nix;
-      #       home-manager.extraSpecialArgs = specialArgs;
-      #       home-manager.backupFileExtension = "bak";
-      #     }
-      #
-      #     {
-      #       environment.systemPackages = [
-      #         # inputs.zapret.packages.x86_64-linux.default
-      #         # inputs.zen-browser.packages.${system}.twilight-official
-      #         inputs.ghostty.packages.${system}.default
-      #         # inputs.zen-browser.packages."${system}".default
-      #         inputs.agenix.packages.${system}.default
-      #       ];
-      #     }
-      #   ];
-      # };
     };
 }

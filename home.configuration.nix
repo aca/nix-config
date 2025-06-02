@@ -27,17 +27,16 @@ in
     mode = "777";
   };
 
-  # system.activationScripts."experimental-features".text = ''
-  #   mv /etc/nix/nix.conf /etc/nix/nix.conf.bak
-  #   cat /etc/nix/nix.conf.bak > /etc/nix/nix.conf
-  #   echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
-  # '';
-
   system.activationScripts."update-hosts" = ''
     cat /etc/hosts > /etc/hosts.bak
     rm /etc/hosts
     cat /etc/hosts.bak "${config.age.secrets."hosts".path}" >> /etc/hosts
   '';
+
+  # system.activationScripts."experimental-features".text = ''
+  #   mv /etc/nix/nix.conf /etc/nix/nix.conf.bak
+  #   cat /etc/nix/nix.conf.bak > /etc/nix/nix.conf
+  #   echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
 
   # networking.hosts = {
   #   "127.0.0.1" = ["localhost.internal" "home.internal" "git.internal"];
