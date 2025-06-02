@@ -544,6 +544,7 @@
       #   ];
       # };
       #
+
       nixosConfigurations.seedbox = nixpkgs.lib.nixosSystem rec {
         system = "aarch64-linux";
         specialArgs = { inherit inputs system; };
@@ -553,6 +554,7 @@
           agenix.nixosModules.default
         ];
       };
+
       #
       # nixosConfigurations.oci-xnzm-002 = nixpkgs.lib.nixosSystem rec {
       #   system = "x86_64-linux";

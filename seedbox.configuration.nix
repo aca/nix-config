@@ -6,7 +6,7 @@
 {
   imports = [
     ./hardware/seedbox.nix
-    ./all.configuration.nix
+    # ./all.configuration.nix
   ];
 
   system.stateVersion = "25.05";
@@ -72,12 +72,11 @@
     inetutils
     shpool
     aria2
-    elvish
+    # elvish
     vifm
     wget
     coreutils-full
     bun
-    gopls
     moreutils
     iftop
     glances
