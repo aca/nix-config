@@ -56,24 +56,29 @@ in
 
   services.nginx.defaultHTTPListenPort = 4080;
 
-  networking.nameservers = [  "1.1.1.1" ];
-  # networking.nameservers = [  "127.0.0.1" ];
+  # networking.nameservers = [  "1.1.1.1" ];
   # # Enable Adguard Home and set bassic settigns
-  # services.adguardhome = {
-  #   enable = true;
-  #   port = 4500;
-  #   host = "0.0.0.0";
-  #   # settings = {
-  #   #   # filtering = {
-  #   #   #   rewrites = [
-  #   #   #     {
-  #   #   #       domain = "xxxxxxxxxxxxxxtest.com";
-  #   #   #       answer = "192.168.50.20";
-  #   #   #     }
-  #   #   #   ];
-  #   #   # };
-  #   # };
-  # };
+  networking.nameservers = [  "127.0.0.1" ];
+  services.adguardhome = {
+    enable = true;
+    port = 4500;
+    host = "0.0.0.0";
+    settings = {
+      dns = {
+        bind_hosts = [ 
+           "0.0.0.0"
+        ];
+      };
+      # filtering = {
+      #   rewrites = [
+      #     {
+      #       domain = "xxxxxxxxxxxxxxtest.com";
+      #       answer = "192.168.50.20";
+      #     }
+      #   ];
+      # };
+    };
+  };
 
   services.resolved = {
     enable = false;
@@ -1242,7 +1247,7 @@ in
       gcc
       wimlib
       gettext
-      dnsmasq
+      # dnsmasq
       killall
       git
       fzf
@@ -1522,7 +1527,7 @@ in
   services.gvfs.enable = true;
 
   fileSystems."/mnt/tmp" = {
-    device = "100.100.82.59:/mnt/tmp";
+    device = "192.168.0.2:/mnt/tmp";
     fsType = "nfs";
     # "x-systemd.device-timeout=10s"
     # x-systemd.automount

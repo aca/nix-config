@@ -22,7 +22,7 @@ in {
 
   services.nfs.server.enable = true;
   services.nfs.server.exports = ''
-    /mnt/tmp   100.0.0.0/8(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0)
+    /mnt/tmp   100.0.0.0/8(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0),192.168.0.22/32(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0),192.168.0.20/32(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0)
   '';
 
   # Given that our systems are headless, emergency mode is useless.
