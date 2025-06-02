@@ -548,7 +548,6 @@
         system = "aarch64-linux";
         specialArgs = { inherit inputs system; };
         modules = [
-          # inputs.comin.nixosModules.comin
           ./all.configuration.nix
           ./seedbox.configuration.nix
           agenix.nixosModules.default

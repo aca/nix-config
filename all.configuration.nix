@@ -297,6 +297,7 @@ rec {
     # inputs.zig.packages.x86_64-linux.master
     # pkgs.ntfy-sh
     pkgs.ripgrep
+    pkgs.git
     pkgs.vifm
     pkgs.pstree
     pkgs.diskus
