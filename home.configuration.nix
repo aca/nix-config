@@ -56,24 +56,24 @@ in
 
   services.nginx.defaultHTTPListenPort = 4080;
 
-  networking.nameservers = [ "127.0.0.1" ];
-
-  # Enable Adguard Home and set bassic settigns
-  services.adguardhome = {
-    enable = true;
-    port = 4500;
-    host = "0.0.0.0";
-    settings = {
-      filtering = {
-        rewrites = [
-          {
-            domain = "xxxxxxxxxxxxxxtest.com";
-            answer = "192.168.50.20";
-          }
-        ];
-      };
-    };
-  };
+  networking.nameservers = [  "1.1.1.1" ];
+  # networking.nameservers = [  "127.0.0.1" ];
+  # # Enable Adguard Home and set bassic settigns
+  # services.adguardhome = {
+  #   enable = true;
+  #   port = 4500;
+  #   host = "0.0.0.0";
+  #   # settings = {
+  #   #   # filtering = {
+  #   #   #   rewrites = [
+  #   #   #     {
+  #   #   #       domain = "xxxxxxxxxxxxxxtest.com";
+  #   #   #       answer = "192.168.50.20";
+  #   #   #     }
+  #   #   #   ];
+  #   #   # };
+  #   # };
+  # };
 
   services.resolved = {
     enable = false;
@@ -181,6 +181,7 @@ in
 
   imports = [
     ./configuration.nix
+    ./desktop.linux.nix
     ./pkgs/cgit.nix
     ./pkgs/wine.nix
     ./dev/neovim_conf.nix
@@ -615,20 +616,20 @@ in
     };
   };
 
-  i18n.inputMethod = {
-    type = "kime";
-    # enable = true;
-    # fcitx5.addons = with pkgs; [
-    #   pkgs.fcitx5-mozc
-    #   pkgs.fcitx5-gtk
-    #   pkgs.fcitx5-with-addons
-    #   pkgs.fcitx5-mozc
-    #   # pkgs.unstable.fcitx5-qt
-    #   # pkgs.unstable.fcitx5-chinese-addons
-    #   pkgs.fcitx5-hangul
-    #   # pkgs.unstable.fcitx5-lua
-    # ];
-  };
+  # i18n.inputMethod = {
+  #   type = "kime";
+  #   # enable = true;
+  #   # fcitx5.addons = with pkgs; [
+  #   #   pkgs.fcitx5-mozc
+  #   #   pkgs.fcitx5-gtk
+  #   #   pkgs.fcitx5-with-addons
+  #   #   pkgs.fcitx5-mozc
+  #   #   # pkgs.unstable.fcitx5-qt
+  #   #   # pkgs.unstable.fcitx5-chinese-addons
+  #   #   pkgs.fcitx5-hangul
+  #   #   # pkgs.unstable.fcitx5-lua
+  #   # ];
+  # };
 
   # services.xserver.desktopManager.runXdgAutoStartIfNone = true;
 
