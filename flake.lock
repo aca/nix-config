@@ -174,11 +174,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1748873854,
-        "narHash": "sha256-1eXd64aqm+QnQpIDCLIoKAzrR1dEWa9R8zujcVOoC4s=",
+        "lastModified": 1748877059,
+        "narHash": "sha256-dty2iT5xT9ukCscv/MccWYkZwubOtQCrWzzUCwulnjI=",
         "owner": "aca",
         "repo": "elvish",
-        "rev": "d287380ab65f935c84cd779cbdbd06e2d3867fbe",
+        "rev": "e05a719edfaa8002ac5c70d8f69994665e23eac6",
         "type": "github"
       },
       "original": {
