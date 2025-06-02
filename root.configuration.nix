@@ -744,6 +744,7 @@ in
       kanshi
 
       syncthing
+      janet
       mupdf
       pueue
       # helix
@@ -1028,5 +1029,51 @@ in
     #   efi.canTouchEfiVariables = true;
     #   systemd-boot.enable = true;
     # };
+  };
+
+
+  systemd.services.rgit = {
+    enable = true;
+    wantedBy = [ "multi-user.target" ];
+    wants = [ "network-online.target" ];
+    after = [ "network-online.target" ];
+    path = [ pkgs.git ];
+    serviceConfig = {
+      Type = "exec";
+      ExecStart = "${pkgs.rgit}/bin/rgit --db-store /tmp/rgit.db 0.0.0.0:3333 /home/rok/src/git.internal";
+      Restart = "on-failure";
+
+      User = "rok";
+      Group = "users";
+
+      # CapabilityBoundingSet = "";
+      # NoNewPrivileges = true;
+      # PrivateDevices = true;
+      # PrivateTmp = true;
+      # PrivateUsers = true;
+      # PrivateMounts = true;
+      # ProtectHome = true;
+      # ProtectClock = true;
+      # ProtectProc = "noaccess";
+      # ProcSubset = "pid";
+      # ProtectKernelLogs = true;
+      # ProtectKernelModules = true;
+      # ProtectKernelTunables = true;
+      # ProtectControlGroups = true;
+      # ProtectHostname = true;
+      # RestrictSUIDSGID = true;
+      # RestrictRealtime = true;
+      # RestrictNamespaces = true;
+      # LockPersonality = true;
+      # RemoveIPC = true;
+      # RestrictAddressFamilies = [
+      #   "AF_INET"
+      #   "AF_INET6"
+      # ];
+      # SystemCallFilter = [
+      #   "@system-service"
+      #   "~@privileged"
+      # ];
+    };
   };
 }

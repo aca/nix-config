@@ -223,14 +223,18 @@ in
 
   systemd.services.rgit = {
     enable = true;
-    wantedBy = [ "multi-user.target" ];
-    wants = [ "network-online.target" ];
-    after = [ "network-online.target" ];
+    # wantedBy = [ "multi-user.target" ];
+    # wants = [ "network-online.target" ];
+    # after = [ "network-online.target" ];
     path = [ pkgs.git ];
+    script = ''
+      ${pkgs.rgit}/bin/rgit --db-store /tmp/rgit.db 0.0.0.0:3333 /home/rok/src/git.internal
+    '';
     serviceConfig = {
       Type = "exec";
-      ExecStart = "${pkgs.rgit}/bin/rgit --db-store /tmp/rgit.db 0.0.0.0:3333 /home/rok/src/git.internal";
-      Restart = "on-failure";
+      RestartSec = "5s";
+      # ExecStart = "${pkgs.rgit}/bin/rgit --db-store /tmp/rgit.db 0.0.0.0:3333 /home/rok/src/git.internal";
+      # Restart = "on-failure";
 
       User = "rok";
       Group = "users";
@@ -610,7 +614,6 @@ in
       # domains = ["leo-rudd.ts.net"];
     };
   };
-
 
   i18n.inputMethod = {
     type = "kime";

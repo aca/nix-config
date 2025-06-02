@@ -9,11 +9,12 @@
     # nixpkgs-nightly.url = "github:NixOS/nixpkgs?rev=f675531bc7e6657c10a18b565cfebd8aa9e24c14";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/master";
     nixpkgs-nightly.url = "github:NixOS/nixpkgs/master";
+    nix-alien.url = "github:thiagokokada/nix-alien";
     # nixpkgs-aca.url = "github:aca/nixpkgs/master";
 
     rgit = {
       url = "github:w4/rgit";
-      inputs.nixpkgs.follows = "nixpkgs";
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
 
     darwin = {
@@ -36,10 +37,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    xbox = {
-      url = "github:aca/xbox/main";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # xbox = {
+    #   url = "github:aca/xbox/main";
+    #   # inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     nur = {
       url = "github:nix-community/NUR";
@@ -50,9 +51,9 @@
       url = "github:ryantm/agenix";
     };
 
-    flake-utils = {
-      url = "github:numtide/flake-utils";
-    };
+    # flake-utils = {
+    #   url = "github:numtide/flake-utils";
+    # };
 
     comin = {
       url = "github:nlewo/comin";
@@ -100,7 +101,7 @@
 
     elvish = {
       url = "github:aca/elvish/master";
-      inputs.nixpkgs.follows = "nixpkgs";
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
 
     zig = {
@@ -147,7 +148,6 @@
       home-manager,
       agenix,
       dotfiles,
-      rgit,
       mac-app-util,
       zig,
       zls,
@@ -389,14 +389,14 @@
           # inputs.zen-browser.packages.${system}.twilight-official
 
           # rgit.nixosModules.${system}.default
-          {
-            services.rgit = {
-              enable = true;
-              bindAddress = "[::]:3333";
-              dbStorePath = "/tmp/rgit.db";
-              repositoryStorePath = "/home/rok/src/git.internal";
-            };
-          }
+          # {
+          #   services.rgit = {
+          #     enable = true;
+          #     bindAddress = "[::]:3333";
+          #     dbStorePath = "/tmp/rgit.db";
+          #     repositoryStorePath = "/home/rok/src/git.internal";
+          #   };
+          # }
 
           home-manager.nixosModules.home-manager
           {
@@ -432,7 +432,6 @@
           agenix.nixosModules.default
           ./root.configuration.nix
 
-
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -443,24 +442,24 @@
               {
                 home.stateVersion = "25.05";
               };
-            home-manager.users.tmp =
-              { pkgs, ... }:
-              {
-                home.stateVersion = "25.05";
-              };
+            # home-manager.users.tmp =
+            #   { pkgs, ... }:
+            #   {
+            #     home.stateVersion = "25.05";
+            #   };
             home-manager.extraSpecialArgs = specialArgs;
             home-manager.backupFileExtension = "bak";
             home-manager.sharedModules = [ (import ./pkgs/vifm/vifmrc.nix) ];
           }
 
-          {
-            services.rgit = {
-              enable = true;
-              bindAddress = "[::]:3333";
-              dbStorePath = "/tmp/rgit.db";
-              repositoryStorePath = "/home/rok/src/git.internal";
-            };
-          }
+          # {
+          #   services.rgit = {
+          #     enable = true;
+          #     bindAddress = "[::]:3333";
+          #     dbStorePath = "/tmp/rgit.db";
+          #     repositoryStorePath = "/home/rok/src/git.internal";
+          #   };
+          # }
 
           {
             environment.systemPackages = [
@@ -469,7 +468,7 @@
               agenix.packages.x86_64-linux.default
               # inputs.ghostty.packages.x86_64-linux.default
               # inputs.watchrun.packages.x86_64-linux.default
-              inputs.ghostty.packages.x86_64-linux.default
+              # inputs.ghostty.packages.x86_64-linux.default
               # inputs.templ.packages.x86_64-linux.default
               # inputs.fh.packages.x86_64-linux.default
               # zig.packages.x86_64-linux.master
