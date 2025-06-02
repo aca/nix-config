@@ -17,7 +17,7 @@ in {
     ./pkgs/vifm/vifmrc.nix
     ./pkgs/rofi/rofi.nix
     ./pkgs/home_defaults.nix
-    ./pkgs/firefox/firefox.nix
+    ./home-manager/desktop.nix
     ./pkgs/alacritty/home.alacritty.nix
   ];
 
