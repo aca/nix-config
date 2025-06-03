@@ -261,6 +261,7 @@ in
     go
   ];
 
+  services.x2goserver.enable = true;
   services.xserver = {
     enable = true;
   };
