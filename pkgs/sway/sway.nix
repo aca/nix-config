@@ -78,6 +78,7 @@ in {
     xdg-utils
     xdragon
     xwayland
+    xorg.xauth
     easyeffects
   ];
 

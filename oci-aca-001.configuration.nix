@@ -6,10 +6,8 @@
 }:
 let
   secrets = builtins.exec [
-    "age"
-    "--decrypt"
-    "-i" "/etc/ssh/ssh_host_ed25519_key"
-    ./secrets/oci-aca-001.nix.age
+    # "age" "--decrypt" "-i" "/etc/ssh/ssh_host_ed25519_key" "-i" "/home/rok/.ssh/id_ed25519" ./secrets/oci-aca-001.nix.age
+    "bash" "-c" "age --decrypt -i /home/rok/.ssh/id_ed25519 ./secrets/oci-aca-001.nix.age"
   ];
 in
 {
@@ -262,6 +260,7 @@ in
     go
 
     xorg.xinit
+    xorg.xauth
   ];
 
   # services.x2goserver.enable = true;
@@ -273,5 +272,10 @@ in
       xfce.enable = true;
     };
   };
+
+  services.xrdp.enable = true;
+  services.xrdp.defaultWindowManager = "startplasma-x11";
+  services.xrdp.openFirewall = true;
+
   services.displayManager.defaultSession = "xfce";
 }
