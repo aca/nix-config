@@ -271,11 +271,11 @@ in
       xterm.enable = false;
       xfce.enable = true;
     };
+    displayManager.startx.enable = true;
   };
 
-  services.xrdp.enable = true;
-  services.xrdp.defaultWindowManager = "startplasma-x11";
-  services.xrdp.openFirewall = true;
+  # services.xrdp.enable = true;
+  # services.xrdp.openFirewall = true;
 
-  services.displayManager.defaultSession = "xfce";
+  # services.displayManager.defaultSession = "xfce";
 }
