@@ -9,7 +9,6 @@ let
     "age"
     "--decrypt"
     "-i" "/etc/ssh/ssh_host_ed25519_key"
-    "-i" "/home/rok/.ssh/id_ed25519"
     ./secrets/oci-aca-001.nix.age
   ];
 in
