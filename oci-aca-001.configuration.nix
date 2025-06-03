@@ -163,6 +163,7 @@ in
   services.tailscale.extraDaemonFlags = [ "--socks5-server=0.0.0.0:1080" ]; # blocked by firewall
 
   services.openssh.enable = true;
+  services.openssh.settings.X11Forwarding = true;
   # services.openssh.ports = [ ];
   services.openssh.settings.PasswordAuthentication = false;
   users.users.root.openssh.authorizedKeys.keys = [
