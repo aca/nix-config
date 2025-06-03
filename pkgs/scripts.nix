@@ -165,7 +165,7 @@ in {
 
       (pkgs.writeShellScriptBin "jqr" ''${pkgs.jq}/bin/jq -r "$@"'')
 
-      (pkgs.writeShellScriptBin "rm.empty" ''${pkgs.fd}/bin/fd --type empty -x rm -v -- '')
+      (pkgs.writeShellScriptBin "rm.empty" ''${pkgs.fd}/bin/fd --type empty -x rm -rfv -- '')
       # (pkgs.writeShellScriptBin "rm.small.10m" ''${pkgs.fd}/bin/fd --type file --size -10m -x ${pkgs.gtrash}/bin/gtrash put -v --'')
       (pkgs.writeShellScriptBin "rm.small.100m" ''${pkgs.fd}/bin/fd --type file --size -100m -x rm -v --'')
 

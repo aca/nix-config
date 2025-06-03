@@ -249,6 +249,7 @@ in
     fd
     htop
     ripgrep
+    chromium
     gcc
     procps
     python3

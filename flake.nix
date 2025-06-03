@@ -313,22 +313,28 @@
             ];
           }
           ./oci-aca-001.configuration.nix
-          # (
-          #   { ... }:
-          #   {
-          #     services.comin = {
-          #       enable = true;
-          #       remotes = [
-          #         {
-          #           name = "origin";
-          #           url = "https://codeberg.org/aca/nix-config.git";
-          #           branches.main.name = "main";
-          #           poller.period = 30;
-          #         }
-          #       ];
-          #     };
-          #   }
-          # )
+          (
+            { ... }:
+            {
+              services.comin = {
+                enable = true;
+                remotes = [
+                  # {
+                  #   name = "codeberg";
+                  #   url = "https://codeberg.org/aca/nix-config.git";
+                  #   branches.main.name = "main";
+                  #   poller.period = 30;
+                  # }
+                  {
+                    name = "github";
+                    url = "https://github.com/aca/nix-config.git";
+                    branches.main.name = "main";
+                    poller.period = 30;
+                  }
+                ];
+              };
+            }
+          )
           home-manager.nixosModules.home-manager
           {
             # home-manager.sharedModules = [
