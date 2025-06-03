@@ -304,7 +304,6 @@
         system = "aarch64-linux";
         specialArgs = { inherit inputs system self; };
         modules = [
-          # inputs.comin.nixosModules.comin
           ./all.configuration.nix
           agenix.nixosModules.default
           {
@@ -313,6 +312,8 @@
             ];
           }
           ./oci-aca-001.configuration.nix
+
+          inputs.comin.nixosModules.comin
           (
             { ... }:
             {
