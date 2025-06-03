@@ -1279,6 +1279,7 @@ in
       jetbrains.datagrip
       # neovide
       # jetbrains.clion
+      x2goclient
       # emacs
       # (lowPrio uutils-coreutils-noprefix)
       freecad-wayland
