@@ -259,6 +259,8 @@ in
     xsel
     fish
     go
+
+    xorg.xinit
   ];
 
   # services.x2goserver.enable = true;
