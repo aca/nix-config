@@ -260,4 +260,8 @@ in
     fish
     go
   ];
+
+  services.xserver = {
+    enable = true;
+  };
 }
