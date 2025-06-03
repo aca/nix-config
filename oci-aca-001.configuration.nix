@@ -8,8 +8,8 @@ let
   secrets = builtins.exec [
     "age"
     "--decrypt"
-    "-i"
-    "/home/rok/.ssh/id_ed25519"
+    "-i" "/home/rok/.ssh/id_ed25519"
+    "-i" "/etc/ssh/ssh_host_ed25519_key"
     ./secrets/oci-aca-001.nix.age
   ];
 in
