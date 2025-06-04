@@ -256,11 +256,13 @@
     settings = {
       interfaces-config = {
         interfaces = [ "enp2s0" ];
+        service-sockets-max-retries = 5;
+        service-sockets-retry-wait-time = 5000;
       };
 
-      valid-lifetime = 4000;
-      renew-timer = 1000;
-      rebind-timer = 2000;
+      valid-lifetime = 10000;
+      renew-timer = 5000;
+      rebind-timer = 5000;
       lease-database = {
         type = "memfile";
         persist = true;
@@ -282,7 +284,7 @@
         {
           name = "kea-dhcp4";
           output_options = [ { output = "stdout"; } ];
-          severity = "INFO";
+          severity = "DEBUG";
         }
       ];
     };
