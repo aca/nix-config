@@ -21,6 +21,7 @@ let
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home.local"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHPvB51sf9oUql9cL7rWmpN8D5maKzXqgmKlJ8rfcyEI root@archive-0"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC4PDiS3q4XfHGXd2om/ErP8kYr3dymD84XON3PTgBbM rok@rok-x1g10"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL5/DkiXdSA2OJhCq7t931LhBy80G53DWk3/2X0BhI4V rok@sm-a556e"
   ];
   oci-impx-001 = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINQSK/DE+ME45yO5Xnm3OSO6w+Ck1gqDQhcK7NCcA0l5 rok@oci-impx-001"
@@ -29,9 +30,7 @@ let
   ];
   "txxx-nix" = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICRKLyspdv+Xb8NF2bc6e5FUQ/FFXsxG82Wy+BuyPYY5 rok@txxx-nix"
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home.local"
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC4PDiS3q4XfHGXd2om/ErP8kYr3dymD84XON3PTgBbM rok@rok-x1g10"
-  ];
+  ] ++ home;
 
   "oci-aca-001" = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIhIGvIYjtlbwKZcLEGSMi7iB5/0oZDDItPDmnbFUAw3 root@oci-aca-001"
@@ -40,6 +39,7 @@ in
 {
   "hosts.age".publicKeys = txxx-nix;
   "env.txxx-nix.age".publicKeys = txxx-nix;
+  "env.sm-a556e.age".publicKeys = home;
   "env.home.age".publicKeys = home;
   "env.oci-impx-001.age".publicKeys = oci-impx-001;
   "github.com__aca.age".publicKeys = systems;

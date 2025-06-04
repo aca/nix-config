@@ -73,6 +73,7 @@ in {
     wayland
     clipman
     waypipe
+    wl-clipboard
     wdisplays
     xdg-utils
     xdragon

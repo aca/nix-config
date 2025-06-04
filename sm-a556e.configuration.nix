@@ -18,6 +18,14 @@
     # ./oci-impx-001.app.nix
   ];
 
+  age.identityPaths = [ "/home/rok/.ssh/id_ed25519" ];
+
+  age.secrets."env" = {
+    file = ./secrets/env.sm-a556e.age;
+    # mode = "777";
+  };
+  environment.extraInit = "source ${config.age.secrets."env".path}";
+
   # powerManagement = {
   #   enable = true;
   #   cpufreq = {
@@ -34,7 +42,8 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.luks.devices."cryptroot".device =  "/dev/disk/by-uuid/5e4a5e6a-bea4-4330-8560-6d91e6cbdeae";
+  boot.initrd.luks.devices."cryptroot".device =
+    "/dev/disk/by-uuid/5e4a5e6a-bea4-4330-8560-6d91e6cbdeae";
 
   services.thermald.enable = true;
 
@@ -46,7 +55,7 @@
   services.tailscale.extraDaemonFlags = [ "--socks5-server=0.0.0.0:1080" ]; # blocked by firewall
   # services.tailscale.interfaceName = "userspace-networking";
 
- #  age.identityPaths = [ "/home/rok/.ssh/id_ed25519" ];
+  #  age.identityPaths = [ "/home/rok/.ssh/id_ed25519" ];
 
   # age.secrets."env" = {
   #   file = ./secrets/env.oci-impx-001.age;
@@ -100,7 +109,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-  zoom-us
+    zoom-us
 
     windsurf
     fzf
@@ -121,13 +130,14 @@
     tmux-xpanes
     ripgrep
     elvish
+    nodejs
     vifm
     wget
     coreutils-full
     btop
-pciutils
+    pciutils
     moreutils
-      dig
+    dig
     glibcLocales
     ghq
     stow
@@ -153,7 +163,6 @@ pciutils
       ];
     })
 
-
     dnsmasq
   ];
 
@@ -163,7 +172,6 @@ pciutils
     "net.ipv4.conf.all.forwarding" = true;
   };
 
-
   # networking.nameservers = ["8.8.8.8"];
 
   # # 네트워크 설정
@@ -171,12 +179,14 @@ pciutils
     useDHCP = true;
     interfaces = {
       wlan0 = {
-         useDHCP = true;
+        useDHCP = true;
       };
-      enp2s0.ipv4.addresses = [{
-        address = "192.168.2.1";
-        prefixLength = 24;
-      }];
+      enp2s0.ipv4.addresses = [
+        {
+          address = "192.168.2.1";
+          prefixLength = 24;
+        }
+      ];
     };
 
     # NAT 설정: wlan0을 통해 나가는 트래픽 masquerade
@@ -198,7 +208,6 @@ pciutils
     #   '';
     # };
   };
- 
 
   security.rtkit.enable = true;
 
@@ -214,12 +223,11 @@ pciutils
     }
   ];
 
-
   fonts = {
     enableDefaultPackages = true;
     packages = with pkgs; [
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-emoji
       ibm-plex
       nerd-fonts.iosevka-term-slab
@@ -246,38 +254,38 @@ pciutils
   services.kea.dhcp4 = {
     enable = true;
     settings = {
-        interfaces-config = {
-          interfaces = [ "enp2s0"];
-        };
-
-    valid-lifetime = 4000;
-    renew-timer =  1000;
-    rebind-timer = 2000;
-        lease-database = {
-          type = "memfile";
-          persist = true;
-          name = "/var/lib/kea/dhcp4.leases";
-        };
-        subnet4 = [
-          {
-            id = 1;
-            subnet = "192.168.2.0/24";
-            pools = [{ pool = "192.168.2.100 - 192.168.2.200"; }];
-            # option-data = [
-            #   { name = "routers"; data = "192.168.1.2"; }
-            #   # { name = "domain-name-servers"; data = "8.8.8.8, 1.1.1.1"; }
-            # ];
-          }
-        ];
-        # valid-lifetime = 3600;
-        loggers = [
-          {
-            name = "kea-dhcp4";
-            output_options = [{ output = "stdout"; }];
-            severity = "INFO";
-          }
-        ];
+      interfaces-config = {
+        interfaces = [ "enp2s0" ];
       };
+
+      valid-lifetime = 4000;
+      renew-timer = 1000;
+      rebind-timer = 2000;
+      lease-database = {
+        type = "memfile";
+        persist = true;
+        name = "/var/lib/kea/dhcp4.leases";
+      };
+      subnet4 = [
+        {
+          id = 1;
+          subnet = "192.168.2.0/24";
+          pools = [ { pool = "192.168.2.100 - 192.168.2.200"; } ];
+          # option-data = [
+          #   { name = "routers"; data = "192.168.1.2"; }
+          #   # { name = "domain-name-servers"; data = "8.8.8.8, 1.1.1.1"; }
+          # ];
+        }
+      ];
+      # valid-lifetime = 3600;
+      loggers = [
+        {
+          name = "kea-dhcp4";
+          output_options = [ { output = "stdout"; } ];
+          severity = "INFO";
+        }
+      ];
+    };
   };
 
   virtualisation.docker = {
@@ -289,4 +297,9 @@ pciutils
       # insecure-registries = import ./dev/docker.insecure-registries.nix;
     };
   };
+
+  services.udev.packages = with pkgs; [
+    via
+    vial
+  ];
 }
