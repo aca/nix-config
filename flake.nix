@@ -351,11 +351,12 @@
         ];
       };
 
-      nixosConfigurations.minibox = nixpkgs.lib.nixosSystem rec {
+      nixosConfigurations.sm-s556e = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         specialArgs = { inherit inputs system; };
         modules = [
           ./all.configuration.nix
+          ./overlay.nix
           agenix.nixosModules.default
           ./minibox.configuration.nix
           ./neovim.nix
