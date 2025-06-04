@@ -358,7 +358,7 @@
           ./all.configuration.nix
           ./overlay.nix
           agenix.nixosModules.default
-          ./minibox.configuration.nix
+          ./sm-a556e.configuration.nix
           ./neovim.nix
 
           home-manager.nixosModules.home-manager

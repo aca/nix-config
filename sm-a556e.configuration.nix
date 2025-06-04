@@ -5,7 +5,7 @@
 }:
 {
   imports = [
-    ./hardware/minibox.nix
+    ./hardware/sm-a556e.nix
     ./dev/default.nix
     ./configuration.nix
     ./workstation.nix
