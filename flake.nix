@@ -394,6 +394,7 @@
         specialArgs = { inherit inputs system; };
         modules = [
           ./all.configuration.nix
+          ./overlay.nix
           agenix.nixosModules.default
           ./home.configuration.nix
           ./neovim.nix

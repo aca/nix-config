@@ -15,6 +15,74 @@ in
 # secrets = builtins.extraBuiltins.readSops "werwrwer";
 # secrets = "wer";
 {
+
+  networking = {
+    interfaces = {
+      enp2s0.ipv4.addresses = [{
+        address = "192.168.2.1";
+        prefixLength = 24;
+      }];
+    };
+
+    # NAT 설정: wlan0을 통해 나가는 트래픽 masquerade
+    nat = {
+      enable = true;
+      externalInterface = "wlan0";
+      internalInterfaces = [ "enp2s0" ];
+    };
+
+    # DHCP 서버 활성화 (내부망)
+    # dhcpcd = {
+    #   enable = true;
+    #   allowInterfaces = [ "enp2s0" ];
+    #   extraConfig = ''
+    #     subnet 192.168.2.0 netmask 255.255.255.0 {
+    #       range 192.168.2.100 192.168.2.200;
+    #       option routers 192.168.2.1;
+    #     }
+    #   '';
+    # };
+  };
+
+  services.kea.dhcp4 = {
+    enable = true;
+    settings = {
+        interfaces-config = {
+          interfaces = [ "enp2s0"];
+        };
+
+    valid-lifetime = 4000;
+    renew-timer =  1000;
+    rebind-timer = 2000;
+        lease-database = {
+          type = "memfile";
+          persist = true;
+          name = "/var/lib/kea/dhcp4.leases";
+        };
+        subnet4 = [
+          {
+            id = 1;
+            subnet = "192.168.2.0/24";
+            pools = [{ pool = "192.168.2.100 - 192.168.2.200"; }];
+            # option-data = [
+            #   { name = "routers"; data = "192.168.1.2"; }
+            #   # { name = "domain-name-servers"; data = "8.8.8.8, 1.1.1.1"; }
+            # ];
+          }
+        ];
+        # valid-lifetime = 3600;
+        loggers = [
+          {
+            name = "kea-dhcp4";
+            output_options = [{ output = "stdout"; }];
+            severity = "INFO";
+          }
+        ];
+      };
+  };
+
+
+
   # programs.bash.vteIntegration = true;
   services.openssh = {
     enable = true;
