@@ -351,7 +351,7 @@
         ];
       };
 
-      nixosConfigurations.sm-s556e = nixpkgs.lib.nixosSystem rec {
+      nixosConfigurations.sm-a556e = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         specialArgs = { inherit inputs system; };
         modules = [
