@@ -154,7 +154,7 @@ system.primaryUser = "kyungrok.chung";
       # pkgs.darwin.apple_sdk.frameworks.CoreFoundation
       # pkgs.darwin.apple_sdk.frameworks.Security
       # sourcekit-lsp
-      darwin.iproute2mac
+      iproute2mac
       # xorg.luit
       # zigpkgs.master
       # system

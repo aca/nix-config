@@ -167,7 +167,7 @@
           specialArgs = { inherit inputs system; };
           modules = [
             # ./all.configuration.nix
-            ./overlays.nix
+            ./overlay.nix
             (
               {
                 config,
