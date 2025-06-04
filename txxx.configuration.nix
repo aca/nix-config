@@ -56,6 +56,7 @@ in {
   #   ];
   # };
   #
+system.primaryUser = "kyungrok.chung";
 
   homebrew = {
     enable = true;

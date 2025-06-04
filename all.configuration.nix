@@ -204,32 +204,33 @@ rec {
 
   services.openssh.enable = true;
 
-  programs.git = {
-    enable = true;
-    config = {
-      core = {
-        sharedrepository = 1;
-      };
-      init = {
-        defaultBranch = "main";
-      };
-      http = {
-        receivepack = true;
-      };
-      safe = {
-        directory = "*";
-      };
-      pull = {
-        ff = "only";
-      };
-      "url \"ssh://rok@github.com/home/rok/src\"" = {
-        "insteadOf" = "https://git.internal.home";
-      };
-    };
-  };
+  # programs.git = {
+  #   enable = true;
+  #   config = {
+  #     core = {
+  #       sharedrepository = 1;
+  #     };
+  #     init = {
+  #       defaultBranch = "main";
+  #     };
+  #     http = {
+  #       receivepack = true;
+  #     };
+  #     safe = {
+  #       directory = "*";
+  #     };
+  #     pull = {
+  #       ff = "only";
+  #     };
+  #     "url \"ssh://rok@github.com/home/rok/src\"" = {
+  #       "insteadOf" = "https://git.internal.home";
+  #     };
+  #   };
+  # };
 
-  security.sudo.wheelNeedsPassword = false;
-  services.gnome.gnome-keyring.enable = true;
+  # security.sudo.wheelNeedsPassword = false;
+  # services.gnome.gnome-keyring.enable = true;
+
   imports = [
     ./env.nix
     ./dev/default_ssh.nix
@@ -243,31 +244,31 @@ rec {
   systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
   systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
 
-  i18n.defaultLocale = "en_US.UTF-8";
-  i18n.extraLocaleSettings = {
-    # LC_ADDRESS = "en_US.UTF-8";
-    # LC_IDENTIFICATION = "en_US.UTF-8";
-    # LC_MEASUREMENT = "en_US.UTF-8";
-    # LC_MONETARY = "en_US.UTF-8";
-    # LC_NAME = "en_US.UTF-8";
-    # LC_NUMERIC = "en_US.UTF-8";
-    # LC_PAPER = "en_US.UTF-8";
-    # LC_TELEPHONE = "en_US.UTF-8";
-    # LC_TIME = "en_US.UTF-8";
-    # LC_ADDRESS = "en_US.UTF-8";
-    # LC_IDENTIFICATION = "en_US.UTF-8";
-    # LC_MEASUREMENT = "en_US.UTF-8";
-    # LC_MONETARY = "en_US.UTF-8";
-    # LC_NAME = "en_US.UTF-8";
-    # LC_NUMERIC = "en_US.UTF-8";
-    # LC_PAPER = "en_US.UTF-8";
-    # LC_TELEPHONE = "en_US.UTF-8";
-    # LC_TIME = "en_US.UTF-8";
-  };
+  # i18n.defaultLocale = "en_US.UTF-8";
+  # i18n.extraLocaleSettings = {
+  #   # LC_ADDRESS = "en_US.UTF-8";
+  #   # LC_IDENTIFICATION = "en_US.UTF-8";
+  #   # LC_MEASUREMENT = "en_US.UTF-8";
+  #   # LC_MONETARY = "en_US.UTF-8";
+  #   # LC_NAME = "en_US.UTF-8";
+  #   # LC_NUMERIC = "en_US.UTF-8";
+  #   # LC_PAPER = "en_US.UTF-8";
+  #   # LC_TELEPHONE = "en_US.UTF-8";
+  #   # LC_TIME = "en_US.UTF-8";
+  #   # LC_ADDRESS = "en_US.UTF-8";
+  #   # LC_IDENTIFICATION = "en_US.UTF-8";
+  #   # LC_MEASUREMENT = "en_US.UTF-8";
+  #   # LC_MONETARY = "en_US.UTF-8";
+  #   # LC_NAME = "en_US.UTF-8";
+  #   # LC_NUMERIC = "en_US.UTF-8";
+  #   # LC_PAPER = "en_US.UTF-8";
+  #   # LC_TELEPHONE = "en_US.UTF-8";
+  #   # LC_TIME = "en_US.UTF-8";
+  # };
 
   time.timeZone = "Asia/Seoul";
 
-  services.fwupd.enable = true;
+  # services.fwupd.enable = true;
 
   # virtualisation.containers.enable = true;
   # virtualisation.containers.policy = {
@@ -311,9 +312,9 @@ rec {
     pkgs.rmtrash
   ];
 
-  networking.hosts = {
-    "100.127.31.30" = [ "git.internal" ];
-  };
+  # networking.hosts = {
+  #   "100.127.31.30" = [ "git.internal" ];
+  # };
 
   # networking.search = [
   #   "folk-uaru.ts.net."
@@ -339,10 +340,10 @@ rec {
     options = "--delete-older-than 7d";
   };
 
-  environment.sessionVariables = rec {
-    # LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.oracle-instantclient];
-    NIXPKGS_ALLOW_UNFREE = "1";
-  };
+  # environment.sessionVariables = rec {
+  #   # LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.oracle-instantclient];
+  #   NIXPKGS_ALLOW_UNFREE = "1";
+  # };
 
   # nixpkgs.config.permittedInsecurePackages = [
   #   "nix-2.16.2"

@@ -8,7 +8,7 @@
     ./pkgs/home_defaults.nix
 
     ./pkgs/vifm/vifmrc.nix
-    ./pkgs/firefox/firefox.nix
+    # ./pkgs/firefox/firefox.nix
     ./pkgs/alacritty/home.alacritty.nix
     ./pkgs/elvish/elvish.nix
   ];

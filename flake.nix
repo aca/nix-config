@@ -157,56 +157,56 @@
     let
     in
     {
-      # darwinConfigurations.txxx =
-      #   let
-      #     username = "kyungrok.chung";
-      #     system = "aarch64-darwin";
-      #   in
-      #   inputs.darwin.lib.darwinSystem rec {
-      #     system = "aarch64-darwin";
-      #     specialArgs = { inherit inputs system; };
-      #     modules = [
-      #       ./all.configuration.nix
-      #       (
-      #         {
-      #           config,
-      #           pkgs,
-      #           ...
-      #         }:
-      #         {
-      #           nixpkgs.overlays = [
-      #             inputs.nur.overlays.default
-      #             inputs.nixpkgs-firefox-darwin.overlay
-      #             # (useunstableoverlay system "yabai")
-      #             # (useunstableoverlay system "skhd")
-      #           ];
-      #         }
-      #       )
-      #
-      #       {
-      #         environment.systemPackages = [
-      #           # inputs.zapret.packages.x86_64-linux.default
-      #           # inputs.zen-browser.packages.${system}.twilight-official
-      #           # inputs.ghostty.packages.${system}.default
-      #           # inputs.zen-browser.packages."${system}".default
-      #           inputs.agenix.packages.${system}.default
-      #         ];
-      #       }
-      #
-      #       ./txxx.configuration.nix
-      #       ./neovim.nix
-      #       home-manager.darwinModules.home-manager
-      #       {
-      #         home-manager.sharedModules = [ mac-app-util.homeManagerModules.default ];
-      #         home-manager.useGlobalPkgs = true;
-      #         home-manager.useUserPackages = true;
-      #         home-manager.users."${username}" = import ./txxx.home-manager.nix;
-      #         home-manager.extraSpecialArgs = specialArgs;
-      #         users.users."${username}".home = "/Users/${username}";
-      #       }
-      #     ];
-      #   };
-      #
+      darwinConfigurations.txxx =
+        let
+          username = "kyungrok.chung";
+          system = "aarch64-darwin";
+        in
+        inputs.darwin.lib.darwinSystem rec {
+          system = "aarch64-darwin";
+          specialArgs = { inherit inputs system; };
+          modules = [
+            # ./all.configuration.nix
+            (
+              {
+                config,
+                pkgs,
+                ...
+              }:
+              {
+                nixpkgs.overlays = [
+                  inputs.nur.overlays.default
+                  inputs.nixpkgs-firefox-darwin.overlay
+                  # (useunstableoverlay system "yabai")
+                  # (useunstableoverlay system "skhd")
+                ];
+              }
+            )
+
+            {
+              environment.systemPackages = [
+                # inputs.zapret.packages.x86_64-linux.default
+                # inputs.zen-browser.packages.${system}.twilight-official
+                # inputs.ghostty.packages.${system}.default
+                # inputs.zen-browser.packages."${system}".default
+                inputs.agenix.packages.${system}.default
+              ];
+            }
+
+            ./txxx.configuration.nix
+            ./neovim.nix
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.sharedModules = [ mac-app-util.homeManagerModules.default ];
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users."${username}" = import ./txxx.home-manager.nix;
+              home-manager.extraSpecialArgs = specialArgs;
+              users.users."${username}".home = "/Users/${username}";
+            }
+          ];
+        };
+
       nixosConfigurations.txxx-nix = nixpkgs.lib.nixosSystem rec {
         system = "aarch64-linux";
         specialArgs = { inherit inputs self system; };

@@ -48,4 +48,8 @@ rec {
     #     );
     # })
   ];
+
+            environment.systemPackages = [
+pkgs.neovim-unwrapped
+            ];
 }
