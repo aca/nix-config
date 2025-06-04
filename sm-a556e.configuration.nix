@@ -29,7 +29,7 @@
 
   system.stateVersion = "25.05";
   boot.kernelPackages = pkgs.linuxPackages_testing;
-  networking.hostName = "sm-s931n";
+  networking.hostName = "sm-a556e";
   networking.wireless.iwd.enable = true;
 
   boot.loader.systemd-boot.enable = true;
