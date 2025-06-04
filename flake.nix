@@ -37,10 +37,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # xbox = {
-    #   url = "github:aca/xbox/main";
-    #   # inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    kata = {
+      url = "github:aca/kata/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nur = {
       url = "github:nix-community/NUR";

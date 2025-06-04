@@ -63,7 +63,7 @@ in
         }
       else
         {
-          PATH = path + ":$PATH";
+          # PATH = path + ":$PATH";
           # "GLFW_IM_MODULE" = "fcitx";
           # GTK_IM_MODULE = "fcitx";
           # XMODIFIERS = "@im=fcitx";

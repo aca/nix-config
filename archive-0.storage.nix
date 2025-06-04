@@ -151,6 +151,10 @@
       "category.create=pfrd"
       "security_capability=false"
       "xattr=nosys"
+
+      # nfs
+      "noforget"
+      "inodecalc=path-hash"
     ];
   };
 

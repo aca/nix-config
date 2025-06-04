@@ -669,6 +669,9 @@ in
     isNormalUser = true;
     homeMode = "777";
     description = "rok";
+    packages = with pkgs; [
+      inputs.kata.packages.${system}.default
+    ];
     extraGroups = [
       "networkmanager"
       "wheel"
