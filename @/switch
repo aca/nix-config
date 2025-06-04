@@ -31,9 +31,9 @@ export NIXPKGS_ALLOW_UNFREE=1
 
 if OS_NAME=$(uname -s) && [ "$OS_NAME" = "Darwin" ]; then
     if [[ "$hostname" = "elckyu"* ]]; then
-        hostname=txxx
+        FLAKE=txxx
     fi
-    nix --extra-experimental-features 'nix-command flakes'  --option allow-unsafe-native-code-during-evaluation true run -- nix-darwin switch --verbose --flake ".#${FLAKE}" --impure "$@"
+    sudo nix --extra-experimental-features 'nix-command flakes'  --option allow-unsafe-native-code-during-evaluation true run -- nix-darwin switch --verbose --flake ".#${FLAKE}" --impure "$@"
 else
     sudo XXX=holo NIXPKGS_ALLOW_INSECURE=1 NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --option allow-unsafe-native-code-during-evaluation true --flake ".#${FLAKE}" --impure 2>&1 | tee ~/rebuild.log.$(date +%Y%m%dT%H%M%S)
 fi
