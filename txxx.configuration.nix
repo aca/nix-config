@@ -530,6 +530,21 @@ in
             };
           };
         };
+
+        "com.apple.screensaver" = {
+          # Require password immediately after sleep or screen saver begins
+          askForPassword = 1;
+          askForPasswordDelay = 0;
+          idleTime = 0;
+        };
+
+        "com.apple.screencapture" = {
+          location = "~/";
+          type = "png";
+        };
+
+        # Prevent Photos from opening automatically when devices are plugged in
+        "com.apple.ImageCapture".disableHotPlug = true;
       };
 
       NSGlobalDomain = {
@@ -548,7 +563,6 @@ in
       };
 
       dock = {
-        autohide = true;
         show-recents = false;
         launchanim = true;
         orientation = "bottom";
