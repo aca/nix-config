@@ -81,7 +81,6 @@ in
       # "mas"
       # "mupdf"
       # "syncthing"
-      "jordanbaird-ice"
     ];
     # updates homebrew packages on activation,
     onActivation.autoUpdate = false;
@@ -90,6 +89,7 @@ in
       "karabiner-elements"
       "chromium"
       "vmware-fusion"
+      "jordanbaird-ice"
       # "google-chrome@canary"
       # "podman-desktop"
       # "podman-desktop"
