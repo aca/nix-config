@@ -254,44 +254,44 @@
   };
 
   services.upower.enable = true;
-  services.kea.dhcp4 = {
-    enable = true;
-    settings = {
-      interfaces-config = {
-        interfaces = [ "enp2s0" ];
-        service-sockets-max-retries = 5;
-        service-sockets-retry-wait-time = 5000;
-      };
-
-      valid-lifetime = 10000;
-      renew-timer = 5000;
-      rebind-timer = 5000;
-      lease-database = {
-        type = "memfile";
-        persist = true;
-        name = "/var/lib/kea/dhcp4.leases";
-      };
-      subnet4 = [
-        {
-          id = 1;
-          subnet = "192.168.2.0/24";
-          pools = [ { pool = "192.168.2.100 - 192.168.2.200"; } ];
-          # option-data = [
-          #   { name = "routers"; data = "192.168.1.2"; }
-          #   # { name = "domain-name-servers"; data = "8.8.8.8, 1.1.1.1"; }
-          # ];
-        }
-      ];
-      # valid-lifetime = 3600;
-      loggers = [
-        {
-          name = "kea-dhcp4";
-          output_options = [ { output = "stdout"; } ];
-          severity = "DEBUG";
-        }
-      ];
-    };
-  };
+  # services.kea.dhcp4 = {
+  #   enable = true;
+  #   settings = {
+  #     interfaces-config = {
+  #       interfaces = [ "enp2s0" ];
+  #       service-sockets-max-retries = 5;
+  #       service-sockets-retry-wait-time = 5000;
+  #     };
+  #
+  #     valid-lifetime = 10000;
+  #     renew-timer = 5000;
+  #     rebind-timer = 5000;
+  #     lease-database = {
+  #       type = "memfile";
+  #       persist = true;
+  #       name = "/var/lib/kea/dhcp4.leases";
+  #     };
+  #     subnet4 = [
+  #       {
+  #         id = 1;
+  #         subnet = "192.168.2.0/24";
+  #         pools = [ { pool = "192.168.2.100 - 192.168.2.200"; } ];
+  #         # option-data = [
+  #         #   { name = "routers"; data = "192.168.1.2"; }
+  #         #   # { name = "domain-name-servers"; data = "8.8.8.8, 1.1.1.1"; }
+  #         # ];
+  #       }
+  #     ];
+  #     # valid-lifetime = 3600;
+  #     loggers = [
+  #       {
+  #         name = "kea-dhcp4";
+  #         output_options = [ { output = "stdout"; } ];
+  #         severity = "DEBUG";
+  #       }
+  #     ];
+  #   };
+  # };
 
   virtualisation.docker = {
     enable = true; # replace with podman
