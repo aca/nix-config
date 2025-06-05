@@ -76,12 +76,12 @@ in
     brews = [
       # "laishulu/macism/macism"
       # "zegervdv/zathura/zathura-pdf-poppler"
-      # "aca/tap/agec"
+      "aca/tap/agec"
       # "telnet"
       # "mas"
       # "mupdf"
       # "syncthing"
-      jordanbaird-ice
+      "jordanbaird-ice"
     ];
     # updates homebrew packages on activation,
     onActivation.autoUpdate = false;
@@ -150,6 +150,7 @@ in
     ]
     ++ [
       docker-client
+      age
       luit
       sourcekit-lsp
       iproute2mac
