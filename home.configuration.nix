@@ -16,6 +16,14 @@ in
 # secrets = "wer";
 {
   # programs.bash.vteIntegration = true;
+  services.openssh = {
+    enable = true;
+    settings = {
+      X11Forwarding = true;
+      X11DisplayOffset = 10;
+      X11UseLocalhost = false;
+    };
+  };
 
   # security.auditd.enable = true;
   # services.journald.audit = true;
@@ -58,15 +66,15 @@ in
 
   # networking.nameservers = [  "1.1.1.1" ];
   # # Enable Adguard Home and set bassic settigns
-  networking.nameservers = [  "127.0.0.1" ];
+  networking.nameservers = [ "127.0.0.1" ];
   services.adguardhome = {
     enable = true;
     port = 4500;
     host = "0.0.0.0";
     settings = {
       dns = {
-        bind_hosts = [ 
-           "0.0.0.0"
+        bind_hosts = [
+          "0.0.0.0"
         ];
       };
       # filtering = {
@@ -956,26 +964,26 @@ in
       # })
       # pkgs.unstable.vivaldi-ffmpeg-codecs
       # pkgs.unstable.widevine-cdm
-      (pkgs.unstable.vivaldi.override {
-        # mesa = pkgs.mesa;
-        commandLineArgs = [
-          # "--ozone-platform-hint=wayland"
-
-          # "--ozone-platform-hint=auto"
-          # "--enable-features=UseOzonePlatform"
-          # "--ozone-platform-hint=''"
-          # "--ozone-platform=''"
-
-          # "--enable-features=WebContentsForceDark"
-          "--enable-quic"
-          "--enable-zero-copy"
-          "--remote-debugging-port=9223"
-          # "--force-dark-mode"
-          # NOTES: ozone-platform=wayland fcitx win+space not work
-          # "--disable-features=UseOzonePlatform"
-          # "--gtk-version=4" # fcitx
-        ];
-      })
+      # (pkgs.unstable.vivaldi.override {
+      #   # mesa = pkgs.mesa;
+      #   commandLineArgs = [
+      #     # "--ozone-platform-hint=wayland"
+      #
+      #     # "--ozone-platform-hint=auto"
+      #     # "--enable-features=UseOzonePlatform"
+      #     # "--ozone-platform-hint=''"
+      #     # "--ozone-platform=''"
+      #
+      #     # "--enable-features=WebContentsForceDark"
+      #     "--enable-quic"
+      #     "--enable-zero-copy"
+      #     "--remote-debugging-port=9223"
+      #     # "--force-dark-mode"
+      #     # NOTES: ozone-platform=wayland fcitx win+space not work
+      #     # "--disable-features=UseOzonePlatform"
+      #     # "--gtk-version=4" # fcitx
+      #   ];
+      # })
       (pkgs.chromium.override {
         commandLineArgs = [
           # "--enable-features=WebContentsForceDark"

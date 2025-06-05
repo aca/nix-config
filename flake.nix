@@ -115,7 +115,8 @@
     };
 
     neovim = {
-      url = "github:neovim/neovim?rev=3cdb84e0c694e9f321dbe41c1111d0846c1beb03";
+      # url = "github:neovim/neovim?rev=3cdb84e0c694e9f321dbe41c1111d0846c1beb03";
+      url = "github:neovim/neovim/master";
       flake = false;
     };
 

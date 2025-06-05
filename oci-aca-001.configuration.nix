@@ -160,9 +160,17 @@ in
   ];
   services.tailscale.extraDaemonFlags = [ "--socks5-server=0.0.0.0:1080" ]; # blocked by firewall
 
-  services.openssh.enable = true;
-  services.openssh.settings.X11Forwarding = true;
+  services.openssh = {
+    enable = true;
+    settings = {
+      X11Forwarding = true;
+      X11DisplayOffset = 10;
+      X11UseLocalhost = false;
+    };
+  };
+
   # services.openssh.ports = [ ];
+
   services.openssh.settings.PasswordAuthentication = false;
   users.users.root.openssh.authorizedKeys.keys = [
     (import ./keys.nix).root
@@ -261,21 +269,23 @@ in
 
     xorg.xinit
     xorg.xauth
+    xorg.xorgserver
+    xorg.xhost
+
   ];
 
-  # services.x2goserver.enable = true;
 
   services.xserver = {
     enable = true;
+    autorun = true;
     desktopManager = {
-      xterm.enable = false;
       xfce.enable = true;
     };
     displayManager.startx.enable = true;
   };
+  services.displayManager.defaultSession = "xfce";
 
-  # services.xrdp.enable = true;
-  # services.xrdp.openFirewall = true;
-
-  # services.displayManager.defaultSession = "xfce";
+  # services.x2goserver.enable = true;
+  services.xrdp.enable = true;
+  services.xrdp.openFirewall = true;
 }

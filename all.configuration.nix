@@ -12,10 +12,13 @@ let
   #   # %u → 실제 사용자 이름, %h → 사용자 홈 디렉토리
   #   "d /home/%u/src 0755 - - -"
   # ];
-
   systemd.tmpfiles.settings."logs" = {
-    "/logs" = {d.mode = "0777";};
-    "/logs/active" = {d.mode = "0777";};
+    "/logs" = {
+      d.mode = "0777";
+    };
+    "/logs/active" = {
+      d.mode = "0777";
+    };
   };
 
   # osc7
@@ -29,7 +32,6 @@ let
   useunstable = system: pkg: { ${pkg} = inputs.nixpkgs-unstable.legacyPackages.${system}.${pkg}; };
   usenightly = system: pkg: { ${pkg} = inputs.nixpkgs-nightly.legacyPackages.${system}.${pkg}; };
 
-
   services.openssh.settings.PasswordAuthentication = false;
 
   # vaultix, not sure it works
@@ -39,22 +41,18 @@ let
       "flakes"
     ];
   };
-
   # nix.settings.experimental-features = "nix-command flakes";
   # nix.extraOptions = ''
   #   experimental-features = nix-command flakes
   # '';
-
   # nix.extraOptions = lib.optionalString (config.nix.package == pkgs.nixFlakes)
   #    "experimental-features = nix-command flakes";
   # nix.settings.experimental-features = "nix-command flakes";
-
   # system.activationScripts."update-hosts" = ''
   #   cat /etc/hosts > /etc/hosts.bak
   #   rm /etc/hosts
   #   cat /etc/hosts.bak "${config.age.secrets."hosts".path}" >> /etc/hosts
   # '';
-
 in
 rec {
   systemd.extraConfig = ''

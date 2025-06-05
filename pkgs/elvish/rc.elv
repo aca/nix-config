@@ -98,11 +98,11 @@ fn activate-venv {
     }
 }
 
-if (has-env DISPLAY) {
-    nop
-} else {
-    set-env DISPLAY ":0"
-}
+# if (has-env DISPLAY) {
+#     nop
+# } else {
+#     set-env DISPLAY ":0"
+# }
 
 set @edit:before-readline = $@edit:before-readline {
     activate-venv
