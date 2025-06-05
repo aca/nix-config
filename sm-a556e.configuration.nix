@@ -7,10 +7,11 @@
   imports = [
     ./hardware/sm-a556e.nix
     ./dev/default.nix
+    ./desktop.linux.nix
     ./configuration.nix
     ./workstation.nix
     ./pkgs/sway/sway.nix
-    ./pkgs/fcitx5.nix
+    # ./pkgs/fcitx5.nix
 
     ./dev/nix.nix
     ./dev/neovim_conf.nix
@@ -19,10 +20,9 @@
   ];
 
   age.identityPaths = [ "/home/rok/.ssh/id_ed25519" ];
-
   age.secrets."env" = {
     file = ./secrets/env.sm-a556e.age;
-    # mode = "777";
+    mode = "777";
   };
   environment.extraInit = "source ${config.age.secrets."env".path}";
 
@@ -238,14 +238,17 @@
     fontconfig = {
       defaultFonts = {
         serif = [
-          "IBM Plex Sans KR"
+          # "IBM Plex Sans KR"
           "Noto Sans Mono"
         ];
         sansSerif = [
-          "IBM Plex Sans KR"
+          # "IBM Plex Sans KR"
           "Noto Sans Mono"
         ];
-        monospace = [ "IBM Plex Sans KR" ];
+        monospace = [
+          "Noto Sans Mono"
+          # "IBM Plex Sans KR"
+        ];
       };
     };
   };
@@ -304,4 +307,21 @@
     via
     vial
   ];
+
+  # https://discourse.nixos.org/t/removing-persistent-boot-messages-for-a-silent-boot/14835/10
+  # Boot
+  boot = {
+    # Plymouth
+    consoleLogLevel = 0;
+    initrd.verbose = false;
+    plymouth.enable = true;
+    kernelParams = [
+      "quiet"
+      "splash"
+      "rd.systemd.show_status=false"
+      "rd.udev.log_level=3"
+      "udev.log_priority=3"
+      "boot.shell_on_fail"
+    ];
+  };
 }

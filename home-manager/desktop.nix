@@ -17,7 +17,7 @@ in
     server.enable = true;
     settings = {
       main = {
-        font = "Iosevka Term Slab:size=24";
+        font = "IosevkaTermSlab Nerd Font:size=24";
       };
       colors = {
         background = "000000";

@@ -88,8 +88,8 @@
     ghostty = {
       # url = "github:ghostty-org/ghostty/main";
       url = "github:ghostty-org/ghostty/main";
-      inputs.nixpkgs-stable.follows = "nixpkgs";
-      inputs.nixpkgs-unstable.follows = "nixpkgs-unstable";
+      # inputs.nixpkgs-stable.follows = "nixpkgs";
+      # inputs.nixpkgs-unstable.follows = "nixpkgs-unstable";
     };
 
     templ = {
@@ -379,7 +379,8 @@
               # inputs.zen-browser.packages.${system}.twilight-official
               # inputs.ghostty.packages.x86_64-linux.default
               # inputs.zen-browser.packages."${system}".default
-              inputs.agenix.packages.x86_64-linux.default
+              inputs.agenix.packages.${system}.default
+              inputs.ghostty.packages.${system}.default
               # inputs.neovim.packages.${system}.default
             ];
           }

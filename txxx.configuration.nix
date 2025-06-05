@@ -4,9 +4,11 @@
   pkgs,
   options,
   ...
-}: let
+}:
+let
   hostName = "txxx";
-in {
+in
+{
   nix.package = pkgs.nix;
   nix.enable = false;
 
@@ -23,7 +25,6 @@ in {
     ./pkgs/scripts.darwin.nix
 
     ./pkgs/tmux/tmux.nix
-
     ./dev/nix.nix
     ./dev/zig.nix
     ./dev/js.nix
@@ -36,8 +37,8 @@ in {
     ./dev/default.nix
   ];
 
-  environment.systemPath = ["/opt/homebrew/bin"];
-  environment.pathsToLink = ["/Application"];
+  environment.systemPath = [ "/opt/homebrew/bin" ];
+  environment.pathsToLink = [ "/Application" ];
 
   # environment.variables = rec {
   #   LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.oracle-instantclient];
@@ -56,7 +57,7 @@ in {
   #   ];
   # };
   #
-system.primaryUser = "kyungrok.chung";
+  system.primaryUser = "kyungrok.chung";
 
   homebrew = {
     enable = true;
@@ -80,11 +81,11 @@ system.primaryUser = "kyungrok.chung";
       # "mas"
       # "mupdf"
       # "syncthing"
+      jordanbaird-ice
     ];
     # updates homebrew packages on activation,
     onActivation.autoUpdate = false;
     casks = [
-      "font-iosevka-term-slab-nerd-font"
       # "alfred"
       "karabiner-elements"
       "chromium"
@@ -104,13 +105,13 @@ system.primaryUser = "kyungrok.chung";
       # "microsoft-edge-beta"
       # "utm"
       # "android-platform-tools"
-      # "datagrip"
+      "datagrip"
       # # "iterm2"
       # "microsoft-teams"
       # "android-sdk"
       # "docker"
       # "kap"
-      # "libreoffice"
+      "libreoffice"
       # "mpv"
       # "pycharm-ce"
       # "visual-studio-code"
@@ -143,37 +144,36 @@ system.primaryUser = "kyungrok.chung";
   #   };
   # };
 
-  environment.systemPackages = with pkgs;
+  environment.systemPackages =
+    with pkgs;
     [
     ]
     ++ [
       docker-client
+      luit
+      sourcekit-lsp
+      iproute2mac
+      coreutils-full
+      duti
+      elvish
+      alacritty
+      jq
+      kubectl
+      ncdu
+      trash-cli
+      mpv
+      # ncdu
+      # goconvey
+      # maestro
+      # colima
+      # pkgs.unstable.vector
+      # pkgs.unstable.rustdesk
+      # pkgs.unstable.docker
       # iosevka-term
       # raycast
       # pkgs.darwin.apple_sdk.frameworks.SystemConfiguration
       # pkgs.darwin.apple_sdk.frameworks.CoreFoundation
       # pkgs.darwin.apple_sdk.frameworks.Security
-      # sourcekit-lsp
-      iproute2mac
-      # xorg.luit
-      # zigpkgs.master
-      # system
-      coreutils-full
-      duti
-      # pkgs.unstable.xonsh
-      elvish
-      alacritty
-      jq
-      # pkgs.unstable.rustdesk
-      # pkgs.unstable.docker
-      #
-      kubectl
-      # ncdu
-      trash-cli
-      # goconvey
-      maestro
-      # colima
-      # pkgs.unstable.vector
     ];
 
   services.skhd.enable = true;
@@ -440,7 +440,11 @@ system.primaryUser = "kyungrok.chung";
             "60" = {
               enabled = false;
               value = {
-                parameters = [32 49 262144];
+                parameters = [
+                  32
+                  49
+                  262144
+                ];
                 type = "standard";
               };
             };
@@ -449,49 +453,77 @@ system.primaryUser = "kyungrok.chung";
             "184" = {
               enabled = true;
               value = {
-                parameters = [112 35 1441792];
+                parameters = [
+                  112
+                  35
+                  1441792
+                ];
                 type = "standard";
               };
             };
             "28" = {
               enabled = false;
               value = {
-                parameters = [51 20 1179648];
+                parameters = [
+                  51
+                  20
+                  1179648
+                ];
                 type = "standard";
               };
             };
             "29" = {
               enabled = false;
               value = {
-                parameters = [51 20 1179648];
+                parameters = [
+                  51
+                  20
+                  1179648
+                ];
                 type = "standard";
               };
             };
             "30" = {
               enabled = false;
               value = {
-                parameters = [51 20 1179648];
+                parameters = [
+                  51
+                  20
+                  1179648
+                ];
                 type = "standard";
               };
             };
             "31" = {
               enabled = true;
               value = {
-                parameters = [112 35 1310720];
+                parameters = [
+                  112
+                  35
+                  1310720
+                ];
                 type = "standard";
               };
             };
             "61" = {
               enabled = true;
               value = {
-                parameters = [32 49 1835008];
+                parameters = [
+                  32
+                  49
+                  1835008
+                ];
                 type = "standard";
               };
             };
             "64" = {
               enabled = false;
               value = {
-                parameters = [32 49 1048576];
+                parameters = [
+                  32
+                  49
+                  1048576
+                ];
                 type = "standard";
               };
             };
@@ -543,10 +575,15 @@ system.primaryUser = "kyungrok.chung";
     };
   };
 
-  # fonts.packages = [
-  #   # pkgs.IosevkaTermSlab
-  #   (pkgs.nerdfonts.override { fonts = [ "IosevkaTermSlab" ]; })
-  # ];
+  fonts.packages = [
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-emoji
+    ibm-plex
+    nerd-fonts.iosevka-term-slab
+    nerd-fonts.sauce-code-pro
+    nerd-fonts.blex-mono
+  ];
 
   # launchd.daemons.pueued = {
   #   script = ''

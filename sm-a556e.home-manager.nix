@@ -18,6 +18,7 @@ in {
     ./pkgs/rofi/rofi.nix
     ./pkgs/home_defaults.nix
     ./home-manager/firefox/firefox.nix
+    ./home-manager/desktop.nix
     ./pkgs/alacritty/home.alacritty.nix
   ];
 
