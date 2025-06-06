@@ -59,11 +59,11 @@ in
     // (
       if pkgs.stdenv.isDarwin then
         {
-          PATH = path + ":/opt/homebrew/bin" + ":$PATH";
+          PATH = path + ":/opt/homebrew/bin";
         }
       else
         {
-          # PATH = path + ":$PATH";
+          PATH = path;
           # "GLFW_IM_MODULE" = "fcitx";
           # GTK_IM_MODULE = "fcitx";
           # XMODIFIERS = "@im=fcitx";

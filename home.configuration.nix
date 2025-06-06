@@ -44,42 +44,42 @@ in
     # };
   };
 
-  services.kea.dhcp4 = {
-    enable = true;
-    settings = {
-        interfaces-config = {
-          interfaces = [ "enp2s0"];
-        };
-
-    valid-lifetime = 4000;
-    renew-timer =  1000;
-    rebind-timer = 2000;
-        lease-database = {
-          type = "memfile";
-          persist = true;
-          name = "/var/lib/kea/dhcp4.leases";
-        };
-        subnet4 = [
-          {
-            id = 1;
-            subnet = "192.168.2.0/24";
-            pools = [{ pool = "192.168.2.100 - 192.168.2.200"; }];
-            # option-data = [
-            #   { name = "routers"; data = "192.168.1.2"; }
-            #   # { name = "domain-name-servers"; data = "8.8.8.8, 1.1.1.1"; }
-            # ];
-          }
-        ];
-        # valid-lifetime = 3600;
-        loggers = [
-          {
-            name = "kea-dhcp4";
-            output_options = [{ output = "stdout"; }];
-            severity = "INFO";
-          }
-        ];
-      };
-  };
+  # services.kea.dhcp4 = {
+  #   enable = true;
+  #   settings = {
+  #       interfaces-config = {
+  #         interfaces = [ "enp2s0"];
+  #       };
+  #
+  #   valid-lifetime = 4000;
+  #   renew-timer =  1000;
+  #   rebind-timer = 2000;
+  #       lease-database = {
+  #         type = "memfile";
+  #         persist = true;
+  #         name = "/var/lib/kea/dhcp4.leases";
+  #       };
+  #       subnet4 = [
+  #         {
+  #           id = 1;
+  #           subnet = "192.168.2.0/24";
+  #           pools = [{ pool = "192.168.2.100 - 192.168.2.200"; }];
+  #           # option-data = [
+  #           #   { name = "routers"; data = "192.168.1.2"; }
+  #           #   # { name = "domain-name-servers"; data = "8.8.8.8, 1.1.1.1"; }
+  #           # ];
+  #         }
+  #       ];
+  #       # valid-lifetime = 3600;
+  #       loggers = [
+  #         {
+  #           name = "kea-dhcp4";
+  #           output_options = [{ output = "stdout"; }];
+  #           severity = "INFO";
+  #         }
+  #       ];
+  #     };
+  # };
 
 
 
@@ -134,15 +134,16 @@ in
 
   # networking.nameservers = [  "1.1.1.1" ];
   # # Enable Adguard Home and set bassic settigns
+  # networking.nameservers = [ "127.0.0.1" ];
   networking.nameservers = [ "127.0.0.1" ];
   services.adguardhome = {
     enable = true;
     port = 4500;
-    host = "0.0.0.0";
+    host = "127.0.0.1";
     settings = {
       dns = {
         bind_hosts = [
-          "0.0.0.0"
+          "127.0.0.1"
         ];
       };
       # filtering = {
@@ -1327,7 +1328,7 @@ in
       gcc
       wimlib
       gettext
-      # dnsmasq
+      dnsmasq
       killall
       git
       fzf

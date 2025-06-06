@@ -172,13 +172,6 @@
     chmod 777 /mnt/archive-0
   '';
 
-  # systemd.services."failtest" = {
-  #   enable = true;
-  #   scriptArgs = "%i";
-  #   script = ''sleep 10; echo "failtest something wrong"; exit 0'';
-  #   onFailure = ["ntfy-critical@failtest.service"];
-  # };
-
   systemd.services.snapraid-sync.preStart = ''
     echo "check drive mount"
     /run/current-system/sw/bin/cat /mnt/data01/.snapraid.id | /run/current-system/sw/bin/grep data01
@@ -204,14 +197,21 @@
   '';
 
   # TODO:FIX
-  # systemd.services.snapraid-scrub.onFailure = [ "ntfy-critical@snapraid-scrub.service" ];
-  # systemd.services."ntfy-critical@" = {
-  #   enable = true;
-  #   description = "service fail notification for %i";
-  #   scriptArgs = "%i";
-  #   script = ''
-  #     ntfy_addr="http://127.0.0.1${toString config.services.ntfy-sh.settings."listen-http"}/server_fail"
-  #     { echo '```'; journalctl -u "$1" -n 20; echo '```'; } | ${pkgs.curl}/bin/curl -H "Markdown: yes" -H "Priority: urgent" -H "Title: $1 failed" --data-binary @- $ntfy_addr
-  #   '';
-  # };
+  systemd.services.snapraid-scrub.onFailure = [ "ntfy-critical@snapraid-scrub.service" ];
+  systemd.services.snapraid-sync.onFailure = [ "ntfy-critical@snapraid-sync.service" ];
+  systemd.services."dummy" = {
+    enable = true;
+    script = ''sleep 5; printf "ping\nping"; exit 1'';
+    onFailure = ["ntfy-critical@dummy.service"];
+  };
+
+  systemd.services."ntfy-critical@" = {
+    enable = true;
+    description = "service fail notification for %i";
+    scriptArgs = "%i";
+    script = ''
+      /run/current-system/sw/bin/journalctl -u "$1" --since "$(/run/current-system/sw/bin/systemctl show "$1" --property=ActiveEnterTimestamp --value)" -n 10 |
+        ${pkgs.curl}/bin/curl -H "Priority: urgent" -H "Title: $1 failed" --data-binary @- "https://ntfy.xkor.stream/critical"
+    '';
+  };
 }

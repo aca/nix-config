@@ -14,12 +14,12 @@
         {targets = ["localhost:${toString config.services.prometheus.exporters.node.port}"];}
       ];
     }
-    {
-      job_name = "smartctl";
-      static_configs = [
-        {targets = ["localhost:${toString config.services.prometheus.exporters.smartctl.port}"];}
-      ];
-    }
+    # {
+    #   job_name = "smartctl";
+    #   static_configs = [
+    #     {targets = ["localhost:${toString config.services.prometheus.exporters.smartctl.port}"];}
+    #   ];
+    # }
   ];
 
   # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/monitoring/prometheus/exporters.nix
@@ -31,7 +31,7 @@
   };
 
   services.prometheus.exporters.smartctl = {
-    enable = true;
+    enable = false;
     port = 9633;
     maxInterval = "24h";
   };

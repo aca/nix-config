@@ -16,9 +16,9 @@
   systemd.services."reboot-if-offline" = {
     script = with pkgs; ''
       set -euxo pipefail
-      ${pkgs.unixtools.ping}/bin/ping -w10 -c1 -q google.com && exit 0
-      sleep 60
-      ${pkgs.unixtools.ping}/bin/ping -w10 -c1 google.com || systemctl reboot
+      ${pkgs.unixtools.ping}/bin/ping -w10 -c1 -q 1.1.1.1 && exit 0
+      sleep 120
+      ${pkgs.unixtools.ping}/bin/ping -w10 -c1 1.1.1.1 || systemctl reboot
     '';
   };
 }

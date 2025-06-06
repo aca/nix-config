@@ -14,6 +14,20 @@ let
 
     # (system: pkg: { ${pkg} = inputs.nixpkgs-unstable.legacyPackages.${system}.${pkg}; })
 
+    # tmux-overlay = self: super: {
+    #   tmux = super.tmux.overrideAttrs (old: rec {
+    #     pname = "tmux";
+    #     version = "3.4-next";
+    #     patches = [];
+    #     src = super.fetchFromGitHub {
+    #       owner = "tmux";
+    #       repo = "tmux";
+    #       rev = "4266d3efc89cdf7d1af907677361caa24b58c9eb";
+    #       sha256 = "sha256-LliON7p1KyVucCu61sPKihYxtXsAKCvAvRBvNgoV0/g=";
+    #     };
+    #   });
+    # };
+
     # (self: super: {
     #   # Replace “some-package” with the attribute name in nixpkgs
     #   nix-plugins = super.nix-plugins.overrideAttrs (oldAttrs: {
@@ -72,77 +86,54 @@ let
       // (useunstable system "linuxPackages_testing")
       // (useunstable system "linuxPackages_zen")
       // (useunstable system "jetbrains.datagrip")
-      // (useunstable system "linuxPackages_latest")
       # // (useunstable system "attic-client")
       # // (useunstable system "attic-server")
-      // (useunstable system "kotlin")
-      // (useunstable system "kotlin-language-server")
       # // (useunstable system "jetbrains.idea-community-bin")
       // (useunstable system "vifm")
-      // (usenightly system "go")
-      // (usenightly system "prometheus")
-      // (usenightly system "grafana")
-      // (usenightly system "pnpm")
-      // (usenightly system "pnpm_10")
+      # // (usenightly system "prometheus")
+      # // (usenightly system "grafana")
       # // (useunstable system "go_1_23")
-      // (usenightly system "gopls")
       # // (useunstable system "pylyzer")
+
+      # lang
+      // (usenightly system "go")
+      // (usenightly system "gopls")
       // (useunstable system "vscode-langservers-extracted")
+      // (useunstable system "kotlin")
+      // (useunstable system "kotlin-language-server")
       // (usenightly system "bun")
+      // (useunstable system "deno")
+      // (useunstable system "nixd")
+      // (useunstable system "ruff")
+      // (useunstable system "nixd")
+      // (useunstable system "deno")
+      // (useunstable system "odin")
+      // (useunstable system "ols")
+      // (useunstable system "lua-language-server")
+      // (useunstable system "basedpyright")
+
       // (usenightly system "vector")
       // (useunstable system "ripgrep")
       # // (useunstable system "firefox")
       // (usenightly system "yt-dlp")
       # // (useunstable system "alejandra")
-      // (useunstable system "deno")
       // (useunstable system "openbao")
       # // (useunstable system "rust-analyzer")
       # // (useunstable system "nodejs")
-      // (useunstable system "nixd")
       // (useunstable system "bkt")
-      // (useunstable system "ruff")
-      # // (useunstable system "vivaldi-ffmpeg-codecs")
-      # // (useunstable system "chromium")
-      # // (useunstable system "microsoft-edge")
-      # // (useunstable system "ntfy-sh")
-      # // (useunstable system "devenv")
-      # // (useunstable system "fcitx5-qt")
-      # // (useunstable system "fcitx5-lua")
-      # // (useunstable system "fcitx5-chinese-addons")
-      # // (useunstable system "fcitx5-mozc")
-      # // (useunstable system "fcitx5-qt")
-      # // (useunstable system "fcitx5-gtk")
-      # // (useunstable system "fcitx5-with-addons")
-      # // (useunstable system "fcitx5-hangul")
-      // (useunstable system "spice-vdagent")
-      # // (useunstable system "pipewire")
-      // (useunstable system "deno")
-      # // (useunstable system "wireplumber")
-      # // (useunstable system "pwvucontrol")
-      // (useunstable system "pnpm_9")
-      # // (usefixed system "davinci-resolve")
-      # // (useunstable system "libreoffice-qt")
-      # // (useunstable system "ntfy-sh")
       // (useunstable system "vifm")
-      # // (useunstable system "nixVersions.latest")
-      // (useunstable system "spice-vdagent")
-      // (useunstable system "nixd")
       // (useunstable system "yazi")
       // (useunstable system "bkt")
       // (useunstable system "fzf")
-      // (useunstable system "pueue")
+      # // (useunstable system "pueue")
       // (useunstable system "tmux")
       // (useunstable system "qbittorrent-nox")
       // (useunstable system "wine-wayland")
-      // (useunstable system "lua-language-server")
-      // (useunstable system "basedpyright")
       // (useunstable system "pueue")
       # // (usenightly system "aider-chat")
       # // (useunstable system "windsurf")
       # // (useunstable system "uv")
       # // (useunstable system "gitbutler")
-      // (useunstable system "odin")
-      // (useunstable system "ols")
     )
   ];
 in

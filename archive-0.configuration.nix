@@ -6,9 +6,11 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   hostname = "archive-0";
-in {
+in
+{
   imports = [
     ./hardware/archive-0.nix
     ./archive-0.monitoring.nix
@@ -20,10 +22,10 @@ in {
     ./networking.nix
   ];
 
+  # NFS permission
+  environment.extraInit = "umask 0000";
+
   services.nfs.server.enable = true;
-  services.nfs.server.exports = ''
-    /mnt/tmp 100.0.0.0/8(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0) 192.168.0.22/32(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0) 192.168.0.20/32(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0)
-  '';
 
   # Given that our systems are headless, emergency mode is useless.
   # We prefer the system to attempt to continue booting so
@@ -71,14 +73,23 @@ in {
   users.users.rok = {
     isNormalUser = true;
     description = "rok";
-    extraGroups = ["networkmanager" "wheel" "docker" "adbusers" "libvirtd" "libvirt" "syncthing" "matrix-synapse"];
-    packages = with pkgs; [];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+      "adbusers"
+      "libvirtd"
+      "libvirt"
+      "syncthing"
+      "matrix-synapse"
+    ];
+    packages = with pkgs; [ ];
   };
 
   # Hostname
   networking.hostName = "archive-0";
 
-  age.identityPaths = ["/root/.ssh/id_ed25519"];
+  age.identityPaths = [ "/root/.ssh/id_ed25519" ];
   # age.secrets."home.services.matrix-sliding-sync.environmentFile".file = ./secrets/home.services.matrix-sliding-sync.environmentFile.age;
   # age.secrets."x".file = ./secrets/xxxxx.age;
   # config.eistration_shared_secret = builtins.readFile config.age.secrets.eistration_shared_secret.path;
@@ -145,9 +156,32 @@ in {
   # };
   time.timeZone = "Asia/Seoul";
 
+  # https://wiki.nixos.org/wiki/Power_Management#Hard_drives
+  services.udev.extraRules =
+    let
+      mkRule = as: lib.concatStringsSep ", " as;
+      mkRules = rs: lib.concatStringsSep "\n" rs;
+    in
+    mkRules [
+      (mkRule [
+        ''ACTION=="add|change"''
+        ''SUBSYSTEM=="block"''
+        ''KERNEL=="sd[a-z]"''
+        ''ATTR{queue/rotational}=="1"''
+        ''RUN+="${pkgs.hdparm}/bin/hdparm -B 90 -S 240 /dev/%k"''
+      ])
+    ];
+
   # Packages installed in system profile.
-  environment.systemPackages = with pkgs;
-    [gptfdisk mergerfs smartmontools nfs-utils lsof]
+  environment.systemPackages =
+    with pkgs;
+    [
+      gptfdisk
+      mergerfs
+      smartmontools
+      nfs-utils
+      lsof
+    ]
     ++ [
       vim
       vifm
