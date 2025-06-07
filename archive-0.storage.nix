@@ -196,22 +196,42 @@
     /run/current-system/sw/bin/cat /mnt/data08/.snapraid.id | /run/current-system/sw/bin/grep data08
   '';
 
-  # TODO:FIX
-  systemd.services.snapraid-scrub.onFailure = [ "ntfy-critical@snapraid-scrub.service" ];
-  systemd.services.snapraid-sync.onFailure = [ "ntfy-critical@snapraid-sync.service" ];
+  systemd.services.snapraid-scrub.onFailure = [ "ntfy-system-critical@snapraid-scrub.service" ];
+  systemd.services.snapraid-sync.onFailure = [ "ntfy-system-critical@snapraid-sync.service" ];
+
+  systemd.services.snapraid-scrub.onSuccess = [ "ntfy-system@snapraid-scrub.service" ];
+  systemd.services.snapraid-sync.onSuccess = [ "ntfy-system@snapraid-sync.service" ];
+
   systemd.services."dummy" = {
     enable = true;
-    script = ''sleep 5; printf "ping\nping"; exit 1'';
-    onFailure = ["ntfy-critical@dummy.service"];
+    script = ''sleep 5; printf "ping"; exit 0'';
+    onFailure = ["ntfy-system-critical@dummy.service"];
+    onSuccess = ["ntfy-system@dummy.service"];
   };
 
-  systemd.services."ntfy-critical@" = {
+  systemd.services."dummy-fail" = {
     enable = true;
-    description = "service fail notification for %i";
+    script = ''sleep 5; printf "ping"; exit 1'';
+    onFailure = ["ntfy-system-critical@dummy.service"];
+    onSuccess = ["ntfy-system@dummy.service"];
+  };
+
+  systemd.services."ntfy-system-critical@" = {
+    enable = true;
     scriptArgs = "%i";
     script = ''
-      /run/current-system/sw/bin/journalctl -u "$1" --since "$(/run/current-system/sw/bin/systemctl show "$1" --property=ActiveEnterTimestamp --value)" -n 10 |
-        ${pkgs.curl}/bin/curl -H "Priority: urgent" -H "Title: $1 failed" --data-binary @- "https://ntfy.xkor.stream/critical"
+      journalctl -u "$1" --since "$(systemctl show "$1" --property=ConditionTimestamp --value)" -n 10 |
+        ${pkgs.curl}/bin/curl -H "Priority: urgent" -H "Title: $HOSTNAME:$1" --data-binary @- "https://ntfy.xkor.stream/system-critical"
     '';
   };
+
+  systemd.services."ntfy-system@" = {
+    enable = true;
+    scriptArgs = "%i";
+    script = ''
+      journalctl -u "$1" --since "$(systemctl show "$1" --property=ConditionTimestamp --value)" -n 10 |
+        ${pkgs.curl}/bin/curl -H "Priority: min" -H "Title: $HOSTNAME:$1" --data-binary @- "https://ntfy.xkor.stream/system"
+    '';
+  };
+
 }

@@ -173,10 +173,6 @@ rec {
   #   "100.127.31.30" = [ "git.internal" ];
   # };
 
-  # networking.search = [
-  #   "folk-uaru.ts.net."
-  # ];
-
   systemd.services."notify-send-fail@" = {
     enable = true;
     description = "service fail notification for %i";
@@ -196,20 +192,6 @@ rec {
     dates = "weekly";
     options = "--delete-older-than 7d";
   };
-
-  # environment.sessionVariables = rec {
-  #   # LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.oracle-instantclient];
-  #   NIXPKGS_ALLOW_UNFREE = "1";
-  # };
-
-  # nixpkgs.config.permittedInsecurePackages = [
-  #   "nix-2.16.2"
-  # ];
-
-  # vaultix
-  # this doesn't work in here, put it in each configuration.nix
-  # systemd.sysusers.enable = true;
-  # services.userborn.enable = true;
 
   security.pki.certificateFiles = [
     ./certs/mkcert/rootCA.pem

@@ -15,22 +15,7 @@ in
 # secrets = builtins.extraBuiltins.readSops "werwrwer";
 # secrets = "wer";
 {
-
   networking = {
-    interfaces = {
-      enp2s0.ipv4.addresses = [{
-        address = "192.168.2.1";
-        prefixLength = 24;
-      }];
-    };
-
-    # NAT 설정: wlan0을 통해 나가는 트래픽 masquerade
-    nat = {
-      enable = true;
-      externalInterface = "wlan0";
-      internalInterfaces = [ "enp2s0" ];
-    };
-
     # DHCP 서버 활성화 (내부망)
     # dhcpcd = {
     #   enable = true;
@@ -80,8 +65,6 @@ in
   #       ];
   #     };
   # };
-
-
 
   # programs.bash.vteIntegration = true;
   services.openssh = {
@@ -1235,6 +1218,8 @@ in
       # )
       #
 
+      clickhouse
+
       neovim-unwrapped
       scrot
       # mitmproxy
@@ -1348,6 +1333,10 @@ in
       gnumake
       procps
       fluent-bit
+
+      libpq
+      postgresql
+
       procs
       fish
       # pkgs.unstable.vim
@@ -1405,6 +1394,21 @@ in
       #         numpy
       #       ])
       #   )
+
+      quartoMinimal
+      # (quarto.override {
+      #   python3 = pkgs.python3;
+      #   extraPythonPackages =
+      #     ps: with ps; [
+      #       numpy
+      #       jupyter
+      #       pandas
+      #       psycopg2
+      #       plotly
+      #       pyyaml
+      #       jupyter
+      #     ];
+      # })
     ];
 
   services.tailscale.enable = true;

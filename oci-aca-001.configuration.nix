@@ -7,7 +7,9 @@
 let
   secrets = builtins.exec [
     # "age" "--decrypt" "-i" "/etc/ssh/ssh_host_ed25519_key" "-i" "/home/rok/.ssh/id_ed25519" ./secrets/oci-aca-001.nix.age
-    "bash" "-c" "age --decrypt -i /home/rok/.ssh/id_ed25519 ./secrets/oci-aca-001.nix.age"
+    "bash"
+    "-c"
+    "age --decrypt -i /home/rok/.ssh/id_ed25519 ./secrets/oci-aca-001.nix.age"
   ];
 in
 {
@@ -266,14 +268,50 @@ in
     xsel
     fish
     go
+    vim
 
     xorg.xinit
     xorg.xauth
     xorg.xorgserver
     xorg.xhost
-
   ];
 
+  containers."asset" = {
+    autoStart = true;
+    privateNetwork = false;
+    # hostAddress    = "0.0.0.0";
+    # localAddress   = "0.0.0.0";
+
+    config =
+      {
+        config,
+        pkgs,
+        lib,
+        ...
+      }:
+      {
+        services.postgresql.enable = true;
+        services.postgresql.enableTCPIP = true;
+        services.postgresql.package = pkgs.postgresql;
+        services.postgresql.settings.port = 3030;
+        services.postgresql.authentication = pkgs.lib.mkOverride 10 ''
+          local all       all                   trust
+          host  all       all     127.0.0.1/32  trust
+          host  all       all     ::1/128       trust
+          host  all       all     100.0.0.0/8   trust
+        '';
+        services.postgresql.ensureUsers = [
+          { name = "rok"; }
+        ];
+        # networking.firewall.allowedTCPPorts = [ 5418 ];
+        # system.stateVersion = "25.05";
+        # services.postgresql.enable = true;
+        # services.postgresql.package = pkgs.postgresql_15;
+        # networking.firewall.enable = true;
+      };
+  };
+
+  services.clickhouse.enable = true;
 
   services.xserver = {
     enable = true;

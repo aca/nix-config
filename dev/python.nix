@@ -1,8 +1,18 @@
 {
   config,
   pkgs,
+  system,
   ...
-}: {
+}:
+let
+  python3 = pkgs.python3.override {
+    self = python3;
+    packageOverrides = pyfinal: pyprev: {
+      itables = pyfinal.callPackage ./python/itables.nix { };
+    };
+  };
+in
+{
   environment.systemPackages = with pkgs; [
     pdm
     uv
@@ -11,29 +21,36 @@
     ruff
 
     basedpyright
-    (python312.withPackages (ps:
-      with ps; [
+    (python3.withPackages (
+      ps: with ps; [
+        pip
         boto3
+        itables
+        psycopg2
+        plotly
         pyyaml
+        jupyter
         openai
         binance-connector
+        streamlit
         qbittorrent-api
         bpython
         torch
         pandas
-        plotly
+        pandas-stubs
         fastapi
         requests
         ipython
         pyjwt
         numpy
 
-        # browser 
+        # browser
         secretstorage
         pycryptodome
         python-snappy
         plyvel
-      ]))
+      ]
+    ))
     #   python3.withPackages
     #   (
     #     ps:
