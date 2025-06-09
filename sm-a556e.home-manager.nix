@@ -21,6 +21,7 @@ in
     ./pkgs/home_defaults.nix
     ./home-manager/firefox/firefox.nix
     ./home-manager/desktop.nix
+    ./home-manager/nvim-rebuild.nix
     ./pkgs/alacritty/home.alacritty.nix
   ];
 
@@ -171,50 +172,4 @@ in
   # systemd.user.startServices to true, if no services have failed yet.
   # Otherwise, you need to systemctl --user reset-failed the degraded services before calling home-manager.
   systemd.user.startServices = true;
-
-  systemd.user.services."nvim-rebuild" = {
-    Service = {
-      WorkingDirectory = "/home/rok/.config/nvim/init";
-      ExecStart = ''
-        ${pkgs.watchexec}/bin/watchexec --notify 'cat *.lua | luajit -b - ../init.lua'
-      '';
-      Restart = "always";
-      StartLimitIntervalSec = 10;
-      Environment = "PATH=${
-        pkgs.lib.makeBinPath [
-          (pkgs.luajit.withPackages (
-            p: with p; [
-              stdlib
-              luarocks
-            ]
-          ))
-          pkgs.bash
-          pkgs.coreutils
-        ]
-      }";
-    };
-  };
-
-  systemd.user.services."nvim-rebuild-lazy" = {
-    Service = {
-      WorkingDirectory = "/home/rok/.config/nvim/lazy";
-      ExecStart = ''
-        ${pkgs.watchexec}/bin/watchexec --notify 'cat *.lua | luajit -b - ../lua/lazy.lua'
-      '';
-      Restart = "always";
-      StartLimitIntervalSec = 10;
-      Environment = "PATH=${
-        pkgs.lib.makeBinPath [
-          (pkgs.luajit.withPackages (
-            p: with p; [
-              stdlib
-              luarocks
-            ]
-          ))
-          pkgs.bash
-          pkgs.coreutils
-        ]
-      }";
-    };
-  };
 }
