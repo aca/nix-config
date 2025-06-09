@@ -10,6 +10,7 @@
     ./desktop.linux.nix
     ./configuration.nix
     ./workstation.nix
+    ./dev/lua.nix
     ./pkgs/sway/sway.nix
     # ./pkgs/fcitx5.nix
 
@@ -45,7 +46,7 @@
   boot.initrd.luks.devices."cryptroot".device =
     "/dev/disk/by-uuid/5e4a5e6a-bea4-4330-8560-6d91e6cbdeae";
 
-  services.thermald.enable = true;
+  # services.thermald.enable = true;
 
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "both";
@@ -128,6 +129,7 @@
     gopls
     aria2
     tmux-xpanes
+    jetbrains.datagrip
     ripgrep
     elvish
     nodejs
@@ -144,12 +146,14 @@
     gnumake
     entr
     procps
+    libreoffice
     htop
     vim
     unison
     zsh
     fish
     xsel
+    watchexec
     neovim-unwrapped
 
     (pkgs.chromium.override {

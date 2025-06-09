@@ -4,14 +4,16 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   dotfiles = builtins.fetchGit {
     url = "https://github.com/aca/dotfiles";
     ref = "main";
     inherit (inputs.dotfiles) rev;
     submodules = true;
   };
-in {
+in
+{
   imports = [
     ./pkgs/sway/config.nix
     ./pkgs/vifm/vifmrc.nix
@@ -30,7 +32,7 @@ in {
     (pkgs.buildFHSEnv {
       name = "pixi";
       runScript = "pixi";
-      targetPkgs = pkgs: with pkgs; [pixi];
+      targetPkgs = pkgs: with pkgs; [ pixi ];
     })
   ];
 
@@ -89,16 +91,16 @@ in {
   xdg.mimeApps.enable = true;
   xdg.mimeApps = {
     # NOTES: this is managed by dotfiles, maybe use nix later?
-    defaultApplications."x-scheme-handler/http" = ["firefox-devedition.desktop"];
-    defaultApplications."x-scheme-handler/https" = ["firefox-devedition.desktop"];
-    defaultApplications."text/html" = ["firefox-devedition.desktop"];
-    defaultApplications."x-scheme-handler/about" = ["firefox-devedition.desktop"];
-    defaultApplications."x-scheme-handler/unknown" = ["firefox-devedition.desktop"];
+    defaultApplications."x-scheme-handler/http" = [ "firefox-devedition.desktop" ];
+    defaultApplications."x-scheme-handler/https" = [ "firefox-devedition.desktop" ];
+    defaultApplications."text/html" = [ "firefox-devedition.desktop" ];
+    defaultApplications."x-scheme-handler/about" = [ "firefox-devedition.desktop" ];
+    defaultApplications."x-scheme-handler/unknown" = [ "firefox-devedition.desktop" ];
 
-    defaultApplications."x-scheme-handler/magnet" = ["qbt-torrent-add.desktop"];
-    defaultApplications."application/x-bittorrent" = ["qbt-torrent-add.desktop"];
+    defaultApplications."x-scheme-handler/magnet" = [ "qbt-torrent-add.desktop" ];
+    defaultApplications."application/x-bittorrent" = [ "qbt-torrent-add.desktop" ];
 
-    defaultApplications."x-scheme-handler/tg" = ["telegram.desktop.desktop"];
+    defaultApplications."x-scheme-handler/tg" = [ "telegram.desktop.desktop" ];
   };
 
   # programs.firefox = {
@@ -169,4 +171,50 @@ in {
   # systemd.user.startServices to true, if no services have failed yet.
   # Otherwise, you need to systemctl --user reset-failed the degraded services before calling home-manager.
   systemd.user.startServices = true;
+
+  systemd.user.services."nvim-rebuild" = {
+    Service = {
+      WorkingDirectory = "/home/rok/.config/nvim/init";
+      ExecStart = ''
+        ${pkgs.watchexec}/bin/watchexec --notify 'cat *.lua | luajit -b - ../init.lua'
+      '';
+      Restart = "always";
+      StartLimitIntervalSec = 10;
+      Environment = "PATH=${
+        pkgs.lib.makeBinPath [
+          (pkgs.luajit.withPackages (
+            p: with p; [
+              stdlib
+              luarocks
+            ]
+          ))
+          pkgs.bash
+          pkgs.coreutils
+        ]
+      }";
+    };
+  };
+
+  systemd.user.services."nvim-rebuild-lazy" = {
+    Service = {
+      WorkingDirectory = "/home/rok/.config/nvim/lazy";
+      ExecStart = ''
+        ${pkgs.watchexec}/bin/watchexec --notify 'cat *.lua | luajit -b - ../lua/lazy.lua'
+      '';
+      Restart = "always";
+      StartLimitIntervalSec = 10;
+      Environment = "PATH=${
+        pkgs.lib.makeBinPath [
+          (pkgs.luajit.withPackages (
+            p: with p; [
+              stdlib
+              luarocks
+            ]
+          ))
+          pkgs.bash
+          pkgs.coreutils
+        ]
+      }";
+    };
+  };
 }

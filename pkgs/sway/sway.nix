@@ -64,6 +64,7 @@ in {
     # pulseaudio
     rofi-wayland
     rustc
+    libnotify
     slurp # screenshot functionality
     spice-vdagent
     sway
