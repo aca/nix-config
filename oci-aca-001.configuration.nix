@@ -161,6 +161,7 @@ in
     "--advertise-exit-node=true"
   ];
   services.tailscale.extraDaemonFlags = [ "--socks5-server=0.0.0.0:1080" ]; # blocked by firewall
+  services.k3s.enable = true;
 
   services.openssh = {
     enable = true;
@@ -276,6 +277,13 @@ in
     xorg.xhost
   ];
 
+  services.postgresql.authentication = pkgs.lib.mkOverride 10 ''
+    local all all trust
+    host  all all 127.0.0.1/32 trust
+    host  all all ::1/128 trust
+    host  all all 100.0.0.0/8 trust
+  '';
+
   containers."asset" = {
     autoStart = true;
     privateNetwork = false;
@@ -292,26 +300,32 @@ in
       {
         services.postgresql.enable = true;
         services.postgresql.enableTCPIP = true;
-        services.postgresql.package = pkgs.postgresql;
+
+        # (luajit.withPackages (p:
+        #   with p; [
+        #     stdlib
+        #     luarocks
+        #   ]))
+
+        services.postgresql.settings.shared_preload_libraries = [ "timescaledb" ];
+        services.postgresql.extensions = ps: with ps; [ timescaledb ];
         services.postgresql.settings.port = 3030;
         services.postgresql.authentication = pkgs.lib.mkOverride 10 ''
-          local all       all                   trust
-          host  all       all     127.0.0.1/32  trust
-          host  all       all     ::1/128       trust
-          host  all       all     100.0.0.0/8   trust
+          local all all trust
+          host  all all 127.0.0.1/32 trust
+          host  all all ::1/128 trust
+          host  all all 100.0.0.0/8 trust
+        '';
+        services.postgresql.initialScript = pkgs.writeText "init-timescaledb.sql" ''
+          CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
         '';
         services.postgresql.ensureUsers = [
           { name = "rok"; }
         ];
-        # networking.firewall.allowedTCPPorts = [ 5418 ];
-        # system.stateVersion = "25.05";
-        # services.postgresql.enable = true;
-        # services.postgresql.package = pkgs.postgresql_15;
-        # networking.firewall.enable = true;
       };
   };
 
-  services.clickhouse.enable = true;
+  # services.clickhouse.enable = true;
 
   services.xserver = {
     enable = true;

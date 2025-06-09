@@ -342,14 +342,34 @@ in
     settings.server.http_addr = "127.0.0.1";
   };
 
-  # services.postgresql = {
-  #   enable = false;
-  #   ensureDatabases = ["asset"];
-  #   authentication = pkgs.lib.mkOverride 10 ''
-  #     #type database  DBuser  auth-method
-  #     local all       all     trust
-  #   '';
-  # };
+  services.postgresql.enable = true;
+  services.postgresql.enableTCPIP = true;
+  services.postgresql.extensions = ps: with ps; [
+    pg_repack
+    postgis
+    pgvector
+    timescaledb
+  ];
+  # services.postgresql.settings.shared_preload_libraries = [ "timescaledb" ];
+  # services.postgresql.settings.port = 3030;
+  services.postgresql.authentication = pkgs.lib.mkOverride 10 ''
+    local all all trust
+    host  all all 127.0.0.1/32 trust
+    host  all all ::1/128 trust
+    host  all all 100.0.0.0/8 trust
+  '';
+  services.postgresql.ensureUsers = [
+    { name = "rok"; }
+  ];
+  services.postgresql.initialScript = pkgs.writeText "init-timescaledb.sql" ''
+    CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
+  '';
+
+  # networking.firewall.allowedTCPPorts = [ 5418 ];
+  # system.stateVersion = "25.05";
+  # services.postgresql.enable = true;
+  # services.postgresql.package = pkgs.postgresql_15;
+  # networking.firewall.enable = true;
 
   systemd.services.grafana.serviceConfig.ProtectHome = lib.mkForce "false";
 

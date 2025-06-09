@@ -6,6 +6,7 @@
 }:
 let
   path = lib.strings.concatStringsSep ":" [
+    "$HOME/.pixi/envs/default/bin"
     "$HOME/src/codeberg.org/aca/nix-config/pkgs/scripts"
     "$HOME/src/go.googlesource.com/go/bin"
     "$HOME/bin"

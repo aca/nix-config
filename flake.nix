@@ -12,6 +12,24 @@
     nix-alien.url = "github:thiagokokada/nix-alien";
     # nixpkgs-aca.url = "github:aca/nixpkgs/master";
 
+    pyproject-nix = {
+      url = "github:pyproject-nix/pyproject.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    uv2nix = {
+      url = "github:pyproject-nix/uv2nix";
+      inputs.pyproject-nix.follows = "pyproject-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    pyproject-build-systems = {
+      url = "github:pyproject-nix/build-system-pkgs";
+      inputs.pyproject-nix.follows = "pyproject-nix";
+      inputs.uv2nix.follows = "uv2nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     rgit = {
       url = "github:w4/rgit";
       # inputs.nixpkgs.follows = "nixpkgs";
@@ -153,9 +171,13 @@
       zig,
       zls,
       darwin,
+      uv2nix,
+      pyproject-nix,
+      pyproject-build-systems,
       ...
     }@inputs:
     let
+      inherit (nixpkgs) lib;
     in
     {
       darwinConfigurations.txxx =

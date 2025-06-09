@@ -22,6 +22,7 @@ fn d {|@a| cd ~/src/github.com/aca/dotfiles }
 fn dot.v {|@a| cd ~/src/github.com/aca/dotfiles/.config/nvim }
 fn grt { cd (e:git rev-parse --show-toplevel) }
 fn cdf { |p| try { isDir $p; cd $p } catch { cd (dirname $p) } }
+fn take { |@a| mkdir -p $@a; cd $a[0] }
 fn ffc { |@a| $cdf~ (ff)  }
 
 # basics

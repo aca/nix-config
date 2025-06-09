@@ -5,12 +5,12 @@
   ...
 }:
 let
-  python3 = pkgs.python3.override {
-    self = python3;
-    packageOverrides = pyfinal: pyprev: {
-      itables = pyfinal.callPackage ./python/itables.nix { };
-    };
-  };
+  # python3 = pkgs.python3.override {
+  #   self = python3;
+  #   packageOverrides = pyfinal: pyprev: {
+  #     itables = pyfinal.callPackage ./python/itables.nix { };
+  #   };
+  # };
 in
 {
   environment.systemPackages = with pkgs; [
@@ -23,9 +23,10 @@ in
     basedpyright
     (python3.withPackages (
       ps: with ps; [
+        hatchling
         pip
         boto3
-        itables
+        # itables
         psycopg2
         plotly
         pyyaml
