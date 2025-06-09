@@ -256,7 +256,7 @@ bindsym $mod+apostrophe exec /run/current-system/sw/bin/sway-workspace next-on-o
     # Move focus to the parent container
     bindsym $mod+a focus parent
 
-    bindsym $mod+p exec /home/rok/.bin/capture
+    bindsym $mod+p exec /run/current-system/sw/bin/capture-clipboard
 
 #
 # Scratchpad:
