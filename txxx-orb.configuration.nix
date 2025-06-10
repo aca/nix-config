@@ -49,7 +49,7 @@
     "--advertise-exit-node=true"
     ];
   services.tailscale.extraDaemonFlags = [
-    "--ssh"
+    # "--ssh"
     "--socks5-server=0.0.0.0:1080"
   ];
 
