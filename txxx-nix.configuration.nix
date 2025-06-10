@@ -26,7 +26,7 @@ in
   # services.weechat.enable = true;
 
   environment.variables.ZK_ROOT = "/home/rok/src/git.internal/zk";
-  environment.variables.ZK_LOCAL_ROOT = "/home/rok/src/git.internal/zk/to" + "os";
+  environment.variables.ZK_LOCAL_ROOT = "/home/rok/src/git.internal/zk/txxx";
 
   nix.enable = true;
 
@@ -126,9 +126,6 @@ in
   #  services.caddy.virtualHosts."txxx-nix".extraConfig = ''
   # redir https://txxx-nix.folk-uaru.ts.net
   #  '';
-  services.caddy.virtualHosts."txxx-nix.folk-uaru.ts.net".extraConfig = ''
-    respond / "Hello, world!"
-  '';
   programs.dconf.enable = true;
   services.tailscale.permitCertUid = "caddy";
 
