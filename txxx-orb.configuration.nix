@@ -44,14 +44,14 @@
 
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "both";
-  # services.tailscale.extraSetFlags = [
-  #   "--ssh"
-  #   "--advertise-exit-node=true"
-  #   ];
-  # services.tailscale.extraDaemonFlags = [
-  #   "--advertise-routes=10.64.0.0/16"
-  #   "--socks5-server=0.0.0.0:1080"
-  # ];
+  services.tailscale.extraSetFlags = [
+    "--advertise-routes=10.64.0.0/16"
+    "--advertise-exit-node=true"
+    ];
+  services.tailscale.extraDaemonFlags = [
+    "--ssh"
+    "--socks5-server=0.0.0.0:1080"
+  ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.rok = {
