@@ -44,9 +44,11 @@
 
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "both";
-  services.tailscale.extraDaemonFlags = [
+  services.tailscale.extraSetFlags = [
     "--ssh"
     "--advertise-exit-node=true"
+    ];
+  services.tailscale.extraDaemonFlags = [
     "--advertise-routes=10.64.0.0/16"
     "--socks5-server=0.0.0.0:1080"
   ];
