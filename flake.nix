@@ -589,6 +589,37 @@
         ];
       };
 
+      nixosConfigurations.txxx-orb = nixpkgs.lib.nixosSystem rec {
+        system = "aarch64-linux";
+        specialArgs = { inherit inputs system; };
+        modules = [
+          ./all.configuration.nix
+          ./txxx-orb.configuration.nix
+          agenix.nixosModules.default
+
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.rok = import ./root.home-manager.nix;
+            home-manager.users.root =
+              { pkgs, ... }:
+              {
+                home.stateVersion = "25.05";
+              };
+            # home-manager.users.tmp =
+            #   { pkgs, ... }:
+            #   {
+            #     home.stateVersion = "25.05";
+            #   };
+            home-manager.extraSpecialArgs = specialArgs;
+            home-manager.backupFileExtension = "bak";
+          }
+
+        ];
+
+      };
+
       #
       # nixosConfigurations.oci-xnzm-002 = nixpkgs.lib.nixosSystem rec {
       #   system = "x86_64-linux";
