@@ -60,7 +60,7 @@ in
     // (
       if pkgs.stdenv.isDarwin then
         {
-          PATH = path + ":/opt/homebrew/bin";
+          PATH = path + ":/opt/homebrew/bin:$PATH";
         }
       else
         {

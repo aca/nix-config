@@ -88,7 +88,7 @@ in
       # "alfred"
       "karabiner-elements"
       "chromium"
-      "vmware-fusion"
+      # "vmware-fusion"
       "jordanbaird-ice"
       # "google-chrome@canary"
       # "podman-desktop"
