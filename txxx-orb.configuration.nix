@@ -35,17 +35,31 @@
     ./dev/python.nix
     ./dev/lua.nix
     ./dev/go.nix
-    ./dev/neovim_conf.nix
+    # ./dev/neovim_conf.nix
+  ];
+
+  environment.systemPackages = with pkgs; [
+    tshark
+    termshark
   ];
 
   environment.sessionVariables = {
     LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [ pkgs.oracle-instantclient ];
   };
 
+  boot.kernel.sysctl = {
+    # if you use ipv4, this is all you need
+    "net.ipv4.conf.all.forwarding" = true;
+    "net.ipv6.conf.all.forwarding" = true;
+  };
+
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "both";
   services.tailscale.extraSetFlags = [
     "--advertise-routes=10.64.0.0/16"
+    "--ssh"
+    "--accept-risk=all"
+    "--snat-subnet-routes"
     "--advertise-exit-node=true"
     ];
   services.tailscale.extraDaemonFlags = [
@@ -65,6 +79,13 @@
     ];
     packages = with pkgs; [ ];
   };
+
+  users.users.rok.openssh.authorizedKeys.keys = [
+    (import ./keys.nix).root
+    (import ./keys.nix).home
+    ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO/acNBaXuGBqtEyJoSMkrWXKYgQ/Q9c52SChgmh1ssT rok@txxx-nix''
+    ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC4PDiS3q4XfHGXd2om/ErP8kYr3dymD84XON3PTgBbM rok@rok-x1g10''
+  ];
 
   environment.variables.ZK_ROOT = "/home/rok/src/git.internal/zk";
   environment.variables.ZK_LOCAL_ROOT = "/home/rok/src/git.internal/zk/txxx";

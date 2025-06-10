@@ -30,7 +30,8 @@
   '';
 
   # Disable sshd
-  services.openssh.enable = lib.mkForce false;
+  # services.openssh.enable = lib.mkForce false;
+  services.openssh.enable = true;
 
   # systemd
   systemd.services."systemd-oomd".serviceConfig.WatchdogSec = 0;
