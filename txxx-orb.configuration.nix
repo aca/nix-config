@@ -19,8 +19,8 @@
     ./pkgs/i3.nix
 
     ./env.nix
-    ./hardware/txxx-nix.nix
-    ./nixos/fonts.nix
+    # ./hardware/txxx-nix.nix
+    # ./nixos/fonts.nix
 
     ./dev/nix.nix
     ./dev/c.nix
