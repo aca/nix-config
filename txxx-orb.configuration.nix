@@ -47,6 +47,7 @@
   services.tailscale.extraDaemonFlags = [
     "--ssh"
     "--advertise-exit-node=true"
+    "--advertise-routes=10.64.0.0/16"
     "--socks5-server=0.0.0.0:1080"
   ];
 
