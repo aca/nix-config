@@ -604,7 +604,7 @@ in
 
   launchd.daemons.tailscaled = {
     script = ''
-      /run/current-system/sw/bin/tailscaled --socks5-server=0.0.0.0:1080
+      /run/current-system/sw/bin/tailscaled --socks5-server=0.0.0.0:1081
     '';
     serviceConfig.RunAtLoad = true;
     # serviceConfig.UserName = '''';
