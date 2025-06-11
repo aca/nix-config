@@ -70,11 +70,11 @@ in
                 - Hangul
                 - Latin
                 result: Consume
-              Hangul:
-                behavior: !Toggle
-                - Hangul
-                - Latin
-                result: Consume
+              # Hangul:
+              #   behavior: !Toggle
+              #   - Hangul
+              #   - Latin
+              #   result: Consume
             category_hotkeys:
               Hangul:
                 ControlR:

@@ -147,6 +147,7 @@
     entr
     procps
     libreoffice
+    beekeeper-studio
     htop
     vim
     unison
@@ -334,8 +335,8 @@
     serviceConfig.Restart = "always";
     serviceConfig.RestartSec = "5s";
     # serviceConfig.WorkingDirectory = "/home/rok/src/github.com/investing-kr/bot/cmd/trader-buy-cancel";
-    wantedBy = ["network.target"];
-    path = ["/run/current-system/sw"];
+    wantedBy = [ "network.target" ];
+    path = [ "/run/current-system/sw" ];
     script = "sleep 1000";
   };
 }
