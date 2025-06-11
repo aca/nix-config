@@ -159,26 +159,26 @@ in
   networking.hostName = "oci-aca-001";
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  # services = {
-  #   headscale = {
-  #     enable = true;
-  #     address = "0.0.0.0";
-  #     port = 8080;
-  #     settings = {
-  #       logtail.enabled = false;
-  #       server_url = "https://" + hsDomain;
-  #       dns = {
-  #         base_domain = "example.com";
-  #       };
-  #     };
-  #   };
-  # };
-  #
-  # services.caddy.virtualHosts.${hsDomain} = {
-  #   extraConfig = ''
-  #     reverse_proxy http://localhost:${toString config.services.headscale.port}
-  #   '';
-  # };
+  services = {
+    headscale = {
+      enable = true;
+      address = "0.0.0.0";
+      port = 8080;
+      settings = {
+        logtail.enabled = false;
+        server_url = "https://" + hsDomain;
+        dns = {
+          base_domain = "example.com";
+        };
+      };
+    };
+  };
+
+  services.caddy.virtualHosts.${hsDomain} = {
+    extraConfig = ''
+      reverse_proxy http://localhost:${toString config.services.headscale.port}
+    '';
+  };
 
   # services.tailscale.enable = true;
   # services.tailscale.useRoutingFeatures = "both";
