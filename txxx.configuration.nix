@@ -602,9 +602,9 @@ in
     nerd-fonts.blex-mono
   ];
 
-  launchd.daemons.pueued = {
+  launchd.daemons.tailscaled = {
     script = ''
-      /run/current-system/sw/bin/tailscaled
+      /run/current-system/sw/bin/tailscaled --socks5-server=0.0.0.0:1080
     '';
     serviceConfig.RunAtLoad = true;
     # serviceConfig.UserName = '''';
