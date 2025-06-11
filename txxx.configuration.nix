@@ -439,98 +439,162 @@ in
         # defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 60 '{enabled = 0;}'
         # defaults read com.apple.symbolichotkeys
         "com.apple.symbolichotkeys" = {
-          AppleSymbolicHotKeys = {
-            "60" = {
-              enabled = false;
-              value = {
-                parameters = [
-                  32
-                  49
-                  262144
-                ];
-                type = "standard";
-              };
-            };
-
-            # capture
-            "184" = {
-              enabled = true;
-              value = {
-                parameters = [
-                  112
-                  35
-                  1441792
-                ];
-                type = "standard";
-              };
-            };
-            "28" = {
-              enabled = false;
-              value = {
-                parameters = [
-                  51
-                  20
-                  1179648
-                ];
-                type = "standard";
-              };
-            };
-            "29" = {
-              enabled = false;
-              value = {
-                parameters = [
-                  51
-                  20
-                  1179648
-                ];
-                type = "standard";
-              };
-            };
-            "30" = {
-              enabled = false;
-              value = {
-                parameters = [
-                  51
-                  20
-                  1179648
-                ];
-                type = "standard";
-              };
-            };
-            "31" = {
-              enabled = true;
-              value = {
-                parameters = [
-                  112
-                  35
-                  1310720
-                ];
-                type = "standard";
-              };
-            };
-            "61" = {
-              enabled = true;
-              value = {
-                parameters = [
-                  32
-                  49
-                  1835008
-                ];
-                type = "standard";
-              };
-            };
-            "64" = {
-              enabled = true;
-              value = {
-                parameters = [
-                  32
-                  49
-                  1048576
-                ];
-                type = "standard";
-              };
-            };
-          };
+  AppleSymbolicHotKeys = {
+    "175" = {
+      enabled = false;
+      value = {
+        parameters = [
+          65535
+          65535
+          0
+        ];
+        type = "standard";
+      };
+    };
+    "184" = {
+      enabled = true;
+      value = {
+        parameters = [
+          112
+          35
+          1966080
+        ];
+        type = "standard";
+      };
+    };
+    "190" = {
+      enabled = false;
+      value = {
+        parameters = [
+          113
+          12
+          8388608
+        ];
+        type = "standard";
+      };
+    };
+    "222" = {
+      enabled = false;
+      value = {
+        parameters = [
+          65535
+          65535
+          0
+        ];
+        type = "standard";
+      };
+    };
+    "31" = {
+      enabled = true;
+      value = {
+        parameters = [
+          112
+          35
+          1835008
+        ];
+        type = "standard";
+      };
+    };
+    "32" = {
+      enabled = false;
+      value = {
+        parameters = [
+          65535
+          126
+          8650752
+        ];
+        type = "standard";
+      };
+    };
+    "33" = {
+      enabled = false;
+      value = {
+        parameters = [
+          65535
+          125
+          8650752
+        ];
+        type = "standard";
+      };
+    };
+    "36" = {
+      enabled = false;
+      value = {
+        parameters = [
+          65535
+          103
+          8388608
+        ];
+        type = "standard";
+      };
+    };
+    "52" = {
+      enabled = true;
+      value = {
+        parameters = [
+          100
+          2
+          1835008
+        ];
+        type = "standard";
+      };
+    };
+    "53" = {
+      enabled = true;
+      value = {
+        parameters = [
+          65535
+          107
+          8388608
+        ];
+        type = "standard";
+      };
+    };
+    "55" = {
+      enabled = true;
+      value = {
+        parameters = [
+          65535
+          107
+          8912896
+        ];
+        type = "standard";
+      };
+    };
+    "61" = {
+      enabled = true;
+      value = {
+        parameters = [
+          32
+          49
+          1835008
+        ];
+        type = "standard";
+      };
+    };
+    "64" = {
+      enabled = true;
+      value = {
+        parameters = [
+          65535
+          36
+          1835008
+        ];
+        type = "standard";
+      };
+    };
+    "65" = {
+      enabled = false;
+      value = {
+        parameters = [
+          32
+          49
+          1572864
+        ];
+        type = "standard";
+      };
+    };
+  };
         };
 
         "com.apple.screensaver" = {
