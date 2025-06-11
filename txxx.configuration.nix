@@ -602,6 +602,15 @@ in
     nerd-fonts.blex-mono
   ];
 
+  launchd.daemons.pueued = {
+    script = ''
+      /run/current-system/sw/bin/tailscaled
+    '';
+    serviceConfig.RunAtLoad = true;
+    # serviceConfig.UserName = '''';
+    serviceConfig.KeepAlive = true;
+  };
+
   # launchd.daemons.pueued = {
   #   script = ''
   #     /run/current-system/sw/bin/pueued
