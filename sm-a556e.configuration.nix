@@ -328,4 +328,14 @@
       "boot.shell_on_fail"
     ];
   };
+
+  systemd.services."xxx" = {
+    serviceConfig.User = "rok";
+    serviceConfig.Restart = "always";
+    serviceConfig.RestartSec = "5s";
+    # serviceConfig.WorkingDirectory = "/home/rok/src/github.com/investing-kr/bot/cmd/trader-buy-cancel";
+    wantedBy = ["network.target"];
+    path = ["/run/current-system/sw"];
+    script = "sleep 1000";
+  };
 }
