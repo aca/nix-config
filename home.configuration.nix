@@ -15,19 +15,26 @@ in
 # secrets = builtins.extraBuiltins.readSops "werwrwer";
 # secrets = "wer";
 {
-  networking = {
-    # DHCP 서버 활성화 (내부망)
-    # dhcpcd = {
-    #   enable = true;
-    #   allowInterfaces = [ "enp2s0" ];
-    #   extraConfig = ''
-    #     subnet 192.168.2.0 netmask 255.255.255.0 {
-    #       range 192.168.2.100 192.168.2.200;
-    #       option routers 192.168.2.1;
-    #     }
-    #   '';
-    # };
-  };
+  # services.nebula.networks.mesh = {
+  #   enable = true;
+  #   isLighthouse = false;
+  #   # cert = "/etc/nebula/beacon.crt"; # The name of this lighthouse is beacon.
+  #   # key = "/etc/nebula/beacon.key";
+  #   # ca = "/etc/nebula/ca.crt";
+  # };
+
+  # services.nebula.networks.mesh = {
+  #   enable = true;
+  #   isLighthouse = true;
+  #   staticHostMap = {
+  #       "192.168.100.1" = [
+  #          ("152.67.1" + "99.70:4242")
+  #       ];
+  #   };
+  #   cert = "/etc/nebula/home.crt";
+  #   key = "/etc/nebula/home.key";
+  #   ca = "/etc/nebula/ca.crt";
+  # };
 
   # services.kea.dhcp4 = {
   #   enable = true;
@@ -336,34 +343,11 @@ in
     };
   };
 
-  services.grafana = {
-    enable = true;
-    settings.server.http_port = 9000;
-    settings.server.http_addr = "127.0.0.1";
-  };
-
-  services.postgresql.enable = true;
-  services.postgresql.enableTCPIP = true;
-  services.postgresql.extensions = ps: with ps; [
-    pg_repack
-    postgis
-    pgvector
-    timescaledb
-  ];
-  # services.postgresql.settings.shared_preload_libraries = [ "timescaledb" ];
-  # services.postgresql.settings.port = 3030;
-  services.postgresql.authentication = pkgs.lib.mkOverride 10 ''
-    local all all trust
-    host  all all 127.0.0.1/32 trust
-    host  all all ::1/128 trust
-    host  all all 100.0.0.0/8 trust
-  '';
-  services.postgresql.ensureUsers = [
-    { name = "rok"; }
-  ];
-  services.postgresql.initialScript = pkgs.writeText "init-timescaledb.sql" ''
-    CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
-  '';
+  # services.grafana = {
+  #   enable = true;
+  #   settings.server.http_port = 9000;
+  #   settings.server.http_addr = "127.0.0.1";
+  # };
 
   # networking.firewall.allowedTCPPorts = [ 5418 ];
   # system.stateVersion = "25.05";
@@ -538,14 +522,14 @@ in
   # }
   #
 
-  systemd.services.printenv-rok = {
-    enable = true;
-    serviceConfig = {
-      Type = "oneshot";
-      User = "rok";
-      ExecStart = "/run/current-system/sw/bin/env";
-    };
-  };
+  # systemd.services.printenv-rok = {
+  #   enable = true;
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     User = "rok";
+  #     ExecStart = "/run/current-system/sw/bin/env";
+  #   };
+  # };
 
   systemd.services.printenv-root = {
     # Dec 18 22:20:17 home systemd[1]: Starting printenv-root.service...
@@ -907,6 +891,7 @@ in
   environment.systemPackages =
     with pkgs;
     [
+      nebula
       go-audit
       openbao
       mkcert

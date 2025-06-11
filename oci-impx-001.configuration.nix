@@ -101,6 +101,7 @@
     zsh
     fish
     xsel
+    nebula
   ];
 
   services.webdav.enable = true;

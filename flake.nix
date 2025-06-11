@@ -515,41 +515,41 @@
         ];
       };
       #
-      # nixosConfigurations.oci-impx-001 = nixpkgs.lib.nixosSystem rec {
-      #   system = "aarch64-linux";
-      #   specialArgs = { inherit inputs system; };
-      #   modules = [
-      #     inputs.comin.nixosModules.comin
-      #     ./all.configuration.nix
-      #     ./log.nix
-      #     ./oci-impx-001.configuration.nix
-      #     home-manager.nixosModules.home-manager
-      #     {
-      #       home-manager.useGlobalPkgs = true;
-      #       home-manager.useUserPackages = true;
-      #       home-manager.users.rok = import ./oci-impx-001.home-manager.nix;
-      #       home-manager.extraSpecialArgs = specialArgs;
-      #       home-manager.backupFileExtension = "bak";
-      #     }
-      #     agenix.nixosModules.default
-      #     (
-      #       { ... }:
-      #       {
-      #         services.comin = {
-      #           enable = true;
-      #           remotes = [
-      #             {
-      #               name = "origin";
-      #               url = "https://codeberg.org/aca/nix-config.git";
-      #               branches.main.name = "main";
-      #               poller.period = 10;
-      #             }
-      #           ];
-      #         };
-      #       }
-      #     )
-      #   ];
-      # };
+      nixosConfigurations.oci-impx-001 = nixpkgs.lib.nixosSystem rec {
+        system = "aarch64-linux";
+        specialArgs = { inherit inputs system; };
+        modules = [
+          inputs.comin.nixosModules.comin
+          ./all.configuration.nix
+          ./log.nix
+          ./oci-impx-001.configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.rok = import ./oci-impx-001.home-manager.nix;
+            home-manager.extraSpecialArgs = specialArgs;
+            home-manager.backupFileExtension = "bak";
+          }
+          agenix.nixosModules.default
+          # (
+          #   { ... }:
+          #   {
+          #     services.comin = {
+          #       enable = true;
+          #       remotes = [
+          #         {
+          #           name = "origin";
+          #           url = "https://codeberg.org/aca/nix-config.git";
+          #           branches.main.name = "main";
+          #           poller.period = 10;
+          #         }
+          #       ];
+          #     };
+          #   }
+          # )
+        ];
+      };
       #
       # nixosConfigurations.oci-impx-003 = nixpkgs.lib.nixosSystem rec {
       #   system = "x86_64-linux";

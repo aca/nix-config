@@ -5,6 +5,11 @@
   ...
 }:
 let
+  hsDomain =
+    "hs.xk"
+    +
+      # hsdomain
+      "or.stream";
   secrets = builtins.exec [
     # "age" "--decrypt" "-i" "/etc/ssh/ssh_host_ed25519_key" "-i" "/home/rok/.ssh/id_ed25519" ./secrets/oci-aca-001.nix.age
     "bash"
@@ -154,14 +159,35 @@ in
   networking.hostName = "oci-aca-001";
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  services.tailscale.enable = true;
-  services.tailscale.useRoutingFeatures = "both";
-  services.tailscale.extraSetFlags = [
-    "--ssh"
-    "--advertise-exit-node=true"
-  ];
-  services.tailscale.extraDaemonFlags = [ "--socks5-server=0.0.0.0:1080" ]; # blocked by firewall
-  services.k3s.enable = true;
+  # services = {
+  #   headscale = {
+  #     enable = true;
+  #     address = "0.0.0.0";
+  #     port = 8080;
+  #     settings = {
+  #       logtail.enabled = false;
+  #       server_url = "https://" + hsDomain;
+  #       dns = {
+  #         base_domain = "example.com";
+  #       };
+  #     };
+  #   };
+  # };
+  #
+  # services.caddy.virtualHosts.${hsDomain} = {
+  #   extraConfig = ''
+  #     reverse_proxy http://localhost:${toString config.services.headscale.port}
+  #   '';
+  # };
+
+  # services.tailscale.enable = true;
+  # services.tailscale.useRoutingFeatures = "both";
+  # services.tailscale.extraSetFlags = [
+  #   "--ssh"
+  #   "--advertise-exit-node=true"
+  # ];
+  # services.tailscale.extraDaemonFlags = [ "--socks5-server=0.0.0.0:1080" ]; # blocked by firewall
+  # services.k3s.enable = true;
 
   services.openssh = {
     enable = true;
@@ -209,13 +235,24 @@ in
   zramSwap.enable = false;
 
   networking.firewall = {
-    enable = true;
+    enable = false;
+    logRefusedConnections = true;
     allowedTCPPorts = [
       22
       80
       443
     ];
   };
+
+  # networking.firewall = {
+  #   enable = true;
+  #   logRefusedConnections = true;
+  #   allowedTCPPorts = [
+  #     22
+  #     80
+  #     443
+  #   ];
+  # };
 
   # nixpkgs.config.permittedInsecurePackages = ["nodejs-16.20.1"];
   # age.secrets."github.com__aca__oci-aca-002.age".file = ./secrets/github.com__aca__oci-aca-002.age;
@@ -270,6 +307,8 @@ in
     fish
     go
     vim
+    # nebula
+    inetutils
 
     xorg.xinit
     xorg.xauth
@@ -340,4 +379,12 @@ in
   # services.x2goserver.enable = true;
   services.xrdp.enable = true;
   services.xrdp.openFirewall = true;
+
+  # services.nebula.networks.mesh = {
+  #   enable = true;
+  #   isLighthouse = true;
+  #   cert = "/etc/nebula/lighthouse.crt"; # The name of this lighthouse is beacon.
+  #   key = "/etc/nebula/lighthouse.key";
+  #   ca = "/etc/nebula/ca.crt";
+  # };
 }
