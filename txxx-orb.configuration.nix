@@ -8,6 +8,8 @@
   ...
 }:
 {
+
+  networking.firewall.enable = false;
   networking.hostName = "txxx-orb";
   imports = [
     # Include the default lxd configuration.
@@ -56,7 +58,6 @@
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "both";
   services.tailscale.extraSetFlags = [
-    "--advertise-routes=10.64.0.0/16"
     "--ssh"
     "--accept-risk=all"
     "--snat-subnet-routes"

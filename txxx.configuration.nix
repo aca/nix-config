@@ -162,6 +162,8 @@ in
       kubectl
       ncdu
       trash-cli
+      headscale
+      tailscale
       mpv
       # ncdu
       # goconvey
