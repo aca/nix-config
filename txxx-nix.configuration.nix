@@ -178,6 +178,7 @@ in
     ./env.nix
     ./hardware/txxx-nix.nix
     ./nixos/fonts.nix
+    ./pkgs/scripts.nix
 
     ./dev/nix.nix
     ./dev/c.nix

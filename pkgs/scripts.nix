@@ -26,6 +26,7 @@ in {
   # ];
   environment.systemPackages =
     [
+      pkgs.rsync
       (pkgs.writeShellScriptBin "bak" ''mv -v -n "$1" "$1"$(date +%y%m%dT%H%M%S)'')
       (pkgs.writeShellScriptBin "nvimlog" ''tail -f ~/.cache/nvim/plenary.log'')
       (pkgs.writeShellScriptBin "svc" ''sudo systemctl "$@" '')
