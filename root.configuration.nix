@@ -833,7 +833,7 @@ in
   # tailscaled --tun=userspace-networking --socks5-server=localhost:1055 --outbound-http-proxy-listen=localhost:1055 &
   services.tailscale.extraSetFlags = [
     "--ssh"
-    "--advertise-exit-node=true"
+    "--advertise-exit-node=false"
   ];
 
   services.openssh.enable = true;
