@@ -46,46 +46,42 @@ in
             default_category: Latin
             global_category_state: false
             global_hotkeys:
-              M-C-Backslash:
-                behavior: !Mode Math
-                result: ConsumeIfProcessed
+              # M-C-Backslash:
+              #   behavior: !Mode Math
+              #   result: ConsumeIfProcessed
               Super-Space:
                 behavior: !Toggle
                 - Hangul
                 - Latin
                 result: Consume
-              M-C-E:
-                behavior: !Mode Emoji
-                result: ConsumeIfProcessed
+              # M-C-E:
+              #   behavior: !Mode Emoji
+              #   result: ConsumeIfProcessed
               Esc:
                 behavior: !Switch Latin
                 result: Bypass
-              Muhenkan:
-                behavior: !Toggle
-                - Hangul
-                - Latin
-                result: Consume
-              AltR:
-                behavior: !Toggle
-                - Hangul
-                - Latin
-                result: Consume
-              # Hangul:
+              # Muhenkan:
               #   behavior: !Toggle
               #   - Hangul
               #   - Latin
               #   result: Consume
-            category_hotkeys:
+              AltR:
+                behavior: Ignore
+                result: Bypass
               Hangul:
-                ControlR:
-                  behavior: !Mode Hanja
-                  result: Consume
-                HangulHanja:
-                  behavior: !Mode Hanja
-                  result: Consume
-                F9:
-                  behavior: !Mode Hanja
-                  result: ConsumeIfProcessed
+                behavior: Ignore
+                result: Bypass
+            # category_hotkeys:
+            #   Hangul:
+            #     ControlR:
+            #       behavior: !Mode Hanja
+            #       result: Consume
+            #     HangulHanja:
+            #       behavior: !Mode Hanja
+            #       result: Consume
+            #     F9:
+            #       behavior: !Mode Hanja
+            #       result: ConsumeIfProcessed
             mode_hotkeys:
               Math:
                 Enter:
