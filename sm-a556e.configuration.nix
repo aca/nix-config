@@ -134,6 +134,7 @@
     elvish
     nodejs
     vifm
+    aeron
     wget
     coreutils-full
     btop

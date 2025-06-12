@@ -40,9 +40,9 @@ in
   environment.systemPath = [ "/opt/homebrew/bin" ];
   environment.pathsToLink = [ "/Application" ];
 
-  # environment.variables = rec {
-  #   LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.oracle-instantclient];
-  # };
+  environment.variables = rec {
+    LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.oracle-instantclient];
+  };
 
   # fonts = {
   #   fontDir = {
