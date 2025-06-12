@@ -666,14 +666,14 @@ in
     nerd-fonts.blex-mono
   ];
 
-  # launchd.daemons.tailscaled = {
-  #   script = ''
-  #     /run/current-system/sw/bin/tailscaled --socks5-server=0.0.0.0:1081
-  #   '';
-  #   serviceConfig.RunAtLoad = true;
-  #   # serviceConfig.UserName = '''';
-  #   serviceConfig.KeepAlive = true;
-  # };
+  launchd.daemons.tailscaled = {
+    script = ''
+      /run/current-system/sw/bin/tailscaled --tun=userspace-networking --socks5-server=0.0.0.0:1081
+    '';
+    serviceConfig.RunAtLoad = true;
+    serviceConfig.UserName = "kyungrok.chung";
+    serviceConfig.KeepAlive = true;
+  };
 
   # launchd.daemons.pueued = {
   #   script = ''
