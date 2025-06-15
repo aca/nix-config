@@ -8,7 +8,6 @@
   ...
 }:
 {
-
   networking.firewall.enable = false;
   networking.hostName = "txxx-orb";
   imports = [
@@ -43,6 +42,7 @@
 
 
   environment.systemPackages = with pkgs; [
+    elvish
     tshark
     termshark
   ];
@@ -93,23 +93,23 @@
   environment.variables.ZK_ROOT = "/home/rok/src/git.internal/zk";
   environment.variables.ZK_LOCAL_ROOT = "/home/rok/src/git.internal/zk/txxx";
 
-  services.dnsmasq = {
-    enable = true;
-
-    # Forward *everything* to these upstreams
-
-    settings = {
-      cache-size = 10000;
-      clear-on-reload = true;
-      min-cache-ttl = 3600;
-      log-queries = true;
-      log-dhcp = true;
-      server = [
-        "172.21.223.91"
-        "8.8.8.8"
-      ];
-    };
-  };
+  # services.dnsmasq = {
+  #   enable = true;
+  #
+  #   # Forward *everything* to these upstreams
+  #
+  #   settings = {
+  #     cache-size = 10000;
+  #     clear-on-reload = true;
+  #     min-cache-ttl = 3600;
+  #     log-queries = true;
+  #     log-dhcp = true;
+  #     server = [
+  #       "172.21.223.91"
+  #       "8.8.8.8"
+  #     ];
+  #   };
+  # };
 
   users.users."kyungrok.chung" = {
     uid = 1095052480;

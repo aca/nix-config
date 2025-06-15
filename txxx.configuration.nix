@@ -144,6 +144,22 @@ in
   #   };
   # };
 
+  # services.dnsmasq = {
+  #   enable = true;
+  #   bind = "0.0.0.0"
+  #   # settings = {
+  #   #   cache-size = 10000;
+  #   #   clear-on-reload = true;
+  #   #   min-cache-ttl = 3600;
+  #   #   log-queries = true;
+  #   #   log-dhcp = true;
+  #   #   server = [
+  #   #     "172.21.223.91"
+  #   #     "8.8.8.8"
+  #   #   ];
+  #   # };
+  # };
+
   environment.systemPackages =
     with pkgs;
     [
