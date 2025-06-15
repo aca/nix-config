@@ -601,7 +601,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.rok = import ./txxx-orb.home-manager.nix;
+            home-manager.users."kyungrok.chung" = import ./txxx-orb.home-manager.nix;
             home-manager.users.root =
               { pkgs, ... }:
               {

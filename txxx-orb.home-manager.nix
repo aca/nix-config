@@ -23,8 +23,8 @@ in
   home.stateVersion = "25.05";
   programs.home-manager.enable = true;
 
-  home.username = "rok";
-  home.homeDirectory = "/home/rok";
+  home.username = "kyungrok.chung";
+  home.homeDirectory = "/home/kyungrok.chung";
 
   # services.pueue = {
   #   enable = true;
@@ -45,17 +45,5 @@ in
   # };
 
   home.packages = [
-    (pkgs.writeShellScriptBin "pbcopy" ''
-      /opt/orbstack-guest/bin/pbcopy
-    '')
-    (pkgs.writeShellScriptBin "ci" ''
-      /opt/orbstack-guest/bin/pbcopy
-    '')
-    (pkgs.writeShellScriptBin "pbpaste" ''
-      /opt/orbstack-guest/bin/pbpaste
-    '')
-    (pkgs.writeShellScriptBin "co" ''
-      /opt/orbstack-guest/bin/pbpaste
-    '')
   ];
 }

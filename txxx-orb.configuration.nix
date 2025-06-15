@@ -10,6 +10,10 @@
 {
   networking.firewall.enable = false;
   networking.hostName = "txxx-orb";
+
+#   environment.systemPackages = [
+# ];
+
   imports = [
     # Include the default lxd configuration.
     "${modulesPath}/virtualisation/lxc-container.nix"
@@ -45,6 +49,19 @@
     elvish
     tshark
     termshark
+
+    (pkgs.writeShellScriptBin "pbcopy" ''
+      /opt/orbstack-guest/bin/pbcopy
+    '')
+    (pkgs.writeShellScriptBin "ci" ''
+      /opt/orbstack-guest/bin/pbcopy
+    '')
+    (pkgs.writeShellScriptBin "pbpaste" ''
+      /opt/orbstack-guest/bin/pbpaste
+    '')
+    (pkgs.writeShellScriptBin "co" ''
+      /opt/orbstack-guest/bin/pbpaste
+    '')
   ];
 
   environment.sessionVariables = {
