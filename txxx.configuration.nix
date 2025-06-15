@@ -150,6 +150,7 @@ in
     ]
     ++ [
       docker-client
+      tyson
       age
       luit
       sourcekit-lsp
