@@ -3,8 +3,10 @@
   lib,
   inputs,
   ...
-}: let
-in {
+}:
+let
+in
+{
   imports = [
     ./pkgs/home_defaults.nix
     ./pkgs/elvish/elvish.nix
@@ -42,6 +44,18 @@ in {
   #   };
   # };
 
-  # home.packages = [
-  # ];
+  home.packages = [
+    (pkgs.writeShellScriptBin "pbcopy" ''
+      /opt/orbstack-guest/bin/pbcopy
+    '')
+    (pkgs.writeShellScriptBin "ci" ''
+      /opt/orbstack-guest/bin/pbcopy
+    '')
+    (pkgs.writeShellScriptBin "pbpaste" ''
+      /opt/orbstack-guest/bin/pbpaste
+    '')
+    (pkgs.writeShellScriptBin "co" ''
+      /opt/orbstack-guest/bin/pbpaste
+    '')
+  ];
 }
