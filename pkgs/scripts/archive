@@ -1,0 +1,18 @@
+#!/usr/bin/env bun
+
+import { $ } from "bun";
+
+try {
+    $.cwd("/mnt/archive-0");
+} catch {
+    console.log("using current directory")
+} 
+
+let argv = Bun.argv.slice(2,)
+
+if (argv[0].match(`^https://.*youtube.com`) || argv[0].match(`^https://.*youtu.be`)) {
+    console.log("this is youtube")
+    // await $`/home/rok/.venv/yt-dlp --cookies-from-browser vivaldi ${argv[0]}`
+    await $`yt-dlp ${argv[0]}`
+    await $`exit 0`
+}

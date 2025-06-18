@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+#
+# git-set-remote.sh
+# Usage: cd /home/rok/src/<host>/<project> && git-set-remote.sh
+#
+
+# base directory under which your repos live
+BASE_DIR="$HOME/src"
+
+# make sure we're inside a git repo
+if ! git rev-parse --is-inside-work-tree &>/dev/null; then
+  echo "Error: Not inside a Git repository." >&2
+  exit 1
+fi
+
+# check that PWD is under BASE_DIR
+if [[ "$PWD" != "$BASE_DIR/"* ]]; then
+  echo "Error: Must run from a subdirectory of $BASE_DIR" >&2
+  exit 1
+fi
+
+# strip off the base dir and build the HTTPS URL
+REL_PATH="${PWD#"$BASE_DIR/"}"       # e.g. git.internal/go-playground/fix-store
+REMOTE_URL="https://$REL_PATH.git"   # e.g. https://git.internal/go-playground/fix-store.git
+
+# set the remote
+git remote add origin "$REMOTE_URL"
+echo "Set origin → $REMOTE_URL"

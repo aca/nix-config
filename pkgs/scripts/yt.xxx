@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+cd /mnt/archive-0/
+yt-dlp "$@"

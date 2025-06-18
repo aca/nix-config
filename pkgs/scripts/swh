@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+cd ~/src/codeberg.org/aca/nix-config/ || cd ~/src/github.com/aca/nix-config/
+
+home-manager switch switch --flake ".#$(id -u -n)@$(id -g -n)"
+

@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Script: run_after_fail
+# Prompt: 
+#   first argument is the string that should be executed repeteadly, until it fails, and when it's done run second shell command.
+
+# Ensure two arguments are provided
+if [ $# -lt 2 ]; then
+  echo "Usage: $0 <command_1> <command_2>"
+  exit 1
+fi
+
+COMMAND1="$1"
+COMMAND2="$2"
+
+# Loop indefinitely until COMMAND1 fails (exits with non-zero status).
+while true; do
+  # Run COMMAND1. 'eval' is used to interpret the string as a command.
+  if ! eval "$COMMAND1"; then
+    # If COMMAND1 fails, break out of the loop
+    break
+  fi
+  # Wait for 60 seconds before the next iteration
+  sleep 10
+done
+
+# When the loop exits (COMMAND1 failed), run COMMAND2
+eval "$COMMAND2"
+

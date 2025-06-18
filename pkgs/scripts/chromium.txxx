@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+chromium --user-data-dir=/home/rok/.config/chromium.txxx --proxy-server="socks5://100.118.240.15:1081" "--user-agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 14_7_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36'"
+
