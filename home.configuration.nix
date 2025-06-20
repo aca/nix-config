@@ -15,7 +15,6 @@ in
 # secrets = builtins.extraBuiltins.readSops "werwrwer";
 # secrets = "wer";
 {
-
   programs.direnv = {
     # enable = true;
     nix-direnv.enable = true;
@@ -257,6 +256,8 @@ in
   # pkgs.callPackage ./pkgs/scripts.nix { inherit hostName } ;
 
   imports = [
+    ./seedbox-impx.app.nix
+
     ./configuration.nix
     ./desktop.linux.nix
     ./pkgs/cgit.nix
@@ -1387,7 +1388,6 @@ in
 
       odin
       ols
-
 
       #   pdm
       #   (

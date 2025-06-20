@@ -26,7 +26,7 @@ let
   seedbox-impx = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home.local"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC4PDiS3q4XfHGXd2om/ErP8kYr3dymD84XON3PTgBbM rok@rok-x1g10"
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDGC1sHVaNECNbRxZsuZgIB6eN9rKDnK7fEA+fgDNnSG root@seedbox-impx"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE1/AnZwRhG2fR7PuT+Znr6vwApShX/nZAG6bfkay+BK root@seedbox-impx"
   ];
   "txxx-nix" = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICRKLyspdv+Xb8NF2bc6e5FUQ/FFXsxG82Wy+BuyPYY5 rok@txxx-nix"

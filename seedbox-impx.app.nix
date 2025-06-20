@@ -11,7 +11,7 @@
     wantedBy = ["network.target"];
     path = ["/run/current-system/sw"];
     preStart = "git pull --rebase";
-    script = "source /run/agenix/env; go run .";
+    script = "source /run/agenix/env.home; go run .";
   };
 
   # systemd.services."adjust-order" = {
@@ -33,7 +33,7 @@
     wantedBy = ["network.target"];
     path = ["/run/current-system/sw"];
     preStart = "git pull --rebase";
-    script = "source /run/agenix/env; go run .";
+    script = "source /run/agenix/env.home; go run .";
   };
 
   systemd.services."trader-up" = {
@@ -44,7 +44,7 @@
     wantedBy = ["network.target"];
     path = ["/run/current-system/sw"];
     preStart = "git pull --rebase";
-    script = "source /run/agenix/env; go run .";
+    script = "source /run/agenix/env.home; go run .";
   };
 
   systemd.services."trader-buy-cancel" = {
@@ -55,6 +55,6 @@
     wantedBy = ["network.target"];
     path = ["/run/current-system/sw"];
     preStart = "git pull --rebase";
-    script = "source /run/agenix/env; go run .";
+    script = "source /run/agenix/env.home; go run .";
   };
 }

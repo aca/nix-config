@@ -5,7 +5,7 @@
 }: {
   imports = [
     ./hardware/seedbox-impx.nix
-    ./seedbox-impx.app.nix
+    # ./seedbox-impx.app.nix
   ];
 
   system.stateVersion = "25.05";
@@ -20,13 +20,13 @@
   services.tailscale.extraDaemonFlags = ["--socks5-server=0.0.0.0:1080"]; # blocked by firewall
   # services.tailscale.interfaceName = "userspace-networking";
 
-  age.identityPaths = ["/home/rok/.ssh/id_ed25519"];
+  # age.identityPaths = ["/home/rok/.ssh/id_ed25519"];
 
-  age.secrets."env" = {
-    file = ./secrets/env.seedbox-impx.age;
-    mode = "777";
-  };
-  environment.extraInit = "source ${config.age.secrets."env".path}";
+  # age.secrets."env" = {
+  #   file = ./secrets/env.seedbox-impx.age;
+  #   mode = "777";
+  # };
+  # environment.extraInit = "source ${config.age.secrets."env".path}";
 
   users.users.rok = {
     isNormalUser = true;
@@ -104,20 +104,20 @@
     nebula
   ];
 
-  services.webdav.enable = true;
-  services.webdav.settings = {
-    address = "100.104.61.64";
-    port = 8080;
-    scope = "/dav";
-    modify = true;
-    auth = false;
-    # users = [
-    #   {
-    #     username = "root";
-    #     password = "toor";
-    #   }
-    # ];
-  };
+  # services.webdav.enable = true;
+  # services.webdav.settings = {
+  #   address = "100.104.61.64";
+  #   port = 8080;
+  #   scope = "/dav";
+  #   modify = true;
+  #   auth = false;
+  #   # users = [
+  #   #   {
+  #   #     username = "root";
+  #   #     password = "toor";
+  #   #   }
+  #   # ];
+  # };
 
   # # curl 100.79.222.108:9100/prometheus
   # services.prometheus = {
