@@ -9,7 +9,7 @@
   ];
 
   system.stateVersion = "25.05";
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
   networking.hostName = "seedbox-impx";
 
   services.tailscale.enable = true;
