@@ -90,7 +90,7 @@
   # snapraid
   # https://github.com/amadvance/snapraid/blob/master/snapraid.conf.example
   services.snapraid = {
-    enable = false;
+    enable = true;
     dataDisks = {
       d01 = "/mnt/data01";
       d02 = "/mnt/data02";

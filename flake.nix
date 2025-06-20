@@ -539,19 +539,19 @@
         ];
       };
       #
-      nixosConfigurations.oci-impx-001 = nixpkgs.lib.nixosSystem rec {
+      nixosConfigurations.seedbox-impx = nixpkgs.lib.nixosSystem rec {
         system = "aarch64-linux";
         specialArgs = { inherit inputs system; };
         modules = [
           inputs.comin.nixosModules.comin
           ./all.configuration.nix
           ./log.nix
-          ./oci-impx-001.configuration.nix
+          ./seedbox-impx.configuration.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.rok = import ./oci-impx-001.home-manager.nix;
+            home-manager.users.rok = import ./seedbox-impx.home-manager.nix;
             home-manager.extraSpecialArgs = specialArgs;
             home-manager.backupFileExtension = "bak";
           }

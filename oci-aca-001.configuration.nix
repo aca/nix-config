@@ -366,20 +366,6 @@ in
 
   # services.clickhouse.enable = true;
 
-  services.xserver = {
-    enable = true;
-    autorun = true;
-    desktopManager = {
-      xfce.enable = true;
-    };
-    displayManager.startx.enable = true;
-  };
-  services.displayManager.defaultSession = "xfce";
-
-  # services.x2goserver.enable = true;
-  services.xrdp.enable = true;
-  services.xrdp.openFirewall = true;
-
   # services.nebula.networks.mesh = {
   #   enable = true;
   #   isLighthouse = true;

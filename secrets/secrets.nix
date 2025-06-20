@@ -23,10 +23,10 @@ let
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC4PDiS3q4XfHGXd2om/ErP8kYr3dymD84XON3PTgBbM rok@rok-x1g10"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL5/DkiXdSA2OJhCq7t931LhBy80G53DWk3/2X0BhI4V rok@sm-a556e"
   ];
-  oci-impx-001 = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINQSK/DE+ME45yO5Xnm3OSO6w+Ck1gqDQhcK7NCcA0l5 rok@oci-impx-001"
+  seedbox-impx = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home.local"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC4PDiS3q4XfHGXd2om/ErP8kYr3dymD84XON3PTgBbM rok@rok-x1g10"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDGC1sHVaNECNbRxZsuZgIB6eN9rKDnK7fEA+fgDNnSG root@seedbox-impx"
   ];
   "txxx-nix" = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICRKLyspdv+Xb8NF2bc6e5FUQ/FFXsxG82Wy+BuyPYY5 rok@txxx-nix"
@@ -41,7 +41,7 @@ in
   "env.txxx-nix.age".publicKeys = txxx-nix;
   "env.sm-a556e.age".publicKeys = home;
   "env.home.age".publicKeys = home;
-  "env.oci-impx-001.age".publicKeys = oci-impx-001;
+  "env.seedbox-impx.age".publicKeys = seedbox-impx;
   "github.com__aca.age".publicKeys = systems;
   "oci-aca-001/services.matrix-synapse.extraConfigFiles.registration_shared_secret.age".publicKeys = oci-aca-001;
   "oci-aca-001.nix.age".publicKeys = oci-aca-001;

@@ -4,18 +4,46 @@
   ...
 }: {
   imports = [
-    ./hardware/oci-impx-002.nix
+    ./hardware/seedbox-impx.nix
+    ./seedbox-impx.app.nix
   ];
 
   system.stateVersion = "25.05";
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  networking.hostName = "oci-impx-002";
+  networking.hostName = "seedbox-impx";
 
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "both";
-  services.tailscale.extraSetFlags = ["--ssh" "--advertise-exit-node=true"];
+  # services.tailscale.extraSetFlags = ["--ssh" "--advertise-exit-node=true" "--tun=userspace-networking" "--socks5-server=100.104.61.64:1080"];
+  # services.tailscale.extraUpFlags = ["--ssh" "--advertise-exit-node=true" "--tun=userspace-networking" "--socks5-server=100.104.61.64:1080"];
+  # services.tailscale.extraDaemonFlags = ["--tun=userspace-networking --socks5-server=100.104.61.64:1080"];
+  services.tailscale.extraDaemonFlags = ["--socks5-server=0.0.0.0:1080"]; # blocked by firewall
+  # services.tailscale.interfaceName = "userspace-networking";
+
+  age.identityPaths = ["/home/rok/.ssh/id_ed25519"];
+
+  age.secrets."env" = {
+    file = ./secrets/env.seedbox-impx.age;
+    mode = "777";
+  };
+  environment.extraInit = "source ${config.age.secrets."env".path}";
+
+  users.users.rok = {
+    isNormalUser = true;
+    description = "rok";
+    extraGroups = ["networkmanager" "wheel" "docker" "adbusers" "libvirtd" "libvirt" "syncthing" "matrix-synapse" "cgit"];
+    openssh.authorizedKeys.keys = [
+      (import ./keys.nix).root
+      (import ./keys.nix).home
+      ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO/acNBaXuGBqtEyJoSMkrWXKYgQ/Q9c52SChgmh1ssT rok@txxx-nix''
+      ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC4PDiS3q4XfHGXd2om/ErP8kYr3dymD84XON3PTgBbM rok@rok-x1g10''
+    ];
+  };
+
+  services.dbus.enable = true;
 
   services.openssh.enable = true;
+  services.openssh.settings.PasswordAuthentication = false;
   users.users.root.openssh.authorizedKeys.keys = [
     (import ./keys.nix).root
     (import ./keys.nix).home
@@ -49,10 +77,14 @@
     jq
     gcc
     go
+    ripgrep
     fd
+    duckdb
+    sqlite-interactive
     just
     inetutils
     aria2
+    ripgrep
     elvish
     vifm
     wget
@@ -64,11 +96,28 @@
     gnumake
     entr
     procps
+    htop
     vim
     zsh
     fish
     xsel
+    nebula
   ];
+
+  services.webdav.enable = true;
+  services.webdav.settings = {
+    address = "100.104.61.64";
+    port = 8080;
+    scope = "/dav";
+    modify = true;
+    auth = false;
+    # users = [
+    #   {
+    #     username = "root";
+    #     password = "toor";
+    #   }
+    # ];
+  };
 
   # # curl 100.79.222.108:9100/prometheus
   # services.prometheus = {
@@ -90,7 +139,7 @@
   #   # tokenFile = ''/root/.github'';
   #   #
   #   tokenFile = config.age.secrets."github.com__aca".path;
-  #   name = ''aca-x_oci-xnzm1002-001_001'';
+  #   name = ''aca-x_oci-xnzm-001_001'';
   #   replace = true;
   #   extraLabels = ["nix"];
   #   extraPackages = with pkgs; [
