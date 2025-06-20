@@ -3,15 +3,19 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+let
+  monitoring_enable = false;
+in
+{
   # grafana localhost:3000
   # prometheus localhost:9090
-  services.prometheus.enable = true;
+  services.prometheus.enable = monitoring_enable;
   services.prometheus.scrapeConfigs = [
     {
       job_name = "node";
       static_configs = [
-        {targets = ["localhost:${toString config.services.prometheus.exporters.node.port}"];}
+        { targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ]; }
       ];
     }
     # {
@@ -24,10 +28,14 @@
 
   # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/monitoring/prometheus/exporters.nix
   services.prometheus.exporters.node = {
-    enable = true;
+    enable = monitoring_enable;
     port = 9000;
-    enabledCollectors = ["systemd"];
-    extraFlags = ["--collector.ethtool" "--collector.softirqs" "--collector.tcpstat"];
+    enabledCollectors = [ "systemd" ];
+    extraFlags = [
+      "--collector.ethtool"
+      "--collector.softirqs"
+      "--collector.tcpstat"
+    ];
   };
 
   services.prometheus.exporters.smartctl = {
@@ -39,7 +47,7 @@
   # services.loki.enable = true;
 
   services.grafana = {
-    enable = true;
+    enable = monitoring_enable;
     settings = {
       server = {
         http_addr = "0.0.0.0";

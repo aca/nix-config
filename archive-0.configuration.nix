@@ -25,7 +25,6 @@ in
   # NFS permission
   environment.extraInit = "umask 0000";
 
-  services.nfs.server.enable = true;
 
   # Given that our systems are headless, emergency mode is useless.
   # We prefer the system to attempt to continue booting so

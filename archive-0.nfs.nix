@@ -7,7 +7,7 @@
   # NFS
   # mergerfs+nfs requirements https://github.com/trapexit/mergerfs?tab=readme-ov-file#nfs
   # fsid is randomly generated. Don't need to change.
-  services.nfs.server.enable = true;
+  services.nfs.server.enable = false;
 
   # all_squash,anonuid=0,anongid=0 : always use root
   services.nfs.server.exports = ''

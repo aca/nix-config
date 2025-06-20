@@ -3,14 +3,18 @@
   pkgs,
   lib,
   ...
-}: {
-  services.samba.openFirewall = true;
+}:
+let
+  use_samba = false;
+in
+{
+  services.samba.openFirewall = use_samba;
   services.samba-wsdd = {
-    enable = true;
-    openFirewall = true;
+    enable = use_samba;
+    openFirewall = use_samba;
   };
   services.samba = {
-    enable = true;
+    enable = use_samba;
     securityType = "user";
     # extraConfig = ''
     #   workgroup = WORKGROUP
