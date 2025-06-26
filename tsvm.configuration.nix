@@ -4,28 +4,26 @@
 
   imports = [
     ./hardware/tsvm.nix
-    # "${args.inputs.nixpkgs-aca}/nixos/modules/services/networking/tailscale.nix"
-    # "${args.inputs.nixpkgs-unstable}/nixos/modules/virtualisation/vmware-guest.nix"
-    # ./pkgs/tmux/tmux.nix
-    # ./pkgs/i3.nix
+    ./pkgs/tmux/tmux.nix
+    ./pkgs/i3.nix
 
-    # ./env.nix
-    # ./nixos/fonts.nix
-    # ./pkgs/scripts.nix
+    ./env.nix
+    ./nixos/fonts.nix
+    ./pkgs/scripts.nix
 
-    # ./dev/nix.nix
-    # ./dev/c.nix
-    # ./dev/rust.nix
-    # ./dev/default.nix
-    # ./dev/zig.nix
-    # ./dev/js.nix
-    # ./dev/data.nix
-    # ./dev/linux.nix
-    # ./dev/container.nix
-    # ./dev/python.nix
-    # ./dev/lua.nix
-    # ./dev/go.nix
-    # ./dev/neovim_conf.nix
+    ./dev/nix.nix
+    ./dev/c.nix
+    ./dev/rust.nix
+    ./dev/default.nix
+    ./dev/zig.nix
+    ./dev/js.nix
+    ./dev/data.nix
+    ./dev/linux.nix
+    ./dev/container.nix
+    ./dev/python.nix
+    ./dev/lua.nix
+    ./dev/go.nix
+    ./dev/neovim_conf.nix
   ];
 
   services.tailscale.enable = true;
