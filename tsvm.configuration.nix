@@ -160,6 +160,8 @@
     (import ./keys.nix).home
   ];
 
+  services.qemuGuest.enable =true;
+
   users.users.rok.openssh.authorizedKeys.keys = [
     (import ./keys.nix).root
     (import ./keys.nix).home
