@@ -20,7 +20,7 @@ in
   environment.systemPackages = [
     pkgs.element-desktop
     pkgs.zathura
-    elvish
+    pkgs.elvish
   ];
 
   # Set your time zone.
