@@ -131,14 +131,14 @@
   #   ];
   # };
 
-  age.identityPaths = [ "/home/rok/.ssh/id_ed25519" ];
+  # age.identityPaths = [ "/home/rok/.ssh/id_ed25519" ];
   # age.secrets.txxx = { file = ./secrets/txxx.age; mode = "777"; };
 
-  age.secrets."env" = {
-    file = ./secrets/env.txxx-nix.age;
-    mode = "777";
-  };
-  environment.extraInit = "source ${config.age.secrets."env".path}";
+  # age.secrets."env" = {
+  #   file = ./secrets/env.txxx-nix.age;
+  #   mode = "777";
+  # };
+  # environment.extraInit = "source ${config.age.secrets."env".path}";
 
   users.users.root.openssh.authorizedKeys.keys = [
     (import ./keys.nix).root
