@@ -261,6 +261,7 @@
           ./all.configuration.nix
           # ./linux.configuration.nix
           ./neovim.nix
+          ./overlay.nix
           agenix.nixosModules.default
           {
             environment.systemPackages = [
