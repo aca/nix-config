@@ -7,6 +7,12 @@
 in {
   imports = [
     ./pkgs/home_defaults.nix
+
+    ./home-manager/desktop.nix
+    ./home-manager/firefox/firefox.nix
+    ./home-manager/nvim-rebuild.nix
+    ./pkgs/alacritty/home.alacritty.nix
+
     ./pkgs/elvish/elvish.nix
     # ./pkgs/sway/config.nix
 
