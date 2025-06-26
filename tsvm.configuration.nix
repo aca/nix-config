@@ -4,6 +4,8 @@
 
   imports = [
     ./hardware/tsvm.nix
+    ./desktop.linux.nix
+    ./workstation.nix
     ./pkgs/tmux/tmux.nix
     ./pkgs/i3.nix
 
