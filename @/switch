@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+hostname=${HOSTNAME:-$(hostname -s)}
+
+FLAKE=${1:-$hostname}
+
+case "$hostname" in
+  *txxx*)
+    export GIT_SSH_COMMAND='ssh -J rok@home -i /home/rok/.ssh/id_ed25519'
+    ;;
+esac
+
+export NIXPKGS_ALLOW_INSECURE=1
+export NIXPKGS_ALLOW_UNFREE=1 
+
+# sudo -s to a root shell
+#
+# export NIX_SSL_CERT_FILE=/path/to/cert.crt to give Nix temporary instructions to use your certificate
+#
+# modify configuration.nix to add your certificate:
+#
+# security.pki.certificateFiles = [ "/path/to/cert.crt" ]
+#
+# nixos-rebuild switch
+
+  # sudo NIXPKGS_ALLOW_INSECURE=1 NIX_DEBUG=7 nixos-rebuild switch --flake ".#${hostname}" --impure --show-trace --log-format bar-with-logs "$@"
+  # sudo NIX_SSL_CERT_FILE=./certs/x/1.crt NIXPKGS_ALLOW_INSECURE=1 NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --print-build-logs --verbose --flake ".#${hostname}" --impure "$@" 2>&1 | tee ~/rebuild.log.$(date +%Y%m%dT%H%M%S)
+  # sudo NIXPKGS_ALLOW_INSECURE=1 NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --print-build-logs --verbose --flake ".#${hostname}" --impure "$@" 2>&1 | tee ~/rebuild.log.$(date +%Y%m%dT%H%M%S)
+
+
+if OS_NAME=$(uname -s) && [ "$OS_NAME" = "Darwin" ]; then
+    if [[ "$hostname" = "elckyu"* ]]; then
+        FLAKE=txxx
+    fi
+    sudo nix --extra-experimental-features 'nix-command flakes'  --option allow-unsafe-native-code-during-evaluation true run -- nix-darwin switch --verbose --flake ".#${FLAKE}" --impure "$@"
+else
+    sudo XXX=holo NIXPKGS_ALLOW_INSECURE=1 NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild switch --option allow-unsafe-native-code-during-evaluation true --flake ".#${FLAKE}" --impure 2>&1 | tee ~/rebuild.log.$(date +%Y%m%dT%H%M%S)
+fi

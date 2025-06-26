@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+/run/current-system/sw/bin/echo "---------"
+/run/current-system/sw/bin/echo "fail.code: fail with $1" 
+/run/current-system/sw/bin/echo "---------"
+
+exit $1

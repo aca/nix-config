@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+export NIXPKGS_ALLOW_INSECURE=1
+nix --extra-experimental-features 'nix-command flakes' flake lock --update-input $1
+# nix flake update --commit-lock-file
