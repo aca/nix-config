@@ -79,6 +79,18 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
   alacritty
+
+    (pkgs.chromium.override {
+      commandLineArgs = [
+        "--enable-features=WebContentsForceDark"
+        "--enable-quic"
+        "--enable-zero-copy"
+        "--remote-debugging-port=9222"
+        "--user-agent='Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Mobile Safari/537.36'"
+        # NOTES: ozone-platform=wayland fcitx win+space not work
+      ];
+    })
+
     vim
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
