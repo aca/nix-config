@@ -6,11 +6,11 @@
 }: let
 in {
   imports = [
-    # ./pkgs/home_defaults.nix
-    # ./pkgs/elvish/elvish.nix
+    ./pkgs/home_defaults.nix
+    ./pkgs/elvish/elvish.nix
     # ./pkgs/sway/config.nix
 
-    # ./pkgs/vifm/vifmrc.nix
+    ./pkgs/vifm/vifmrc.nix
   ];
 
   # programs.firefox.package = pkgs.firefox-devedition.override {
