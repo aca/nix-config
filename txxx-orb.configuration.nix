@@ -84,7 +84,6 @@
   services.tailscale.extraSetFlags = [
     "--ssh"
     "--accept-risk=all"
-    "--snat-subnet-routes"
     "--advertise-exit-node=true"
     ];
   services.tailscale.extraDaemonFlags = [

@@ -21,6 +21,8 @@
     # ./oci-impx-001.app.nix
   ];
 
+  programs.mosh.enable = true;
+
   age.identityPaths = [ "/home/rok/.ssh/id_ed25519" ];
   age.secrets."env" = {
     file = ./secrets/env.sm-a556e.age;
