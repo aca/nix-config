@@ -15,6 +15,7 @@ in
 # secrets = builtins.extraBuiltins.readSops "werwrwer";
 # secrets = "wer";
 {
+  programs.mosh.enable = true;
   programs.direnv = {
     # enable = true;
     nix-direnv.enable = true;
