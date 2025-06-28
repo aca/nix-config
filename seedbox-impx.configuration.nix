@@ -166,17 +166,17 @@
   #   ];
   # };
 
-  # fileSystems."/mnt/tmp" = {
-  #   device = "100.100.82.59:/mnt/seedbox-impx";
-  #   fsType = "nfs";
-  #   # "x-systemd.device-timeout=10s"
-  #   # x-systemd.automount
-  #   # _netdev
-  #   options = [
-  #     "noatime"
-  #     "nfsvers=3"
-  #     # "x-systemd.requires=network-online.target"
-  #   ];
-  # };
+  fileSystems."/mnt/tmp" = {
+    device = "100.100.82.59:/mnt/seedbox-impx";
+    fsType = "nfs";
+    # "x-systemd.device-timeout=10s"
+    # x-systemd.automount
+    # _netdev
+    options = [
+      "noatime"
+      "nfsvers=3"
+      # "x-systemd.requires=network-online.target"
+    ];
+  };
 
 }
