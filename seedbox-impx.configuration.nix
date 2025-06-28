@@ -174,6 +174,7 @@
     # _netdev
     options = [
       "noatime"
+      "nfsvers=3"
       # "x-systemd.requires=network-online.target"
     ];
   };
