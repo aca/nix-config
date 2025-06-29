@@ -22,6 +22,17 @@ in
     ./networking.nix
   ];
 
+  services.nebula.networks.nas = {
+    enable = true;
+    isLighthouse = true;
+    # staticHostMap = {
+    #     "192.168.100.1" = [ ];
+    # };
+    # cert = "/etc/nebula/archive-0.crt";
+    # key = "/etc/nebula/archive-0.key";
+    # ca = "/etc/nebula/ca.crt";
+  };
+
   # NFS permission
   environment.extraInit = "umask 0000";
 

@@ -8,6 +8,13 @@
     ./hardware/oci-aca-003.nix
   ];
 
+  virtualisation.podman = {
+     enable = true;
+     dockerCompat = true;
+     # defaultNetwork.settings.dns_enabled = true;
+  };
+
+
   nix.settings = {
     max-jobs = 1;
     cores = 1;

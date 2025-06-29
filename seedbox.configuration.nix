@@ -10,7 +10,7 @@
   ];
 
   system.stateVersion = "25.05";
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_testing;
   networking.hostName = "seedbox";
 
   services.tailscale.enable = true;
@@ -98,6 +98,7 @@
     reverse_proxy http://localhost:8080
     tls ${./certs/mkcert/internal.pem} ${./certs/mkcert/internal-key.pem}
   '';
+
   fileSystems."/mnt/tmp" = {
     device = "100.100.82.59:/mnt/seedbox";
     fsType = "nfs";
@@ -106,11 +107,12 @@
     # _netdev
     options = [
       "noatime"
+      "nfsvers=3"
       # "x-systemd.requires=network-online.target"
     ];
   };
 
-  users.users.qbittorrent-nox = {
+  users.users.qbittorrent = {
     isNormalUser = true;
     homeMode = "777";
     linger = true;
@@ -118,14 +120,31 @@
     ];
   };
 
-  systemd.services."qbittorrent-nox" = {
+  systemd.services."qbittorrent" = {
     # /run/current-system/sw/bin/curl --data "hashes=%I" "http://100.115.251.37:8080/api/v2/torrents/stop"
     enable = true;
     serviceConfig = {
-      ExecStart = "${pkgs.qbittorrent-nox}/bin/qbittorrent-nox";
-      User = "qbittorrent-nox";
+      ExecStart = "${pkgs.qbittorrent-enhanced-nox}/bin/qbittorrent-nox";
+      User = "qbittorrent";
     };
   };
+
+  # users.users.qbittorrent-nox = {
+  #   isNormalUser = true;
+  #   homeMode = "777";
+  #   linger = true;
+  #   extraGroups = [
+  #   ];
+  # };
+  #
+  # systemd.services."qbittorrent-nox" = {
+  #   # /run/current-system/sw/bin/curl --data "hashes=%I" "http://100.115.251.37:8080/api/v2/torrents/stop"
+  #   enable = true;
+  #   serviceConfig = {
+  #     ExecStart = "${pkgs.qbittorrent-nox}/bin/qbittorrent-nox";
+  #     User = "qbittorrent-nox";
+  #   };
+  # };
 
   services.nfs.server.enable = true;
   services.nfs.server.exports = ''
@@ -228,31 +247,44 @@
   #   };
   # };
 
-  services.vector = {
+  # services.vector = {
+  #   enable = true;
+  #   journaldAccess = true;
+  #   settings = {
+  #     sources = {
+  #       journald = {
+  #         type = "journald";
+  #       };
+  #     };
+  #     sinks = {
+  #       loki = {
+  #         type = "loki";
+  #         inputs = [ "journald" ];
+  #         endpoint = "http://oci-aca-001:3100";
+  #         compression = "snappy";
+  #         encoding.codec = "logfmt";
+  #         labels = {
+  #           source = "journald";
+  #           service = "seedbox.journald";
+  #           job = "seedbox.node-exporter";
+  #           node = "seedbox";
+  #           instance = "${config.networking.hostName}:9000";
+  #         };
+  #       };
+  #     };
+  #   };
+  # };
+
+  systemd.services.qbitcheck = {
+    description = "qbitcheck";
     enable = true;
-    journaldAccess = true;
-    settings = {
-      sources = {
-        journald = {
-          type = "journald";
-        };
-      };
-      sinks = {
-        loki = {
-          type = "loki";
-          inputs = [ "journald" ];
-          endpoint = "http://oci-aca-001:3100";
-          compression = "snappy";
-          encoding.codec = "logfmt";
-          labels = {
-            source = "journald";
-            service = "seedbox.journald";
-            job = "seedbox.node-exporter";
-            node = "seedbox";
-            instance = "${config.networking.hostName}:9000";
-          };
-        };
-      };
+    serviceConfig = {
+      Type = "simple";
+      Restart = "always";
+      RestartSec = 60; # 60 seconds between restarts
+      ExecStart = "${pkgs.writeShellScript "qbitcheck" ''
+        /run/current-system/sw/bin/ping -i 15 100.100.82.59
+      ''}";
     };
   };
 

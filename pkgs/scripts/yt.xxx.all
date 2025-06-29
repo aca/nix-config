@@ -6,4 +6,4 @@ if [ -z "$1" ]; then
 fi
 
 cd /mnt/archive-0/
-yt-dlp "$@" --no-playlist
+yt-dlp "$@"

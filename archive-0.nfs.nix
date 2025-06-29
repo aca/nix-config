@@ -25,7 +25,5 @@
   services.nfs.server.exports = ''
     /mnt/archive-0 192.168.0.0/24(rw,nohide,insecure,no_subtree_check,all_squash,fsid=9eebb861-b9b3-415d-a2ff-bd0ab28ff29a,anonuid=0,anongid=0)
     /mnt/tmp 100.0.0.0/8(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0) 192.168.0.0/24(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0)
-    /mnt/seedbox 100.0.0.0/8(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0) 192.168.0.0/24(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0)
-    /mnt/seedbox-impx 100.0.0.0/8(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0) 192.168.0.0/24(rw,nohide,insecure,no_subtree_check,all_squash,anonuid=0,anongid=0)
   '';
 }

@@ -9,7 +9,7 @@
   ];
 
   system.stateVersion = "25.05";
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_testing;
   networking.hostName = "seedbox-impx";
 
   services.tailscale.enable = true;
@@ -99,6 +99,8 @@
     procps
     htop
     vim
+    glances
+    btop
     zsh
     fish
     xsel
@@ -177,6 +179,19 @@
       "nfsvers=3"
       # "x-systemd.requires=network-online.target"
     ];
+  };
+
+  systemd.services.qbitcheck = {
+    description = "qbitcheck";
+    enable = true;
+    serviceConfig = {
+      Type = "simple";
+      Restart = "always";
+      RestartSec = 60; # 60 seconds between restarts
+      ExecStart = "${pkgs.writeShellScript "qbitcheck" ''
+        /run/current-system/sw/bin/ping -i 15 100.100.82.59
+      ''}";
+    };
   };
 
 }

@@ -33,7 +33,6 @@ in
   #   isLighthouse = true;
   #   staticHostMap = {
   #       "192.168.100.1" = [
-  #          ("152.67.1" + "99.70:4242")
   #       ];
   #   };
   #   cert = "/etc/nebula/home.crt";
@@ -627,8 +626,7 @@ in
 
   # NOTES(24/07/07): bluetooth doesn't work, there's issue on 6.9
   # https://discourse.nixos.org/t/bluetooth-controller-issues-with-kernel-6-9/45598/3
-  # boot.kernelPackages = pkgs.unstable.linuxPackages_latest; # Linux home 6.9.8 #1-NixOS SMP PREEMPT_DYNAMIC Fri Jul  5 07:38:21 UTC 2024 x86_64 GNU/Linux
-  boot.kernelPackages = pkgs.linuxPackages_latest; # Linux home 6.9.8 #1-NixOS SMP PREEMPT_DYNAMIC Fri Jul  5 07:38:21 UTC 2024 x86_64 GNU/Linux
+  boot.kernelPackages = pkgs.linuxPackages_testing;
   # boot.kernelPackages = pkgs.unstable.linuxPackages_zen;
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.kernelPackages = pkgs.linuxPackages_latest; # use latest kernel
