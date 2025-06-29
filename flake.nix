@@ -666,16 +666,18 @@
       #   ];
       # };
       #
-      # nixosConfigurations.oci-aca-002 = nixpkgs.lib.nixosSystem rec {
-      #   system = "x86_64-linux";
-      #   specialArgs = { inherit inputs system; };
-      #   modules = [
-      #     ./all.configuration.nix
-      #     ./oci-aca-002.configuration.nix
-      #     agenix.nixosModules.default
-      #   ];
-      # };
-      #
+
+      nixosConfigurations.oci-aca-002 = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs system; };
+        modules = [
+          ./all.configuration.nix
+          ./overlay.nix
+          ./oci-aca-002.configuration.nix
+          agenix.nixosModules.default
+        ];
+      };
+
 
       nixosConfigurations.oci-aca-003 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
