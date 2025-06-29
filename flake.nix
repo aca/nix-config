@@ -681,7 +681,7 @@
         system = "x86_64-linux";
         specialArgs = { inherit inputs system; };
         modules = [
-          # ./all.configuration.nix
+          ./all.configuration.nix
           ./overlay.nix
           ./oci-aca-003.configuration.nix
           agenix.nixosModules.default
