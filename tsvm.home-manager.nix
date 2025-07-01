@@ -52,6 +52,7 @@ in {
   #   };
   # };
 
-  # home.packages = [
-  # ];
+  home.packages = [
+    pkgs.unstable.go
+  ];
 }

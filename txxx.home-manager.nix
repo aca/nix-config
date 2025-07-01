@@ -78,6 +78,7 @@
   programs.home-manager.enable = true;
 
   home.packages = [
+      pkgs.unstable.go
     # pkgs.htop
     # pkgs.bfs
     # pkgs.pueue

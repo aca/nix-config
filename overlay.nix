@@ -96,7 +96,7 @@ let
       # // (useunstable system "pylyzer")
 
       # lang
-      // (usenightly system "go")
+      # // (usenightly system "go") # this cause too much, use nightly on home-manager
       // (usenightly system "gopls")
       // (useunstable system "vscode-langservers-extracted")
       // (useunstable system "kotlin")
