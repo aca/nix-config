@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+sed -i "s/$1/___________/g" /mnt/archive-0/.youtube-dl

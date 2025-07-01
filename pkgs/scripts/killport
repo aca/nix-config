@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+set -x
+ss -tnulp "sport = :$1" | sed -rn 's/.*pid=(.*),.*/\1/p' | xargs -n1 kill 

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+cat << EOF | mpv --no-video --playlist=-
+https://www.youtube.com/watch?v=LYigiwbaX_U
+EOF

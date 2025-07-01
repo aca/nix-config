@@ -1,0 +1,4 @@
+{
+  networking.extraHosts = ''
+  '';
+}

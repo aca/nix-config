@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+# Create an array to store absolute paths
+abs_paths=()
+
+# Convert each input argument to its absolute path
+for file in "$@"; do
+  abs_paths+=("$(realpath "$file")")
+done
+
+# Pass all the absolute paths to the command "xxx"
+# xxx "${abs_paths[@]}"
+
+printargs "${abs_paths[@]}"
+
+# ssh root@archive-0 mv -v -n "${abs_paths[@]}"

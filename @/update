@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+export NIXPKGS_ALLOW_INSECURE=1
+# nix flake update
+nix --extra-experimental-features 'nix-command flakes' flake lock --override-input nixpkgs-nightly github:NixOS/nixpkgs/$(curl -sL "https://monitoring.nixos.org/prometheus/api/v1/query?query=channel_revision" | jq -r ".data.result[] | select(.metric.channel==\"nixos-unstable\") | .metric.revision")
+nix --extra-experimental-features 'nix-command flakes' flake lock --override-input nixpkgs-unstable github:NixOS/nixpkgs/$(curl -sL "https://monitoring.nixos.org/prometheus/api/v1/query?query=channel_revision" | jq -r ".data.result[] | select(.metric.channel==\"nixos-unstable\") | .metric.revision")
+nix --extra-experimental-features 'nix-command flakes' flake update nixpkgs

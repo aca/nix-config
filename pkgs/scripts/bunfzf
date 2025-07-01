@@ -1,0 +1,12 @@
+#!/usr/bin/env bun
+
+import { $ } from "bun";
+
+try {
+    const input = `1
+2
+3`
+    await $`echo ${input} | fzf`.quiet();
+} catch {
+    console.log("using current directory")
+} 

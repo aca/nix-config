@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+nix run --quiet --extra-experimental-features "nix-command flakes" github:NixOS/nixpkgs/nixos-unstable#bash-language-server -- "$@"
+

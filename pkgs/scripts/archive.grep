@@ -1,0 +1,12 @@
+#!/usr/bin/env elvish
+
+echo $args[0]
+# cd /mnt
+# try {
+#     cat .archive-0 | rg "$args"
+# } catch e {
+#     # put $e[exit-status]
+#     if (eq 1 $e[reason][exit-status]) {
+#         echo "$args" not found 1>&2
+#     }
+# }

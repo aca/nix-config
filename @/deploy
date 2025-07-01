@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+export NIXPKGS_ALLOW_INSECURE=1
+
+TARGET=${2:-$1}
+
+# NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild build --print-build-logs --verbose --flake ".#${hostname}" --impure "$@" 2>&1 | tee ~/rebuild.log.$(date +%Y%m%dT%H%M%S)
+nixos-rebuild switch --option allow-unsafe-native-code-during-evaluation true --verbose --fast --impure --flake ".#$1" --target-host "root@$TARGET" --build-host "root@$TARGET"

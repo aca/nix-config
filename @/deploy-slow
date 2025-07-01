@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+export NIXPKGS_ALLOW_INSECURE=1
+
+# NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild build --print-build-logs --verbose --flake ".#${hostname}" --impure "$@" 2>&1 | tee ~/rebuild.log.$(date +%Y%m%dT%H%M%S)
+nixos-rebuild switch --flake ".#$1" --target-host "root@$1"

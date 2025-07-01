@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# detach - Run commands fully detached from current session
+# Usage: ./detach <command> [args...]
+
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <command> [args...]"
+    echo "Example: $0 sleep 3600"
+    echo "Example: $0 python script.py"
+    exit 1
+fi
+
+# Run command fully detached:
+# - nohup: ignore hangup signals
+# - setsid: create new session (detach from controlling terminal)
+# - Redirect stdout and stderr to log file
+# - Run in background with &
+# - Redirect stdin from /dev/null to prevent blocking
+nohup setsid "$@" > /dev/null 2>&1 &

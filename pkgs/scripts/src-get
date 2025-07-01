@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+#
+# Usage: srcget <repository_url>
+# Example: git drop "https://github.com/ghostty-org/ghostty"
+#
+# prompt
+#
+# i want to write bash script that converts git url to local fs dir under ~/src
+#
+# ```
+# somecommand git@github.com:aca/go-patch-unusedvar.nvim
+# -> ~/src/github.com/aca/go-patch-unusedvar.nvim
+#
+# somecommand https://github.com/ghostty-org/ghostty
+# -> ~/src/github.com/ghostty-org/ghostty
+#
+# somecommand github.com/ghostty-org/ghostty
+# -> ~/src/github.com/ghostty-org/ghostty
+# ```
+# it should not remove suffix .git at the end if it's not using git protocol
+
+
+set -euxo pipefail
+
+# write bash program for this
+
+# Check if URL is provided
+if [ -z "$1" ]; then
+  echo "Usage: $0 <repository_url> <ref>"
+  exit 1
+fi
+
+# Determine default branch using git ls-remote
+get_default_branch() {
+    default_branch=$(git ls-remote --symref "$1" HEAD | sed -n 's/^ref: refs\/heads\/\([^[:space:]]*\)[[:space:]].*/\1/p')
+    if [ -z "$default_branch" ]; then
+      echo "Could not determine default branch for $REPO_URL"
+      exit 1
+    fi
+    echo "$default_branch"
+}
+
+REPO_URL="$1"
+TARGET_REF="${2:-$(get_default_branch "$REPO_URL")}"
+
+convert_git_url_to_path() {
+    local url="$1"
+    local base_dir="$HOME/src"
+    
+    # Remove common git URL prefixes
+    url="${url#git@}"
+    url="${url#https://}"
+    url="${url#ssh://}"
+    
+    # Replace ':' with '/' in SSH URLs
+    url="${url/:/\/}"
+    
+    # Remove .git suffix only if using git protocol
+    if [[ "$1" == git@* ]]; then
+        url="${url%.git}"
+    fi
+    
+    echo "$base_dir/$url"
+}
+
+DEST_DIR=$(convert_git_url_to_path "$REPO_URL")
+
+echo "Cloning repository:"
+echo "URL:          $REPO_URL"
+echo "Default branch: $TARGET_REF"
+echo "Destination:  $DEST_DIR"
+
+# # Create the parent directory if it doesn't exist
+mkdir -p "$(dirname "$DEST_DIR")"
+
+# # Clone the repository using the --branch option to check out the default branch
+ls "$DEST_DIR/worktrees" || git clone --bare "$REPO_URL" "$DEST_DIR"
+cd "$DEST_DIR"
+git worktree add "$TARGET_REF" "$TARGET_REF"
+
+cat .ignore | grep '/worktrees' || echo '/worktrees' >> .ignore
+cat .ignore | grep '/refs' || echo '/refs' >> .ignore
+cat .ignore | grep '/objects' || echo '/objects' >> .ignore
+cat .ignore | grep '/info' || echo '/info' >> .ignore
+cat .ignore | grep '/branches' || echo '/branches' >> .ignore
+cat .ignore | grep '/hooks' || echo '/hooks' >> .ignore

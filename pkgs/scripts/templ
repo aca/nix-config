@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+nix run --extra-experimental-features "nix-command flakes" github:a-h/templ/main#templ -- "$@"

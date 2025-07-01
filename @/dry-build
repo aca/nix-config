@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+sudo NIXPKGS_ALLOW_UNFREE=1 nixos-rebuild dry-build --flake .#home --impure
