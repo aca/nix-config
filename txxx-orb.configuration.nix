@@ -430,4 +430,38 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "25.05"; # Did you read the comment?
+
+  services.nebula.networks.rootnet = {
+    enable = true;
+    isLighthouse = false;
+
+    settings = {
+      lighthouse = {
+        hosts = [ "192.168.200.1" ];
+      };
+    };
+    staticHostMap = {
+      "192.168.200.1" = [
+        "152.67.199.70:4242"
+      ];
+    };
+
+    firewall = {
+      outbound = [{
+        port = "any";
+        proto = "any";
+        host = "any";
+      }];
+      inbound = [ 
+      {
+        port = "any";
+        proto = "any";
+        host = "any";
+      }];
+    };
+
+    cert = "/etc/nebula/txxx-orb.crt"; # The name of this lighthouse is beacon.
+    key = "/etc/nebula/txxx-orb.key";
+    ca = "/etc/nebula/ca.crt";
+  };
 }
