@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+profiled="/home/rok/.config/chromium__$1"
+mkdir -p "$profiled"
+chromium --proxy-server=socks5://$(tailscale status | grep "$1" | f1):1080 --user-data-dir="$profiled"  
+

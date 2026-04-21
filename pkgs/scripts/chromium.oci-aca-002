@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+mkdir -p /home/rok/.config/chromium__oci-aca-002
+chromium --proxy-server=socks5://$(tailscale status | grep oci-aca-002 | f1):1080 --user-data-dir=/home/rok/.config/chromium__oci-aca-002
+

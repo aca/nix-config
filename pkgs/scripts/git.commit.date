@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+LAST_CM=$(git log -1 --format=%cd --date=iso)
+GIT_COMMITTER_DATE="$LAST_CM" git commit --amend --date="$LAST_CM" -m "" --allow-empty-message
+

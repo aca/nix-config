@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+cat /home/rok/src/git.internal/bot/kr-stockcode | fzf | awk '{print $3}'| ci
+co

@@ -1,0 +1,58 @@
+#!/usr/bin/env -S uv run --script
+#
+# /// script
+# dependencies = [
+#     "i3ipc",
+# ]
+# ///
+
+
+import time
+
+import i3ipc
+
+i3 = i3ipc.Connection()
+
+tree = i3.get_tree()
+focused = tree.find_focused()
+
+if focused:
+    original_workspace = focused.workspace()
+    if original_workspace:
+        original_workspace_name = original_workspace.name
+        
+        temp_workspace_name = "8"
+        if original_workspace_name == "8":
+            temp_workspace_name = "9"
+
+        windows = original_workspace.leaves()[:4]  # Only take first 4 windows
+        
+        # Move all windows to temporary workspace
+        for window in windows:
+            window.command(f'move container to workspace {temp_workspace_name}')
+        
+        # Move first window back and split horizontally
+        windows[0].command(f'move container to workspace {original_workspace_name}')
+        i3.command(f'workspace {original_workspace_name}')
+        time.sleep(0.3)
+        i3.command('splitv')
+        
+        time.sleep(0.1)
+        # Move second window (will go to the right)
+        windows[1].command(f'move container to workspace {original_workspace_name}')
+        
+        # # Focus left, split vertically
+        i3.command('focus up')
+        i3.command('splith')
+       
+        time.sleep(0.1)
+        # # Move third window (will go below first)
+        windows[2].command(f'move container to workspace {original_workspace_name}')
+        #
+        time.sleep(0.1)
+        # # Focus right, split vertically  
+        i3.command('focus up')
+        i3.command('splith')
+        #
+        # # Move fourth window (will go below second)
+        windows[3].command(f'move container to workspace {original_workspace_name}')

@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [ "$#" -eq 0 ]; then
+    echo "Copy a directory using rsync"
+    echo "Usage: cp.rsyncdir <src> <dst> [options]"
+    exit 1
+fi
+
+if [[ "$1" != */ ]]; then
+    src="$1/"
+else
+    src="$1"
+fi
+
+echo "src: $src"
+
+shift
+
+if [[ "$1" != */ ]]; then
+    dst="$1/"
+else
+    dst="$1"
+fi
+
+echo "dst: $dst"
+
+shift
+
+# test -d "$src"
+# test -d "$dst"
+
+
+set -x
+rsync -rlEtDvhbP --suffix='~' "$@" "$src" "$dst"

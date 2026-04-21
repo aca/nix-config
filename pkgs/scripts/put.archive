@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+set -exuo pipefail
+
+# Usage: archive <source_file> <destination_directory>
+# Example: archive xxx/a.txt books
+
+if [ $# -ne 2 ]; then
+    echo "Usage: $0 <source_file> <destination_directory>"
+    echo "Example: $0 xxx/a.txt books"
+    exit 1
+fi
+
+SOURCE_FILE="$1"
+DEST_DIR="$2"
+ARCHIVE_BASE="/mnt/archive-0/"
+
+# Check if source file exists
+if [ ! -f "$SOURCE_FILE" ]; then
+    echo "Error: Source file '$SOURCE_FILE' does not exist"
+    exit 1
+fi
+
+# Get the directory structure from source file
+SOURCE_DIR=$(dirname "$SOURCE_FILE")
+SOURCE_BASENAME=$(basename "$SOURCE_FILE")
+
+# Construct full destination path
+FULL_DEST_DIR="$ARCHIVE_BASE/$DEST_DIR/$SOURCE_DIR"
+FULL_DEST_FILE="$FULL_DEST_DIR/$SOURCE_BASENAME"
+TEMP_DEST_FILE="$FULL_DEST_FILE.tmp.$$"
+
+# Create destination directory if it doesn't exist
+mkdir -p "$FULL_DEST_DIR"
+
+# Check if destination file already exists
+if [ -f "$FULL_DEST_FILE" ]; then
+    echo "File already exists at destination: '$FULL_DEST_FILE'"
+    exit 0
+fi
+
+# Copy file with reflink to temporary location
+echo "Copying '$SOURCE_FILE' to archive..."
+ionice -c 3 cp -avn "$SOURCE_FILE" "$TEMP_DEST_FILE"
+
+# Rename temporary file to final destination
+mv "$TEMP_DEST_FILE" "$FULL_DEST_FILE"
+echo "File copied successfully to '$FULL_DEST_FILE'"
+
+# Remove original file
+rmm "$SOURCE_FILE"
+echo "Original file removed successfully"
+echo "Archive operation completed!"

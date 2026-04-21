@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+cd ~/git.internal/nix-config/ || cd ~/src/codeberg.org/aca/nix-config/ || cd ~/src/github.com/aca/nix-config/
+
+nix --extra-experimental-features "nix-command flakes" run github:aca/qwer/main -- switch "$@"

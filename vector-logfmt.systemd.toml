@@ -1,0 +1,129 @@
+[api]
+enabled = true
+
+[sources.journald]
+type = "journald"
+current_boot_only = true
+exclude_units = [
+      
+    # noise using graphics
+    "unknown",
+    "dbus",
+    "session-*",
+
+    "matrix-synapse",
+    "victorialogs",
+    "rpcbind",
+    "vector",
+
+    "prometheus",
+    "home-manager-*",
+    "postgresql",
+    "dante",
+    # "caddy",
+    "grafana",
+    "ntfy-sh",
+    "loki",
+    "nixos-rebuild-switch-to-configuration",
+]
+
+[transforms.journald_transform]
+  type = "remap"
+  inputs = ["journald"]
+  source = '''
+    priority = to_int(.PRIORITY) ?? 4
+    unit = "unknown"
+    level = "ERROR"
+    message = .message
+    if (priority < 3) {
+      level = "ERROR"
+    } else if (priority == 4) {
+      level = "WARN"
+    } else {
+      level = "INFO"
+    }
+
+
+    if exists(.unit) {
+        unit = .unit
+    } else if exists(.UNIT) && ! is_null(.UNIT) {
+        unit = .UNIT
+    } else if exists(._SYSTEMD_UNIT) && ! is_null(._SYSTEMD_UNIT) {
+        unit = ._SYSTEMD_UNIT
+    }
+
+    parsed, err = parse_json(message)
+    if err == null {
+        .= parsed
+        del(.time)
+    } else {
+        parsed_logfmt, err2 = parse_logfmt(message)
+        if err2 == null {
+            .= parsed_logfmt
+            del(.time)
+        } else {
+            . = {}
+            .msg = message
+            .level = level
+        }
+    }
+
+    .unit = replace!(unit, ".service", "")
+    .host = get_hostname!()
+  '''
+
+[sinks.vlogs]
+inputs = [ "journald_transform" ]
+type = "elasticsearch"
+endpoints = [ "http://oci-aca-001:9428/insert/elasticsearch/" ]
+api_version = "v8"
+compression = "gzip"
+
+  [sinks.vlogs.healthcheck]
+  enabled = false
+
+  [sinks.vlogs.query]
+  _msg_field = "msg"
+  _time_field = "timestamp"
+
+[sinks.console]
+type = "console"
+inputs = [ "journald_transform" ]
+encoding.codec = "json"
+
+[transforms.filter_info]
+type = "filter"
+inputs = [ "journald_transform" ]
+# systemd service restart is logged as WARN
+condition = """
+.level == "INFO"
+"""
+
+[transforms.filter_error]
+type = "filter"
+inputs = [ "journald_transform" ]
+# systemd service restart is logged as WARN
+condition = """
+.level == "ERROR" || .level == "CRITICAL" || .level == "WARN" || .level == "FATAL" || .level == "EMERGENCY"
+"""
+
+[sinks.ntfy_error]
+type = "http"
+inputs = [ "filter_error" ]
+uri = "http://oci-aca-001:119/critical"
+method = "post"
+encoding.codec = "logfmt"
+
+    [sinks.ntfy_error.request.headers]
+    Title = "{{ .unit }}.{{ .host }}"
+    Priority = "5"
+
+# [sinks.ntfy_info]
+# type = "http"
+# inputs = [ "filter_info" ]
+# uri = "http://oci-aca-001:119/system"
+# method = "post"
+# encoding.codec = "logfmt"
+#
+#     [sinks.ntfy_info.request.headers]
+#     Title = " {{ .unit }}"

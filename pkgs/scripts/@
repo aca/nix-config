@@ -1,0 +1,62 @@
+#!/bin/sh
+#
+# Command runner. Dumb alternative to make, just, taskfile etc.
+#
+# - POSIX, zero install
+# - Run in any directory under the project
+#
+#   @ build
+#
+# Some environment variable is set when @ command is executed
+#
+#   AT_ROOT_DIR: The root directory of the project
+#
+# TODO: implement dag with this https://benhoyt.com/writings/awk-make/ ?
+
+if [ $# -eq 0 ]; then
+    echo 'Usage: @ <command>'
+    exit 0
+fi
+
+if [ "$1" = "-i" ]; then
+    mkdir -p "@"
+    echo "@ initalized at "$PWD
+    exit 0
+fi
+
+rootdir() {
+    current_dir="$PWD"
+    while [ "$current_dir" != "/" ]; do
+        if [ -d "$current_dir/@" ]; then
+            echo "$current_dir"
+            exit 0
+        fi
+        current_dir=$(dirname "$current_dir")
+    done
+    exit 1
+}
+
+export AT_ROOT_DIR=$(rootdir @)
+export AT_COMMAND_DIR=$AT_ROOT_DIR/@
+cd $AT_ROOT_DIR
+
+case $1 in
+    -e) 
+        if [ "$2" = "" ]; then
+            echo "Usage: @ -e <command>"
+            exit 1
+        fi
+        $EDITOR "@/$2"
+        exit
+        ;;
+    -l) 
+        ls @/
+        exit
+        ;;
+esac
+
+command="$1"
+shift
+args="$@"
+
+./@/$command "$@"

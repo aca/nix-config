@@ -1,0 +1,3 @@
+#!/usr/bin/env elvish
+
+fd -a --hidden --type f | each { |x| aws --endpoint-url http://archive-0:7070 s3 cp $x s3://tor/$x; rm $x }

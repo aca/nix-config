@@ -1,0 +1,116 @@
+data_dir = "."
+
+[api]
+enabled = true
+
+[sources.journald]
+type = "journald"
+current_boot_only = true
+# exclude_units = [
+#     # noise using graphics
+#     "unknown",
+#     "dbus",
+#     "matrix-synapse",
+#     "victorialogs",
+#     "rpcbind",
+#     "vector",
+#     "zapret",
+#     "fwupd-refresh",
+#     "prometheus",
+#     "postgresql",
+#     "dante",
+#     # "caddy",
+#     "grafana",
+#     "ntfy-sh",
+#     "loki",
+#     "tailscaled",
+#     "nixos-rebuild-switch-to-configuration",
+# ]
+
+[transforms.journald_transform]
+  type = "remap"
+  inputs = ["journald"]
+  drop_on_abort = true
+  reroute_dropped = false
+  source = '''
+    unit_raw = string(._SYSTEMD_UNIT) ?? ""
+    if starts_with(unit_raw, "session-") ||
+       starts_with(unit_raw, "home-manager-") ||
+       starts_with(unit_raw, "user@") {
+      abort
+    }
+
+    priority = to_int(.PRIORITY) ?? 4
+    unit = "unknown"
+    level = "ERROR"
+    message = .message
+    if (priority < 3) {
+      level = "ERROR"
+    } else if (priority == 4) {
+      level = "WARN"
+    } else {
+      level = "INFO"
+    }
+
+    if exists(.unit) {
+        unit = .unit
+    } else if exists(.UNIT) && ! is_null(.UNIT) {
+        unit = .UNIT
+    } else if exists(._SYSTEMD_UNIT) && ! is_null(._SYSTEMD_UNIT) {
+        unit = ._SYSTEMD_UNIT
+    }
+
+    parsed, err = parse_json(message)
+    if err == null {
+        .= parsed
+        del(.time)
+    } else {
+        . = {}
+        .msg = message
+        .level = level
+    }
+
+    del(.CODE_FILE)
+    del(.CODE_FUNC)
+    del(.CODE_LINE)
+    del(.JOB_ID)
+    del(.JOB_RESULT)
+    del(.JOB_TYPE)
+    del(.TID)
+    del(._AUDIT_LOGINUID)
+
+    .unit = replace!(unit, ".service", "")
+    .host = get_hostname!()
+
+    if !exists(.msg) && !exists(.message) {
+        .msg = ""
+    }
+  '''
+
+# [sinks.console]
+# type = "console"
+# inputs = [ "journald_transform" ]
+# encoding.codec = "json"
+
+[sinks.to_alert]
+inputs = [ "journald_transform" ]
+type = "vector"
+address = "oci-aca-002:9999"
+
+  [sinks.to_alert.healthcheck]
+  enabled = false
+
+[sinks.vlogs]
+inputs = [ "journald_transform" ]
+type = "http"
+uri = "http://oci-aca-002:9428/insert/jsonline?_stream_fields=host&_msg_field=message,msg&_time_field=timestamp"
+compression = "gzip"
+
+  [sinks.vlogs.encoding]
+  codec = "json"
+
+  [sinks.vlogs.framing]
+  method = "newline_delimited"
+
+  [sinks.vlogs.healthcheck]
+  enabled = false
