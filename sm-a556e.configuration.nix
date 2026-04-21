@@ -26,6 +26,7 @@
     ./configuration.nix
     ./workstation.nix
     ./pkgs/fcitx5.nix
+    ./pkgs/zt-txxx.nix
     # ./pkgs/i3.nix
     # # ./dev/lua.nix
     # # ./dev/python.nix
