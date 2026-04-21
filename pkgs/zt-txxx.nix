@@ -5,7 +5,7 @@
     after = [ "zerotierone.service" ];
     requires = [ "zerotierone.service" ];
     wantedBy = [ "multi-user.target" ];
-    path = [ "/run/current-system/sw" ];
+    path = [ "/run/current-system/sw" "/home/rok" ];
     description = "zt-txxx";
 
     serviceConfig = {
@@ -15,7 +15,7 @@
 
     script = ''
       sleep 3
-      /home/rok/src/git.internal/work/bin/zt-txxx.sh
+      elvish /home/rok/src/git.internal/work/bin/zt-txxx.elv
     '';
   };
 }
