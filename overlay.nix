@@ -136,7 +136,7 @@ let
       // (useunstable system "kotlin")
       // (useunstable system "kotlin-language-server")
       # // (usenightly system "bun")
-      // (useunstable system "yabai")
+      # // (useunstable system "yabai")
       // (useunstable system "skhd")
       # // (useunstable system "deno")
       // (useunstable system "nixd")
