@@ -1,3 +1,6 @@
 [submodule "pkgs/i3/i3-alternating-layout"]
 	path = pkgs/i3/i3-alternating-layout
 	url = https://github.com/olemartinorg/i3-alternating-layout.git
+[submodule "nix-config-internal"]
+	path = nix-config-internal
+	url = https://git.internal/nix-config-internal

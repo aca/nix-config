@@ -11,6 +11,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # internal = {
+    #     url = "git+https://git.internal/nix-config-internal";
+    # }
+
     kata = {
       url = "github:aca/kata/main?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";

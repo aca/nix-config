@@ -112,9 +112,9 @@ in
   #   wantedBy = [ "network-online.target" ];
   # };
 
-  services.caddy.virtualHosts."ping.xkor.stream".extraConfig = ''
-    reverse_proxy http://localhost:8119
-  '';
+  # services.caddy.virtualHosts."ping.xkor.stream".extraConfig = ''
+  #   reverse_proxy http://localhost:8119
+  # '';
 
   systemd.services."ping" = lib.recursiveUpdate _default {
     serviceConfig.WorkingDirectory = "/home/rok/src/git.internal/oci-aca-001/ping";
