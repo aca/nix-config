@@ -7,7 +7,26 @@
   imports = [
     ./hardware/oci-aca-002.nix
     ./pkgs/archive-downloads.nix
+    ./pkgs/internal/ntfy.nix
   ];
+
+  # base-url = "${config."internal.ntfy".baseUrl}";
+  services.ntfy-sh.enable = true;
+  services.ntfy-sh.settings = {
+    behind-proxy = true;
+    # allow sending notifications without authentication
+    auth-default-access = "write-only";
+    listen-http = "5119";
+    message-delay-limit = "100d";
+    cache-duration = "300h";
+    cache-startup-queries = ''
+      pragma journal_mode = WAL;
+      pragma synchronous = normal;
+      pragma temp_store = memory;
+      pragma busy_timeout = 15000;
+      vacuum;
+    '';
+  };
 
   nix.settings = {
     max-jobs = 1;
