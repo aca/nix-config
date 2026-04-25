@@ -7,7 +7,7 @@
   imports = [
     ./hardware/oci-aca-002.nix
     ./pkgs/archive-downloads.nix
-    ./pkgs/internal/ntfy.nix
+    ./internal/ntfy.nix
   ];
 
   # base-url = "${config."internal.ntfy".baseUrl}";
