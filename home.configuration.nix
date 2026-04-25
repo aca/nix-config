@@ -302,7 +302,7 @@ in
 
   services.udev.packages = with pkgs; [
     qmk
-    # qmk-udev-rules # the only relevant
+    qmk-udev-rules # the only relevant
     qmk_hid
     via
     vial

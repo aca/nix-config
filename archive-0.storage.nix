@@ -214,7 +214,6 @@
 
   # systemd.services.snapraid-scrub.onFailure = [ "ntfy-system-critical@snapraid-scrub.service" ];
   # systemd.services.snapraid-sync.onFailure = [ "ntfy-system-critical@snapraid-sync.service" ];
-  #
   # systemd.services.snapraid-scrub.onSuccess = [ "ntfy-system@snapraid-scrub.service" ];
   # systemd.services.snapraid-sync.onSuccess = [ "ntfy-system@snapraid-sync.service" ];
 
