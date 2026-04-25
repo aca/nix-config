@@ -18,7 +18,7 @@ export NIXPKGS_ALLOW_INSECURE=1
 TARGET=${2:-$1}
 set -euxo pipefail
 git push || true
-ssh -t root@$TARGET 'cd /home/rok/src/git.internal/nix-config && git reset --hard && git pull --rebase && nix --extra-experimental-features "nix-command flakes" run github:aca/qwer/main -- switch'
+ssh -t root@$TARGET 'cd /home/rok/src/git.internal/nix-config && git reset --hard && git pull --rebase && git submodule sync && nix --extra-experimental-features "nix-command flakes" run github:aca/qwer/main -- switch'
 ```
 
 ## switch
