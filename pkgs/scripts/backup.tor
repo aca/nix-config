@@ -1,0 +1,7 @@
+#!/usr/bin/env elvish
+set-env RCLONE_CONFIG_WEBDAV_TYPE webdav
+set-env RCLONE_CONFIG_WEBDAV_URL http://archive-0:4050
+set-env RCLONE_CONFIG_WEBDAV_VENDOR rclone
+set-env RCLONE_CONFIG_WEBDAV_USER admin
+set-env RCLONE_CONFIG_WEBDAV_PASS (echo "admin" | rclone obscure -)
+rclone moveto --checksum $args[0] webdav:/$args[0]

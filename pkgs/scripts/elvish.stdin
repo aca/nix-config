@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# read from stdin and create temporaily file, then run elvish $file
+tmpfile=$(mktemp)
+cat > "$tmpfile"
+elvish "$tmpfile"
+rm "$tmpfile"

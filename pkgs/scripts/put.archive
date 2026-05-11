@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+set -exuo pipefail
+
+# Usage: archive <source_file> <destination_directory>
+# Example: archive xxx/a.txt books
+
+if [ $# -ne 2 ]; then
+    echo "Usage: $0 <source_file> <destination_directory>"
+    echo "Example: $0 xxx/a.txt books"
+    exit 1
+fi
+
+SOURCE_FILE="$1"
+DEST_DIR="$2"
+ARCHIVE_BASE="/mnt/archive-0/"
+
+echo "SRC": $SOURCE_FILE
+echo "DEST": $DEST_DIR
+
+# Check if source file exists
+if [ ! -f "$SOURCE_FILE" ]; then
+    echo "Error: Source file '$SOURCE_FILE' does not exist"
+    exit 1
+fi
+
+# Get the directory structure from source file
+SOURCE_DIR=$(dirname "$SOURCE_FILE")
+SOURCE_BASENAME=$(basename "$SOURCE_FILE")
+
+# Construct full destination path
+FULL_DEST_DIR="$ARCHIVE_BASE/$DEST_DIR/$SOURCE_DIR"
+FULL_DEST_FILE="$FULL_DEST_DIR/$SOURCE_BASENAME"
+TEMP_DEST_FILE="$FULL_DEST_FILE.mv.tmp.$$"
+
+# Create destination directory if it doesn't exist
+mkdir -p "$FULL_DEST_DIR"
+
+# Check if destination file already exists
+if [ -f "$FULL_DEST_FILE" ]; then
+    echo "File already exists at destination: '$FULL_DEST_FILE'"
+    exit 0
+fi
+
+SRC_DEV=$(stat -c%d "$SOURCE_FILE")
+DEST_DEV=$(stat -c%d "$FULL_DEST_DIR")
+
+if [ "$SRC_DEV" = "$DEST_DEV" ]; then
+    # Same filesystem: mv is atomic, no temp file needed
+    echo "Same filesystem, moving directly..."
+    mv -n "$SOURCE_FILE" "$FULL_DEST_FILE"
+else
+    # Cross-filesystem: copy to temp, rename, then remove original
+    echo "Copying '$SOURCE_FILE' to archive..."
+    ionice -c 3 cp -avn "$SOURCE_FILE" "$TEMP_DEST_FILE"
+    mv "$TEMP_DEST_FILE" "$FULL_DEST_FILE"
+    rmm "$SOURCE_FILE"
+fi
+echo "File moved successfully to '$FULL_DEST_FILE'"
+echo "Archive operation completed!"

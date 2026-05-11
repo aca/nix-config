@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# origin.mp4 → 작은 용량 + 원본 화질 유지 인코딩
+# 기본: SVT-AV1 (최고 압축률). 인자로 codec 선택 가능: av1 | hevc
+
+set -euxo pipefail
+
+INPUT_PATH="${1}"
+PRESET="${2:-6}"
+cd "$(dirname "$INPUT_PATH")"
+INPUT="$(basename "$INPUT_PATH")"
+BASENAME="${INPUT%.*}"
+
+# 입력이 이미 AV1로 인코딩되어 있으면 재인코딩 스킵
+# ffprobe로 첫 비디오 스트림의 코덱 이름만 추출 (-v error: 로그 최소화)
+INPUT_CODEC="$(ffprobe -v error -select_streams v:0 -show_entries stream=codec_name -of csv=p=0 "$INPUT")"
+if [ "$INPUT_CODEC" = "av1" ]; then
+  echo "이미 AV1 코덱입니다 ($INPUT). 인코딩 스킵."
+  exit 0
+fi
+
+OUTPUT="${BASENAME}.av1"
+if [ -f "$OUTPUT.mp4" ]; then
+  echo "이미 인코딩된 파일이 있습니다 ($OUTPUT.mp4). 스킵."
+  exit 0
+fi
+ffmpeg \
+  -threads 2 \
+  `# -i: 입력 파일. 컨테이너(MP4)를 자동 파싱해 비디오/오디오 스트림 분리` \
+  -i "$INPUT" \
+  `# -c:v: 비디오 코덱 선택. libsvtav1 = Intel/Netflix의 SVT-AV1 인코더` \
+  -c:v libsvtav1 \
+  `# -crf: Constant Rate Factor. 화질 기준 가변 비트레이트 (0~63, 낮을수록 고화질·큰 용량)` \
+  `# SVT-AV1에서 23~28이 시각적 무손실 영역` \
+  -crf 63 \
+  `# -preset: 압축 효율↔속도 트레이드오프 (0=최고압축·매우 느림, 13=빠름)` \
+  `# 같은 CRF면 화질은 비슷하고 용량과 인코딩 시간만 달라짐` \
+  -preset $PRESET \
+  `# -pix_fmt: 픽셀 포맷 (색공간+서브샘플링+비트깊이+엔디안)` \
+  `# yuv420p10le = YUV 4:2:0 planar 10-bit little-endian` \
+  `# 8-bit 소스라도 10-bit 인코딩 시 밴딩↓ + 압축효율 ~5%↑` \
+  -pix_fmt yuv420p10le \
+  `# -svtav1-params: SVT-AV1 전용 세부 파라미터 (key=value를 콜론으로 구분)` \
+  `#   tune=0       : 시각 품질 최적화 (1=PSNR 수치 최적화)` \
+  `#   film-grain=8 : 그레인을 통계모델로 변환 후 디코더가 재합성 → 용량 큰 폭 감소` \
+  -svtav1-params "tune=0:film-grain=8" \
+  `# -c:a: 오디오 코덱. libopus = 현재 가장 효율적인 오디오 코덱 (AAC 대비 ~30% 효율↑)` \
+  -c:a libopus \
+  `# -b:a: 오디오 비트레이트. Opus 96k면 일반 영상에서 투명 수준` \
+  -b:a 96k \
+  `# -movflags +faststart: MP4 메타데이터(moov atom)를 파일 앞으로 이동` \
+  `# → 웹 스트리밍 시 다운로드 시작과 동시에 재생 가능 (로컬 재생엔 영향 없음)` \
+  -movflags +faststart \
+  `# 출력 파일. 확장자로 컨테이너 형식(MP4) 자동 결정` \
+  "$OUTPUT.tmp.mp4"
+
+mv -vn "$OUTPUT.tmp.mp4" "$OUTPUT.mp4"

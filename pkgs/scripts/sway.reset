@@ -1,0 +1,32 @@
+#!/usr/bin/env -S uv run python
+
+import i3ipc
+import time
+
+i3 = i3ipc.Connection()
+
+tree = i3.get_tree()
+focused = tree.find_focused()
+
+if focused:
+    original_workspace = focused.workspace()
+    if original_workspace:
+        original_workspace_name = original_workspace.name
+        
+        temp_workspace_name = "8"
+        if original_workspace_name == "8":
+            temp_workspace_name = "9"
+
+        windows_to_move = original_workspace.leaves()
+
+        i3.command(f'workspace {original_workspace_name}')
+
+        # Move all windows to the temporary workspace
+        for window in windows_to_move:
+            window.command(f'move container to workspace {temp_workspace_name}')
+            time.sleep(0.1) # Add a small delay to see the effect
+
+        # Move all windows back to the original workspace, one by one
+        for window in windows_to_move:
+            window.command(f'move container to workspace {original_workspace_name}')
+            time.sleep(0.1) # Add a small delay

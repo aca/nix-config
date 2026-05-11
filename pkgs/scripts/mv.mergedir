@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [ "$#" -eq 0 ]; then
+    echo "Copy a directory using mv, rsync.alternative, as rsync has problem with unicode"
+    echo "Usage: mv.mergedir <src> <dst> [options]"
+    exit 1
+fi
+
+if [[ "$1" != */ ]]; then
+    src="$1/"
+else
+    src="$1"
+fi
+
+srcabs=$(realpath "$src")
+
+echo "src: $src"
+
+shift
+
+if [[ "$1" != */ ]]; then
+    dst="$1/"
+else
+    dst="$1"
+fi
+
+dstabs=$(realpath "$dst")
+echo "dst: $dst"
+
+shift
+
+test -d "$src"
+test -d "$dst"
+
+fd --type d --threads=1 --no-ignore --hidden --base-directory $src -x mkdir -p -v "$dstabs/{}"
+fd --type f --no-ignore --hidden --base-directory $src -x mv -vn "{}" "$dstabs/{}"

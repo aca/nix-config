@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+cat /home/rok/src/git.internal/bot/kr-stockcode | fzf 
