@@ -624,6 +624,8 @@ in
       xc
       xwayland
       fcp
+
+      go-nightly
     ]
     ++ [
       nftables
