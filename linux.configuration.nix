@@ -125,14 +125,14 @@ in
   #   };
   # };
 
-  # environment.systemPackages = [
-  #   pkgs.ntfy-sh
-  #   pkgs.diskus
-  #   pkgs.fd
-  #   pkgs.ncdu
-  #   pkgs.expect
-  #   pkgs.pstree
-  # ];
+  environment.systemPackages = [
+    # pkgs.ntfy-sh
+    # pkgs.diskus
+    # pkgs.fd
+    # pkgs.ncdu
+    # pkgs.expect
+    pkgs.psmisc
+  ];
 
   systemd.services."notify-send-fail@" = {
     enable = true;
