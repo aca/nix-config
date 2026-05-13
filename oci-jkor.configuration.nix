@@ -15,6 +15,8 @@
     ./hardware/oci-jkor.nix
     ./pkgs/archive-downloads.nix
     ./pkgs/scripts.nix
+
+    ./linux.configuration.nix
     # ./pkgs/i3.nix
     # ./pkgs/qbittorrent-mv.nix
     # ./seedbox-impx.app.nix

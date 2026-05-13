@@ -13,6 +13,8 @@
     ./pkgs/enlightment.nix
     ./pkgs/qbittorrent.nix
     ./pkgs/harmonia.nix
+
+    ./linux.configuration.nix
     # ./seedbox-impx.app.nix
   ];
 

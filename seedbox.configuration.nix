@@ -11,6 +11,8 @@
     ./pkgs/scripts.nix
     ./pkgs/enlightment.nix
     ./pkgs/qbittorrent.nix
+    ./linux.configuration.nix
+
     # ./all.configuration.nix
   ];
 

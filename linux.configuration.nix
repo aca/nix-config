@@ -13,11 +13,9 @@ in
   # home
   networking.hosts."100.127.31.30" = [ "git.internal" ];
   # oci-aca-001
-  networking.hosts."100.97.173.112" = [ "claude-ocr.internal" ];
+  # networking.hosts."100.97.173.112" = [ "claude-ocr.internal" ];
 
   environment.enableAllTerminfo = true;
-
-
 
   i18n.defaultLocale = "en_US.UTF-8";
   time.timeZone = "Asia/Seoul";
@@ -113,14 +111,14 @@ in
     };
   };
 
-  systemd.tmpfiles.settings."logs" = {
-    "/logs" = {
-      d.mode = "0777";
-    };
-    "/logs/active" = {
-      d.mode = "0777";
-    };
-  };
+  # systemd.tmpfiles.settings."logs" = {
+  #   "/logs" = {
+  #     d.mode = "0777";
+  #   };
+  #   "/logs/active" = {
+  #     d.mode = "0777";
+  #   };
+  # };
   # systemd.tmpfiles.settings."kv" = {
   #   "/var/cache/kv" = {
   #     d.mode = "0777";
