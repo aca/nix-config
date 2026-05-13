@@ -12,6 +12,7 @@
     gomodifytags
     gofumpt
     sqlc
+    graphviz
     golangci-lint
     # sbomnix
 

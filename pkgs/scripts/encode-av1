@@ -4,11 +4,28 @@
 
 set -euxo pipefail
 
-INPUT_PATH="${1}"
-PRESET="${2:-6}"
+DELETE_SOURCE=0
+ARGS=()
+for arg in "$@"; do
+  case "$arg" in
+    -d|--delete) DELETE_SOURCE=1 ;;
+    *) ARGS+=("$arg") ;;
+  esac
+done
+
+INPUT_PATH="${ARGS[0]}"
+PRESET="${ARGS[1]:-6}"
 cd "$(dirname "$INPUT_PATH")"
 INPUT="$(basename "$INPUT_PATH")"
 BASENAME="${INPUT%.*}"
+
+# 파일명이 이미 .av1.mp4면 스킵 (성공 처리)
+case "$INPUT" in
+  *.av1.mp4)
+    echo "이미 .av1.mp4 파일입니다 ($INPUT). 스킵."
+    exit 0
+    ;;
+esac
 
 # 입력이 이미 AV1로 인코딩되어 있으면 재인코딩 스킵
 # ffprobe로 첫 비디오 스트림의 코덱 이름만 추출 (-v error: 로그 최소화)
@@ -54,3 +71,7 @@ ffmpeg \
   "$OUTPUT.tmp.mp4"
 
 mv -vn "$OUTPUT.tmp.mp4" "$OUTPUT.mp4"
+
+if [ "$DELETE_SOURCE" = "1" ]; then
+  rm -v -- "$INPUT"
+fi
