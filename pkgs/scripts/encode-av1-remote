@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# copy to remote, and remote encode
+
+cq -- bash -c "rsync.remote $1 $2; cq --host $2 encode-av1 --delete $(realpath $1)"
