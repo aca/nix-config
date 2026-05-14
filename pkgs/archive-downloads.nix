@@ -37,7 +37,7 @@
             ! -name '*.crdownload' \
             ! -name '*.!qB' \
             -amin +10 \
-            -exec rsync -avz --no-perms --relative -P --omit-dir-times --remove-source-files {} rsync://archive-0/tmp/ \;
+            -exec timeout 4h rsync -avz --no-perms --relative -P --omit-dir-times --remove-source-files {} rsync://archive-0/tmp/ \;
         '';
       in
       "${script}";
