@@ -30,7 +30,7 @@
         script = pkgs.writeScript "archive-downloads" ''
           #!/usr/bin/env bash
           set -x
-          cd /home/rok/Downloads || exit 1
+          cd /home/rok/Downloads || exit 0
 
           # cp with rsync to archive-0/tmp, except for tmp files, and files modified in the last 10 minutes
           find . -type f \
@@ -38,6 +38,11 @@
             ! -name '*.!qB' \
             -amin +10 \
             -exec timeout 4h rsync -avz --no-perms --relative -P --omit-dir-times --remove-source-files {} rsync://archive-0/tmp/ \;
+
+          # move encoded files to Downloads
+          cd /mnt/archive-0 || exit 0
+          fd --extension .av1.mp4 -x mv -v -n "{}" /home/rok/Downloads/
+          
         '';
       in
       "${script}";
