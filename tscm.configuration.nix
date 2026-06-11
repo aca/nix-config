@@ -20,7 +20,7 @@ in
 {
   boot.isContainer = true;
   networking.hostName = lib.mkDefault "nixos";
-  system.stateVersion = lib.mkDefault "26.05";
+  # system.stateVersion = lib.mkDefault "26.05";
 
   # environment.systemPackages = with pkgs; [
   #   bashInteractive
