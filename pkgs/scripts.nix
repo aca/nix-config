@@ -239,9 +239,9 @@ in
     (
       if pkgs.stdenv.isLinux then
         pkgs.writeShellScriptBin "co" ''
-          # if pgrep copyq 1>/dev/null 2>/dev/null; then
-          #     copyq read 0
-          if [ "$WAYLAND_DISPLAY" = "" ]; then
+          if [ "$SSH_TTY" != "" ]; then
+              pbpaste-osc52
+          elif [ "$WAYLAND_DISPLAY" = "" ]; then
               xsel --clipboard --output
           else
               wl-paste --no-newline
