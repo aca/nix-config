@@ -5,6 +5,7 @@
   config,
   pkgs,
   modulesPath,
+  lib,
   ...
 }:
 let
@@ -19,7 +20,7 @@ let
 in
 {
   boot.isContainer = true;
-  networking.hostName = lib.mkDefault "nixos";
+  networking.hostName = "tscm";
   # system.stateVersion = lib.mkDefault "26.05";
 
   # environment.systemPackages = with pkgs; [
