@@ -31,7 +31,7 @@ in
 
   users.defaultUserShell = "/etc/machine/shell";
   users.users.root.shell = "/etc/machine/shell";
-  users.mutableUsers = false;
+  # users.mutableUsers = false;
   users.allowNoPasswordLogin = true;
 
   # Add users here, then access them with:
