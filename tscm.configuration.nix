@@ -99,6 +99,9 @@ in
     "mitigations=off"
   ];
 
+environment.enableAllTerminfo = true;
+
+
   imports = [
     # Include the default lxd configuration.
     # Include the OrbStack-specific configuration.
