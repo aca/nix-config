@@ -22,12 +22,12 @@ in
   networking.hostName = lib.mkDefault "nixos";
   system.stateVersion = lib.mkDefault "26.05";
 
-  environment.systemPackages = with pkgs; [
-    bashInteractive
-    coreutils
-    gnugrep
-    nix
-  ];
+  # environment.systemPackages = with pkgs; [
+  #   bashInteractive
+  #   coreutils
+  #   gnugrep
+  #   nix
+  # ];
 
   users.defaultUserShell = "/etc/machine/shell";
   users.users.root.shell = "/etc/machine/shell";
@@ -140,6 +140,11 @@ in
     tcpdump
     python3
     iptables
+
+    bashInteractive
+    coreutils
+    gnugrep
+    nix
 
     xorg.xauth
     xorg.xinit
