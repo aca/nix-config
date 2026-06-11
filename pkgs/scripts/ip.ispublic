@@ -1,0 +1,9 @@
+#!/usr/bin/env -S uv run python
+
+import ipaddress
+import sys
+ip = sys.argv[1]
+if ipaddress.ip_address(ip).is_private:
+    print(ip, 'Private IP')
+else:
+    print(ip, 'Public IP')

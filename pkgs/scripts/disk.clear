@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+sudo umount -f "${1}1"
+sudo sgdisk --zap-all "${1}" && sudo sgdisk -n 1:0:0 -t 1:0700 "${1}" && sudo mkfs.exfat "${1}1"

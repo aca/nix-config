@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+cd /tmp/rund
+ls | sort -r | fzf --preview 'cat {}' 

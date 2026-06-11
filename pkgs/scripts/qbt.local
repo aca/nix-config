@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+cd ~/.config/qbt
+ln -sf local.toml .qbt.toml

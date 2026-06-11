@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+chromium --proxy-server="socks5://localhost:1081" --user-data-dir=/home/rok/.config/chromium__localhost
+

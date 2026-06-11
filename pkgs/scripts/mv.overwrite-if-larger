@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+set -euxo pipefail
+
+# Check if both arguments are provided
+if [ $# -ne 2 ]; then
+    echo "Usage: $0 <source> <destination>"
+    exit 1
+fi
+
+SOURCE="$1"
+DEST="$2"
+
+# Check if source file exists
+if [ ! -f "$SOURCE" ]; then
+    echo "Error: Source file '$SOURCE' does not exist"
+    exit 1
+fi
+
+# Get source file size
+SOURCE_SIZE=$(stat -c%s "$SOURCE" 2>/dev/null || stat -f%z "$SOURCE" 2>/dev/null)
+
+# If destination doesn't exist, just move the file
+if [ ! -f "$DEST" ]; then
+    exit 1
+    mv -v "$SOURCE" "$DEST"
+    exit 0
+fi
+
+# Get destination file size
+DEST_SIZE=$(stat -c%s "$DEST" 2>/dev/null || stat -f%z "$DEST" 2>/dev/null)
+
+# Compare sizes and move if source is larger
+if [ "$SOURCE_SIZE" -gt "$DEST_SIZE" ]; then
+    echo "Source ($SOURCE_SIZE bytes) is larger than destination ($DEST_SIZE bytes), overwriting..."
+    mv -v "$SOURCE" "$DEST"
+else
+    echo "Source ($SOURCE_SIZE bytes) is not larger than destination ($DEST_SIZE bytes), skipping..."
+fi

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -euxo pipefail
+
+echo $1
+echo $2
+
+# copy to remote, and remote encode
+
+INPUT_CODEC="$(ffprobe -v error -select_streams v:0 -show_entries stream=codec_name -of csv=p=0 "$1")"
+if [ "$INPUT_CODEC" = "av1" ]; then
+  echo "이미 AV1 코덱입니다 ($INPUT). 인코딩 스킵."
+  exit 0
+fi
+
+cq -- bash -c "rsync.remote $1 $2; cq --host $2 encode-av1 --delete $(realpath $1)"

@@ -1,0 +1,263 @@
+# zmx 빌드 실패와 해결 과정
+
+## 배경
+
+`overlay.nix`에 `zmx`를 추가하여 모든 호스트에서 `pkgs.zmx`로 접근 가능하게
+만들었다. 이후 `seedbox-impx` (aarch64-linux) 호스트에 deploy를 시도하자
+빌드가 실패했다. 본 문서는 그 원인을 IFD 개념부터 풀어 설명하고, 시도한
+접근들과 최종 해결 방법을 기록한다.
+
+
+## IFD (Import From Derivation) 란?
+
+Nix는 평가(evaluation)와 빌드(build)를 분리한다. 평가는 .nix 파일을 읽어
+"어떤 derivation들을 만들지"를 결정하는 단계이고, 빌드는 그 derivation을
+실제로 실행해서 결과물을 만드는 단계이다.
+
+IFD는 이 두 단계의 경계를 넘는 트릭이다. **평가 도중에 derivation을 빌드해서
+그 결과를 다시 평가에 사용**한다. 예를 들면:
+
+  let
+    generated = pkgs.runCommand "gen" {} ''
+      echo '{ x = 1; }' > $out
+    '';
+  in
+    import generated   # ← IFD: derivation 빌드 후 결과 파일을 import
+
+평범한 평가에선 평가 단계에서 빌드가 일어나지 않는데, `import <derivation>`
+같은 패턴은 **그 derivation의 OUTPUT 파일을 읽어야** 다음 평가가 가능하다.
+그래서 nix는 평가를 잠시 멈추고 derivation을 빌드하고, 결과를 받아 평가를
+재개한다.
+
+zon2json, zig2nix 같은 도구는 흔히 이 패턴을 쓴다. zig 프로젝트의 의존성
+정의(`build.zig.zon`)을 nix expression으로 변환하기 위해 빌드 시점에
+`zon2json`을 실행해야 하기 때문이다.
+
+### IFD의 단점
+- 평가가 느려진다 (빌드를 기다려야 함)
+- 평가 호스트에 빌드 능력이 있어야 한다
+- `nix flake show` 등에서 "omitted due to use of import from derivation"
+  로 표시되어 정적 분석 도구가 어려움을 겪는다
+- pure-eval 모드와 충돌 가능성
+
+
+## zmx의 구조
+
+`zmx`는 zig로 작성된 도구이고, 그 nix flake는 다음과 같이 작동한다:
+
+  zmx (최종 패키지)
+   └─ build.zig.zon 의존성을 처리하기 위해
+       └─ zon2json (별도 derivation)
+           └─ zig2nix 빌더로 빌드되며
+               └─ zig build 호출 시 내부적으로 bwrap(bubblewrap)으로
+                  격리된 build 환경을 만든다
+
+따라서 `pkgs.zmx`를 평가하려면 평가 호스트에서:
+1. zig2nix derivation을 빌드 (zig + bwrap 사용)
+2. 그 결과로 zon2json을 빌드
+3. 최종 zmx를 빌드
+
+이 모든 게 **평가 단계에서** 발생한다.
+
+
+## 발생한 문제
+
+### 1차 증상: 평가 실패
+
+  qwer deploy2 seedbox-impx
+
+가 다음 에러로 실패했다:
+
+  building '/nix/store/...-zig2nix.drv'...
+  zig2nix> Running phase: buildPhase
+  zig2nix> zig build flags: -j16 -Dcpu=baseline
+  zig2nix> bwrap: Creating new namespace failed, likely because the kernel
+           does not support user namespaces. bwrap must be installed setuid
+           on such systems.
+  error: Cannot build '/nix/store/...-zig2nix.drv'
+
+### 2차 증상: trusted-user 경고
+
+  warning: ignoring the client-specified setting 'sandbox', because it is a
+  restricted setting and you are not a trusted user
+
+`--option build-use-sandbox relaxed` 옵션이 무시되었다.
+
+
+## 원인 분석
+
+### bwrap 실패의 근본 원인
+
+bwrap은 unprivileged user namespace를 만들어 그 안에서 격리된 빌드 환경을
+구성한다. 그런데 이 빌드는 이미 nix sandbox 안에서 실행되고 있다.
+
+  [nix-daemon] → [nix sandbox (user namespace 1)]
+                    └─ [zig build]
+                          └─ [bwrap: user namespace 2 시도] ← 실패
+
+즉 **nested user namespace** 를 만들려는 시도다. 일부 커널 환경에선 이게
+허용되지 않거나 (특히 컨테이너/VM 안에서), 또는 seccomp 정책에 의해
+차단된다. seedbox-impx 환경에서 이 nested 생성이 막혀 있었다.
+
+### qemu binfmt 에뮬레이션의 한계
+
+home은 x86_64-linux이고 seedbox-impx는 aarch64-linux이다. home의
+nixos configuration에는 `boot.binfmt.emulatedSystems = ["aarch64-linux"]`
+가 켜져 있어, qemu-user를 통해 aarch64 바이너리를 실행할 수 있다.
+
+그래서 home에서 aarch64 zig2nix를 cross-build 시도해봤지만, qemu binfmt는
+일부 시스템콜을 native로 충실히 변환하지 못한다. 특히 user namespace
+관련 시스템콜(`unshare(CLONE_NEWUSER)`, `setns()` 등)은 에뮬레이션
+환경에서 제대로 동작하지 않는다. 결과적으로 home에서 cross-build를 해도
+같은 bwrap 실패가 발생했다.
+
+### 평가 호스트의 의미
+
+`nixos-rebuild --flake .#seedbox-impx --target-host=root@seedbox-impx
+--build-host=root@seedbox-impx` 같은 명령이라도, **flake 평가 자체는
+호출자(home) 머신에서 수행된다.** `--build-host`는 derivation을 실제로
+빌드하는 호스트일 뿐, IFD가 평가 도중 트리거하는 빌드도 평가 호스트의
+nix가 직접 처리한다.
+
+따라서:
+- IFD 결과물(zig2nix, zon2json)이 home의 /nix/store에 있어야 평가가 통과
+- 또는 home에서 평가 도중 그 빌드를 어딘가에서 받아오거나 위임해야 한다
+
+seedbox-impx에 들어가 직접 빌드한 결과물은 seedbox-impx의 /nix/store에만
+있고, home은 평가 도중 그 결과를 모른다 (substituter로 받아오게 하려면
+별도 설정 필요).
+
+### trusted-user 문제
+
+`--option build-use-sandbox relaxed` 가 무시된 이유는, nix-daemon이
+client의 setting 변경 권한을 trusted-users 목록으로 제한하기 때문이다.
+seedbox-impx의 `/etc/nix/nix.conf` 에는:
+
+  trusted-users = root
+
+만 있었고, `--build-host=root@seedbox-impx`로 ssh 들어간 root조차도 어떤
+이유에선가 이 검사에서 거부되었다 (자세한 원인은 추가 조사 필요).
+`all.configuration.nix`에 `trusted-users = ["root" "rok"]`을 추가했지만
+그 변경을 활성화하는 switch 자체가 빌드 단계에서 실패하고 있어 적용되지
+못하는 닭과 달걀 상황이었다.
+
+
+## 시도한 접근들
+
+### 시도 1: overlay 제거
+
+`overlay.nix`에서 zmx 항목을 제거해 IFD가 시스템 전체 평가에 끼지 않도록
+했다. 사용자가 다시 추가하길 원해 되돌렸다.
+
+### 시도 2: seedbox-impx에서 직접 빌드 (sandbox=false)
+
+  ssh root@seedbox-impx \
+    "nix build --option sandbox false --impure github:neurosnap/zmx"
+
+이 빌드는 성공했다. nix sandbox를 끄면 nested namespace 시도가 사라져
+bwrap이 호스트의 user namespace를 직접 만들 수 있기 때문이다.
+
+그러나 이렇게 만든 결과물은 **seedbox-impx의 /nix/store**에만 있고
+home에는 없다. 이어서 다시 `qwer deploy2 seedbox-impx`를 실행하니 home의
+평가 단계에서 같은 IFD가 다시 트리거되어 동일한 에러로 실패했다.
+
+### 시도 3: home에서 native 빌드
+
+  nix build --impure github:neurosnap/zmx
+
+home은 x86_64라 default system인 x86_64-linux 빌드는 성공했다.
+하지만 aarch64-linux 평가에 필요한 결과물은 아니다.
+
+### 시도 4: home에서 aarch64 cross-build
+
+  nix build --impure github:neurosnap/zmx#packages.aarch64-linux.default
+
+qemu binfmt를 통해 aarch64 zig 바이너리가 실행되었지만, 그 zig가 호출하는
+bwrap이 user namespace 생성에 실패. sandbox=false를 추가해도 동일.
+qemu의 시스템콜 에뮬레이션 한계 때문이다.
+
+### 시도 5: distributed builds로 위임 (성공)
+
+home의 nix가 aarch64-linux 빌드를 만나면 ssh로 seedbox-impx에 위임하도록
+설정했다. seedbox-impx는 native aarch64이므로 qemu 한계가 없고,
+sandbox=false로 nested namespace 문제도 회피.
+
+  sudo nix build \
+    --extra-experimental-features 'nix-command flakes' \
+    --impure \
+    --builders 'ssh://root@seedbox-impx aarch64-linux - 8 1 big-parallel' \
+    --max-jobs 0 \
+    --option sandbox false \
+    'github:neurosnap/zmx#packages.aarch64-linux.default' \
+    --out-link ./result-arm
+
+핵심 옵션:
+- `--builders '...'`: aarch64-linux 빌드를 ssh로 seedbox-impx에 위임
+- `--max-jobs 0`: 로컬 빌드를 금지하여 강제로 원격 빌더만 사용
+- `--option sandbox false`: 원격 빌드에서 nested namespace 문제 회피
+- `sudo`: home의 trusted-users에 root만 등록되어 있어, builders 옵션을
+  지정할 권한 확보
+
+이 명령이 끝나면 빌드 결과(zig2nix, zon2json, zmx 등 모든 IFD 산출물)가
+seedbox-impx에서 빌드된 후 home의 /nix/store로 복사된다.
+
+### 최종: deploy 재실행
+
+  qwer deploy2 seedbox-impx
+
+이번엔 home의 평가 단계에서 zig2nix와 zon2json을 이미 store에서 찾아
+IFD가 바로 통과했고, 시스템 toplevel이 정상 빌드되어 seedbox-impx에
+적용되었다.
+
+
+## 영구 대책 권장
+
+같은 문제 재발을 막기 위해 home의 NixOS configuration에 distributed
+builds를 영구 등록하는 것을 추천한다:
+
+  nix.distributedBuilds = true;
+  nix.buildMachines = [{
+    hostName = "seedbox-impx";
+    sshUser = "root";
+    systems = [ "aarch64-linux" ];
+    maxJobs = 8;
+    supportedFeatures = [ "big-parallel" ];
+    protocol = "ssh-ng";
+  }];
+  nix.settings.trusted-users = [ "root" "rok" ];
+
+이렇게 하면 zmx 업데이트 등으로 IFD가 다시 발생해도 자동으로 위임되어
+빌드된다. trusted-users에 rok를 추가하면 매번 sudo 없이도 builders
+옵션을 사용할 수 있다.
+
+또한 별도 보강 옵션:
+
+- seedbox-impx 자체에서 IFD를 가능하게 하려면
+  `security.unprivilegedUsernsClone = true;` (이미 추가됨)
+  과 nix.settings.sandbox 정책 조정 필요.
+- harmonia 캐시(이미 seedbox-impx에 떠 있음)에 IFD 산출물을 push해두면
+  다른 호스트들이 zmx 평가 시 그 캐시에서 받아갈 수 있다.
+
+
+## 교훈
+
+1. IFD 패키지를 `nixpkgs.overlays`에 넣는 것은 위험하다. overlay는 모든
+   pkgs 사용 경로에서 평가되므로 IFD가 광범위하게 퍼진다. 특정 호스트의
+   `environment.systemPackages`에 직접 참조하는 편이 안전하다.
+
+2. cross-architecture 빌드에서 qemu binfmt는 만능이 아니다. user namespace
+   를 요구하는 빌드(zig, bubblewrap 사용 도구 등)는 native 빌더를
+   거쳐야 한다.
+
+3. nix sandbox 안에서 외부 도구가 sandbox를 또 만들려는 시나리오는 nested
+   namespace 제약을 만난다. 가능하면 빌드 도구가 자체 sandbox를 쓰지
+   않도록 하거나, nix sandbox를 끄는 옵션을 활용한다.
+
+4. `--target-host`/`--build-host`와 평가 호스트는 별개다. IFD는 항상
+   평가 호스트의 nix가 처리한다. 이를 우회하려면 distributed builds를
+   설정해 평가 호스트가 다른 머신에 위임하게 만들어야 한다.
+
+5. 시스템 변경이 적용되지 않은 상태에서 그 변경에 의존하는 빌드를 시도
+   하면 닭과 달걀 상황이 생긴다 (예: trusted-users 추가 후 그것을 적용
+   하는 switch가 그 권한을 필요로 하는 경우). 부트스트랩 단계는 임시
+   sysctl, 임시 sudo, 또는 수동 nix.conf 편집으로 풀어야 할 수 있다.

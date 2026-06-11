@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+nix run github:aksiksi/compose2nix -- "$@"

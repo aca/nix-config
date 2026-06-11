@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+window_pid=$(/run/current-system/sw/bin/yabai -m query --windows --window | jq -r '.pid') 
+# window_pid=$(/run/current-system/sw/bin/yabai -m query --windows | jq -r '[.[] | select(.app | contains("Firefox Developer Edition")) ][0]| .pid') 
+# echo $window_pid
+count_pid=$(/run/current-system/sw/bin/yabai -m query --windows | /run/current-system/sw/bin/jq "[.[] | select(.pid == $window_pid)] | length")
+# echo $count_pid
+if [ "$count_pid" -gt 1 ]; then
+	/run/current-system/sw/bin/yabai -m window --close
+else
+	/run/current-system/sw/bin/kill "$window_pid"
+fi

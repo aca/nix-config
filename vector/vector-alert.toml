@@ -1,0 +1,40 @@
+data_dir = "."
+
+[api]
+enabled = true
+address = "0.0.0.0:9110"
+
+[sources.logs]
+type = "vector"
+address = "0.0.0.0:9999"
+
+[transforms.filter_errors]
+type = "filter"
+inputs = ["logs"]
+condition = '.level == "ERROR" || .level == "CRITICAL"'
+
+[transforms.format_msg]
+type = "remap"
+inputs = ["filter_errors"]
+source = '''
+  msg = .msg ?? .message ?? ""
+  unit = .unit ?? "unknown"
+  host = .host ?? "unknown"
+  . = {}
+  .message = "[" + to_string(host) + "/" + to_string(unit) + "] " + to_string(msg)
+'''
+
+[sinks.ntfy]
+type = "http"
+inputs = ["format_msg"]
+uri = "https://ntfy.sh/error"
+method = "post"
+
+  [sinks.ntfy.encoding]
+  codec = "text"
+
+  [sinks.ntfy.framing]
+  method = "newline_delimited"
+
+  [sinks.ntfy.healthcheck]
+  enabled = false

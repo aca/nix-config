@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+set -exuo pipefail
+
+# Usage: put.archive <source_file> [destination_directory] [--force]
+# Example: put.archive xxx/yyy/z.txt zzz   -> /mnt/archive-0/zzz/xxx/yyy/z.txt
+# Example: put.archive xxx/yyy/z.txt       -> /mnt/archive-0/xxx/yyy/z.txt
+
+FORCE=0
+POSITIONAL=()
+for arg in "$@"; do
+    if [ "$arg" = "--force" ]; then
+        FORCE=1
+    else
+        POSITIONAL+=("$arg")
+    fi
+done
+
+if [ "${#POSITIONAL[@]}" -lt 1 ] || [ "${#POSITIONAL[@]}" -gt 2 ]; then
+    echo "Usage: $0 <source_file> [destination_directory] [--force]"
+    echo "Example: $0 xxx/yyy/z.txt zzz   -> /mnt/archive-0/zzz/xxx/yyy/z.txt"
+    echo "Example: $0 xxx/yyy/z.txt       -> /mnt/archive-0/xxx/yyy/z.txt"
+    exit 1
+fi
+
+SOURCE_FILE="${POSITIONAL[0]}"
+DEST_DIR="${POSITIONAL[1]:-}"
+ARCHIVE_BASE="/mnt/archive-0"
+
+echo "SRC": "$SOURCE_FILE"
+echo "DEST": "$DEST_DIR"
+
+# Check if source file exists
+if [ ! -f "$SOURCE_FILE" ]; then
+    echo "Error: Source file '$SOURCE_FILE' does not exist"
+    exit 1
+fi
+
+# Get the directory structure from source file
+SOURCE_DIR=$(dirname "$SOURCE_FILE")
+SOURCE_BASENAME=$(basename "$SOURCE_FILE")
+
+# Construct full destination path
+if [ -n "$DEST_DIR" ]; then
+    FULL_DEST_DIR="$ARCHIVE_BASE/$DEST_DIR/$SOURCE_DIR"
+else
+    FULL_DEST_DIR="$ARCHIVE_BASE/$SOURCE_DIR"
+fi
+FULL_DEST_FILE="$FULL_DEST_DIR/$SOURCE_BASENAME"
+TEMP_DEST_FILE="$FULL_DEST_DIR/.$SOURCE_BASENAME.mv.tmp.$$"
+
+# Create destination directory if it doesn't exist
+mkdir -p "$FULL_DEST_DIR"
+
+# Check if destination file already exists
+if [ -f "$FULL_DEST_FILE" ] && [ "$FORCE" -ne 1 ]; then
+    echo "File already exists at destination: '$FULL_DEST_FILE' (use --force to overwrite)"
+    exit 0
+fi
+
+SRC_DEV=$(stat -c%d "$SOURCE_FILE")
+DEST_DEV=$(stat -c%d "$FULL_DEST_DIR")
+
+if [ "$SRC_DEV" = "$DEST_DEV" ]; then
+    # Same filesystem: move to temp, then atomic rename
+    echo "Same filesystem, moving via temp file..."
+    mv "$SOURCE_FILE" "$TEMP_DEST_FILE"
+    mv "$TEMP_DEST_FILE" "$FULL_DEST_FILE"
+else
+    # Cross-filesystem: copy to temp, rename, then remove original
+    echo "Copying '$SOURCE_FILE' to archive..."
+    ionice -c 3 cp -av "$SOURCE_FILE" "$TEMP_DEST_FILE"
+    mv "$TEMP_DEST_FILE" "$FULL_DEST_FILE"
+    rmm "$SOURCE_FILE"
+fi
+echo "File moved successfully to '$FULL_DEST_FILE'"
+echo "Archive operation completed!"

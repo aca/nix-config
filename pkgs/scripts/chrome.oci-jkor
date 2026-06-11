@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+GDK_BACKEND=x11 xpra attach ssh://rok@oci-jkor/1000 --window-close=ignore

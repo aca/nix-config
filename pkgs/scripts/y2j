@@ -1,0 +1,31 @@
+#!/usr/bin/env bun
+
+// yaml‑to‑json.ts
+// Run with:  bun run yaml-to-json.ts [optional‑yaml‑file]
+
+import { parse } from "yaml";
+
+// Bun puts additional CLI arguments starting at index 2.
+const srcPath: string | undefined = Bun.argv[2];
+
+async function readYaml(): Promise<string> {
+  if (srcPath) {
+    // Read from the file given as the first argument
+    return await Bun.file(srcPath).text();
+  }
+
+  // Otherwise read everything from stdin
+  return await Bun.stdin.text();
+}
+
+(async () => {
+  try {
+    const yamlRaw = await readYaml();
+    const data = parse(yamlRaw);
+    // Pretty‑print with 2‑space indentation
+    console.log(JSON.stringify(data, null, 2));
+  } catch (err) {
+    console.error("yaml‑to‑json: failed:", (err as Error).message);
+    process.exit(1);
+  }
+})();

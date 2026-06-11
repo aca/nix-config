@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+echo seedbox
+cq --host seedbox clean
+cq --host seedbox ls
+echo
+
+echo seedbox-impx
+cq --host seedbox-impx clean
+cq --host seedbox-impx ls
+echo
+
+echo oci-jkor
+cq --host oci-jkor clean
+cq --host oci-jkor ls
+echo
+
+echo oci-aca-001
+cq --host oci-aca-001 clean
+cq --host oci-aca-001 ls

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+set -- "${1:-$(pbpaste)}"
+cd /mnt/archive-0/
+
+set -x
+cq -- yt-dlp --cookies-from-browser firefox "$@" --no-playlist

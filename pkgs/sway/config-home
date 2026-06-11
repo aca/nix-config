@@ -1,0 +1,2 @@
+exec --no-startup-id /run/current-system/sw/bin/swaymsg output 'DP-1' enable mode 2560x1440@59.951Hz transform 90 scale 1.5 position 0 0 
+exec --no-startup-id /run/current-system/sw/bin/swaymsg output 'HDMI-A-1' enable mode 3840x2160@60Hz transform normal scale 1.5 position 960 0 

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+cd /home/rok/src/git.internal/archive-0
+bash fd.sh

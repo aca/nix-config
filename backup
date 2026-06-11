@@ -1,0 +1,7 @@
+cp.rsyncdir /home/rok/.config /mnt/home.local/.config
+cp.rsyncdir /home/rok/.cache /mnt/home.local/.cache
+cp.rsyncdir /home/rok/.local /mnt/home.local/.local
+cp.rsyncdir /home/rok/.ssh /mnt/home.local/.ssh
+cp.rsyncdir /home/rok/.claude /mnt/home.local/.claude
+cp.rsyncdir /home/rok/store /mnt/home.local/store
+cp.rsyncdir /home/rok/src/ /mnt/home.local/src/

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# https://protesilaos.com/emacs/denote#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d
+# 20220610T062201--define-custom-org-hyperlink-type__denote_emacs_package.md
+# 20220610T162327--on-hierarchy-and-taxis__notetaking_philosophy.txt
+
+cd $ZK_ROOT || cd ~/src/zk
+if [ "$#" -eq 0 ]; then
+  readarray -t files < <(fd --type f . | fzf --preview 'bat {}' --preview-window='right,70%')
+  if [ "$files" = "" ]; then
+    exit 0
+  fi
+  # $EDITOR -o ${files[@]@Q}
+  $EDITOR -o $files
+else
+  $EDITOR "$(date '+%Y%m%dT%H%M%S')--$(echo "$@" | sed 's/ /-/g').md"
+fi
+

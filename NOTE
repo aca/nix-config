@@ -1,0 +1,3 @@
+nix run nixpkgs.python -c python --version
+
+https://oddlama.org/blog/evaluation-time-secrets-in-nix/

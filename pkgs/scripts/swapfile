@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+# swapfile - A simple script to swap two files
+# Usage: swapfile <file1> <file2>
+
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <file1> <file2>"
+    exit 1
+fi
+
+FILE1="$1"
+FILE2="$2"
+
+if [ ! -f "$FILE1" ]; then
+    echo "Error: $FILE1 does not exist."
+    exit 1
+fi
+
+if [ ! -f "$FILE2" ]; then
+    echo "Error: $FILE2 does not exist."
+    exit 1
+fi
+
+suffix=$(date +%s)
+
+mv -vn "$FILE1" "$FILE1.$suffix"
+mv -vn "$FILE2" "$FILE1"
+mv -vn "$FILE1.$suffix" "$FILE2"

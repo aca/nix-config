@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+SOURCE="$1"
+
+ytid=$(getytid "$SOURCE")
+
+if [ -z "$ytid" ]; then
+    echo "No YouTube ID found in $SOURCE"
+    exit 1
+fi
+
+DEST=$(fd --base-directory /mnt/archive-0/Youtube/ -a -- "$ytid")
+
+# Get source file size
+SOURCE_SIZE=$(stat -c%s "$SOURCE" 2>/dev/null || stat -f%z "$SOURCE" 2>/dev/null)
+DEST_SIZE=$(stat -c%s "$DEST" 2>/dev/null || stat -f%z "$DEST" 2>/dev/null)
+
+# Compare sizes and move if source is larger
+if [ "$SOURCE_SIZE" -gt "$DEST_SIZE" ]; then
+    rm -v "$DEST"
+else
+    rm -v "$SOURCE"
+fi

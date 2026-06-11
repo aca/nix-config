@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -x
+ztlink=$(ip -json link | jq '.[].ifname' -r | grep '^zt')
+sudo ip route del "$2" || true
+sudo ip route add "$2" via $1 dev $ztlink
