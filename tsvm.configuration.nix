@@ -12,6 +12,13 @@
   networking.hosts."192.168.195.199" = [ "home"  "git.internal"];
   networking.hosts."192.168.195.178" = [ "oci-aca-001"];
 
+  # enable direnv
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
+
   systemd.services.txxx-kr = {
     path = [ "/run/current-system/sw" ];
     enable = true;
