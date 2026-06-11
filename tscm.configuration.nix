@@ -25,7 +25,6 @@ in
 
   environment.variables."TERM" = "xterm-ghostty";
 
-
   # environment.systemPackages = with pkgs; [
   #   bashInteractive
   #   coreutils
@@ -102,8 +101,7 @@ in
     "mitigations=off"
   ];
 
-environment.enableAllTerminfo = true;
-
+  environment.enableAllTerminfo = true;
 
   imports = [
     # Include the default lxd configuration.
@@ -136,18 +134,21 @@ environment.enableAllTerminfo = true;
   ];
 
   environment.systemPackages = with pkgs; [
-      (pkgs.writeShellScriptBin "pbcopy" ''
-        base64 -w0 | xargs printf '\033]52;c;%s\a'
+    (pkgs.writeShellScriptBin "pbcopy-mac" ''
+      ssh mac pbpaste
     '')
-    (pkgs.writeShellScriptBin "ci" ''
-        base64 -w0 | xargs printf '\033]52;c;%s\a'
-    '')
-    (pkgs.writeShellScriptBin "pbpaste" ''
-      ssh mac pbpaste 2>/dev/null
-    '')
-    (pkgs.writeShellScriptBin "co" ''
-      ssh mac pbpaste 2>/dev/null
-    '')
+    #   (pkgs.writeShellScriptBin "pbcopy" ''
+    #     base64 -w0 | xargs printf '\033]52;c;%s\a'
+    # '')
+    # (pkgs.writeShellScriptBin "ci" ''
+    #     base64 -w0 | xargs printf '\033]52;c;%s\a'
+    # '')
+    # (pkgs.writeShellScriptBin "pbpaste" ''
+    #   ssh mac pbpaste 2>/dev/null
+    # '')
+    # (pkgs.writeShellScriptBin "co" ''
+    #   ssh mac pbpaste 2>/dev/null
+    # '')
 
     gcc
     ghostty
