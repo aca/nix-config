@@ -628,17 +628,17 @@
           ./neovim.nix
           agenix.nixosModules.default
 
-          # home-manager.nixosModules.home-manager
-          # {
-          #   home-manager.useGlobalPkgs = true;
-          #   home-manager.useUserPackages = true;
-          #   home-manager.users."rok" = import ./tsvm.home-manager.nix;
-          #   home-manager.users.root = { pkgs, ... }: {
-          #     home.stateVersion = "25.11";
-          #   };
-          #   home-manager.extraSpecialArgs = specialArgs;
-          #   home-manager.backupFileExtension = "bak";
-          # }
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users."rok" = import ./tscm.home-manager.nix;
+            home-manager.users.root = { pkgs, ... }: {
+              home.stateVersion = "26.05";
+            };
+            home-manager.extraSpecialArgs = specialArgs;
+            home-manager.backupFileExtension = "bak";
+          }
         ];
       };
 
