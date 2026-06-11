@@ -134,6 +134,7 @@ environment.enableAllTerminfo = true;
 
   environment.systemPackages = with pkgs; [
     gcc
+    ghostty
     typst
     clang
     ethtool
