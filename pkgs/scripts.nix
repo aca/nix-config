@@ -237,14 +237,16 @@ in
     )
 
     (
+          # elif [ "$SSH_TTY" != "" ]; then
+          #     pbpaste-mac
       if pkgs.stdenv.isLinux then
         pkgs.writeShellScriptBin "co" ''
-          if [ "$SSH_TTY" != "" ]; then
-              pbpaste-osc52
-          elif [ "$WAYLAND_DISPLAY" = "" ]; then
-              xsel --clipboard --output
-          else
+          if [ "$WAYLAND_DISPLAY" != "" ]; then
               wl-paste --no-newline
+          elif type pbpaste-mac >/dev/null 2>&1; then
+              pbpaste-mac
+          else
+              xsel --clipboard --output
           fi
         ''
       else
