@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# pbpaste replacement: read the local clipboard via an OSC52 query.
+# Requires a terminal that allows OSC52 clipboard reads (often disabled by default).
+set -euo pipefail
+
+query=$(printf '\033]52;c;?\a')
+
+# tmux needs the sequence wrapped in a DCS passthrough.
+if [ -n "${TMUX:-}" ]; then
+  query=$(printf '\033Ptmux;\033%s\033\\' "$query")
+fi
+
+if ! { exec 3<>/dev/tty; } 2>/dev/null; then
+  echo "pbpaste: no terminal available" >&2
+  exit 1
+fi
+
+saved=$(stty -g <&3)
+trap 'stty "$saved" <&3' EXIT
+stty raw -echo <&3
+
+printf '%s' "$query" >&3
+
+# Reply: ESC ] 52 ; c ; <base64> terminated by BEL or ST (ESC \).
+# Base64 contains neither BEL nor backslash, so either byte ends the reply.
+reply=
+while IFS= read -r -n1 -t 2 ch <&3; do
+  case $ch in
+    $'\a' | '\') break ;;
+  esac
+  reply+=$ch
+done
+
+stty "$saved" <&3
+trap - EXIT
+
+if [ -z "$reply" ]; then
+  echo "pbpaste: no response from terminal (OSC52 clipboard read unsupported or disabled)" >&2
+  exit 1
+fi
+
+reply=${reply%$'\033'}   # drop trailing ESC left over from an ST terminator
+b64=${reply##*;}
+
+if [ -z "$b64" ] || [ "$b64" = "?" ]; then
+  echo "pbpaste: terminal refused the clipboard read" >&2
+  exit 1
+fi
+
+printf '%s' "$b64" | base64 -d
