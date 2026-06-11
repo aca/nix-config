@@ -23,6 +23,9 @@ in
   networking.hostName = "tscm";
   # system.stateVersion = lib.mkDefault "26.05";
 
+  environment.variables."TERM" = "xterm-ghostty";
+
+
   # environment.systemPackages = with pkgs; [
   #   bashInteractive
   #   coreutils
