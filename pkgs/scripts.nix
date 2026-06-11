@@ -230,6 +230,7 @@ in
           fi
         ''
       else
+        # ci -> pbcopy
         pkgs.writeShellScriptBin "ci" "pbcopy"
     )
 
