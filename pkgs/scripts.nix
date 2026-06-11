@@ -215,14 +215,9 @@ in
     (
       if pkgs.stdenv.isLinux then
         pkgs.writeShellScriptBin "ci" ''
-          # if [ "$SSH_TTY" != "" ]; then
-          #     yank
-          # fi
-
-          # if pgrep copyq 1>/dev/null 2>/dev/null; then
-          #     copyq copy - 1>/dev/null 2>/dev/null
-
-          if [ "$WAYLAND_DISPLAY" = "" ]; then
+          if [ "$SSH_TTY" != "" ]; then
+              pbcopy-osc52
+          elif [ "$WAYLAND_DISPLAY" = "" ]; then
               # timeout 5s xsel --clipboard --input
               xsel --clipboard --input
           else
