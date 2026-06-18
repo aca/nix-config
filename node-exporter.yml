@@ -1,0 +1,41 @@
+# https://github.com/ryan4yin/nix-config/blob/ae229e568f526c73747a8f56c32e7d03bfed63e9/hosts/idols-aquamarine/prometheus/default.nix
+groups:
+  - name: NodeExporter
+    rules:
+      - alert: HostOutOfMemory
+        expr:
+          '(node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10) * on(instance)
+          group_left (nodename) node_uname_info{nodename=~".+"}'
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: Host out of memory (instance {{ $labels.instance }})
+          description:
+            "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels
+            }}"
+      - alert: HostMemoryUnderMemoryPressure
+        expr:
+          '(rate(node_vmstat_pgmajfault[1m]) > 1000) * on(instance) group_left (nodename)
+          node_uname_info{nodename=~".+"}'
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: Host memory under memory pressure (instance {{ $labels.instance }})
+          description:
+            "The node is under heavy memory pressure. High rate of major page faults\n  VALUE = {{
+            $value }}\n  LABELS = {{ $labels }}"
+      - alert: HostOutOfDiskSpace
+         # (node_filesystem_avail_bytes / node_filesystem_size_bytes) * 100 returns remaing disk space in percentage
+        expr:
+          '((node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 5 and ON (instance,
+          device, mountpoint) node_filesystem_readonly == 0) * on(instance) group_left (nodename)
+          node_uname_info{nodename=~".+"}'
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: Host out of disk space (instance {{ $labels.instance }})
+          description:
+            "Disk is almost full (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"

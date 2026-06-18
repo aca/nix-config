@@ -1,0 +1,262 @@
+# postgres docker image (NixOS)
+
+## 배경
+
+처음에는 `dockerTools.buildImage`로 postgres 바이너리만 담은 작은 이미지를
+만들려 했다. 그러나 다음 문제들이 연달아 나왔다:
+
+1. postgres는 root로 실행을 거부한다.
+2. nix store의 `su`는 setuid 비트가 없어서 user 전환이 안 된다.
+3. `/run/postgresql` socket dir이 없어서 lock file 생성 실패.
+4. initdb, pg_hba.conf, shared_preload_libraries 등 부트스트랩을 손으로 다
+   짜야 한다.
+
+이런 부트스트랩 로직은 이미 NixOS의 `services.postgresql` 모듈이 다
+해결해 놓았다. 그래서 NixOS 시스템 전체를 docker 이미지로 만드는 방식으로
+갈아탔다.
+
+처음에는 `nixos-generators`를 썼지만, 25.05부터 nixpkgs 본체에 흡수되어
+deprecated 됐다. 지금은 nixpkgs 안의
+`nixos/modules/virtualisation/docker-image.nix` 모듈을 직접 import 한다.
+
+
+## 동작 원리
+
+### 1. nixpkgs upstream module이 하는 일
+
+`nixos/modules/virtualisation/docker-image.nix`를 NixOS 시스템에 import하면:
+
+- `services.openssh.startWhenNeeded = false` 같은 컨테이너 환경에 맞는
+  조정이 자동으로 들어간다.
+- `config.system.build.tarball`이 노출된다 — `.tar.xz` 형태의 전체 root
+  filesystem 묶음.
+
+flake에서는 `nixpkgs.lib.nixosSystem`으로 시스템을 구성하고
+`config.system.build.tarball`을 빌드한다.
+
+결과물은 `result/tarball/nixos-system-*.tar.xz`로 나오고, docker에
+적재할 때는 `docker load`가 아니라 **`docker import`**를 쓴다
+(layered image가 아니라 단일 rootfs tarball이라서). 이때
+`--change`로 ENTRYPOINT와 STOPSIGNAL을 함께 박아넣는다 (아래 "시그널
+처리" 섹션 참고):
+
+  docker import \
+    --change 'ENTRYPOINT ["/init"]' \
+    --change 'STOPSIGNAL SIGRTMIN+3' \
+    result/tarball/nixos-system-*.tar.xz \
+    postgres-nix:latest
+
+
+### 2. 컨테이너 안에서 일어나는 일
+
+  docker run --privileged -p 5432:5432 postgres-nix:latest
+
+`/init`이 핵심이다. `docker import`로 들어온 이미지는 entrypoint가
+설정돼 있지 않으므로 명시적으로 `/init`을 지정해야 한다. `/init`은 NixOS의
+stage-2 부팅 스크립트로, 환경을 세팅한 뒤 systemd를 exec 한다.
+
+흐름:
+
+1. docker가 새 PID/mount/network namespace를 만들고 컨테이너를 띄운다.
+2. `/init`이 실행되고 곧바로 PID 1을 이미지 안의 systemd로 교체한다.
+   **host의 systemd가 아니라 이미지 안의 systemd다.**
+3. 컨테이너 안 systemd가 NixOS activation script를 돌린다:
+   - postgres user/group 생성
+   - `/var/lib/postgresql`, `/run/postgresql` 디렉토리 준비
+   - 권한 세팅
+4. `postgresql-setup.service`(preStart) → `postgresql.service` 순으로
+   기동:
+   - 최초 부팅이면 `initdb`로 데이터 디렉토리 초기화
+   - pg_hba.conf, postgresql.conf 생성
+   - postgres 데몬을 postgres 유저로 실행
+5. 포트 5432가 listen 상태가 된다.
+
+
+### 3. 왜 --privileged 가 필요한가
+
+컨테이너 안 systemd가 cgroup을 쓰려고 한다. cgroup은 host 커널이 관리하는
+자원이고, 컨테이너가 cgroupfs를 자유롭게 마운트/조작하려면 권한이 필요하다.
+
+`--privileged`는 가장 넓은 권한이고, 다음으로 좁힐 수 있다:
+
+  --cap-add SYS_ADMIN
+  --tmpfs /run --tmpfs /tmp
+  -v /sys/fs/cgroup:/sys/fs/cgroup:ro
+
+처음엔 `--privileged`로 동작 확인 → 나중에 좁히는 게 편하다.
+
+
+### 4. host와의 관계
+
+공유:
+- 커널 (모든 컨테이너 공통)
+- cgroup hierarchy (host가 관리, 컨테이너가 자기 슬라이스에 씀)
+
+격리:
+- PID namespace: 컨테이너 안 PID 1 = 컨테이너 systemd, host PID 1 = host
+  systemd (별개)
+- mount, network, IPC, UTS namespace
+- systemd 바이너리 자체도 이미지 안의 nix store 경로에서 옴
+
+즉 "host의 systemd를 빌려 쓰는 게 아니라, 자기 systemd를 들고 들어간다."
+
+
+## 파일 구성
+
+- `flake.nix`         : nixosSystem + docker-image.nix 모듈 빌드 정의
+- `configuration.nix` : postgres 서비스 정의 (extension, auth 등)
+- `build.sh`          : x86_64 빌드 + docker import
+- `build-and-push.sh` : multi-arch 빌드 + push (binfmt 에뮬레이션 사용)
+
+
+## 확장 (extensions)
+
+`configuration.nix`의 `services.postgresql.extensions`에 추가한다:
+
+  extensions = ps: [ ps.pgvector ps.pg_rational ps.timescaledb ];
+
+timescaledb는 unfree license라 `nixpkgs.config.allowUnfree = true;` 필요.
+strict apache-only가 필요하면 `ps.timescaledb-apache`로 바꾸면 된다.
+
+shared_preload_libraries가 필요한 extension은 `settings`에도 명시:
+
+  settings.shared_preload_libraries = "timescaledb";
+
+
+## 데이터 영속화
+
+`/var/lib/postgresql/<version>`에 데이터가 쌓인다 (postgres 18이면
+`/var/lib/postgresql/18`). volume mount:
+
+  docker run --privileged \
+    -p 5432:5432 \
+    -v pgdata:/var/lib/postgresql \
+    postgres-nix:latest
+
+
+## 검증
+
+호스트에서:
+
+  docker run --rm -d --privileged -p 5432:5432 \
+    --name pg postgres-nix:latest
+
+컨테이너 안에서 systemd가 PID 1인지:
+
+  docker exec pg /run/current-system/sw/bin/ps -p 1
+  # → systemd
+
+  docker exec pg /run/current-system/sw/bin/readlink /proc/1/exe
+  # → /nix/store/...-systemd-.../lib/systemd/systemd
+
+postgres 동작 확인 (host에 psql이 없으면 컨테이너 안의 것을 쓴다):
+
+  docker exec -u postgres pg /run/current-system/sw/bin/psql \
+    -c "select version();"
+  docker exec -u postgres pg /run/current-system/sw/bin/psql \
+    -c "CREATE EXTENSION vector;"
+  docker exec -u postgres pg /run/current-system/sw/bin/psql \
+    -c "CREATE EXTENSION timescaledb;"
+
+
+## 실제 검증 결과 (2026-05-27)
+
+  ● postgresql.service - PostgreSQL Server
+       Active: active (running) ...
+     Main PID: 438 (.postgres-wrapp)
+       CGroup: /system.slice/postgresql.service
+               ├─438 .../postgres
+               ├─450 "postgres: TimescaleDB Background Worker Launcher"
+               └─...
+
+  postgres[438]: listening on IPv4 address "0.0.0.0", port 5432
+  postgres[438]: database system is ready to accept connections
+
+위처럼 떴고 `select version()`이 PostgreSQL 18.4를 리턴함. timescaledb
+백그라운드 워커도 정상 기동.
+
+
+## 시그널 처리 (중요!)
+
+systemd가 PID 1이 되면 **시그널 동작이 일반 앱과 다르다.** 이걸 모르면
+`docker stop` / `kubectl delete pod` 시 postgres가 정상 종료를 못 하고
+SIGKILL로 죽어서 다음 부팅에 recovery를 돌게 된다 (최악의 경우 데이터
+파손).
+
+### systemd PID 1의 시그널 매핑
+
+| 시그널         | systemd의 반응                            |
+|----------------|------------------------------------------|
+| SIGTERM        | **자기 자신을 reexec** (종료 아님!)       |
+| SIGINT         | ctrl-alt-del.target (재부팅)              |
+| SIGRTMIN+3     | poweroff.target (정상 종료) ← 이게 정답  |
+| SIGRTMIN+4     | halt.target                              |
+| SIGRTMIN+13    | immediate halt                           |
+
+docker / k8s가 기본으로 보내는 SIGTERM은 systemd에게는 "재실행해" 라는
+뜻이라서 그냥 무시된다. 10초(docker 기본 grace period) 후 docker가
+SIGKILL을 날리고, 그 시점에 systemd와 그 밑의 postgres가 한꺼번에 강제
+종료된다.
+
+postgres 입장에서는 `pg_ctl stop`을 못 받고 갑자기 죽는 것이라
+checkpoint를 못 남기고, 재기동 시 WAL replay를 돌게 된다.
+
+### 해결: 이미지에 StopSignal을 박아넣는다
+
+`build.sh`에서 `docker import` 시점에 `--change 'STOPSIGNAL SIGRTMIN+3'`을
+줘서 이미지 metadata에 박아둔다. 그러면 `docker stop`이 자동으로
+SIGRTMIN+3를 보낸다 → systemd가 poweroff.target을 발동 → 모든 unit을
+정상 종료 순서대로 stop → postgres가 `pg_ctl stop` 받고 checkpoint 후 exit
+→ systemd가 종료 → 컨테이너 exit.
+
+  docker import \
+    --change 'ENTRYPOINT ["/init"]' \
+    --change 'STOPSIGNAL SIGRTMIN+3' \
+    --change 'EXPOSE 5432' \
+    result/tarball/nixos-system-*.tar.xz \
+    postgres-nix:latest
+
+`ENTRYPOINT`도 박아둬서 `/init` 인자를 매번 안 줘도 된다:
+
+  docker run --privileged -p 5432:5432 postgres-nix:latest
+
+### k8s에서 추가로 고려할 점
+
+이미지에 StopSignal이 박혀있으면 docker는 그걸 따르지만, **k8s kubelet은
+이미지의 StopSignal을 무시하고 항상 SIGTERM을 보낸다** (PR
+#127436으로 StopSignal 지원이 들어가는 중이지만 stable이 아님).
+
+따라서 k8s에서는 `lifecycle.preStop`으로 systemd shutdown을 직접 호출하는
+게 안전하다:
+
+  lifecycle:
+    preStop:
+      exec:
+        command:
+          - /run/current-system/sw/bin/systemctl
+          - poweroff
+  terminationGracePeriodSeconds: 60
+
+preStop이 먼저 끝까지 실행되고 그 뒤에 SIGTERM이 오기 때문에, preStop
+안에서 systemd가 깨끗이 멈춘다. `terminationGracePeriodSeconds`는
+checkpoint 시간 + 여유를 둔다 (큰 DB면 더 늘려야 함).
+
+### 검증 방법
+
+  docker run -d --privileged --name pg postgres-nix:latest
+  docker inspect pg --format '{{.Config.StopSignal}}'
+  # → SIGRTMIN+3
+
+  # 정상 종료 시간 측정 (SIGKILL까지 시간이 가지 않아야 함)
+  time docker stop pg
+
+  # 다시 띄워서 WAL replay 메시지가 없는지 확인
+  docker run --rm --privileged --name pg postgres-nix:latest 2>&1 | \
+    grep -i "recover\|replay"
+
+
+## 주의: `docker run` 실패의 흔한 원인
+
+- `--privileged` 빠뜨림: systemd가 cgroup 마운트 시도하다 실패한다.
+- 옛 컨테이너 이름과 충돌: `docker rm -f <name>`으로 정리.
+- StopSignal 미설정: 위의 "시그널 처리" 섹션 참고.

@@ -1,0 +1,6 @@
+{
+  home = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGc8lSwAeCMM+HVRsMXZOJ1ECxF6wuEEqMQPvqTnkmwH rok@home";
+  root = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC4PDiS3q4XfHGXd2om/ErP8kYr3dymD84XON3PTgBbM rok@rok-x1g10";
+  seedbox = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICJ63aPg+Sr8RaJHcpXNR2zlIJx7Xj2kitAVHfaxEs3i rok@seedbox";
+  txxx-nix = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICRKLyspdv+Xb8NF2bc6e5FUQ/FFXsxG82Wy+BuyPYY5 rok@txxx-nix";
+}

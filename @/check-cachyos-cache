@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Usage: ./@/check-cachyos-cache <commit> [kernel-variant]
+#   <commit>         nix-cachyos-kernel git revision (full SHA)
+#   [kernel-variant] default: linux-cachyos-server
+#                    (e.g. linux-cachyos, linux-cachyos-lto, linux-cachyos-rc-lto,
+#                          linux-cachyos-server, linux-cachyos-server-lto)
+#
+# Evaluates the cachyos kernel at the given commit and checks whether its
+# .narinfo exists in known substituters without triggering a local build.
+
+set -euo pipefail
+
+COMMIT="${1:-}"
+VARIANT="${2:-linux-cachyos-server}"
+
+if [[ -z "$COMMIT" ]]; then
+  echo "usage: $0 <commit> [kernel-variant]" >&2
+  exit 1
+fi
+
+SUBSTITUTERS=(
+  "https://cache.nixos.org"
+  "https://attic.xuyh0120.win/lantian"
+)
+
+FLAKE_REF="github:xddxdd/nix-cachyos-kernel?rev=${COMMIT}"
+
+echo "evaluating ${FLAKE_REF}#${VARIANT} ..."
+STORE_PATH=$(nix eval --raw --no-write-lock-file "${FLAKE_REF}#${VARIANT}")
+
+echo "store path: ${STORE_PATH}"
+
+HASH="${STORE_PATH#/nix/store/}"
+HASH="${HASH%%-*}"
+echo "hash: ${HASH}"
+echo
+
+for url in "${SUBSTITUTERS[@]}"; do
+  code=$(curl -sI -o /dev/null -w "%{http_code}" "${url}/${HASH}.narinfo")
+  case "$code" in
+    200) status="HIT " ;;
+    404) status="MISS" ;;
+    *)   status="?${code}" ;;
+  esac
+  printf "%s  %s\n" "$status" "$url"
+done

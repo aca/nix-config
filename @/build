@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+hostname=${HOSTNAME:-$(hostname -s)}
+case "$hostname" in
+  *txxx*)
+    export GIT_SSH_COMMAND='ssh -J rok@home -i /home/rok/.ssh/id_ed25519'
+    ;;
+esac
+
+export NIXPKGS_ALLOW_INSECURE=1
+export NIXPKGS_ALLOW_UNFREE=1 
+
+nixos-rebuild build --print-build-logs --verbose --flake ".#${hostname}" --impure "$@" 2>&1 | tee ~/rebuild.log.$(date +%Y%m%dT%H%M%S)

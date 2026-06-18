@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+nix run --quiet --extra-experimental-features "nix-command flakes" github:NixOS/nixpkgs/nixos-unstable#kotlin-language-server -- "$@"

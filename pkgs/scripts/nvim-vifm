@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+printf "\e]7;$PWD\e\\"
+nvim -- "$@"

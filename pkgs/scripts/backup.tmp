@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+rclone -vv --webdav-vendor=rclone --webdav-url='http://archive-0:5005' move --no-check-dest --checksum "$1" ":webdav,webdav:/$1"

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -x
+ssh seedbox df -h /
+echo
+ssh oci-aca-001 df -h /
+echo
+ssh seedbox-impx df -h /

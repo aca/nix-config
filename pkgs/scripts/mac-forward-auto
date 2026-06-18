@@ -1,0 +1,154 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat >&2 <<'EOF'
+usage: mac-forward-auto [PORT...]
+
+Watch listening TCP ports in the container and reverse-forward them to macOS
+localhost. If PORT arguments are given, only those ports are watched.
+
+Environment:
+  MAC_FORWARD_SSH_HOST       default: kyungrok.chung@192.168.64.1
+  MAC_FORWARD_SSH_PORT       default: 2222
+  MAC_FORWARD_POLL_INTERVAL  default: 2
+  MAC_FORWARD_MIN_PORT       default: 1024
+  MAC_FORWARD_EXCLUDE_PORTS  default: 22 2222 1080
+EOF
+}
+
+if [ "${1:-}" = "-h" ] || [ "${1:-}" = "--help" ]; then
+  usage
+  exit 0
+fi
+
+if ! command -v ss >/dev/null 2>&1; then
+  echo "mac-forward-auto: ss command is required" >&2
+  exit 1
+fi
+
+ssh_host="${MAC_FORWARD_SSH_HOST:-kyungrok.chung@192.168.64.1}"
+ssh_port="${MAC_FORWARD_SSH_PORT:-2222}"
+poll_interval="${MAC_FORWARD_POLL_INTERVAL:-2}"
+min_port="${MAC_FORWARD_MIN_PORT:-1024}"
+exclude_ports="${MAC_FORWARD_EXCLUDE_PORTS:-22 2222 1080}"
+
+if ! [[ "$min_port" =~ ^[0-9]+$ ]] || [ "$min_port" -lt 1 ] || [ "$min_port" -gt 65535 ]; then
+  echo "mac-forward-auto: invalid MAC_FORWARD_MIN_PORT: $min_port" >&2
+  exit 2
+fi
+
+declare -A wanted_ports=()
+if [ "$#" -gt 0 ]; then
+  for port in "$@"; do
+    if ! [[ "$port" =~ ^[0-9]+$ ]] || [ "$port" -lt 1 ] || [ "$port" -gt 65535 ]; then
+      echo "mac-forward-auto: invalid port: $port" >&2
+      exit 2
+    fi
+    wanted_ports["$port"]=1
+  done
+fi
+
+declare -A excluded_ports=()
+for port in $exclude_ports; do
+  if ! [[ "$port" =~ ^[0-9]+$ ]] || [ "$port" -lt 1 ] || [ "$port" -gt 65535 ]; then
+    echo "mac-forward-auto: invalid MAC_FORWARD_EXCLUDE_PORTS entry: $port" >&2
+    exit 2
+  fi
+  excluded_ports["$port"]=1
+done
+
+declare -A tunnel_pids=()
+
+cleanup() {
+  for pid in "${tunnel_pids[@]}"; do
+    kill "$pid" >/dev/null 2>&1 || true
+  done
+}
+trap cleanup EXIT INT TERM
+
+list_listening_ports() {
+  ss -H -ltn | awk '
+    {
+      addr = $4
+
+      if (addr ~ /^\[.*\]:[0-9]+$/) {
+        host = addr
+        port = addr
+        sub(/^\[/, "", host)
+        sub(/\]:[0-9]+$/, "", host)
+        sub(/^.*\]:/, "", port)
+      } else {
+        n = split(addr, parts, ":")
+        port = parts[n]
+        host = substr(addr, 1, length(addr) - length(port) - 1)
+      }
+
+      if (port ~ /^[0-9]+$/ && (host == "127.0.0.1" || host == "0.0.0.0" || host == "::1" || host == "::" || host == "*")) {
+        print port
+      }
+    }
+  ' | sort -nu
+}
+
+is_wanted() {
+  local port="$1"
+  if [ "${#wanted_ports[@]}" -gt 0 ]; then
+    [ "${wanted_ports[$port]+set}" = set ]
+    return
+  fi
+
+  [ "$port" -ge "$min_port" ] && [ -z "${excluded_ports[$port]+set}" ]
+}
+
+start_tunnel() {
+  local port="$1"
+  echo "mac-forward-auto: forwarding 127.0.0.1:${port} on macOS to container 127.0.0.1:${port}" >&2
+  ssh \
+    -N \
+    -T \
+    -o ExitOnForwardFailure=yes \
+    -o ServerAliveInterval=15 \
+    -o ServerAliveCountMax=3 \
+    -o ControlMaster=no \
+    -R "127.0.0.1:${port}:127.0.0.1:${port}" \
+    -p "$ssh_port" \
+    "$ssh_host" &
+  tunnel_pids["$port"]=$!
+}
+
+stop_tunnel() {
+  local port="$1"
+  local pid="${tunnel_pids[$port]}"
+  echo "mac-forward-auto: stopped forwarding ${port}" >&2
+  kill "$pid" >/dev/null 2>&1 || true
+  unset "tunnel_pids[$port]"
+}
+
+while true; do
+  declare -A listening_ports=()
+
+  while IFS= read -r port; do
+    if [ -n "$port" ] && is_wanted "$port"; then
+      listening_ports["$port"]=1
+    fi
+  done < <(list_listening_ports)
+
+  for port in "${!listening_ports[@]}"; do
+    if [ -n "${tunnel_pids[$port]+set}" ] && ! kill -0 "${tunnel_pids[$port]}" >/dev/null 2>&1; then
+      unset "tunnel_pids[$port]"
+    fi
+
+    if [ -z "${tunnel_pids[$port]+set}" ]; then
+      start_tunnel "$port"
+    fi
+  done
+
+  for port in "${!tunnel_pids[@]}"; do
+    if [ -z "${listening_ports[$port]+set}" ]; then
+      stop_tunnel "$port"
+    fi
+  done
+
+  sleep "$poll_interval"
+done

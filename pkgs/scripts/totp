@@ -1,0 +1,12 @@
+#!/usr/bin/env -S bun run
+
+// go install github.com/dim13/otpauth@latest
+// url.parse 'otpauth://totp/Binance.com' | jq -r '.path, .query[-1][1]'
+
+import * as OTPAuth from "otpauth";
+let secret = Bun.argv[2]
+if (!secret) {
+    throw new Error(`secret: ${secret}`)
+}
+let totp = new OTPAuth.TOTP({ secret: secret })
+console.log(totp.generate());

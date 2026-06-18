@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+tmpf=$(mktemp)
+cat - > $tmpf
+echo $tmpf

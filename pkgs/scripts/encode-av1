@@ -1,0 +1,477 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# encode-av1 — re-encode a video to AV1 (SVT-AV1) at the lowest CRF that still
+# hits a target file size, using short sample clips to pick the CRF cheaply
+# before committing to a full-length encode.
+#
+# Usage:
+#   encode-av1 INPUT [OUTPUT]
+# OUTPUT defaults to "<input-without-ext>.av1.mp4".
+#
+# High-level flow:
+#
+#   1. Guard rails
+#      - Probe the input codec; skip if it is already AV1 (unless FORCE=1).
+#      - Skip if a valid AV1 OUTPUT already exists under the target size.
+#      - TARGET_SIZE = ORIGINAL_SIZE * (100 - MIN_SAVINGS_PERCENT) / 100, i.e.
+#        we want the result at least MIN_SAVINGS_PERCENT (default 33%) smaller.
+#      - Estimate the audio budget (AUDIO_BYTES) from AUDIO_BITRATE, duration and
+#        stream count, and bail out if audio alone would blow the target.
+#
+#   2. Sampling plan (how much of the video to test)
+#      - If the clip is shorter than SAMPLE_SECONDS, one sample covers it whole.
+#      - Otherwise take SAMPLE_COUNT clips of SAMPLE_SECONDS each, spread evenly
+#        across the timeline (sample_start centers each clip in its slice). The
+#        count is reduced if the requested samples would exceed the duration.
+#
+#   3. Build source samples (create_source_samples)
+#      - Cut the chosen sample windows out of the input with a stream COPY
+#        (no re-encode), video only, into "<stem>.sample-NN.source.mkv".
+#      - Track the real total sampled duration for later extrapolation.
+#
+#   4. CRF search on the samples (the "optimal quality" step)
+#      - initial_crf() guesses a starting CRF from the target bits-per-pixel-per-
+#        frame budget (resolution * fps * duration vs. target video bytes).
+#      - For a candidate CRF, estimate_size_for_crf() encodes every source sample
+#        with SVT-AV1, sums the encoded bytes, scales them up by
+#        duration / sampled_duration to project the full-length video size, then
+#        adds AUDIO_BYTES plus ~2% mux headroom.
+#      - The projected size is compared against FIT_LIMIT (TARGET_SIZE *
+#        ESTIMATE_HEADROOM_PERCENT, default 92%, to leave slack for estimation
+#        error). The loop (up to MAX_SAMPLE_TRIALS):
+#          * fits  -> remember it as BEST_CRF, then try a LOWER CRF (better
+#                     quality) by SAMPLE_SEARCH_STEP; stop once we have bracketed
+#                     a too-large CRF or hit MIN_CRF.
+#          * too big -> raise CRF by SAMPLE_SEARCH_STEP (capped at MAX_CRF).
+#      - Encoded sample clips are written as "<stem>.sample-NN.crf-N.av1.mp4".
+#        If no CRF in [MIN_CRF, MAX_CRF] fits, the script gives up.
+#
+#   5. Clean up samples
+#      - All sample clips (source .mkv and encoded .av1.mp4) are deleted before
+#        the full encode, so the working directory is left clean. Set
+#        KEEP_ALL_SAMPLE_ENCODES=1 to keep them for debugging instead.
+#
+#   6. Full encode (encode_full + retry loop)
+#      - Encode the whole input at BEST_CRF (video SVT-AV1, audio -> libopus at
+#        AUDIO_BITRATE) to a temp file. If it is <= TARGET_SIZE, move it into
+#        place and report the savings. Otherwise raise CRF by FULL_RETRY_STEP and
+#        retry, up to MAX_CRF. An oversized result is never kept.
+#      - If DELETE_SRC=1, the original INPUT is removed after a successful encode.
+#
+# Tunables (all overridable via environment variables): MIN_SAVINGS_PERCENT,
+# MIN_CRF, MAX_CRF, PRESET, PIX_FMT, AUDIO_BITRATE, SAMPLE_SECONDS, SAMPLE_COUNT,
+# ESTIMATE_HEADROOM_PERCENT, FULL_RETRY_STEP, SVTAV1_PARAMS, FORCE,
+# MAX_SAMPLE_TRIALS, SAMPLE_SEARCH_STEP, KEEP_ALL_SAMPLE_ENCODES, DELETE_SRC,
+# NICE_LEVEL, DEBUG_DIR.
+#
+# Both SVT-AV1 encode passes (sample CRF search and the full encode) run under
+# "nice -n NICE_LEVEL" (default 19, lowest CPU priority) so the machine stays
+# responsive while encoding.
+
+INPUT="${1}"
+OUTPUT="${2:-${INPUT%.*}.av1.mp4}"
+TMP_OUTPUT="${OUTPUT}.tmp.mp4"
+
+MIN_SAVINGS_PERCENT="${MIN_SAVINGS_PERCENT:-33}"
+MIN_CRF="${MIN_CRF:-24}"
+MAX_CRF="${MAX_CRF:-63}"
+PRESET="${PRESET:-6}"
+PIX_FMT="${PIX_FMT:-yuv420p10le}"
+AUDIO_BITRATE="${AUDIO_BITRATE:-64k}"
+SAMPLE_SECONDS="${SAMPLE_SECONDS:-3}"
+SAMPLE_COUNT="${SAMPLE_COUNT:-1}"
+ESTIMATE_HEADROOM_PERCENT="${ESTIMATE_HEADROOM_PERCENT:-92}"
+FULL_RETRY_STEP="${FULL_RETRY_STEP:-3}"
+SVTAV1_PARAMS="${SVTAV1_PARAMS:-tune=0}"
+FORCE="${FORCE:-0}"
+MAX_SAMPLE_TRIALS="${MAX_SAMPLE_TRIALS:-4}"
+SAMPLE_SEARCH_STEP="${SAMPLE_SEARCH_STEP:-3}"
+KEEP_ALL_SAMPLE_ENCODES="${KEEP_ALL_SAMPLE_ENCODES:-0}"
+DELETE_SRC="${DELETE_SRC:-0}"
+NICE_LEVEL="${NICE_LEVEL:-19}"
+
+if [[ ! -f "$INPUT" ]]; then
+  echo "Input not found: $INPUT" >&2
+  exit 1
+fi
+
+if [[ "$INPUT" == "$OUTPUT" ]]; then
+  echo "Output must be different from input." >&2
+  exit 1
+fi
+
+need() {
+  if ! command -v "$1" >/dev/null 2>&1; then
+    echo "Missing required command: $1" >&2
+    exit 1
+  fi
+}
+
+file_size() {
+  if stat -f%z "$1" >/dev/null 2>&1; then
+    stat -f%z "$1"
+  else
+    stat -c%s "$1"
+  fi
+}
+
+ceil_float() {
+  awk -v n="$1" 'BEGIN { printf "%.0f\n", (n == int(n) ? n : int(n) + 1) }'
+}
+
+format_bytes() {
+  awk -v b="$1" 'BEGIN {
+    split("B KiB MiB GiB TiB", u, " ")
+    i = 1
+    while (b >= 1024 && i < 5) { b /= 1024; i++ }
+    printf "%.2f %s", b, u[i]
+  }'
+}
+
+audio_bitrate_bps() {
+  awk -v rate="$AUDIO_BITRATE" 'BEGIN {
+    unit = substr(rate, length(rate), 1)
+    value = rate + 0
+    if (unit == "k" || unit == "K") value *= 1000
+    else if (unit == "m" || unit == "M") value *= 1000000
+    printf "%.0f\n", value
+  }'
+}
+
+less_equal() {
+  awk -v a="$1" -v b="$2" 'BEGIN { exit !(a <= b) }'
+}
+
+probe_duration() {
+  ffprobe -v error \
+    -show_entries format=duration \
+    -of default=noprint_wrappers=1:nokey=1 \
+    "$1"
+}
+
+video_codec() {
+  ffprobe -v error \
+    -select_streams v:0 \
+    -show_entries stream=codec_name \
+    -of default=noprint_wrappers=1:nokey=1 \
+    "$1"
+}
+
+need ffmpeg
+need ffprobe
+need awk
+
+INPUT_CODEC="$(video_codec "$INPUT")"
+if [[ -z "$INPUT_CODEC" ]]; then
+  echo "Could not determine input video codec." >&2
+  exit 1
+fi
+
+if [[ "$FORCE" != "1" && "$INPUT_CODEC" == "av1" ]]; then
+  echo "Skipping already-AV1 input: $INPUT"
+  exit 0
+fi
+
+ORIGINAL_SIZE="$(file_size "$INPUT")"
+TARGET_SIZE="$((ORIGINAL_SIZE * (100 - MIN_SAVINGS_PERCENT) / 100))"
+
+DURATION="$(probe_duration "$INPUT")"
+
+if [[ -z "$DURATION" ]] || ! awk -v d="$DURATION" 'BEGIN { exit !(d > 0) }'; then
+  echo "Could not determine input duration." >&2
+  exit 1
+fi
+
+VIDEO_WIDTH="$(
+  ffprobe -v error \
+    -select_streams v:0 \
+    -show_entries stream=width \
+    -of default=noprint_wrappers=1:nokey=1 \
+    "$INPUT"
+)"
+VIDEO_HEIGHT="$(
+  ffprobe -v error \
+    -select_streams v:0 \
+    -show_entries stream=height \
+    -of default=noprint_wrappers=1:nokey=1 \
+    "$INPUT"
+)"
+FPS_EXPR="$(
+  ffprobe -v error \
+    -select_streams v:0 \
+    -show_entries stream=r_frame_rate \
+    -of default=noprint_wrappers=1:nokey=1 \
+    "$INPUT"
+)"
+FPS="$(awk -v f="$FPS_EXPR" 'BEGIN {
+  split(f, parts, "/")
+  if (parts[2] > 0) printf "%.6f\n", parts[1] / parts[2]
+  else if (f > 0) printf "%.6f\n", f
+  else print "30"
+}')"
+
+if [[ "$FORCE" != "1" && -f "$OUTPUT" ]]; then
+  OUTPUT_CODEC="$(video_codec "$OUTPUT" || true)"
+  OUTPUT_SIZE="$(file_size "$OUTPUT")"
+  if [[ "$OUTPUT_CODEC" == "av1" && "$OUTPUT_SIZE" -le "$TARGET_SIZE" ]]; then
+    echo "Skipping existing AV1 output under target: $OUTPUT"
+    echo "Output: $(format_bytes "$OUTPUT_SIZE")"
+    exit 0
+  fi
+fi
+
+AUDIO_COUNT="$(
+  ffprobe -v error \
+    -select_streams a \
+    -show_entries stream=index \
+    -of csv=p=0 \
+    "$INPUT" | awk 'NF { count++ } END { print count + 0 }'
+)"
+
+AUDIO_BYTES="$(
+  awk -v d="$DURATION" -v bps="$(audio_bitrate_bps)" -v count="$AUDIO_COUNT" \
+    'BEGIN { printf "%.0f\n", d * bps / 8 * count }'
+)"
+
+if (( AUDIO_BYTES >= TARGET_SIZE )); then
+  echo "The audio budget alone is already too large for the target size." >&2
+  echo "Try a lower AUDIO_BITRATE or a smaller MIN_SAVINGS_PERCENT." >&2
+  exit 1
+fi
+
+INPUT_DIR="$(dirname "$INPUT")"
+INPUT_BASENAME="$(basename "$INPUT")"
+INPUT_STEM="${INPUT_BASENAME%.*}"
+DEBUG_DIR="${DEBUG_DIR:-$INPUT_DIR}"
+
+SAMPLE_LEN="$SAMPLE_SECONDS"
+SAMPLES="$SAMPLE_COUNT"
+if awk -v d="$DURATION" -v s="$SAMPLE_SECONDS" 'BEGIN { exit !(d <= s) }'; then
+  SAMPLE_LEN="$DURATION"
+  SAMPLES=1
+elif awk -v d="$DURATION" -v total="$(awk -v s="$SAMPLE_SECONDS" -v c="$SAMPLE_COUNT" 'BEGIN { print s * c }')" \
+  'BEGIN { exit !(d < total) }'; then
+  SAMPLES="$(awk -v d="$DURATION" -v s="$SAMPLE_SECONDS" 'BEGIN {
+    samples = int(d / s)
+    if (samples < 1) samples = 1
+    print samples
+  }')"
+fi
+
+sample_start() {
+  local index="$1"
+  awk -v d="$DURATION" -v len="$SAMPLE_LEN" -v count="$SAMPLES" -v i="$index" 'BEGIN {
+    if (d <= len) {
+      print "0"
+    } else {
+      printf "%.3f\n", (d - len) * (i + 0.5) / count
+    }
+  }'
+}
+
+SAMPLE_SOURCE_FILES=()
+SAMPLE_TOTAL_DURATION="0"
+
+create_source_samples() {
+  local i label sample_file start actual_duration
+
+  for ((i = 0; i < SAMPLES; i++)); do
+    printf -v label "%02d" "$i"
+    sample_file="$DEBUG_DIR/${INPUT_STEM}.sample-${label}.source.mkv"
+    start="$(sample_start "$i")"
+
+    ffmpeg -hide_banner -loglevel error -y \
+      -ss "$start" -t "$SAMPLE_LEN" -i "$INPUT" \
+      -map 0:v:0 -an -c:v copy \
+      "$sample_file"
+
+    actual_duration="$(probe_duration "$sample_file")"
+    if [[ -z "$actual_duration" ]] || ! awk -v d="$actual_duration" 'BEGIN { exit !(d > 0) }'; then
+      echo "Could not create a usable source sample: $sample_file" >&2
+      exit 1
+    fi
+
+    SAMPLE_SOURCE_FILES[$i]="$sample_file"
+    SAMPLE_TOTAL_DURATION="$(awk -v a="$SAMPLE_TOTAL_DURATION" -v b="$actual_duration" 'BEGIN { print a + b }')"
+  done
+}
+
+estimate_size_for_crf() {
+  local crf="$1"
+  local sample_bytes=0
+  local i out bytes label
+
+  for ((i = 0; i < SAMPLES; i++)); do
+    printf -v label "%02d" "$i"
+    out="$DEBUG_DIR/${INPUT_STEM}.sample-${label}.crf-${crf}.av1.mp4"
+    nice -n "$NICE_LEVEL" ffmpeg -hide_banner -loglevel error -y \
+      -i "${SAMPLE_SOURCE_FILES[$i]}" \
+      -map 0:v:0 -an \
+      -c:v libsvtav1 -crf "$crf" -preset "$PRESET" -pix_fmt "$PIX_FMT" \
+      -svtav1-params "$SVTAV1_PARAMS" \
+      -movflags +faststart \
+      "$out"
+    bytes="$(file_size "$out")"
+    sample_bytes=$((sample_bytes + bytes))
+  done
+
+  awk \
+    -v sample_bytes="$sample_bytes" \
+    -v duration="$DURATION" \
+    -v sampled_duration="$SAMPLE_TOTAL_DURATION" \
+    -v audio_bytes="$AUDIO_BYTES" \
+    'BEGIN {
+      video_bytes = sample_bytes * duration / sampled_duration
+      mux_headroom = (video_bytes + audio_bytes) * 0.02 + 4096
+      printf "%.0f\n", video_bytes + audio_bytes + mux_headroom
+    }'
+}
+
+initial_crf() {
+  awk \
+    -v target_size="$TARGET_SIZE" \
+    -v audio_bytes="$AUDIO_BYTES" \
+    -v duration="$DURATION" \
+    -v width="$VIDEO_WIDTH" \
+    -v height="$VIDEO_HEIGHT" \
+    -v fps="$FPS" \
+    -v min_crf="$MIN_CRF" \
+    -v max_crf="$MAX_CRF" \
+    'BEGIN {
+      target_video_bytes = target_size - audio_bytes
+      if (target_video_bytes < 1 || duration <= 0 || width <= 0 || height <= 0 || fps <= 0) {
+        crf = 45
+      } else {
+        bits_per_pixel_frame = (target_video_bytes * 8 / duration) / (width * height * fps)
+        if (bits_per_pixel_frame < 0.010) crf = 58
+        else if (bits_per_pixel_frame < 0.015) crf = 55
+        else if (bits_per_pixel_frame < 0.025) crf = 50
+        else if (bits_per_pixel_frame < 0.040) crf = 45
+        else if (bits_per_pixel_frame < 0.060) crf = 40
+        else if (bits_per_pixel_frame < 0.090) crf = 35
+        else crf = 30
+      }
+      if (crf < min_crf) crf = min_crf
+      if (crf > max_crf) crf = max_crf
+      print crf
+    }'
+}
+
+cleanup_samples() {
+  local file
+
+  if [[ "$KEEP_ALL_SAMPLE_ENCODES" == "1" ]]; then
+    return
+  fi
+
+  for file in \
+    "$DEBUG_DIR"/"$INPUT_STEM".sample-*.source.mkv \
+    "$DEBUG_DIR"/"$INPUT_STEM".sample-*.crf-*.av1.mp4; do
+    [[ -e "$file" ]] || continue
+    rm -f "$file"
+  done
+}
+
+FIT_LIMIT="$((TARGET_SIZE * ESTIMATE_HEADROOM_PERCENT / 100))"
+BEST_CRF=""
+CRF="$(initial_crf)"
+LAST_TOO_LARGE_CRF=""
+
+echo "Input:  $(format_bytes "$ORIGINAL_SIZE")"
+echo "Target: $(format_bytes "$TARGET_SIZE") or smaller (${MIN_SAVINGS_PERCENT}% reduction)"
+echo "Debug samples: $DEBUG_DIR/${INPUT_STEM}.sample-*.{source,crf-*}.*"
+echo "Creating $SAMPLES x ${SAMPLE_LEN}s source sample clip(s)..."
+create_source_samples
+echo "Sampling up to $MAX_SAMPLE_TRIALS encoded clip(s) to choose CRF..."
+echo "Initial CRF guess: $CRF"
+
+for ((trial = 1; trial <= MAX_SAMPLE_TRIALS; trial++)); do
+  ESTIMATE="$(estimate_size_for_crf "$CRF")"
+  echo "CRF $CRF estimated output: $(format_bytes "$ESTIMATE")"
+
+  if less_equal "$ESTIMATE" "$FIT_LIMIT"; then
+    BEST_CRF="$CRF"
+
+    if [[ -n "$LAST_TOO_LARGE_CRF" ]]; then
+      break
+    fi
+
+    NEXT_CRF="$((CRF - SAMPLE_SEARCH_STEP))"
+    if (( NEXT_CRF < MIN_CRF )); then
+      break
+    fi
+
+    CRF="$NEXT_CRF"
+  else
+    LAST_TOO_LARGE_CRF="$CRF"
+    NEXT_CRF="$((CRF + SAMPLE_SEARCH_STEP))"
+
+    if (( NEXT_CRF > MAX_CRF )); then
+      if (( CRF == MAX_CRF )); then
+        break
+      fi
+      CRF="$MAX_CRF"
+    else
+      CRF="$NEXT_CRF"
+    fi
+  fi
+done
+
+if [[ -z "$BEST_CRF" ]]; then
+  echo "Could not find a CRF in [$MIN_CRF, $MAX_CRF] that is likely to hit the target." >&2
+  echo "Try resizing, lowering AUDIO_BITRATE, or increasing MAX_CRF." >&2
+  exit 1
+fi
+
+cleanup_samples
+
+encode_full() {
+  local crf="$1"
+  local output="$2"
+  local audio_args=(-an)
+
+  if (( AUDIO_COUNT > 0 )); then
+    audio_args=(-map 0:a? -c:a libopus -b:a "$AUDIO_BITRATE")
+  fi
+
+  nice -n "$NICE_LEVEL" ffmpeg -hide_banner -y \
+    -i "$INPUT" \
+    -map 0:v:0 "${audio_args[@]}" \
+    -c:v libsvtav1 -crf "$crf" -preset "$PRESET" -pix_fmt "$PIX_FMT" \
+    -svtav1-params "$SVTAV1_PARAMS" \
+    -movflags +faststart \
+    "$output"
+}
+
+CRF="$BEST_CRF"
+
+while (( CRF <= MAX_CRF )); do
+  echo "Encoding full video at CRF $CRF to $TMP_OUTPUT..."
+  rm -f "$TMP_OUTPUT"
+  encode_full "$CRF" "$TMP_OUTPUT"
+  OUTPUT_SIZE="$(file_size "$TMP_OUTPUT")"
+
+  if (( OUTPUT_SIZE <= TARGET_SIZE )); then
+    mv -f "$TMP_OUTPUT" "$OUTPUT"
+    echo "Wrote:  $OUTPUT"
+    echo "Output: $(format_bytes "$OUTPUT_SIZE") ($(ceil_float "$(awk -v o="$OUTPUT_SIZE" -v i="$ORIGINAL_SIZE" 'BEGIN { print 100 - (o * 100 / i) }')")% smaller)"
+    if [[ "$DELETE_SRC" == "1" ]]; then
+      rm -f "$INPUT"
+      echo "Deleted source: $INPUT"
+    fi
+    exit 0
+  fi
+
+  echo "CRF $CRF produced $(format_bytes "$OUTPUT_SIZE"), above target. Retrying higher CRF..."
+  rm -f "$TMP_OUTPUT"
+  NEXT_CRF="$((CRF + FULL_RETRY_STEP))"
+  if (( NEXT_CRF > MAX_CRF && CRF < MAX_CRF )); then
+    CRF="$MAX_CRF"
+  else
+    CRF="$NEXT_CRF"
+  fi
+done
+
+echo "Could not hit the target by CRF $MAX_CRF. No oversized output was kept." >&2
+exit 1

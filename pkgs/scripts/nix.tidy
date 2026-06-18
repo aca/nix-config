@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -x
+
+# https://discourse.nixos.org/t/what-to-do-with-a-full-boot-partition/2049/2
+sudo nix-env --delete-generations old
+sudo nix-store --gc
+sudo nix-channel --update
+sudo nix-env -u --always
+for link in /nix/var/nix/gcroots/auto/*
+do
+  sudo /run/current-system/sw/bin/rm $(readlink "$link")
+done
+nix-collect-garbage -d
+
+# it sometimes fix issue for building flakes
+sudo nix-store --repair --verify --check-contents

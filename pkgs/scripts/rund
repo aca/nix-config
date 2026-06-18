@@ -1,0 +1,67 @@
+#! /usr/bin/env nix-shell
+#! nix-shell --quiet --extra-experimental-features nix-command --extra-experimental-features flakes -i bash -p bashInteractive -p gnused
+
+if [[ $# -eq 0 ]]; then
+    echo "Usage: rund <command>"
+    exit 1
+fi
+
+USER_OPT="--user"
+if [[ $EUID -eq 0 ]]; then
+    USER_OPT=""
+fi
+
+sanitize_filename() {
+  # Generate date prefix (YYYYMMDDSS)
+  local date_prefix=$(date +%Y-%m-%dT%T.%N)
+
+  # echo "$1"
+  
+  # # Sanitize the input string
+  local clean_name=$(echo "$1" | tr -c '[:alnum:]' '_' | sed -e 's/[_.-]*$//') 
+  # Combine prefix and cleaned name (handle empty names)
+  if [[ -z "$clean_name" ]]; then
+    echo "${date_prefix}"
+  else
+    echo "${date_prefix}__${clean_name}"
+  fi
+}
+
+
+mkdir -p /tmp/rund
+scriptfile=/tmp/rund/$(sanitize_filename "$*")
+touch $scriptfile.stdout
+touch $scriptfile.stderr
+# echo $scriptfile.stdout
+# echo $scriptfile.stderr
+# echo $scriptfile.cmd
+
+cat > "$scriptfile".cmd <<EOF
+#!/usr/bin/env bash
+$(printf '%q ' "$@")
+EOF
+
+chmod +x "$scriptfile".cmd
+
+# noti_exit() { notify-send -a rund --urgency=normal --expire-time=5000 -- "$(printf '%q ' "$@")"; }
+# noti_err() { notify-send --urgency=critical --expire-time=5000 "$(printf '%q ' "$@")"; }
+# trap 'noti_err' ERR; trap 'noti_exit' EXIT;
+
+# tail -f "$scriptfile.stdout" | sed "s/^/[stdout] /" &
+# tail -f "$scriptfile.stderr" | sed "s/^/[stderr] /" &
+
+out=$(systemd-run --remain-after-exit $USER_OPT --same-dir $(compgen -e | xargs -I{} printf "--setenv={}\n") \
+    -p StandardOutput=file:$scriptfile.stdout \
+    -p StandardError=file:$scriptfile.stderr \
+    -p Type=oneshot --no-block \
+    "$scriptfile".cmd 2>&1 | awk '{print $NF}')
+
+echo $out
+
+systemd-run $USER_OPT --same-dir $(compgen -e | xargs -I{} printf "--setenv={}\n") \
+    -p After=$out \
+    -p Type=oneshot --no-block \
+        notify-send -a rund "$*"
+
+
+# vim: filetype=sh

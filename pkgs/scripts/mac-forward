@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat >&2 <<'EOF'
+usage: mac-forward PORT [PORT...]
+
+Reverse-forward container localhost ports to macOS localhost.
+
+Environment:
+  MAC_FORWARD_SSH_HOST  default: kyungrok.chung@192.168.64.1
+  MAC_FORWARD_SSH_PORT  default: 2222
+EOF
+}
+
+if [ "$#" -lt 1 ]; then
+  usage
+  exit 2
+fi
+
+ssh_host="${MAC_FORWARD_SSH_HOST:-kyungrok.chung@192.168.64.1}"
+ssh_port="${MAC_FORWARD_SSH_PORT:-2222}"
+
+ssh_args=(
+  -N
+  -T
+  -o ExitOnForwardFailure=yes
+  -o ServerAliveInterval=15
+  -o ServerAliveCountMax=3
+  -o ControlMaster=no
+)
+
+for port in "$@"; do
+  if ! [[ "$port" =~ ^[0-9]+$ ]] || [ "$port" -lt 1 ] || [ "$port" -gt 65535 ]; then
+    echo "mac-forward: invalid port: $port" >&2
+    exit 2
+  fi
+
+  ssh_args+=(
+    -R "127.0.0.1:${port}:127.0.0.1:${port}"
+  )
+done
+
+exec ssh "${ssh_args[@]}" -p "$ssh_port" "$ssh_host"

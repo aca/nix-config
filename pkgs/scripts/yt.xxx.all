@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# if argument is not given, pass argument from output $(pbpaste)
+if [ -z "$1" ]; then
+    set -- "$(pbpaste)"
+fi
+
+cd /mnt/archive-0/
+yt-dlp "$@"

@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# Print filename with the last extension stripped.
+# foo.tar.gz -> foo.tar ;  .bashrc -> .bashrc ;  foo -> foo
+# Path prefix is preserved: dir/foo.mp4 -> dir/foo
+# Accepts args or one path per line on stdin.
+set -eu
+
+process() {
+    local p="$1" dir base stem
+    case "$p" in
+        */*) dir="${p%/*}/"; base="${p##*/}" ;;
+        *)   dir="";         base="$p"      ;;
+    esac
+    case "$base" in
+        .*)
+            local rest="${base#.}"
+            case "$rest" in
+                *.*) stem=".${rest%.*}" ;;
+                *)   stem="$base"       ;;
+            esac
+            ;;
+        *.*) stem="${base%.*}" ;;
+        *)   stem="$base"      ;;
+    esac
+    printf '%s%s\n' "$dir" "$stem"
+}
+
+if [ "$#" -gt 0 ]; then
+    for a in "$@"; do process "$a"; done
+else
+    while IFS= read -r line; do process "$line"; done
+fi

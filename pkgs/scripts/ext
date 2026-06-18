@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Print the last extension of a filename, including the leading dot.
+# foo.tar.gz -> .gz ;  .bashrc -> (empty) ;  foo -> (empty)
+# Accepts args or one path per line on stdin.
+set -eu
+
+process() {
+    local p="$1" base
+    base="${p##*/}"
+    case "$base" in
+        .*)
+            local rest="${base#.}"
+            case "$rest" in
+                *.*) printf '.%s\n' "${rest##*.}" ;;
+                *)   printf '\n'                  ;;
+            esac
+            ;;
+        *.*) printf '.%s\n' "${base##*.}" ;;
+        *)   printf '\n'                  ;;
+    esac
+}
+
+if [ "$#" -gt 0 ]; then
+    for a in "$@"; do process "$a"; done
+else
+    while IFS= read -r line; do process "$line"; done
+fi

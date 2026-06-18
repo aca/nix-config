@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+ # chromium --proxy-server="socks5://192.168.195.227:1080" --user-data-dir=/home/rok/.config/chromium__txxx --user-agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'
+# chromium --proxy-server="socks5://192.168.195.227:1080" --user-agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'
+chromium --user-data-dir=/home/rok/.config/chromium.txxx --proxy-server="socks5://192.168.195.212:1080" "--user-agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 14_7_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36'"

@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -exo pipefail
+
+# cd /home/rok/store/image/capture || mkdir -p /home/rok/store/image/capture && cd /home/rok/store/image/capture
+#
+# if [ -z "$WAYLAND_DISPLAY" ]; then
+#     scrot -s -e 'xclip -selection clipboard -t image/png -i $f'
+# else
+#     grim -g "$(slurp -d)" - | wl-copy
+# fi
+#
+
+platform="$(uname)"
+if [ "$platform" = "Linux" ]; then
+    if [ -n "$WAYLAND_DISPLAY" ]; then
+        grim -g "$(slurp -d)" - | wl-copy
+    elif [ -n "$DISPLAY" ]; then
+        maim -s | xclip -selection clipboard -t image/png
+    else
+        echo "Unknown Linux display server"
+        exit 1
+    fi
+elif [ "$platform" = "Darwin" ]; then
+    screencapture -ci
+else
+    echo "Unsupported platform"
+    exit 1
+fi

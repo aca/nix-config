@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+nix --extra-experimental-features 'nix-command flakes' --option allow-unsafe-native-code-during-evaluation true run -- nix-darwin switch --verbose --flake ".#txxx" --impure

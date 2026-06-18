@@ -1,0 +1,48 @@
+#!/usr/bin/env -S bun run
+
+import { parseHTML } from "linkedom";
+
+async function main() {
+  const args = process.argv.slice(2);
+  if (args.length === 0) {
+    console.error("사용법: webtitler <URL>");
+    process.exit(1);
+  }
+  const url = args[0];
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      console.error(`오류: URL 요청 실패 (상태 코드: ${response.status})`);
+      process.exit(1);
+    }
+    const html = await response.text();
+    // linkedom을 사용하여 HTML 파싱
+    const { document } = parseHTML(html);
+
+    // 먼저 og:title 메타 태그 찾기
+    let title;
+    const ogMeta = document.querySelector('meta[property="og:title"]');
+    if (ogMeta && ogMeta.content) {
+      title = ogMeta.content.trim();
+    } else {
+      // 없으면 <title> 태그 사용
+      const titleTag = document.querySelector('title');
+      if (titleTag) {
+        title = titleTag.textContent.trim();
+      }
+    }
+
+    if (title) {
+      console.log(title);
+    } else {
+      console.error("오류: title 또는 og:title 태그를 찾을 수 없습니다.");
+      process.exit(1);
+    }
+  } catch (err) {
+    console.error("오류 발생:", err);
+    process.exit(1);
+  }
+}
+
+main();

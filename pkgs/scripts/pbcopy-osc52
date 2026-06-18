@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# pbcopy replacement: copy stdin to the local clipboard via OSC52.
+set -euo pipefail
+
+data=$(base64 -w0)
+
+seq=$(printf '\033]52;c;%s\a' "$data")
+
+# tmux needs the sequence wrapped in a DCS passthrough.
+if [ -n "${TMUX:-}" ]; then
+  seq=$(printf '\033Ptmux;\033%s\033\\' "$seq")
+fi
+
+# Write to the terminal directly so it works inside pipes/redirections.
+if { exec 3>/dev/tty; } 2>/dev/null; then
+  printf '%s' "$seq" >&3
+else
+  printf '%s' "$seq"
+fi

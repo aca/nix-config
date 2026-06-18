@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# bunx @anthropic-ai/claude-code@2.0.75 --dangerously-skip-permissions "$@"
+export NODE_TLS_REJECT_UNAUTHORIZED=0
+bunx @anthropic-ai/claude-code --dangerously-skip-permissions "$@"
